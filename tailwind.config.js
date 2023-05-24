@@ -10,7 +10,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bing: '#129912',
+        'nuha-fushia': {
+          DEFAULT: '#e53076',
+        },
+        'nuha-grey': {
+          DEFAULT: '#2d2d2d',
+        },
+      },
+      fontFamily: {
+        IBMPlexSansArabic: 'IBM Plex Sans Arabic',
+        IBMPlexMono: 'IBM Plex Mono',
       },
     },
   },
