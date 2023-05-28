@@ -13,6 +13,7 @@ module.exports = {
         'nuha-fushia': {
           DEFAULT: '#c40f55',
           light: '#e53076',
+          bg: '#fcf0f7',
         },
         'nuha-grey': {
           DEFAULT: '#2d2d2d',

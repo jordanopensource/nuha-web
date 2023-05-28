@@ -13,21 +13,25 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
 
-  css: ['@/assets/css/tailwind.css', '@/assets/css/fonts/ibm-plex.css'],
+  css: [
+    '@/assets/css/tailwind.css',
+    '@/assets/css/fonts/ibm-plex.css',
+    '@/assets/css/global.css',
+  ],
 
   i18n: {
     locales: [
       {
         code: 'en',
         name: 'English',
-        iso: 'en',
+        iso: 'en-US',
         dir: 'ltr',
         file: 'en.ts',
       },
       {
         code: 'ar',
         name: 'العربية',
-        iso: 'ar',
+        iso: 'ar-JO',
         dir: 'rtl',
         file: 'ar.ts',
       },
