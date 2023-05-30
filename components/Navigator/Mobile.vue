@@ -2,10 +2,13 @@
   <div class="container">
     <div class="container_sub">
       <NuxtLink
+        v-for="localeItem in availableLocales"
+        :key="localeItem.code"
+        :to="switchLocalePath(localeItem.code)"
         class="locale-link"
-        :to="switchLocalePath($t('otherLocaleCode'))"
-        >{{ $t('otherLocale') }}</NuxtLink
-      >
+        :class="localeItem.code"
+        >{{ localeItem.name }}
+      </NuxtLink>
 
       <img width="50" height="50" src="/logo.svg" />
     </div>
@@ -14,7 +17,11 @@
 </template>
 
 <script lang="ts" setup>
+  const { locale, locales } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
+  const availableLocales = computed(() => {
+    return locales.value.filter((i: any) => i.code !== locale.value)
+  })
 </script>
 
 <style lang="postcss" scoped>

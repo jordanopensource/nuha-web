@@ -15,10 +15,13 @@
         </div>
 
         <NuxtLink
+          v-for="localeItem in availableLocales"
+          :key="localeItem.code"
+          :to="switchLocalePath(localeItem.code)"
           class="link_locale"
-          :to="switchLocalePath($t('otherLocaleCode'))"
-          >{{ $t('otherLocale') }}</NuxtLink
-        >
+          :class="localeItem.code"
+          >{{ localeItem.name }}
+        </NuxtLink>
       </div>
     </div>
     <div class="header-separator" />
@@ -26,7 +29,11 @@
 </template>
 
 <script lang="ts" setup>
+  const { locale, locales } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
+  const availableLocales = computed(() => {
+    return locales.value.filter((i: any) => i.code !== locale.value)
+  })
 </script>
 
 <style lang="postcss" scoped>
