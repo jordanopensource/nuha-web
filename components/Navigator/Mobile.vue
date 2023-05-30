@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="container_sub">
+    <div class="container-sub">
       <NuxtLink
         v-for="localeItem in availableLocales"
         :key="localeItem.code"
@@ -28,13 +28,13 @@
   .container {
     @apply px-10 py-2.5 pt-10 text-nuha-fushia antialiased;
 
-    &_sub {
+    &-sub {
       @apply flex justify-between;
     }
   }
 
   .locale-link {
-    @apply inline-block rounded-xl border p-0.5 px-2 border-nuha-fushia flex items-center;
+    @apply rounded-xl border p-0.5 px-2 border-nuha-fushia flex items-center;
   }
 
   .header-separator {
