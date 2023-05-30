@@ -38,7 +38,7 @@
 
 <style lang="postcss" scoped>
   .container {
-    @apply px-10 py-2.5 pt-10 text-nuha-fushia;
+    @apply py-2.5 pt-10 text-nuha-fushia;
 
     &-sub {
       @apply flex justify-between;
