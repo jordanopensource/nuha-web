@@ -24,7 +24,7 @@
         </NuxtLink>
       </div>
     </div>
-    <div class="header-separator" />
+    <div class="header-separator"></div>
   </div>
 </template>
 

@@ -1,5 +1,6 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
+import type { NuxtConfig } from '@nuxt/types'
+
+const config: NuxtConfig = {
   app: {
     head: {
       meta: [
@@ -12,6 +13,7 @@ export default defineNuxtConfig({
   },
 
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
+  buildModules: ['@nuxt/typescript-build'],
 
   css: [
     '@/assets/css/tailwind.css',
@@ -42,4 +44,6 @@ export default defineNuxtConfig({
     baseUrl: 'http://localhost:3000/',
     debug: false,
   },
-})
+}
+
+export default config;
