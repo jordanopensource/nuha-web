@@ -34,7 +34,7 @@
   }
 
   .locale-link {
-    @apply rounded-xl border p-0.5 px-2 border-nuha-fushia flex items-center;
+    @apply rounded-xl border p-0.5 px-2 border-nuha-fushia flex items-center rtl:font-IBMPlexMono ltr:font-IBMPlexSansArabic;
   }
 
   .header-separator {

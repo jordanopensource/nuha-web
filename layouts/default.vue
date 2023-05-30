@@ -2,7 +2,7 @@
   <Html
     :lang="head.htmlAttrs!.lang"
     :dir="head.htmlAttrs!.dir"
-    class="bg-nuha-fushia-bg font-IBMPlexMono font-IBMPlexSansArabic"
+    class="bg-nuha-fushia-bg"
   >
     <slot />
   </Html>
