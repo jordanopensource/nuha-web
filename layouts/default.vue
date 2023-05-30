@@ -2,8 +2,7 @@
   <Html
     :lang="head.htmlAttrs!.lang"
     :dir="head.htmlAttrs!.dir"
-    class="bg-nuha-fushia-bg"
-    :class="fontClass"
+    class="bg-nuha-fushia-bg font-IBMPlexMono font-IBMPlexSansArabic"
   >
     <slot />
   </Html>
@@ -14,10 +13,6 @@
     addDirAttribute: true,
     addSeoAttributes: true,
   })
-  const fontClass =
-    head.value.htmlAttrs!.land === 'en'
-      ? 'font-IBMPlexMono'
-      : 'font-IBMPlexSansArabic'
   useHead({
     htmlAttrs: {
       lang: head.value.htmlAttrs!.lang,
