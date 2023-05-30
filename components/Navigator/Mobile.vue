@@ -12,7 +12,7 @@
 
       <img width="50" height="50" src="/logo.svg" />
     </div>
-    <div class="header-separator" />
+    <div class="header-separator"></div>
   </div>
 </template>
 
