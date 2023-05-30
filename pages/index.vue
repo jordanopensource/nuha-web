@@ -1,16 +1,6 @@
 <template>
-  <NuxtLayout :name="layout">
+  <NuxtLayout>
     <Navigator />
     <NuxtPage />
   </NuxtLayout>
 </template>
-
-<script lang="ts">
-  export default {
-    data() {
-      return {
-        layout: 'default',
-      }
-    },
-  }
-</script>
