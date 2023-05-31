@@ -29,10 +29,14 @@
 </template>
 
 <script lang="ts" setup>
+  import { LocaleObject } from '@nuxtjs/i18n/dist/runtime/composables'
+
   const { locale, locales } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
-    return locales.value.filter((i: any) => i.code !== locale.value)
+    return (locales.value as LocaleObject[]).filter(
+      (l: LocaleObject) => l.code !== locale.value
+    )
   })
 </script>
 
