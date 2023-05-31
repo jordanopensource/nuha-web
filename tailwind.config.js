@@ -9,9 +9,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+        padding: '15px',
+    },
       colors: {
         'nuha-fushia': {
-          DEFAULT: '#e53076',
+          DEFAULT: '#c40f55',
+          light: '#e53076',
+          bg: '#fcf0f7',
         },
         'nuha-grey': {
           DEFAULT: '#2d2d2d',
