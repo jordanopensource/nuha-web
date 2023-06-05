@@ -4,7 +4,8 @@
     :dir="head.htmlAttrs!.dir"
     class="bg-nuha-fushia-bg"
   >
-    <slot />
+    <Navigator />
+    <Hero />
   </Html>
 </template>
 

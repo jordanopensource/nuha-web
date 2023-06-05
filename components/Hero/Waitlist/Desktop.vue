@@ -1,0 +1,56 @@
+<template>
+  <div class="main">
+    <h1 class="header">{{ $t('waitlist.join') }}</h1>
+    <div class="modal">
+      <h1 class="enter-email">{{ $t('waitlist.enterEmail', data.email) }}:</h1>
+      <form
+        action="#"
+        class="pb-8"
+        @submit="
+          (e) => {
+            e.preventDefault()
+            emit('submit:joinWaitlist', data.email)
+            data.email = ''
+          }
+        "
+      >
+        <input
+          class="email"
+          type="email"
+          required
+          placeholder="someone@example.com"
+          v-model="data.email"
+        />
+        <input class="btn" type="submit" :value="$t('waitlist.done')" />
+      </form>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+  import { reactive } from 'vue'
+
+  const emit = defineEmits(['submit:joinWaitlist'])
+  const data = reactive({ email: '' })
+</script>
+
+<style lang="postcss" scoped>
+  .main {
+    @apply w-96;
+  }
+  .header {
+    @apply text-3xl italic text-nuha-fushia-light font-semibold px-3;
+  }
+  .modal {
+    @apply shadow-nuha-fushia-light shadow-lg rounded-3xl bg-nuha-fushia-light p-10 mt-2;
+  }
+  .enter-email {
+    @apply text-left text-white rtl:text-right text-xl;
+  }
+  .email {
+    @apply mt-5 bg-nuha-fushia-bg border-nuha-fushia-light-2 p-4 placeholder:text-nuha-fushia-light-2 text-nuha-grey border-4 rounded-xl h-14 w-full;
+  }
+  .btn {
+    @apply mt-2 float-right rtl:float-left px-5 py-1 bg-nuha-fushia-bg rounded-xl text-nuha-fushia-light;
+  }
+</style>
