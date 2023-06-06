@@ -75,7 +75,7 @@
     @apply grid grid-cols-1 place-items-center pt-10 w-full;
 
     &-modal {
-      @apply bg-nuha-fushia-light text-white rounded-3xl p-11 min-h-full h-4/5 w-4/5;
+      @apply bg-nuha-fushia-300 text-white rounded-3xl p-11 min-h-full h-4/5 w-4/5;
 
       &-submission {
         @apply pt-20;
@@ -84,16 +84,16 @@
           @apply text-left rtl:text-right text-xl;
         }
         &-email {
-          @apply mt-5 bg-nuha-fushia-bg border-nuha-fushia-light-2 p-4 placeholder:text-nuha-fushia-light-2 text-nuha-grey border-4 rounded-xl h-20 w-full;
+          @apply mt-5 bg-nuha-fushia-bg border-nuha-fushia-200 p-4 placeholder:text-nuha-fushia-200 text-nuha-grey border-4 rounded-xl h-20 w-full;
         }
         &-input {
-          @apply mt-2 float-right rtl:float-left px-4 py-2 bg-nuha-fushia-bg rounded-xl text-nuha-fushia-light;
+          @apply mt-2 float-right rtl:float-left px-4 py-2 bg-nuha-fushia-100 rounded-xl text-nuha-fushia-300;
         }
       }
     }
   }
   .btn {
-    @apply p-2 px-12 text-white text-lg bg-nuha-fushia-light rounded-full shadow-nuha-fushia shadow-md italic;
+    @apply p-2 px-12 text-white text-lg bg-nuha-fushia-300 rounded-full shadow-nuha-fushia shadow-md italic;
   }
   .learn-more {
     @apply grid grid-cols-1 place-items-center pt-7 italic text-xl font-medium underline text-nuha-fushia;

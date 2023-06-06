@@ -13,9 +13,11 @@
       @update:showWaitlist="(value: boolean) => {data.showWaitlist = value}"
     />
   </div>
+  <Statistics />
 </template>
 
 <script lang="ts" setup>
+  import Statistics from '../Statistics/Mobile.vue'
   import { reactive } from 'vue'
   import Waitlist from './Waitlist/index.vue'
 
@@ -33,7 +35,7 @@
 
 <style lang="postcss" scoped>
   .container {
-    @apply px-14 rtl:px-16 py-2.5 pt-10 text-nuha-fushia-light antialiased text-left rtl:text-right italic;
+    @apply px-14 rtl:px-16 py-2.5 pt-10 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
   }
   .text {
     @apply text-4xl font-light pb-3;

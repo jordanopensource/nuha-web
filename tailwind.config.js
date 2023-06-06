@@ -16,11 +16,9 @@ module.exports = {
       colors: {
         'nuha-fushia': {
           DEFAULT: '#c40f55',
-          light: {
-            DEFAULT: '#e53076',
-            2: 'f4deeb',
-          },
-          bg: '#fcf0f7',
+          300: '#e53076',
+          200: '#f4deeb',
+          100: '#fcf0f7',
         },
         'nuha-grey': {
           DEFAULT: '#2d2d2d',

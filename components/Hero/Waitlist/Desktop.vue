@@ -39,18 +39,18 @@
     @apply w-96;
   }
   .header {
-    @apply text-3xl italic text-nuha-fushia-light font-semibold px-3;
+    @apply text-3xl italic text-nuha-fushia-300 font-semibold px-3;
   }
   .modal {
-    @apply shadow-nuha-fushia-light shadow-lg rounded-3xl bg-nuha-fushia-light p-10 mt-2;
+    @apply shadow-nuha-fushia-300 shadow-lg rounded-3xl bg-nuha-fushia-300 p-10 mt-2;
   }
   .enter-email {
     @apply text-left text-white rtl:text-right text-xl;
   }
   .email {
-    @apply mt-5 bg-nuha-fushia-bg border-nuha-fushia-light-2 p-4 placeholder:text-nuha-fushia-light-2 text-nuha-grey border-4 rounded-xl h-14 w-full;
+    @apply mt-5 bg-nuha-fushia-bg border-nuha-fushia-200 p-4 placeholder:text-nuha-fushia-200 text-nuha-grey border-4 rounded-xl h-14 w-full;
   }
   .btn {
-    @apply mt-2 float-right rtl:float-left px-5 py-1 bg-nuha-fushia-bg rounded-xl text-nuha-fushia-light;
+    @apply mt-2 float-right rtl:float-left px-5 py-1 bg-nuha-fushia-bg rounded-xl text-nuha-fushia-300;
   }
 </style>

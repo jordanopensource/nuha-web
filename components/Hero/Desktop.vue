@@ -31,7 +31,7 @@
 
 <style lang="postcss" scoped>
   .main {
-    @apply flex justify-between gap-x-32 items-center px-20 rtl:px-16 py-2.5 pt-16 text-nuha-fushia-light antialiased text-left rtl:text-right italic;
+    @apply flex justify-between gap-x-32 items-center px-20 rtl:px-16 py-2.5 pt-16 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
   }
   .text {
     @apply text-5xl font-normal pb-3 inline-block;
