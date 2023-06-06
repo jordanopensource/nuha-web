@@ -2,7 +2,7 @@
   <Html
     :lang="head.htmlAttrs!.lang"
     :dir="head.htmlAttrs!.dir"
-    class="bg-nuha-fushia-bg"
+    class="bg-nuha-fushia-100"
   >
     <Navigator />
     <Hero />

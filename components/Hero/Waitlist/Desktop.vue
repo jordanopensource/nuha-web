@@ -48,9 +48,9 @@
     @apply text-left text-white rtl:text-right text-xl;
   }
   .email {
-    @apply mt-5 bg-nuha-fushia-bg border-nuha-fushia-200 p-4 placeholder:text-nuha-fushia-200 text-nuha-grey border-4 rounded-xl h-14 w-full;
+    @apply mt-5 bg-nuha-fushia-100 border-nuha-fushia-200 p-4 placeholder:text-nuha-grey-300 text-nuha-grey border-4 rounded-xl h-14 w-full;
   }
   .btn {
-    @apply mt-2 float-right rtl:float-left px-5 py-1 bg-nuha-fushia-bg rounded-xl text-nuha-fushia-300;
+    @apply mt-2 float-right rtl:float-left px-5 py-1 bg-nuha-fushia-100 rounded-xl text-nuha-fushia-300;
   }
 </style>

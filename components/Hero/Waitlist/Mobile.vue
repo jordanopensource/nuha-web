@@ -72,7 +72,7 @@
 
 <style lang="postcss" scoped>
   .join-waitlist {
-    @apply grid grid-cols-1 place-items-center pt-10 w-full;
+    @apply grid grid-cols-1 place-items-center pt-10 w-96;
 
     &-modal {
       @apply bg-nuha-fushia-300 text-white rounded-3xl p-11 min-h-full h-4/5 w-4/5;
@@ -84,7 +84,7 @@
           @apply text-left rtl:text-right text-xl;
         }
         &-email {
-          @apply mt-5 bg-nuha-fushia-bg border-nuha-fushia-200 p-4 placeholder:text-nuha-fushia-200 text-nuha-grey border-4 rounded-xl h-20 w-full;
+          @apply mt-5 bg-nuha-fushia-200 border-nuha-fushia-200 p-4 placeholder:text-nuha-grey-300 text-nuha-grey border-4 rounded-xl h-20 w-full;
         }
         &-input {
           @apply mt-2 float-right rtl:float-left px-4 py-2 bg-nuha-fushia-100 rounded-xl text-nuha-fushia-300;

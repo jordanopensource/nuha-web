@@ -22,6 +22,7 @@ module.exports = {
         },
         'nuha-grey': {
           DEFAULT: '#2d2d2d',
+          300: '#4e4e4e',
         },
       },
       fontFamily: {
