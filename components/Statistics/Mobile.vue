@@ -6,6 +6,6 @@
 
 <style lang="postcss" scoped>
   .main {
-    @apply absolute bottom-0;
+    @apply absolute bottom-0 bg-nuha-grey rounded-t-[40px] p-7 w-screen;
   }
 </style>

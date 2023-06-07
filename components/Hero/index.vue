@@ -1,6 +1,6 @@
 <template>
-  <div class="mobile">
-    <div v-if="!data.showWaitlist">
+  <div class="sm:hidden">
+    <div class="mobile" v-if="!data.showWaitlist">
       <h1 class="mobile-text">
         {{ $t('info.1') }}
       </h1>
@@ -48,7 +48,7 @@
 
 <style lang="postcss" scoped>
   .mobile {
-    @apply sm:hidden px-14 rtl:px-16 py-2.5 pt-10 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
+    @apply px-14 rtl:px-16 py-2.5 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
 
     &-text {
       @apply text-4xl font-light pb-3;
