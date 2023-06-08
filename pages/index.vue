@@ -1,6 +1,10 @@
 <template>
   <NuxtLayout>
-    <Navigator />
-    <Hero />
+    <div class="h-screen">
+      <Header />
+      <!-- </div> -->
+      <!-- <div class="h-full"> -->
+      <Hero />
+    </div>
   </NuxtLayout>
 </template>
