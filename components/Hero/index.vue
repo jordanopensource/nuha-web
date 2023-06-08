@@ -16,7 +16,6 @@
           @update:showWaitlist="(value: boolean) => {data.showWaitlist = value}"
         />
       </div>
-      <!-- <Statistics /> -->
     </div>
     <!--  -->
     <div class="desktop">
@@ -31,12 +30,13 @@
     </div>
     <!--  -->
   </div>
-  <div class="bg-black h-[40px]">hello dillo</div>
+  <Statistics />
 </template>
 
 <script lang="ts" setup>
   import { reactive } from 'vue'
   import Waitlist from '../Waitlist/index.vue'
+  import Statistics from '../Statistics/index.vue'
 
   defineProps({
     text: {
