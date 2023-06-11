@@ -39,7 +39,10 @@
     </button>
 
     <div class="mobile-content" v-if="mobileExpand">
-      <span class="px-5">
+      <div>
+        <DoughnutChar :speechData="speechData" />
+      </div>
+      <p class="mobile-content-paragraph">
         Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
         enim labore culpa sint ad nisi Lorem pariatur mollit ex esse
         exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit
@@ -51,13 +54,13 @@
         Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim.
         Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa
         et culpa duis.
-      </span>
+      </p>
       <LearnMore />
     </div>
   </div>
   <!--  -->
   <div class="desktop" id="statistics">
-    desktop
+    <h1></h1>
     <LearnMore />
   </div>
   <!--  -->
@@ -65,6 +68,7 @@
 
 <script setup lang="ts">
   import LearnMore from '../LearnMore/index.vue'
+  import DoughnutChar from './DoughnutChart.vue'
   import { computed, ref } from 'vue'
 
   const mobileExpand = ref(false)
@@ -73,6 +77,13 @@
       ? 'min-height: 85vh; padding: 30px 10px 0;'
       : 'height: auto;'
   })
+
+  const speechData: { speech: string; percentage: number }[] = [
+    { speech: 'Hate speech', percentage: 57 },
+    { speech: 'Positive speech', percentage: 23 },
+    { speech: 'Unrelated to discussion', percentage: 15.99 },
+    { speech: 'Neutral', percentage: 4.01 },
+  ]
 </script>
 
 <style lang="postcss" scoped>
@@ -80,7 +91,11 @@
     @apply sm:hidden absolute bottom-0 bg-nuha-grey h-16 w-screen rounded-t-3xl p-5 grid grid-cols-1 place-items-center overflow-y-scroll;
 
     &-content {
-      @apply pt-5;
+      @apply pt-8 px-8 grid grid-cols-1 place-items-center gap-7 text-white h-full;
+
+      &-paragraph {
+        @apply text-xl;
+      }
     }
     &-btn {
       @apply flex items-center text-white;
