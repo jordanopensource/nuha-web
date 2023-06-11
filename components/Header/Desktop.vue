@@ -5,11 +5,11 @@
 
       <div class="link">
         <div class="link-nav">
-          <NuxtLink class="link-nav-item" to="statistics">{{
+          <NuxtLink class="link-nav-item" to="#statistics">{{
             $t('link.statistics')
           }}</NuxtLink>
           &VerticalBar;
-          <NuxtLink class="link-nav-item" to="learn-more">{{
+          <NuxtLink class="link-nav-item" to="#learn-more">{{
             $t('link.learnMore')
           }}</NuxtLink>
         </div>

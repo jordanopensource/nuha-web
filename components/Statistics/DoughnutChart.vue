@@ -1,5 +1,5 @@
 <template>
-  <Doughnut class="w-5/6" :data="data" :options="options" />
+  <Doughnut :class="props.class" :data="data" :options="options" />
 </template>
 
 <script setup lang="ts">
@@ -10,6 +10,9 @@
   const props = defineProps({
     speechData: {
       type: Array<{ speech: String; percentage: Number }>,
+    },
+    class: {
+      type: String,
     },
   })
 

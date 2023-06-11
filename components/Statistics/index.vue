@@ -1,7 +1,7 @@
 <template>
   <!--  -->
   <div class="mobile" :style="mobileHeight">
-    <button @click="mobileExpand = !mobileExpand" class="mobile-btn">
+    <button @click="mobileExpand = !mobileExpand" :class="mobileBtnClass">
       {{ $t('link.statistics') }}
       <span class="mobile-btn-arrow">
         <svg
@@ -40,7 +40,7 @@
 
     <div class="mobile-content" v-if="mobileExpand">
       <div>
-        <DoughnutChar :speechData="speechData" />
+        <DoughnutChar class="w-4/5" :speechData="speechData" />
       </div>
       <p class="mobile-content-paragraph">
         Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
@@ -60,7 +60,26 @@
   </div>
   <!--  -->
   <div class="desktop" id="statistics">
-    <h1></h1>
+    <h1 class="desktop-header">{ {{ $t('link.statistics') }} }</h1>
+    <div class="desktop-content">
+      <div class="w-3/5">
+        <DoughnutChar class="w-full" :speechData="speechData" />
+      </div>
+      <p class="desktop-content-paragraph">
+        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
+        enim labore culpa sint ad nisi Lorem pariatur mollit ex esse
+        exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit
+        nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
+        minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure
+        elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor
+        Lorem duis laboris cupidatat officia voluptate. Culpa proident
+        adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod.
+        Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim.
+        Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa
+        et culpa duis.
+      </p>
+    </div>
+
     <LearnMore />
   </div>
   <!--  -->
@@ -76,6 +95,10 @@
     return mobileExpand.value
       ? 'min-height: 85vh; padding: 30px 10px 0;'
       : 'height: auto;'
+  })
+
+  const mobileBtnClass = computed(() => {
+    return mobileExpand.value ? 'mobile-btn-expanded' : 'mobile-btn'
   })
 
   const speechData: { speech: string; percentage: number }[] = [
@@ -100,12 +123,28 @@
     &-btn {
       @apply flex items-center text-white;
 
+      &-expanded {
+        @apply flex items-center text-white text-2xl;
+      }
+
       &-arrow {
         @apply inline-block px-1;
       }
     }
   }
   .desktop {
-    @apply hidden sm:block;
+    @apply hidden sm:grid grid-cols-1 place-items-center;
+
+    &-header {
+      @apply text-nuha-grey text-6xl text-center w-full font-bold italic;
+    }
+
+    &-content {
+      @apply my-14 pr-20 rtl:pl-20 grid grid-cols-2 place-items-center gap-0 bg-nuha-grey w-4/5 min-h-[700px] h-auto rounded-3xl shadow-xl;
+
+      &-paragraph {
+        @apply text-lg text-white ltr:text-left rtl:text-right;
+      }
+    }
   }
 </style>

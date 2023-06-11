@@ -1,3 +1,8 @@
 body {
   @apply antialiased m-0 font-IBMPlexMono rtl:font-IBMPlexSansArabic;
 }
+
+html,
+div {
+  scroll-behavior: smooth;
+}
