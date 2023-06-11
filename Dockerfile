@@ -10,10 +10,10 @@ FROM node:18.14.0 AS builder
 # copy build context and install dependencinpm res
 WORKDIR /workspace
 COPY . .
-RUN yarn install
+RUN npm install
 
 # build NuxtJS project
-RUN yarn build
+RUN npm run build
 
 ###########
 # PROJECT #
