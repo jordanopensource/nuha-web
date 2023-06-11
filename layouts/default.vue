@@ -4,7 +4,11 @@
     :dir="head.htmlAttrs!.dir"
     class="bg-nuha-fushia-bg"
   >
-    <slot />
+    <Body>
+      <BuildInfoBanner />
+      <Navigator />
+      <slot />
+    </Body>
   </Html>
 </template>
 

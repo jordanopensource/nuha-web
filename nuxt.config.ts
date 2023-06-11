@@ -12,7 +12,11 @@ const config: NuxtConfig = {
     },
   },
 
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/i18n',
+    '@josango/nuxt3-build-banner',
+  ],
   buildModules: ['@nuxt/typescript-build'],
 
   css: [
@@ -44,6 +48,17 @@ const config: NuxtConfig = {
     baseUrl: 'http://localhost:3000/',
     debug: false,
   },
+  runtimeConfig: {
+    public: {
+      targetEnv: '',
+      buildCommitSha: '',
+      buildCommitLink: '',
+      buildNumber: '',
+      buildLink: '',
+      buildRepoLink: '',
+      buildTimestamp: '',
+    },
+  },
 }
 
-export default config;
+export default config
