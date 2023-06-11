@@ -1,8 +1,8 @@
 <template>
-  <div class="sm:hidden">
+  <div class="xl:hidden">
     <Mobile />
   </div>
-  <div class="hidden sm:block">
+  <div class="hidden xl:block">
     <Desktop />
   </div>
 </template>

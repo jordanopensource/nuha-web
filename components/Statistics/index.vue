@@ -126,7 +126,7 @@
 
 <style lang="postcss" scoped>
   .mobile {
-    @apply sm:hidden absolute bottom-0 bg-nuha-grey h-16 w-screen rounded-t-3xl p-5 grid grid-cols-1 place-items-center overflow-y-scroll;
+    @apply xl:hidden absolute bottom-0 bg-nuha-grey h-16 w-screen rounded-t-3xl p-5 grid grid-cols-1 place-items-center overflow-y-scroll;
 
     &-content {
       @apply pt-8 px-8 grid grid-cols-1 place-items-center gap-7 text-white h-full;
@@ -148,7 +148,7 @@
     }
   }
   .desktop {
-    @apply hidden sm:grid grid-cols-1 place-items-center;
+    @apply hidden xl:grid grid-cols-1 place-items-center;
 
     &-header {
       @apply text-nuha-grey text-6xl text-center w-full font-bold italic;

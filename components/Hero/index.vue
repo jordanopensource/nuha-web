@@ -56,7 +56,7 @@
   }
 
   .mobile {
-    @apply sm:hidden px-14 rtl:px-16 py-2.5 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
+    @apply xl:hidden px-14 rtl:px-16 py-2.5 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
 
     &-text {
       @apply text-4xl font-light pb-3;
@@ -70,7 +70,7 @@
   }
 
   .desktop {
-    @apply hidden sm:flex justify-between gap-x-32 items-center px-20 rtl:px-16 py-2.5 pt-16 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
+    @apply hidden xl:flex justify-between gap-x-32 items-center px-20 rtl:px-16 py-2.5 pt-16 text-nuha-fushia-300 antialiased text-left rtl:text-right italic;
     &-text {
       @apply text-6xl font-normal pb-3 inline-block;
     }

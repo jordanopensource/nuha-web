@@ -137,7 +137,7 @@
 
 <style lang="postcss" scoped>
   .mobile {
-    @apply sm:hidden bg-nuha-fushia-100 w-screen h-16 rounded-t-3xl p-5 px-10 grid grid-cols-1 place-items-center overflow-y-scroll border-t-nuha-grey border-x-nuha-grey border-2;
+    @apply xl:hidden bg-nuha-fushia-100 w-screen h-16 rounded-t-3xl p-5 px-10 grid grid-cols-1 place-items-center overflow-y-scroll border-t-nuha-grey border-x-nuha-grey border-2;
 
     &-content {
       @apply py-10 text-nuha-grey;
@@ -159,7 +159,7 @@
     }
   }
   .desktop {
-    @apply hidden sm:block mt-20 px-40;
+    @apply hidden xl:block mt-20 px-40;
 
     &-content {
       @apply py-10 text-nuha-grey;
