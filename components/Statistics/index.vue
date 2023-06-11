@@ -55,9 +55,18 @@
         Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa
         et culpa duis.
       </p>
-      <LearnMore />
+      <LearnMore
+        :mobileExpand="learnMoreMobileExpand"
+        @update:mobileExpand="(show) => updateLearnMoreMobileExpand(show)"
+      />
     </div>
   </div>
+  <!-- duplicated to still appear after hiding the statistics  -->
+  <LearnMore
+    v-if="learnMoreMobileExpand"
+    :mobileExpand="learnMoreMobileExpand"
+    @update:mobileExpand="(show) => updateLearnMoreMobileExpand(show)"
+  />
   <!--  -->
   <div class="desktop" id="statistics">
     <h1 class="desktop-header">{ {{ $t('link.statistics') }} }</h1>
@@ -96,6 +105,12 @@
       ? 'min-height: 85vh; padding: 30px 10px 0;'
       : 'height: auto;'
   })
+
+  const learnMoreMobileExpand = ref(false)
+  function updateLearnMoreMobileExpand(show: boolean) {
+    learnMoreMobileExpand.value = show
+    mobileExpand.value = !show
+  }
 
   const mobileBtnClass = computed(() => {
     return mobileExpand.value ? 'mobile-btn-expanded' : 'mobile-btn'

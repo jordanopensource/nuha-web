@@ -1,6 +1,9 @@
 <template>
   <div class="mobile" :style="mobileHeight">
-    <button @click="mobileExpand = !mobileExpand" class="mobile-btn">
+    <button
+      @click="emit('update:mobileExpand', !mobileExpand)"
+      class="mobile-btn"
+    >
       {{ $t('header.whatIsNuha') }}
       <span class="mobile-btn-arrow">
         <svg
@@ -37,16 +40,38 @@
       </span>
     </button>
 
-    <div class="mobile-content" v-if="mobileExpand">
+    <div class="mobile-content" v-if="mobileExpand.valueOf()">
       <div>
-        <h1>{ {{ $t('header.whatIsNuha') }} }</h1>
-        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
-        cillum sint consectetur cupidatat.
+        <h1 class="mobile-content-header">{ {{ $t('header.whatIsNuha') }} }</h1>
+        <p class="mobile-content-paragraph">
+          Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
+          enim labore culpa sint ad nisi Lorem pariatur mollit ex esse
+          exercitation amet. Nisi anim cupidatat excepteur officia.
+          Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate
+          voluptate dolor minim nulla est proident. Nostrud officia pariatur ut
+          officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit
+          commodo officia dolor Lorem duis laboris cupidatat officia voluptate.
+          Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis
+          officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis
+          sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea
+          consectetur et est culpa et culpa duis.
+        </p>
       </div>
       <div>
-        <h1>{ {{ $t('header.howItWorks') }} }</h1>
-        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
-        cillum sint consectetur cupidatat.
+        <h1 class="mobile-content-header">{ {{ $t('header.howItWorks') }} }</h1>
+        <p class="mobile-content-paragraph">
+          Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
+          enim labore culpa sint ad nisi Lorem pariatur mollit ex esse
+          exercitation amet. Nisi anim cupidatat excepteur officia.
+          Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate
+          voluptate dolor minim nulla est proident. Nostrud officia pariatur ut
+          officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit
+          commodo officia dolor Lorem duis laboris cupidatat officia voluptate.
+          Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis
+          officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis
+          sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea
+          consectetur et est culpa et culpa duis.
+        </p>
       </div>
     </div>
   </div>
@@ -57,23 +82,43 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
 
-  const mobileExpand = ref(false)
+  const props = defineProps({
+    mobileExpand: {
+      type: Boolean,
+      required: false,
+    },
+  })
+
+  const emit = defineEmits(['update:mobileExpand'])
+
+  const mobileExpand = computed(() => {
+    return props.mobileExpand
+  })
+
   const mobileHeight = computed(() => {
-    return mobileExpand.value
-      ? 'min-height: 85vh; padding-top: 30px;'
+    return props.mobileExpand
+      ? 'min-height: 85vh; position: absolute; bottom: 0;'
       : 'height: auto;'
   })
 </script>
 
 <style lang="postcss" scoped>
   .mobile {
-    @apply sm:hidden bg-nuha-fushia-100 h-16 w-screen rounded-t-3xl p-5 grid grid-cols-1 place-items-center overflow-y-scroll;
+    @apply sm:hidden bg-nuha-fushia-100 w-screen h-16 rounded-t-3xl p-5 px-10 grid grid-cols-1 place-items-center overflow-y-scroll border-t-nuha-grey border-x-nuha-grey border-2;
 
     &-content {
-      @apply py-5;
+      @apply py-10 text-nuha-grey;
+
+      &-header {
+        @apply text-nuha-fushia text-3xl font-medium italic w-3/5;
+      }
+
+      &-paragraph {
+        @apply text-nuha-grey py-10 text-lg;
+      }
     }
     &-btn {
-      @apply flex items-center text-nuha-fushia;
+      @apply flex items-center text-nuha-fushia text-xl;
 
       &-arrow {
         @apply inline-block px-1;
