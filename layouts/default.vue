@@ -5,7 +5,9 @@
     class="bg-nuha-fushia-bg"
   >
     <Body>
-      <BuildInfoBanner />
+      <BuildInfoBanner
+        v-if="useRuntimeConfig().public.targetEnv === 'development'"
+      />
       <Navigator />
       <slot />
     </Body>
