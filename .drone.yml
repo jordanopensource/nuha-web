@@ -17,14 +17,14 @@ steps:
       repo: josaorg/nuha-web
       build_args: [USER=1001]
       build_args_from_env:
-      [
-        DRONE_BUILD_NUMBER,
-        DRONE_BUILD_LINK,
-        DRONE_COMMIT_SHA,
-        DRONE_COMMIT_LINK,
-        DRONE_REPO_LINK,
-        DRONE_BUILD_FINISHED,
-      ]
+        [
+          DRONE_BUILD_NUMBER,
+          DRONE_BUILD_LINK,
+          DRONE_COMMIT_SHA,
+          DRONE_COMMIT_LINK,
+          DRONE_REPO_LINK,
+          DRONE_BUILD_FINISHED,
+        ]
       tags:
         - ${DRONE_COMMIT_SHA}
         - latest
