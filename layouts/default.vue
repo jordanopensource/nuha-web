@@ -2,14 +2,16 @@
   <Html
     :lang="head.htmlAttrs!.lang"
     :dir="head.htmlAttrs!.dir"
-    class="bg-nuha-fushia-bg"
+    class="bg-nuha-fushia-100"
   >
     <Body>
       <BuildInfoBanner
         v-if="useRuntimeConfig().public.targetEnv === 'development'"
       />
-      <Navigator />
-      <slot />
+      <div class="container">
+        <UiAppHeader />
+        <slot />
+      </div>
     </Body>
   </Html>
 </template>

@@ -42,6 +42,6 @@
   }
 
   .header-separator {
-    @apply block my-2.5 border-t border-t-nuha-fushia-light h-px w-full;
+    @apply block my-2.5 border-t border-t-nuha-fushia-300 h-px w-full;
   }
 </style>
