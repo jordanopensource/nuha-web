@@ -53,7 +53,7 @@
     @apply flex justify-between items-center;
 
     &-locale {
-      @apply inline-block rounded-xl border p-2 text-xl px-3.5 border-nuha-fushia flex items-center rtl:font-IBMPlexMono ltr:font-IBMPlexSansArabic;
+      @apply rounded-xl border p-2 text-xl px-3.5 border-nuha-fushia flex items-center rtl:font-IBMPlexMono ltr:font-IBMPlexSansArabic;
     }
 
     &-nav {
