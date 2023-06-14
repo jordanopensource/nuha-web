@@ -1,35 +1,68 @@
 <template>
   <ClientOnly>
-    <Responsive class="w-3/6">
+    <Responsive class="w-full lg:w-2/3 my-8">
       <template #main="{ width }">
-        <Chart
-          direction="circular"
-          :size="{ width, height: 320 }"
-          :data="props.chartData"
-          :margin="{
-            left: Math.round((width - 300) / 2),
-            top: 20,
-            right: 0,
-            bottom: 20,
-          }"
-          :axis="chartOptions.axis"
-          :config="{ controlHover: false }"
-        >
-          <template #layers>
-            <Pie
-              :dataKeys="['key', 'value']"
-              :pie-style="chartOptions.pieStyle"
-            />
-          </template>
-          <template #widgets>
-            <Tooltip
-              :config="{
-                key: { label: 'Type' },
-                value: { label: '%' },
-              }"
-            />
-          </template>
-        </Chart>
+        <div class="block lg:hidden">
+          <Chart
+            direction="circular"
+            :size="{ width, height: 200 }"
+            :data="props.chartData"
+            :margin="{
+              left: Math.round((width - 250) / 2),
+              top: 50,
+              right: 0,
+              bottom: 40,
+            }"
+            :axis="chartOptions.axis"
+            :config="{ controlHover: false }"
+          >
+            <template #layers>
+              <Pie
+                :dataKeys="['key', 'value']"
+                :pie-style="chartOptions.pieStyle"
+              />
+            </template>
+            <template #widgets>
+              <Tooltip
+                :config="{
+                  key: { label: 'Type' },
+                  value: { label: '%' },
+                }"
+              />
+            </template>
+          </Chart>
+        </div>
+
+        <div class="hidden lg:block">
+          <Chart
+            direction="circular"
+            :size="{ width, height: 500 }"
+            :data="props.chartData"
+            :margin="{
+              left: Math.round((width - 550) / 2),
+              top: 50,
+              right: 0,
+              bottom: 40,
+            }"
+            :axis="chartOptions.axis"
+            :config="{ controlHover: false }"
+          >
+            <template #layers>
+              <Pie
+                :dataKeys="['key', 'value']"
+                :pie-style="chartOptions.pieStyle"
+              />
+            </template>
+            <template #widgets>
+              <Tooltip
+                :config="{
+                  key: { label: 'Type' },
+                  value: { label: '%' },
+                }"
+              />
+            </template>
+          </Chart>
+        </div>
       </template>
     </Responsive>
   </ClientOnly>
@@ -45,15 +78,12 @@
       }>,
       default: [],
     },
-    class: {
-      type: String,
-    },
   })
 
   const chartOptions = ref({
     pieStyle: {
       colors: ['#8e0152', '#c51b7d', '#de77ae', '#f1b6da'],
-      innerRadius: 100,
+      innerRadius: 95,
       padAngle: 0.025,
       cornerRadius: 13,
     },
@@ -68,8 +98,4 @@
     },
   })
 </script>
-<style scoped lang="postcss">
-  .chart g.axis {
-    @apply hidden;
-  }
-</style>
+<style scoped lang="postcss"></style>
