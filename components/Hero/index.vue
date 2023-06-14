@@ -6,9 +6,9 @@
     <div>
       <HeroWaitlist />
       <div class="lg:hidden">
-        <a href="#statistics" class="link">
+        <NuxtLink to="#learn-more" class="link">
           {{ $t('link.learnMore') }}
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </div>

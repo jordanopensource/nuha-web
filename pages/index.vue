@@ -4,13 +4,13 @@
       <UiAppHeader class="container" />
       <Hero />
     </div>
-    <StatisticsIndicator @emit-scroll="scrollTo" />
-    <Statistics ref="statisticsSection" class="lg:container" />
+    <StatisticsIndicator />
+    <Statistics id="statistics" />
+    <NuhaIndicator />
+    <div class="container lg:mt-60">
+      <NuhaIdentity id="learn-more" />
+      <NuhaWork />
+    </div>
   </div>
 </template>
-<script setup>
-  const statisticsSection = ref(null)
-  const scrollTo = () => {
-    statisticsSection.value?.$el.scrollIntoView({ behavior: 'smooth' })
-  }
-</script>
+<script setup></script>
