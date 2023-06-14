@@ -22,6 +22,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@josango/nuxt3-build-banner": "^3.0.0"
+    "chart.js": "^4.3.0",
+    "vue3-charts": "^1.1.33"
   }
 }

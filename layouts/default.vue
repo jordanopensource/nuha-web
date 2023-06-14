@@ -5,13 +5,7 @@
     class="bg-nuha-fushia-100"
   >
     <Body>
-      <BuildInfoBanner
-        v-if="useRuntimeConfig().public.targetEnv === 'development'"
-      />
-      <div class="container h-screen">
-        <UiAppHeader />
-        <slot />
-      </div>
+      <slot />
     </Body>
   </Html>
 </template>
