@@ -1,1 +1,3 @@
-<template></template>
+<template>
+  <Hero />
+</template>

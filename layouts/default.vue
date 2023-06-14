@@ -10,7 +10,6 @@
       />
       <div class="container h-screen">
         <UiAppHeader />
-        <Hero />
         <slot />
       </div>
     </Body>
