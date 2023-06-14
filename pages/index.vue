@@ -1,29 +1,16 @@
 <template>
-  <Hero />
+  <div>
+    <div class="container h-[75vh]">
+      <UiAppHeader class="container" />
+      <Hero />
+    </div>
+    <StatisticsIndicator @emit-scroll="scrollTo" />
+    <Statistics ref="statisticsSection" class="lg:container" />
+  </div>
 </template>
-  <UiPieChart :chart-data="speechData" :class="'w-full'" />
-</template>
-<script setup lang="ts">
-  const speechData: {
-    key: string
-    value: number
-  }[] = [
-    {
-      key: 'Hate speech',
-      value: 57,
-    },
-    {
-      key: 'Positive speech',
-      value: 23,
-    },
-    {
-      key: 'Unrelated to discussion',
-      value: 15.99,
-    },
-    {
-      key: 'Neutral',
-      value: 4.01,
-    },
-  ]
+<script setup>
+  const statisticsSection = ref(null)
+  const scrollTo = () => {
+    statisticsSection.value?.$el.scrollIntoView({ behavior: 'smooth' })
+  }
 </script>
-<style scoped lang="postcss"></style>
