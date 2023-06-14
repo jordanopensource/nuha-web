@@ -56,8 +56,8 @@
             <template #widgets>
               <Tooltip
                 :config="{
-                  key: { label: 'Type' },
-                  value: { label: '%' },
+                  key: { label: $t('statistical.tooltip.type') },
+                  value: { label: $t('statistical.tooltip.percentage') },
                 }"
               />
             </template>

@@ -35,19 +35,19 @@
     value: number
   }[] = [
     {
-      key: 'Hate speech',
+      key: t('data.hateSpeech'),
       value: 57,
     },
     {
-      key: 'Positive speech',
+      key: t('data.positiveSpeech'),
       value: 23,
     },
     {
-      key: 'Unrelated to discussion',
+      key: t('data.unrelated'),
       value: 15.99,
     },
     {
-      key: 'Neutral',
+      key: t('data.neutral'),
       value: 4.01,
     },
   ]
