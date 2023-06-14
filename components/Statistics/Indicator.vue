@@ -1,15 +1,15 @@
 <template>
   <div
-    @click="$emit('emitScroll')"
     class="bg-nuha-grey rounded-t-[2.75rem] text-center text-nuha-fushia-100 text-2xl py-24 lg:hidden snap-end relative"
   >
-    <span class="moving-text wrapper">
-      {{ t('link.statistics') }} <i class="arrow down"></i>
-    </span>
+    <NuxtLink to="#statistics">
+      <span class="moving-text wrapper cursor-pointer">
+        {{ t('link.statistics') }} <i class="arrow down"></i>
+      </span>
+    </NuxtLink>
   </div>
 </template>
 <script setup>
-  defineEmits(['emitScroll'])
   const { t } = useI18n()
 </script>
 <style scoped lang="postcss">
