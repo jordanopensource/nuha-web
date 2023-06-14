@@ -12,11 +12,7 @@ const config: NuxtConfig = {
     },
   },
 
-  modules: [
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/i18n',
-    '@josango/nuxt3-build-banner',
-  ],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
   buildModules: ['@nuxt/typescript-build'],
 
   css: [
