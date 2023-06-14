@@ -9,9 +9,9 @@ export default {
     howItWorks: 'How it works?',
   },
 
-  info: {
-    1: 'An AI-enabled',
-    2: 'Monitor of Online Gender Based Hate Speech',
+  intro: {
+    text: 'An AI-enabled',
+    sub: 'Monitor of Online Gender Based Hate Speech',
   },
 
   waitlist: {

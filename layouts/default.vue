@@ -8,8 +8,9 @@
       <BuildInfoBanner
         v-if="useRuntimeConfig().public.targetEnv === 'development'"
       />
-      <div class="container">
+      <div class="container h-screen">
         <UiAppHeader />
+        <Hero />
         <slot />
       </div>
     </Body>
