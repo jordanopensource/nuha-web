@@ -5,13 +5,20 @@
     <HeroIntroText />
     <div>
       <HeroWaitlist />
-      <HeroLearnMore />
+      <div class="lg:hidden">
+        <a href="#statistics" class="link">
+          {{ $t('link.learnMore') }}
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="postcss" scoped>
   .main {
-    @apply h-5/6 grid grid-cols-1 place-items-center md:flex md:items-center md:justify-between;
+    @apply h-5/6 grid grid-cols-1 place-items-center lg:flex lg:items-center lg:justify-between;
+  }
+  .link {
+    @apply grid grid-cols-1 place-items-center pt-7 italic text-xl font-medium underline text-nuha-fushia;
   }
 </style>
