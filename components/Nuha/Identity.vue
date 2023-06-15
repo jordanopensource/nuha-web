@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-nuha-fushia w-[400px] lg:w-full mb-12">
+    <h2 class="text-nuha-fushia lg:w-full mb-12">
       {
       <span class="italic">
         {{ t('nuha.title') }}

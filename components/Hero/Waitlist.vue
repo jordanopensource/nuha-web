@@ -102,7 +102,7 @@
 </script>
 <style lang="postcss" scoped>
   .join-waitlist {
-    @apply grid grid-cols-1 place-items-center w-96 font-IBMPlexMono;
+    @apply grid grid-cols-1 place-items-center lg:w-[30rem] font-IBMPlexMono;
 
     &-modal {
       @apply bg-nuha-fushia-300 text-white rounded-3xl p-11 lg:py-8 min-h-full h-4/5 w-4/5 lg:w-full;
