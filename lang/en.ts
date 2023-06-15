@@ -17,7 +17,12 @@ export default {
   waitlist: {
     join: 'Join the waitlist',
     enterEmail: 'Enter your email',
+    email: 'Email',
     done: 'Done',
+    send: {
+      success: 'Message was sent successfully!',
+      fail: 'Something went wrong! Please try again later.',
+    },
   },
 
   statistical: {
