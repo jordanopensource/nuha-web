@@ -10,7 +10,9 @@
         >{{ localeItem.name }}
       </NuxtLink>
 
-      <img width="50" height="50" src="/logo.svg" />
+      <NuxtLink to="/">
+        <img width="50" height="50" src="/logo.svg" />
+      </NuxtLink>
     </div>
     <div class="header-separator"></div>
   </div>

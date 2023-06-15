@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="container-sub">
-      <img width="75" height="75" src="/logo.svg" />
+      <NuxtLink to="/">
+        <img width="75" height="75" src="/logo.svg" />
+      </NuxtLink>
 
       <div class="link">
         <div class="link-nav">
