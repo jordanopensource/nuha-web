@@ -12,7 +12,11 @@ const config: NuxtConfig = {
     },
   },
 
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/i18n',
+    '@josango/nuxt3-build-banner',
+  ],
   buildModules: ['@nuxt/typescript-build'],
 
   css: [
@@ -53,6 +57,8 @@ const config: NuxtConfig = {
       buildLink: '',
       buildRepoLink: '',
       buildTimestamp: '',
+      monkFormLink: '',
+      monkFormId: '',
     },
   },
 }

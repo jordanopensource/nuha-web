@@ -5,6 +5,10 @@
     class="bg-nuha-fushia-100"
   >
     <Body>
+      <buildInfoBanner
+        v-if="useRuntimeConfig().public.targetEnv === 'development'"
+      />
+
       <slot />
     </Body>
   </Html>
