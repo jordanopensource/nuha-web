@@ -13,7 +13,7 @@
 
 <style lang="postcss" scoped>
   .text {
-    @apply text-nuha-fushia-300 px-10 text-4xl lg:text-6xl italic leading-snug;
+    @apply text-nuha-fushia-300 text-4xl lg:text-6xl italic leading-snug;
     .main {
       @apply inline font-light;
     }
