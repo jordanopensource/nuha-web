@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container h-[75vh]">
+    <div class="container h-screen">
       <UiAppHeader />
       <Hero class="container" />
     </div>

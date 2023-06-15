@@ -36,13 +36,22 @@
             type="submit"
             :value="$t('waitlist.done')"
           />
-          <input
-            id="a9cbf"
-            type="hidden"
-            name="l"
-            checked
-            :value="`${useRuntimeConfig().public.monkFormId}`"
-          />
+          <div class="flex flex-col">
+            <button
+              @click="hideModal"
+              type="button"
+              class="join-waitlist-modal-submission-input lg:hidden w-fit"
+            >
+              {{ $t('waitlist.close') }}
+            </button>
+            <input
+              id="a9cbf"
+              type="hidden"
+              name="l"
+              checked
+              :value="`${useRuntimeConfig().public.monkFormId}`"
+            />
+          </div>
         </form>
         <div v-else class="loader my-8"></div>
       </div>
@@ -68,6 +77,10 @@
   const toggleModal = () => {
     set(showWaitlist, true)
     emit('hideIntro', true)
+  }
+  const hideModal = () => {
+    set(showWaitlist, false)
+    emit('hideIntro', false)
   }
 
   const submitForm = async () => {

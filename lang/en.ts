@@ -19,6 +19,7 @@ export default {
     enterEmail: 'Enter your email',
     email: 'Email',
     done: 'Done',
+    close: 'Close',
     send: {
       success: 'Message was sent successfully!',
       fail: 'Something went wrong! Please try again later.',

@@ -18,6 +18,7 @@ export default {
     join: 'سجل مسبقا',
     enterEmail: 'ادخل بريدك الالكتروني',
     done: 'تم',
+    close: 'أغلق',
     email: 'البريد الإلكتروني',
     send: {
       success: 'تم الإشتراك بنجاح!',
