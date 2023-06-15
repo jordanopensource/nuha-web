@@ -23,7 +23,6 @@
         <p v-if="formMessage" class="mt-8 mb-4">
           {{ $t(formMessage) }}
         </p>
-        <!-- action="https://monk.josa.ngo/subscription/form" method="post" -->
         <form v-if="!loading" id="form" @submit.prevent="submitForm">
           <input
             class="join-waitlist-modal-submission-email"
@@ -42,7 +41,7 @@
             type="hidden"
             name="l"
             checked
-            value="a9cbf367-a3df-4bc4-8373-0148413bea4d"
+            :value="`${useRuntimeConfig().public.monkFormId}`"
           />
         </form>
         <div v-else class="loader my-8"></div>
@@ -75,7 +74,7 @@
     set(loading, true)
     const formData = new FormData(document.getElementById('form'))
 
-    await $fetch('https://monk.josa.ngo/subscription/form', {
+    await $fetch(useRuntimeConfig().public.monkFormLink, {
       method: 'POST',
       mode: 'no-cors',
       body: formData,
