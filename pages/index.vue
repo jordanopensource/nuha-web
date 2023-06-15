@@ -6,9 +6,9 @@
     </div>
     <StatisticsIndicator />
     <Statistics id="statistics" />
-    <NuhaIndicator />
-    <div class="container lg:my-60">
-      <NuhaIdentity id="learn-more" class="container" />
+
+    <div class="container lg:my-60 mb-60">
+      <NuhaIdentity id="learn-more" class="container mb-32" />
       <NuhaWork class="container" />
     </div>
   </div>
