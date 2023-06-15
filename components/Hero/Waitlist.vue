@@ -9,7 +9,7 @@
       :class="showWaitlist ? 'block' : 'hidden'"
       class="join-waitlist-modal lg:block drop-shadow-2xl shadow-nuha-fushia"
     >
-      <p class="font-medium w-full text-center italic text-2xl lg:hidden">
+      <p class="font-medium w-full italic text-2xl lg:hidden">
         {{ $t('waitlist.join') }}
       </p>
 
@@ -50,11 +50,7 @@
     </div>
 
     <div>
-      <button
-        v-if="!showWaitlist"
-        class="btn lg:hidden"
-        @click="showWaitlist = !showWaitlist"
-      >
+      <button v-if="!showWaitlist" class="btn lg:hidden" @click="toggleModal">
         {{ $t('waitlist.join') }}
       </button>
     </div>
@@ -63,10 +59,17 @@
 <script lang="ts" setup>
   import { ref } from 'vue'
   import { set } from '@vueuse/core'
+  import { emit } from 'process'
 
+  const emit = defineEmits(['hideIntro'])
   const showWaitlist = ref(false)
   const loading = ref(false)
   const formMessage = ref('')
+
+  const toggleModal = () => {
+    set(showWaitlist, true)
+    emit('hideIntro', true)
+  }
 
   const submitForm = async () => {
     set(loading, true)
@@ -93,6 +96,7 @@
       setTimeout(() => {
         set(formMessage, '')
         set(showWaitlist, false)
+        emit('hideIntro', false)
       }, 2000)
     }, 2000)
   }

@@ -2,18 +2,21 @@
 
 <template>
   <div class="main">
-    <HeroIntroText />
+    <HeroIntroText v-if="!hideSection" />
     <div class="flex-grow">
-      <HeroWaitlist />
+      <HeroWaitlist @hide-intro="(value) => (hideSection = value)" />
       <div class="lg:hidden">
-        <NuxtLink to="#learn-more" class="link">
+        <NuxtLink to="#learn-more" class="link" v-if="!hideSection">
           {{ $t('link.learnMore') }}
         </NuxtLink>
       </div>
     </div>
   </div>
 </template>
-
+<script setup lang="ts">
+  import { set } from '@vueuse/core'
+  const hideSection = ref(false)
+</script>
 <style lang="postcss" scoped>
   .main {
     @apply h-5/6 grid grid-cols-1 place-items-center lg:flex lg:items-center lg:justify-between lg:gap-x-10;
