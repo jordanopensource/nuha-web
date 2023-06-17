@@ -14,12 +14,11 @@
 </script>
 <style scoped lang="postcss">
   .moving-text {
-    @apply absolute top-1/2 left-[33%] md:left-[40%];
-    @apply w-[100px] h-[100px];
+    @apply text-center;
     animation: move 5s ease-in-out infinite;
   }
   .wrapper {
-    @apply flex flex-row justify-between items-center;
+    @apply flex justify-center items-center;
   }
   .arrow {
     @apply border-solid;
