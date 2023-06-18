@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-nuha-fushia-100 rounded-t-[2.75rem] text-center text-nuha-fushia text-2xl py-24 lg:hidden snap-end relative"
+    class="bg-nuha-fushia-100 rounded-t-[2.75rem] text-center text-nuha-fushia text-2xl pt-5 lg:hidden snap-end relative"
   >
     <NuxtLink to="#learn-more">
       <span class="cursor-pointer">
