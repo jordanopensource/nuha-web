@@ -11,7 +11,7 @@
 
     <div id="learn-more" class="container lg:my-60 mb-60">
       <NuhaIdentity class="snap-start shrink-0" />
-      <NuhaWork class="snap-start shrink-0" />
+      <NuhaWork />
     </div>
   </div>
 </template>
