@@ -7,7 +7,7 @@
       </span>
       }
     </h2>
-    <p class="text-2xl font-light">
+    <p class="text-2xl font-light mb-12">
       {{ t('nuha.work.body') }}
     </p>
   </div>
