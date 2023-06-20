@@ -13,7 +13,7 @@
       class="bg-nuha-grey lg:container lg:rounded-[2.75rem] lg:drop-shadow-2xl"
     >
       <div class="container">
-        <UiAppHeader class="lg:hidden mb-10" :logo-color="'white'" />
+        <UiAppHeader class="lg:hidden mb-10 snap-start shrink-0" :logo-color="'white'" />
         <h2 class="lg:hidden font-semibold text-center text-nuha-fushia-100">
           {
           <span class="italic">

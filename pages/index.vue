@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div
+    class="snap-y snap-proximity h-screen overflow-auto lg:snap-none lg:overflow-x-hidden"
+  >
     <div class="h-screen container">
-      <UiAppHeader />
+      <UiAppHeader class="snap-start shrink-0" />
       <Hero class="container" />
     </div>
     <StatisticsIndicator />

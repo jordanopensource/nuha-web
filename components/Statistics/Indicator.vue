@@ -2,11 +2,11 @@
   <div
     class="bg-nuha-grey rounded-t-[2.75rem] text-center text-nuha-fushia-100 text-2xl py-24 pt-12 lg:hidden snap-end relative"
   >
-    <NuxtLink to="#statistics">
+    <a href="#statistics">
       <span class="moving-text wrapper cursor-pointer">
         {{ t('link.statistics') }} <i class="arrow down"></i>
       </span>
-    </NuxtLink>
+    </a>
   </div>
 </template>
 <script setup>

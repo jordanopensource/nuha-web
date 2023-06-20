@@ -6,9 +6,9 @@
     <div class="flex-grow">
       <HeroWaitlist @hide-intro="(value) => (hideSection = value)" />
       <div class="lg:hidden">
-        <NuxtLink to="#learn-more" class="link" v-if="!hideSection">
+        <a href="#learn-more" class="link" v-if="!hideSection">
           {{ $t('link.learnMore') }}
-        </NuxtLink>
+        </a>
       </div>
     </div>
   </div>

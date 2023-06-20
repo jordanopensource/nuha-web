@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiAppHeader class="lg:hidden mb-10" />
+    <UiAppHeader class="lg:hidden mb-10 snap-start shrink-0" />
     <div class="container mb-32">
       <h2 class="text-nuha-fushia lg:w-full mb-12">
         {
