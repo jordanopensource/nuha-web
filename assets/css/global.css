@@ -1,0 +1,24 @@
+body {
+  @apply antialiased m-0 font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+}
+
+html,
+div {
+  scroll-behavior: smooth;
+}
+
+.loader {
+  @apply h-20 w-20;
+  @apply border-4 border-solid border-nuha-grey;
+  border-radius: 50%;
+  @apply border-t-nuha-fushia-100 border-t-[3px] border-solid;
+  animation: spin 0.8s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
