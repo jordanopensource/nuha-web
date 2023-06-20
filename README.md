@@ -16,7 +16,7 @@ The community hub for JOSA.
 .
 [Request Feature](https://github.com/jordanopensource/nuha-web/issues)
 
-[![Build Status](https://builds.josa.dev/api/badges/jordanopensource/nuha-web/status.svg)](https://builds.josa.dev/jordanopensource/nuha-web)
+[![Build Status](https://builds.josa.ngo/api/badges/jordanopensource/nuha-web/status.svg?ref=refs/heads/development)](https://builds.josa.ngo/jordanopensource/nuha-web)
 
 </div>
 
