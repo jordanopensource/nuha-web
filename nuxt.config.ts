@@ -15,6 +15,7 @@ const config: NuxtConfig = {
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
+    '@nuxt/image',
     '@josango/nuxt3-build-banner',
   ],
   buildModules: ['@nuxt/typescript-build'],

@@ -27,6 +27,8 @@
           :src="props.logoColor !== 'white' ? '/logo.svg' : 'logo-white.svg'"
         />
       </NuxtLink>
+
+      <UserMenu />
     </div>
     <div
       class="header-separator"
