@@ -24,6 +24,8 @@
           :class="localeItem.code"
           >{{ localeItem.name }}
         </NuxtLink>
+
+        <UserMenu />
       </div>
     </div>
     <div class="header-separator"></div>

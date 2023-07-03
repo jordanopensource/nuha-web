@@ -7,6 +7,7 @@ export default {
   header: {
     whatIsNuha: 'What is Nuha?',
     howItWorks: 'How it works?',
+    signIn: 'Sign in',
   },
 
   intro: {
@@ -48,5 +49,13 @@ export default {
     positiveSpeech: 'Positive speech',
     unrelated: 'Unrelated to discussion',
     neutral: 'Neutral',
+  },
+
+  dashboard: {
+    menu: {
+      dashboard: 'Dashboard',
+      settings: 'Settings',
+      signOut: 'Sign out',
+    },
   },
 }
