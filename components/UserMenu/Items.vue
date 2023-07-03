@@ -1,13 +1,13 @@
 <template>
   <div class="lg:absolute">
     <div class="dashboard-menu">
-      <div
+      <NuxtLink
         class="dashboard-menu-item"
         v-for="(link, index) in links"
         :key="index"
+        :to="link.target"
+        >{{ link.title }}</NuxtLink
       >
-        <NuxtLink :to="link.target">{{ link.title }}</NuxtLink>
-      </div>
 
       <button class="dashboard-menu-item" @click="signOut">
         {{ $t('header.userMenu.signOut') }}
