@@ -4,10 +4,10 @@
   </button>
   <div v-else>
     <button
-      @click="toggleMenu"
+      @click="() => (showItems = !showItems)"
       class="lg:ltr:pl-8 lg:rtl:pr-8 text-nuha-fushia"
     >
-      <UserMenuIcon />
+      <nuxt-img src="/burger-menu.svg" class="w-10 h-10" />
     </button>
 
     <UserMenuItems v-if="showItems" />
@@ -20,10 +20,6 @@
 
   function isLoggedIn(): boolean {
     return true
-  }
-
-  function toggleMenu() {
-    showItems.value = !showItems.value
   }
 </script>
 

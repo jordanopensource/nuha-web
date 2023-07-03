@@ -1,17 +1,13 @@
 <template>
   <div class="lg:absolute">
     <div class="dashboard-menu">
-      <NuxtLink class="dashboard-menu-item" to="/dashboard">{{
-        $t('header.userMenu.dashboard')
-      }}</NuxtLink>
-
-      <UserMenuItemsSeparator />
-
-      <NuxtLink class="dashboard-menu-item" to="/dashboard/settings">{{
-        $t('header.userMenu.settings')
-      }}</NuxtLink>
-
-      <UserMenuItemsSeparator />
+      <div
+        class="dashboard-menu-item"
+        v-for="(link, index) in links"
+        :key="index"
+      >
+        <NuxtLink :to="link.target">{{ link.title }}</NuxtLink>
+      </div>
 
       <button class="dashboard-menu-item" @click="signOut">
         {{ $t('header.userMenu.signOut') }}
@@ -21,6 +17,12 @@
 </template>
 
 <script setup>
+  const { t } = useI18n()
+
+  const links = [
+    { title: t('header.userMenu.dashboard'), target: '/dashboard' },
+    { title: t('header.userMenu.settings'), target: '/dashboard/settings' },
+  ]
   async function signOut() {
     window.alert('sign out')
   }
@@ -40,5 +42,6 @@
     @apply block p-4 text-nuha-fushia;
     @apply lg:hover:bg-nuha-fushia-200;
     @apply lg:first:rounded-t-xl lg:last:rounded-b-xl;
+    @apply border-b border-b-nuha-fushia-200;
   }
 </style>
