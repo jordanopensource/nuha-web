@@ -35,6 +35,6 @@
 
   .dashboard-menu-item {
     @apply block p-4 text-nuha-fushia;
-    @apply hover:bg-nuha-fushia-200;
+    @apply lg:hover:bg-nuha-fushia-200;
   }
 </style>
