@@ -8,6 +8,11 @@ export default {
     whatIsNuha: 'تعرف على نهى',
     howItWorks: 'كيف يعمل',
     signIn: 'تسجيل الدخول',
+    userMenu: {
+      dashboard: 'لوحة المراقبة',
+      settings: 'الإعدادات',
+      signOut: 'تسجيل الخروج',
+    },
   },
 
   intro: {
@@ -47,13 +52,5 @@ export default {
     positiveSpeech: 'خطاب إيجابي',
     unrelated: 'لا علاقة لها بالسياق',
     neutral: 'محايد',
-  },
-
-  dashboard: {
-    menu: {
-      dashboard: 'لوحة المراقبة',
-      settings: 'الإعدادات',
-      signOut: 'تسجيل الخروج',
-    },
   },
 }

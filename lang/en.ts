@@ -8,6 +8,11 @@ export default {
     whatIsNuha: 'What is Nuha?',
     howItWorks: 'How it works?',
     signIn: 'Sign in',
+    userMenu: {
+      dashboard: 'Dashboard',
+      settings: 'Settings',
+      signOut: 'Sign out',
+    },
   },
 
   intro: {
@@ -49,13 +54,5 @@ export default {
     positiveSpeech: 'Positive speech',
     unrelated: 'Unrelated to discussion',
     neutral: 'Neutral',
-  },
-
-  dashboard: {
-    menu: {
-      dashboard: 'Dashboard',
-      settings: 'Settings',
-      signOut: 'Sign out',
-    },
   },
 }

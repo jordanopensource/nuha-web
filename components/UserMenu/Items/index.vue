@@ -2,19 +2,19 @@
   <div class="lg:absolute">
     <div class="dashboard-menu">
       <NuxtLink class="dashboard-menu-item" to="/dashboard">{{
-        $t('dashboard.menu.dashboard')
+        $t('header.userMenu.dashboard')
       }}</NuxtLink>
 
       <UserMenuItemsSeparator />
 
       <NuxtLink class="dashboard-menu-item" to="/dashboard/settings">{{
-        $t('dashboard.menu.settings')
+        $t('header.userMenu.settings')
       }}</NuxtLink>
 
       <UserMenuItemsSeparator />
 
       <button class="dashboard-menu-item" @click="signOut">
-        {{ $t('dashboard.menu.signOut') }}
+        {{ $t('header.userMenu.signOut') }}
       </button>
     </div>
   </div>
