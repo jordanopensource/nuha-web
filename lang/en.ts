@@ -66,6 +66,7 @@ export default {
       header: 'Upload a file with suspected hate speeches',
       selectFile: 'Select a file',
       downloadTempalte: 'Download template',
+      selected: 'Selected',
     },
     submit: 'Submit',
   },

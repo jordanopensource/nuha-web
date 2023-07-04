@@ -64,6 +64,7 @@ export default {
       header: 'قم بتحميل ملف يشتبه في أنه يحتوي على خطابات كراهية',
       selectFile: 'حدد ملف',
       downloadTempalte: 'تنزيل نموذج',
+      selected: 'تم اختيار',
     },
     submit: 'سلم',
   },

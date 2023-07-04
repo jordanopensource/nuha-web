@@ -2,7 +2,9 @@
   <h6>{{ t('dashboard.fileUpload.header') }}:</h6>
   <div class="grid gap-2 lg:gap-y-0 grid-cols-1 lg:grid-cols-2">
     <label class="inline" for="file-upload">{{
-      t('dashboard.fileUpload.selectFile')
+      !file
+        ? t('dashboard.fileUpload.selectFile')
+        : `${t('dashboard.fileUpload.selected')}: ${file.name}`
     }}</label>
     <button class="btn download-template" @click="downloadTemplate">
       {{ t('dashboard.fileUpload.downloadTempalte') }}
@@ -19,16 +21,17 @@
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
   import RequestBody from '../RequestBody'
 
   const { t } = useI18n()
 
   const emit = defineEmits(['update:data'])
 
-  let file: File
+  const file = ref<File>()
 
   function updateFile(ev: Event) {
-    file = (ev.target as HTMLInputElement).files[0]
+    file.value = (ev.target as HTMLInputElement).files[0]
     updateData()
   }
 
