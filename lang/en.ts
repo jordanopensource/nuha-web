@@ -69,5 +69,6 @@ export default {
       selected: 'Selected',
     },
     submit: 'Submit',
+    or: 'OR',
   },
 }

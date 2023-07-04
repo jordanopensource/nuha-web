@@ -1,20 +1,24 @@
 <template>
-  <h6>{{ t('dashboard.fileUpload.header') }}:</h6>
-  <div class="grid gap-2 lg:gap-y-0 grid-cols-1 lg:grid-cols-2">
-    <label class="inline" for="file-upload">{{
-      !file
-        ? t('dashboard.fileUpload.selectFile')
-        : `${t('dashboard.fileUpload.selected')}: ${file.name}`
-    }}</label>
-    <button class="btn download-template" @click="downloadTemplate">
-      {{ t('dashboard.fileUpload.downloadTempalte') }}
-    </button>
+  <div class="my-5 grid grid-cols-none gap-5">
+    <h6>{{ t('dashboard.fileUpload.header') }}:</h6>
+
+    <div class="grid gap-2 lg:gap-y-0 grid-cols-1 lg:grid-cols-2">
+      <label class="btn select-file" for="file-upload">{{
+        !file
+          ? t('dashboard.fileUpload.selectFile')
+          : `${t('dashboard.fileUpload.selected')}: ${file.name}`
+      }}</label>
+
+      <button class="btn download-template" @click="downloadTemplate">
+        {{ t('dashboard.fileUpload.downloadTempalte') }}
+      </button>
+    </div>
   </div>
+
   <input
     id="file-upload"
     hidden
     style="visibility: hidden"
-    class="btn select-file"
     type="file"
     @change="updateFile"
   />
@@ -55,12 +59,11 @@
 
 <style lang="postcss" scoped>
   .btn {
-    @apply border border-nuha-fushia-200;
-
-    &-download-template {
-    }
-
-    &-select-file {
-    }
+    @apply border-2 border-nuha-grey p-3 text-center italic rounded-xl text-nuha-grey bg-white;
+  }
+  download-template {
+  }
+  .select-file {
+    @apply cursor-pointer;
   }
 </style>

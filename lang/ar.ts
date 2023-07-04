@@ -67,5 +67,6 @@ export default {
       selected: 'تم اختيار',
     },
     submit: 'سلم',
+    or: 'أو',
   },
 }
