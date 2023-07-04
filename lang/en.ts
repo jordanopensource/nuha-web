@@ -55,4 +55,18 @@ export default {
     unrelated: 'Unrelated to discussion',
     neutral: 'Neutral',
   },
+
+  dashboard: {
+    comment: {
+      header: 'Insert the comment and its context',
+      content: 'Insert comment',
+      context: "Insert comment's context",
+    },
+    fileUpload: {
+      header: 'Upload a file with suspected hate speeches',
+      selectFile: 'Select a file',
+      downloadTempalte: 'Download template',
+    },
+    submit: 'Submit',
+  },
 }

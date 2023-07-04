@@ -53,4 +53,18 @@ export default {
     unrelated: 'لا علاقة لها بالسياق',
     neutral: 'محايد',
   },
+
+  dashboard: {
+    comment: {
+      header: 'أدخل التعليق وسياقه',
+      content: 'أدخل التعليق',
+      context: 'أدخل سياق التعليق',
+    },
+    fileUpload: {
+      header: 'قم بتحميل ملف يشتبه في أنه يحتوي على خطابات كراهية',
+      selectFile: 'حدد ملف',
+      downloadTempalte: 'تنزيل نموذج',
+    },
+    submit: 'سلم',
+  },
 }
