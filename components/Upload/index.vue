@@ -2,7 +2,7 @@
   <div class="my-5">
     <UploadCSVFile
       @update:data="
-        (_data: any) => {
+        (_data: UploadRequestBody) => {
         data = _data
         }
       "
@@ -16,7 +16,7 @@
 
     <UploadComment
       @update:data="
-        (_data: any) => {
+        (_data: UploadRequestBody) => {
         data = _data
         }
       "
@@ -35,18 +35,18 @@
 </template>
 
 <script setup lang="ts">
-  import RequestBody from './RequestBody'
+  import { UploadRequestBody } from '../../types'
   import { set } from '@vueuse/core'
 
   const { t } = useI18n()
-  const data = ref({} as RequestBody)
+  const data = ref<UploadRequestBody>()
   const loading = ref(false)
 
   async function handleSubmit() {
     set(loading, true)
 
     // TODO: upload logic goes here
-    console.log(data)
+    console.log(data.value)
 
     setTimeout(() => set(loading, false), 2500)
   }

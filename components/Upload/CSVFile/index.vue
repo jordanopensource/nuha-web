@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import RequestBody from '../RequestBody'
+  import { UploadRequestBody } from '../../../types'
 
   const { t } = useI18n()
 
@@ -43,9 +43,9 @@
     emit('update:data', {
       type: 'csv',
       data: {
-        file: file,
+        file: file.value,
       },
-    } as RequestBody)
+    } as unknown as UploadRequestBody)
   }
 
   function downloadTemplate() {

@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import RequestBody from '../RequestBody'
+  import { UploadRequestBody } from '../../../types'
 
   const { t } = useI18n()
 
@@ -41,7 +41,7 @@
         context: commentContext.value,
         comment: commentText.value,
       },
-    } as RequestBody)
+    } as UploadRequestBody)
   }
 </script>
 
