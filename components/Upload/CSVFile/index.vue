@@ -51,7 +51,7 @@
   function downloadTemplate() {
     const a = document.createElement('a')
     a.hidden = true
-    a.href = '/logo.svg'
+    a.href = '/comments-sheet-template.csv'
     a.download = 'template.csv'
     a.click()
   }
