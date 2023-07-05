@@ -1,5 +1,5 @@
 <template>
-  <button @scroll="close" v-if="!isLoggedIn()" class="sign-in-btn">
+  <button v-if="!isLoggedIn()" class="sign-in-btn">
     {{ $t('header.signIn') }}
   </button>
   <div v-else>
@@ -17,14 +17,21 @@
       />
     </button>
 
-    <UserMenuItems v-if="showItems" />
+    <UserMenuItems id="items" v-if="showItems" />
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
   import { set } from '@vueuse/core'
   import { ref } from 'vue'
+
+  const hideMenu = useHideMenu()
   const showItems = ref(false)
+  watch(hideMenu, (value) => {
+    if (value) {
+      set(showItems, false)
+    }
+  })
 
   const props = defineProps({
     logoColor: {
@@ -33,20 +40,7 @@
     },
   })
 
-  function close() {
-    console.log('scrolled')
-    set(showItems, false)
-  }
-
-  onMounted(() => {
-    window.addEventListener('scroll', (ev) => {
-      console.log('aaaaaaaaaa')
-      close()
-      set(showItems, false)
-    })
-  })
-
-  function isLoggedIn(): boolean {
+  function isLoggedIn() {
     return true
   }
 </script>

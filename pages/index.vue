@@ -1,6 +1,6 @@
 <template>
   <div
-    class="snap-y snap-proximity h-screen overflow-auto lg:snap-none lg:overflow-x-hidden"
+    class="snap-y snap-proximity h-auto overflow-auto lg:snap-none lg:overflow-x-hidden"
   >
     <div class="h-screen container">
       <UiAppHeader class="snap-start shrink-0" />
@@ -8,7 +8,6 @@
     </div>
     <StatisticsIndicator />
     <Statistics id="statistics" />
-
     <div id="learn-more" class="container lg:my-60 mb-60">
       <NuhaIdentity />
       <NuhaWork />
