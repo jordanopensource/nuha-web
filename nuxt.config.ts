@@ -19,6 +19,7 @@ const config: NuxtConfig = {
     '@josango/nuxt3-build-banner',
   ],
   buildModules: ['@nuxt/typescript-build'],
+  plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
 
   css: [
     '@/assets/css/tailwind.css',
