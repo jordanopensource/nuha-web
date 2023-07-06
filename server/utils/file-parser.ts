@@ -1,5 +1,8 @@
+import { parse } from 'csv-parse/sync'
+import { SingleComment } from '../../types'
+
 export interface FileParser {
-  parseFile(file: Buffer): Promise<Record<string, string>>
+  parseFile(file: Buffer): Promise<SingleComment[]>
 }
 
 export enum FileType {
@@ -39,8 +42,32 @@ class CsvFileParser implements FileParser {
     return CsvFileParser._instance
   }
 
-  async parseFile(file: Buffer): Promise<Record<string, string>> {
-    return { '': '' }
+  async parseFile(file: Buffer): Promise<SingleComment[]> {
+    const data = new Array<SingleComment>()
+    const records = parse(file, {
+      delimiter: ',',
+      columns: true,
+      skip_empty_lines: true,
+      trim: true,
+    })
+
+    if (!records) {
+      return reject('invalid input data.')
+    }
+
+    let recordKeys: string[]
+    for (const record of records) {
+      recordKeys = Object.keys(record)
+      if (!recordKeys.includes('comment') || !recordKeys.includes('post')) {
+        // TODO: check with Tamim whether to ignore the invalid fields, or just quit the process.
+        continue
+      }
+      data.push({
+        comment: record.comment,
+        post: record.post,
+      })
+    }
+    return data
   }
 }
 
@@ -53,7 +80,7 @@ class XlsxFileParser implements FileParser {
     return XlsxFileParser._instance
   }
 
-  async parseFile(file: Buffer): Promise<Record<string, string>> {
-    return { '': '' }
+  async parseFile(file: Buffer): Promise<SingleComment[]> {
+    return new Array({ comment: '', post: '' })
   }
 }
