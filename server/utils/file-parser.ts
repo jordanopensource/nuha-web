@@ -60,10 +60,10 @@ class CsvFileParser implements FileParser {
     for (const record of records) {
       recordKeys = Object.keys(record)
       if (!recordKeys.includes('comment')) {
-        return reject('missing column `comment`.')
+        return reject('invalid data: missing column `comment`.')
       }
       if (!recordKeys.includes('post')) {
-        return reject('missing column `post`.')
+        return reject('invalid data: missing column `post`.')
       }
       data.push({
         comment: record.comment,
@@ -98,10 +98,10 @@ class XlsxFileParser implements FileParser {
     }
 
     if (!records[0].data[0].includes('comment')) {
-      return reject('missing column `comment`.')
+      return reject('invalid data: missing column `comment`.')
     }
     if (!records[0].data[0].includes('post')) {
-      return reject('missing column `post`.')
+      return reject('invalid data: missing column `post`.')
     }
 
     const commentIndex = records[0].data[0].indexOf('comment')

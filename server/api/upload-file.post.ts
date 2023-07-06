@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
     return 'Something went wrong while parsing the file.'
   }
 
+  // TODO: add the actual data processing part.
   console.log(parsedFileData)
 
   return 'ok'
