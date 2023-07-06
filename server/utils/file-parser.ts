@@ -58,15 +58,18 @@ class CsvFileParser implements FileParser {
     let recordKeys: string[]
     for (const record of records) {
       recordKeys = Object.keys(record)
-      if (!recordKeys.includes('comment') || !recordKeys.includes('post')) {
-        // TODO: check with Tamim whether to ignore the invalid fields, or just quit the process.
-        continue
+      if (!recordKeys.includes('comment')) {
+        return reject('missing column `comment`.')
+      }
+      if (!recordKeys.includes('post')) {
+        return reject('missing column `post`.')
       }
       data.push({
         comment: record.comment,
         post: record.post,
       })
     }
+
     return data
   }
 }
