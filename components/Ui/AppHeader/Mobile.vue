@@ -28,7 +28,7 @@
         />
       </NuxtLink>
 
-      <UserMenu />
+      <UserMenu :logo-color="props.logoColor" />
     </div>
     <div
       class="header-separator"

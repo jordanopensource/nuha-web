@@ -7,18 +7,40 @@
       @click="() => (showItems = !showItems)"
       class="lg:ltr:pl-8 lg:rtl:pr-8 text-nuha-fushia"
     >
-      <nuxt-img src="/burger-menu.svg" class="w-10 h-10" />
+      <nuxt-img
+        :src="
+          props.logoColor === 'white'
+            ? '/burger-menu-white.svg'
+            : '/burger-menu.svg'
+        "
+        class="w-10 h-10"
+      />
     </button>
 
-    <UserMenuItems v-if="showItems" />
+    <UserMenuItems id="items" v-if="showItems" />
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+  import { set } from '@vueuse/core'
   import { ref } from 'vue'
-  const showItems = ref(false)
 
-  function isLoggedIn(): boolean {
+  const hideMenu = useHideMenu()
+  const showItems = ref(false)
+  watch(hideMenu, (value) => {
+    if (value) {
+      set(showItems, false)
+    }
+  })
+
+  const props = defineProps({
+    logoColor: {
+      type: String,
+      default: 'default',
+    },
+  })
+
+  function isLoggedIn() {
     return true
   }
 </script>
