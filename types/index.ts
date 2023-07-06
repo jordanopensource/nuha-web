@@ -1,2 +1,4 @@
 import UploadRequestBody from './UploadRequestBody'
-export { UploadRequestBody }
+import SingleComment from './SingleComment'
+
+export { UploadRequestBody, SingleComment }
