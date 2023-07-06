@@ -1,4 +1,5 @@
 import { parse } from 'csv-parse/sync'
+import xlsx from 'node-xlsx'
 import { SingleComment } from '../../types'
 
 export interface FileParser {
@@ -83,7 +84,37 @@ class XlsxFileParser implements FileParser {
     return XlsxFileParser._instance
   }
 
+  // WARNING: what you're about to read will melt you brain down,
+  // guess xlsx is just bad everywhere!
   async parseFile(file: Buffer): Promise<SingleComment[]> {
-    return new Array({ comment: '', post: '' })
+    const records = xlsx.parse(file)
+    if (
+      !records ||
+      !records[0] ||
+      !records[0].data ||
+      records[0].data.length === 0
+    ) {
+      return reject('invalid input data.')
+    }
+
+    if (!records[0].data[0].includes('comment')) {
+      return reject('missing column `comment`.')
+    }
+    if (!records[0].data[0].includes('post')) {
+      return reject('missing column `post`.')
+    }
+
+    const commentIndex = records[0].data[0].indexOf('comment')
+    const postIndex = records[0].data[0].indexOf('post')
+
+    const data = new Array<SingleComment>()
+    for (const record of records[0].data.slice(1)) {
+      data.push({
+        comment: record[commentIndex],
+        post: record[postIndex],
+      })
+    }
+
+    return data
   }
 }
