@@ -66,6 +66,10 @@ export default {
       downloadTempalte: 'تنزيل نموذج',
       selected: 'تم اختيار',
     },
+    tab: {
+      file: "ملف",
+      comment: "تعليق",
+    },
     submit: 'سلم',
     or: 'أو',
   },

@@ -1,6 +1,42 @@
 <template>
   <div class="my-5">
+    <div class="mb-8">
+      <input
+        class="hidden"
+        type="radio"
+        id="file-upload-tab"
+        name="upload-mode"
+        :checked="!commentModeSelected"
+        @click="commentModeSelected = false"
+      />
+      <label
+        :class="
+          'tab-entry ltr:rounded-l-xl rtl:rounded-r-xl ' +
+          (!commentModeSelected ? 'selected-tab-entry' : '')
+        "
+        for="file-upload-tab"
+        >{{ t('dashboard.tab.file') }}</label
+      >
+      <input
+        class="hidden"
+        type="radio"
+        id="comment-insertion-tab"
+        name="upload-mode"
+        :checked="commentModeSelected"
+        @click="commentModeSelected = true"
+      />
+      <label
+        :class="
+          'tab-entry rtl:rounded-l-xl ltr:rounded-r-xl ' +
+          (commentModeSelected ? 'selected-tab-entry' : '')
+        "
+        for="comment-insertion-tab"
+        >{{ t('dashboard.tab.comment') }}</label
+      >
+    </div>
+
     <UploadCSVFile
+      v-if="!commentModeSelected"
       @update:data="
         (_data: UploadRequestBody) => {
         data = _data
@@ -8,13 +44,8 @@
       "
     />
 
-    <p
-      class="text-4xl text-nuha-grey italic font-semibold w-full text-center my-5"
-    >
-      {{ t('dashboard.or') }}
-    </p>
-
     <UploadComment
+      v-else
       @update:data="
         (_data: UploadRequestBody) => {
         data = _data
@@ -40,6 +71,7 @@
 
   const { t } = useI18n()
   const data = ref<UploadRequestBody>()
+  const commentModeSelected = ref(false)
   const loading = ref(false)
 
   async function handleSubmit() {
@@ -51,3 +83,12 @@
     setTimeout(() => set(loading, false), 2500)
   }
 </script>
+
+<style lang="postcss" scoped>
+  .tab-entry {
+    @apply p-4 cursor-pointer bg-nuha-fushia-200 text-nuha-grey;
+  }
+  .selected-tab-entry {
+    @apply bg-nuha-fushia-300 text-white font-bold;
+  }
+</style>

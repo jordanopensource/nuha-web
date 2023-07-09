@@ -68,6 +68,10 @@ export default {
       downloadTempalte: 'Download template',
       selected: 'Selected',
     },
+    tab: {
+      file: "File",
+      comment: "Comment",
+    },
     submit: 'Submit',
     or: 'OR',
   },
