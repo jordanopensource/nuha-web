@@ -67,10 +67,18 @@ export default {
       selected: 'تم اختيار',
     },
     tab: {
-      file: "ملف",
-      comment: "تعليق",
+      file: 'ملف',
+      comment: 'تعليق',
     },
     submit: 'سلم',
     or: 'أو',
+  },
+
+  status: {
+    success: 'نجاح',
+    failed: 'فشل',
+    uploadWasSuccessful: 'تم التحميل بنجاح',
+    selectAFileToUpload: 'حدد ملفًا للتحميل',
+    commentCantBeEmpty: 'لا يمكن أن يكون التعليق فارغًا',
   },
 }

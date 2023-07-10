@@ -25,7 +25,8 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { UploadRequestBody } from '../../../types'
+  import { get } from '@vueuse/core'
+  import { SingleComment, UploadRequestBody } from '../../../types'
 
   const { t } = useI18n()
 
@@ -38,9 +39,9 @@
     emit('update:data', {
       type: 'comment',
       data: {
-        context: commentContext.value,
-        comment: commentText.value,
-      },
+        post: get(commentContext),
+        comment: get(commentText),
+      } as SingleComment,
     } as UploadRequestBody)
   }
 </script>

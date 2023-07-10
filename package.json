@@ -23,9 +23,13 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@element-plus/nuxt": "^1.0.5",
     "@josango/nuxt3-build-banner": "^3.0.2",
     "@vueuse/core": "^10.1.2",
     "chart.js": "^4.3.0",
+    "csv-parse": "^5.4.0",
+    "element-plus": "^2.3.7",
+    "node-xlsx": "^0.23.0",
     "vue3-charts": "^1.1.33"
   }
 }

@@ -1,4 +1,6 @@
+import SingleComment from './SingleComment'
+
 export default interface UploadRequestBody {
   type: 'csv' | 'comment'
-  data: File | { comment: string; context: string }
+  data: File | SingleComment
 }

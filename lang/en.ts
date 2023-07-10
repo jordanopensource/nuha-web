@@ -69,10 +69,18 @@ export default {
       selected: 'Selected',
     },
     tab: {
-      file: "File",
-      comment: "Comment",
+      file: 'File',
+      comment: 'Comment',
     },
     submit: 'Submit',
     or: 'OR',
+  },
+
+  status: {
+    success: 'Success',
+    failed: 'Failed',
+    uploadWasSuccessful: 'Upload was successful',
+    selectAFileToUpload: 'Select a file to upload',
+    commentCantBeEmpty: 'Comment can not be empty',
   },
 }
