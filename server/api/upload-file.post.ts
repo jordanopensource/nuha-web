@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
   })
   if (err) {
     setResponseStatus(event, 500)
-    return 'Something went wrong while parsing the file.'
+    return err
   }
 
   // TODO: add the actual data processing part.
