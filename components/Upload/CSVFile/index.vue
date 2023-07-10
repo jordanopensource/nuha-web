@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+  import { get, set } from '@vueuse/core'
   import { ref } from 'vue'
   import { UploadRequestBody } from '../../../types'
 
@@ -35,14 +36,14 @@
   const file = ref<File>()
 
   function updateFile(ev: Event) {
-    file.value = (ev.target as HTMLInputElement).files[0]
+    set(file, (ev.target as HTMLInputElement).files[0])
     updateData()
   }
 
   function updateData() {
     emit('update:data', {
       type: 'csv',
-      data: file.value,
+      data: get(file),
     } as UploadRequestBody)
   }
 
