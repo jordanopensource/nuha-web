@@ -117,9 +117,6 @@
 
     await useFetch('/api/upload-file', {
       method: 'POST',
-      headers: {
-        // 'Content-Type': 'multipart/form-data', content-type and boundary are calculated by the browser!
-      },
       body: formData,
     }).then((resp) => {
       if (get(resp.error)) {
