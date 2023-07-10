@@ -42,10 +42,8 @@
   function updateData() {
     emit('update:data', {
       type: 'csv',
-      data: {
-        file: file.value,
-      },
-    } as unknown as UploadRequestBody)
+      data: file.value,
+    } as UploadRequestBody)
   }
 
   function downloadTemplate() {
