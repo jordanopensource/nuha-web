@@ -17,6 +17,7 @@ const config: NuxtConfig = {
     '@nuxtjs/i18n',
     '@nuxt/image',
     '@josango/nuxt3-build-banner',
+    '@element-plus/nuxt',
   ],
   buildModules: ['@nuxt/typescript-build'],
   plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
