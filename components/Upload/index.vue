@@ -78,7 +78,6 @@
 <script setup lang="ts">
   import { UploadRequestBody } from '../../types'
   import { get, set } from '@vueuse/core'
-  import { h } from 'vue'
   import { ElNotification } from 'element-plus'
 
   const { t } = useI18n()
