@@ -7,7 +7,12 @@
         id="file-upload-tab"
         name="upload-mode"
         :checked="!commentModeSelected"
-        @click="commentModeSelected = false"
+        @click="
+          () => {
+            commentModeSelected = false
+            data.type = 'csv'
+          }
+        "
       />
       <label
         :class="
@@ -23,7 +28,12 @@
         id="comment-insertion-tab"
         name="upload-mode"
         :checked="commentModeSelected"
-        @click="commentModeSelected = true"
+        @click="
+          () => {
+            commentModeSelected = true
+            data.type = 'comment'
+          }
+        "
       />
       <label
         :class="
@@ -67,20 +77,70 @@
 
 <script setup lang="ts">
   import { UploadRequestBody } from '../../types'
-  import { set } from '@vueuse/core'
+  import { get, set } from '@vueuse/core'
+  import { h } from 'vue'
+  import { ElNotification } from 'element-plus'
 
   const { t } = useI18n()
-  const data = ref<UploadRequestBody>()
+  const data = ref<UploadRequestBody>({
+    type: 'csv',
+    data: undefined as unknown as File,
+  })
   const commentModeSelected = ref(false)
   const loading = ref(false)
 
   async function handleSubmit() {
+    if (!get(data).data) {
+      buildToast(
+        'error',
+        get(data)?.type === 'comment'
+          ? t('status.commentCantBeEmpty')
+          : t('status.selectAFileToUpload')
+      )
+      return
+    }
     set(loading, true)
+    switch (get(data)?.type) {
+      case 'comment':
+        window.alert('unsupported operation!')
+        break
+      case 'csv':
+        await uploadFile()
+        break
+    }
+    set(loading, false)
+  }
 
-    // TODO: upload logic goes here
-    console.log(data.value)
+  async function uploadFile() {
+    const formData = new FormData()
 
-    setTimeout(() => set(loading, false), 2500)
+    formData.append('file', get(data)?.data as File)
+
+    await useFetch('/api/upload-file', {
+      method: 'POST',
+      headers: {
+        // 'Content-Type': 'multipart/form-data', content-type and boundary are calculated by the browser!
+      },
+      body: formData,
+    }).then((resp) => {
+      if (get(resp.error)) {
+        buildToast('error', get(resp.error)?.data as string)
+        return
+      }
+      buildToast('success', t('status.uploadWasSuccessful'))
+    })
+  }
+
+  async function uploadComment() {}
+
+  function buildToast(type: 'success' | 'error', message: string) {
+    ElNotification({
+      title: type === 'success' ? t('status.success') : t('status.failed'),
+      message: message,
+      type: type,
+      duration: 5000,
+      position: 'bottom-right',
+    })
   }
 </script>
 
