@@ -101,7 +101,7 @@
     set(loading, true)
     switch (get(data)?.type) {
       case 'comment':
-        window.alert('unsupported operation!')
+        await uploadComment()
         break
       case 'csv':
         await uploadFile()
@@ -112,12 +112,18 @@
 
   async function uploadFile() {
     const formData = new FormData()
-
     formData.append('file', get(data)?.data as File)
+    await doRequest('/api/upload-file', formData)
+  }
 
-    await useFetch('/api/upload-file', {
+  async function uploadComment() {
+    await doRequest('/api/upload-comment', JSON.stringify(get(data).data))
+  }
+
+  async function doRequest(endpoint: string, body: BodyInit) {
+    await useFetch(endpoint, {
       method: 'POST',
-      body: formData,
+      body: body,
     }).then((resp) => {
       if (get(resp.error)) {
         buildToast('error', get(resp.error)?.data as string)
@@ -126,8 +132,6 @@
       buildToast('success', t('status.uploadWasSuccessful'))
     })
   }
-
-  async function uploadComment() {}
 
   function buildToast(type: 'success' | 'error', message: string) {
     ElNotification({
