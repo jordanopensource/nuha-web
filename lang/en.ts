@@ -7,7 +7,7 @@ export default {
   header: {
     whatIsNuha: 'What is Nuha?',
     howItWorks: 'How it works?',
-    signIn: 'Sign in',
+    login: 'Login',
     userMenu: {
       dashboard: 'Dashboard',
       settings: 'Settings',
@@ -82,5 +82,10 @@ export default {
     uploadWasSuccessful: 'Upload was successful',
     selectAFileToUpload: 'Select a file to upload',
     commentCantBeEmpty: 'Comment can not be empty',
+  },
+
+  login: {
+    header: 'Login to Nuha',
+    withGithub: 'Login using GitHub',
   },
 }

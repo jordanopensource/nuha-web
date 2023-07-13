@@ -7,7 +7,7 @@ export default {
   header: {
     whatIsNuha: 'تعرف على نهى',
     howItWorks: 'كيف يعمل',
-    signIn: 'تسجيل الدخول',
+    login: 'تسجيل الدخول',
     userMenu: {
       dashboard: 'لوحة المراقبة',
       settings: 'الإعدادات',
@@ -80,5 +80,10 @@ export default {
     uploadWasSuccessful: 'تم التحميل بنجاح',
     selectAFileToUpload: 'حدد ملفًا للتحميل',
     commentCantBeEmpty: 'لا يمكن أن يكون التعليق فارغًا',
+  },
+
+  login: {
+    header: 'تسجيل الدخول إلى نهى',
+    withGithub: 'تسجيل الدخول باستخدام GitHub',
   },
 }

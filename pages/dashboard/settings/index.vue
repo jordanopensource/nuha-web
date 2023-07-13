@@ -2,4 +2,6 @@
   <UiAppHeader />
   dashboard/settings
 </template>
-<script setup></script>
+<script setup lang="ts">
+  definePageMeta({ auth: true, callbackUrl: '/login' })
+</script>

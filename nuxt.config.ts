@@ -18,7 +18,11 @@ const config: NuxtConfig = {
     '@nuxt/image',
     '@josango/nuxt3-build-banner',
     '@element-plus/nuxt',
+    '@sidebase/nuxt-auth',
   ],
+
+  auth: { globalAppMiddleware: true },
+
   buildModules: ['@nuxt/typescript-build'],
   plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
 
@@ -62,6 +66,10 @@ const config: NuxtConfig = {
       buildTimestamp: '',
       monkFormLink: '',
       monkFormId: '',
+    },
+    github: {
+      clientId: '',
+      clientSecret: '',
     },
   },
 }
