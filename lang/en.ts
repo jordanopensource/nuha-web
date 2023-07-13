@@ -83,4 +83,9 @@ export default {
     selectAFileToUpload: 'Select a file to upload',
     commentCantBeEmpty: 'Comment can not be empty',
   },
+
+  login: {
+    header: 'Login to Nuha',
+    withGithub: 'Login using GitHub',
+  },
 }

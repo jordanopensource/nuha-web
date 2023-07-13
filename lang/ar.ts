@@ -81,4 +81,9 @@ export default {
     selectAFileToUpload: 'حدد ملفًا للتحميل',
     commentCantBeEmpty: 'لا يمكن أن يكون التعليق فارغًا',
   },
+
+  login: {
+    header: 'تسجيل الدخول إلى نهى',
+    withGithub: 'تسجيل الدخول باستخدام GitHub',
+  },
 }
