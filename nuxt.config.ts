@@ -63,14 +63,11 @@ const config: NuxtConfig = {
       buildTimestamp: '',
       monkFormLink: '',
       monkFormId: '',
-      github: {
-        clientId: process.env.NUXT_PUBLIC_GITHUB_CLIENT_ID,
-      },
     },
     github: {
-      clientSecret: process.env.NUXT_GITHUB_CLIENT_SECRET,
+      clientId: '',
+      clientSecret: '',
     },
-    jwtSecret: process.env.NUXT_JWT_SECRET,
   },
 }
 
