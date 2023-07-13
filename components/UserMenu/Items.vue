@@ -24,10 +24,7 @@
 
 <script setup>
   const { t } = useI18n()
-
-  async function signOut() {
-    window.alert('sign out')
-  }
+  const { signOut } = useAuth()
 </script>
 
 <style lang="postcss" scoped>

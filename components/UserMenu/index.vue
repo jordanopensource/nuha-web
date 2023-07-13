@@ -1,7 +1,7 @@
 <template>
-  <button v-if="!isLoggedIn()" class="sign-in-btn">
+  <NuxtLink to="/login" v-if="!isLoggedIn()" class="sign-in-btn">
     {{ $t('header.signIn') }}
-  </button>
+  </NuxtLink>
   <div v-else>
     <button
       @click="() => (showItems = !showItems)"
@@ -41,7 +41,7 @@
   })
 
   function isLoggedIn() {
-    return true
+    return useAuthCheck()
   }
 </script>
 
