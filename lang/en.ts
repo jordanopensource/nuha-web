@@ -7,7 +7,7 @@ export default {
   header: {
     whatIsNuha: 'What is Nuha?',
     howItWorks: 'How it works?',
-    signIn: 'Sign in',
+    login: 'Login',
     userMenu: {
       dashboard: 'Dashboard',
       settings: 'Settings',

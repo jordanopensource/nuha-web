@@ -7,7 +7,7 @@ export default {
   header: {
     whatIsNuha: 'تعرف على نهى',
     howItWorks: 'كيف يعمل',
-    signIn: 'تسجيل الدخول',
+    login: 'تسجيل الدخول',
     userMenu: {
       dashboard: 'لوحة المراقبة',
       settings: 'الإعدادات',

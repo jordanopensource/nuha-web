@@ -1,6 +1,6 @@
 <template>
-  <NuxtLink to="/login" v-if="!isLoggedIn()" class="sign-in-btn">
-    {{ $t('header.signIn') }}
+  <NuxtLink to="/login" v-if="!isLoggedIn()" class="login-btn">
+    {{ $t('header.login') }}
   </NuxtLink>
   <div v-else>
     <button
@@ -46,7 +46,7 @@
 </script>
 
 <style lang="postcss" scoped>
-  .sign-in-btn {
-    @apply text-nuha-fushia rounded-xl border p-1 text-lg border-nuha-fushia flex items-center ltr:font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+  .login-btn {
+    @apply rounded-xl p-2 lg:rtl:mr-2 lg:ltr:ml-2 text-lg border border-nuha-fushia text-nuha-fushia flex items-center ltr:font-IBMPlexMono rtl:font-IBMPlexSansArabic;
   }
 </style>
