@@ -13,7 +13,7 @@
 
       <div class="separator"></div>
 
-      <button class="sign-out-button lg:rounded-b-xl" @click="signOut">
+      <button class="sign-out-button lg:rounded-b-xl" @click="_signOut">
         {{ $t('header.userMenu.signOut') }}
       </button>
 
@@ -25,6 +25,10 @@
 <script setup>
   const { t } = useI18n()
   const { signOut } = useAuth()
+
+  async function _signOut() {
+    await signOut({ callbackUrl: '/' })
+  }
 </script>
 
 <style lang="postcss" scoped>

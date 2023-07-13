@@ -20,6 +20,9 @@ const config: NuxtConfig = {
     '@element-plus/nuxt',
     '@sidebase/nuxt-auth',
   ],
+
+  auth: { globalAppMiddleware: true },
+
   buildModules: ['@nuxt/typescript-build'],
   plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
 
