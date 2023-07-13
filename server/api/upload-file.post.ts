@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const fileType = getFileType(
-    files[0].filename?.substring(files[0].filename?.lastIndexOf('.') + 1) ?? ''
+    files[0].filename?.substring(files[0].filename?.lastIndexOf('.') + 1) ?? '',
   )
   let err: unknown
   const parser = await getFileParser(fileType).catch((_err) => {
