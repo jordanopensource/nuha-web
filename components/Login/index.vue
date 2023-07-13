@@ -16,7 +16,7 @@
   const { t } = useI18n()
 
   async function loginWithGithub() {
-    await signIn()
+    await signIn('github', { callbackUrl: '/dashboard' })
   }
 </script>
 
