@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <div class="container-sub">
-      <NuxtLink to="/">
+      <NuxtLink :to="getLink('/')">
         <img width="75" height="75" src="/logo.svg" />
       </NuxtLink>
 
       <div class="link">
         <div class="link-nav">
-          <NuxtLink class="link-nav-item" to="#statistics">{{
+          <NuxtLink class="link-nav-item" :to="getLink('/#statistics')">{{
             $t('link.statistics')
           }}</NuxtLink>
           &VerticalBar;
-          <NuxtLink class="link-nav-item" to="#learn-more">{{
+          <NuxtLink class="link-nav-item" :to="getLink('/#learn-more')">{{
             $t('link.learnMore')
           }}</NuxtLink>
         </div>
@@ -42,6 +42,7 @@
       (l: LocaleObject) => l.code !== locale.value
     )
   })
+  const getLink = useGetLocaleLink()
 </script>
 
 <style lang="postcss" scoped>

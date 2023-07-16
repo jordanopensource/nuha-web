@@ -20,7 +20,7 @@
         >{{ localeItem.name }}
       </NuxtLink>
 
-      <NuxtLink to="/">
+      <NuxtLink :to="getLink('/')">
         <img
           width="50"
           height="50"
@@ -58,6 +58,7 @@
       (l: LocaleObject) => l.code !== locale.value
     )
   })
+  const getLink = useGetLocaleLink()
 </script>
 
 <style lang="postcss" scoped>
