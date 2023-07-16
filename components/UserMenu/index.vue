@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="getLink('/login')" v-if="!isLoggedIn()" class="login-btn">
+  <NuxtLink :to="localePath('/login')" v-if="!isLoggedIn()" class="login-btn">
     {{ $t('header.login') }}
   </NuxtLink>
   <div v-else>
@@ -39,7 +39,7 @@
       default: 'default',
     },
   })
-  const getLink = useGetLocaleLink()
+  const localePath = useLocalePath()
 
   function isLoggedIn() {
     return useAuthCheck()

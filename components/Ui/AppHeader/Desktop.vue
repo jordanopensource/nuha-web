@@ -1,19 +1,23 @@
 <template>
   <div class="container">
     <div class="container-sub">
-      <NuxtLink :to="getLink('/')">
+      <NuxtLink :to="localePath('/')">
         <img width="75" height="75" src="/logo.svg" />
       </NuxtLink>
 
       <div class="link">
         <div class="link-nav">
-          <NuxtLink class="link-nav-item" :to="getLink('/#statistics')">{{
-            $t('link.statistics')
-          }}</NuxtLink>
+          <NuxtLink
+            class="link-nav-item"
+            :to="localePath('/') + '#statistics'"
+            >{{ $t('link.statistics') }}</NuxtLink
+          >
           &VerticalBar;
-          <NuxtLink class="link-nav-item" :to="getLink('/#learn-more')">{{
-            $t('link.learnMore')
-          }}</NuxtLink>
+          <NuxtLink
+            class="link-nav-item"
+            :to="localePath('/') + '#learn-more'"
+            >{{ $t('link.learnMore') }}</NuxtLink
+          >
         </div>
 
         <NuxtLink
@@ -37,12 +41,12 @@
 
   const { locale, locales } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
+  const localePath = useLocalePath()
   const availableLocales = computed(() => {
     return (locales.value as LocaleObject[]).filter(
       (l: LocaleObject) => l.code !== locale.value
     )
   })
-  const getLink = useGetLocaleLink()
 </script>
 
 <style lang="postcss" scoped>

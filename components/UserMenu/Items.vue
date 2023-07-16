@@ -1,7 +1,7 @@
 <template>
   <div class="lg:fixed">
     <div class="container lg:p-0 dashboard-menu">
-      <NuxtLink class="dashboard-menu-item" :to="getLink('/dashboard')">{{
+      <NuxtLink class="dashboard-menu-item" :to="localePath('/dashboard')">{{
         t('header.userMenu.dashboard')
       }}</NuxtLink>
 
@@ -9,7 +9,7 @@
 
       <NuxtLink
         class="dashboard-menu-item"
-        :to="getLink('/dashboard/settings')"
+        :to="localePath('/dashboard/settings')"
         >{{ t('header.userMenu.settings') }}</NuxtLink
       >
 
@@ -25,19 +25,12 @@
 </template>
 
 <script setup>
-  import { get } from '@vueuse/core'
-  const { t, locale } = useI18n()
+  const { t } = useI18n()
   const { signOut } = useAuth()
-  const getLink = useGetLocaleLink()
+  const localePath = useLocalePath()
 
   async function _signOut() {
-    // HACK: login and sign out in NuxtAuth must be called before any user defined composable.
-    // hence the repeated code over here :(
-    let link = '/'
-    if (get(locale) !== 'en') {
-      link = `/${get(locale)}${link}`
-    }
-    await signOut({ callbackUrl: link })
+    await signOut({ callbackUrl: localePath('/') })
   }
 </script>
 

@@ -20,7 +20,7 @@
         >{{ localeItem.name }}
       </NuxtLink>
 
-      <NuxtLink :to="getLink('/')">
+      <NuxtLink :to="localePath('/')">
         <img
           width="50"
           height="50"
@@ -50,15 +50,14 @@
       default: 'default',
     },
   })
-
   const { locale, locales } = useI18n()
+  const localePath = useLocalePath()
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
     return (locales.value as LocaleObject[]).filter(
       (l: LocaleObject) => l.code !== locale.value
     )
   })
-  const getLink = useGetLocaleLink()
 </script>
 
 <style lang="postcss" scoped>
