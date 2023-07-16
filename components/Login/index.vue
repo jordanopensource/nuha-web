@@ -12,11 +12,18 @@
 </template>
 
 <script setup lang="ts">
+  import { get } from '@vueuse/core'
   const { signIn } = useAuth()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
 
   async function loginWithGithub() {
-    await signIn('github', { callbackUrl: '/dashboard' })
+    // HACK: login and sign out in NuxtAuth must be called before any user defined composable.
+    // hence the repeated code over here :(
+    let link = '/dashboard'
+    if (get(locale) !== 'en') {
+      link = `/${get(locale)}${link}`
+    }
+    await signIn('github', { callbackUrl: link })
   }
 </script>
 

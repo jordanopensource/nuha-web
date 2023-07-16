@@ -25,12 +25,19 @@
 </template>
 
 <script setup>
-  const { t } = useI18n()
+  import { get } from '@vueuse/core'
+  const { t, locale } = useI18n()
   const { signOut } = useAuth()
   const getLink = useGetLocaleLink()
 
   async function _signOut() {
-    await signOut({ callbackUrl: '/' })
+    // HACK: login and sign out in NuxtAuth must be called before any user defined composable.
+    // hence the repeated code over here :(
+    let link = '/'
+    if (get(locale) !== 'en') {
+      link = `/${get(locale)}${link}`
+    }
+    await signOut({ callbackUrl: link })
   }
 </script>
 
