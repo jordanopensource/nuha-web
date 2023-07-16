@@ -1,15 +1,17 @@
 <template>
   <div class="lg:fixed">
     <div class="container lg:p-0 dashboard-menu">
-      <NuxtLink class="dashboard-menu-item" to="/dashboard">{{
+      <NuxtLink class="dashboard-menu-item" :to="getLink('/dashboard')">{{
         t('header.userMenu.dashboard')
       }}</NuxtLink>
 
       <div class="separator"></div>
 
-      <NuxtLink class="dashboard-menu-item" to="/dashboard/settings">{{
-        t('header.userMenu.settings')
-      }}</NuxtLink>
+      <NuxtLink
+        class="dashboard-menu-item"
+        :to="getLink('/dashboard/settings')"
+        >{{ t('header.userMenu.settings') }}</NuxtLink
+      >
 
       <div class="separator"></div>
 
@@ -25,6 +27,7 @@
 <script setup>
   const { t } = useI18n()
   const { signOut } = useAuth()
+  const getLink = useGetLocaleLink()
 
   async function _signOut() {
     await signOut({ callbackUrl: '/' })
