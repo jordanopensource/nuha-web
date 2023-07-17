@@ -1,6 +1,6 @@
 <template>
   <div class="my-5">
-    <div class="mb-8">
+    <div class="mb-8 flex">
       <input
         class="hidden"
         type="radio"
