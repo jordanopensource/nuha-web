@@ -28,8 +28,14 @@
         />
       </NuxtLink>
 
-      <UserMenu :logo-color="props.logoColor" />
+      <UserMenuButton
+        @update:showItems="(value: boolean) => {showMenu = value}"
+        :logo-color="props.logoColor"
+      />
     </div>
+
+    <UserMenuItems :color="props.logoColor" v-if="showMenu" />
+
     <div
       class="header-separator"
       :class="
@@ -58,6 +64,7 @@
       (l: LocaleObject) => l.code !== locale.value
     )
   })
+  const showMenu = ref<boolean>(false)
 </script>
 
 <style lang="postcss" scoped>
