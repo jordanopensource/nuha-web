@@ -14,9 +14,10 @@
 <script setup lang="ts">
   const { signIn } = useAuth()
   const { t } = useI18n()
+  const localePath = useLocalePath()
 
   async function loginWithGithub() {
-    await signIn('github', { callbackUrl: '/dashboard' })
+    await signIn('github', { callbackUrl: localePath('/dashboard') })
   }
 </script>
 

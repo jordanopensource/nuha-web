@@ -20,7 +20,7 @@
         >{{ localeItem.name }}
       </NuxtLink>
 
-      <NuxtLink to="/">
+      <NuxtLink :to="localePath('/')">
         <img
           width="50"
           height="50"
@@ -50,8 +50,8 @@
       default: 'default',
     },
   })
-
   const { locale, locales } = useI18n()
+  const localePath = useLocalePath()
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
     return (locales.value as LocaleObject[]).filter(
