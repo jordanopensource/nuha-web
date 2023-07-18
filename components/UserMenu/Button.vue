@@ -1,5 +1,12 @@
 <template>
-  <NuxtLink :to="localePath('/login')" v-if="!isLoggedIn()" class="login-btn">
+  <NuxtLink
+    :to="localePath('/login')"
+    v-if="!isLoggedIn()"
+    class="login-btn"
+    :class="
+      props.logoColor === 'white' ? 'login-btn-white' : 'login-btn-default'
+    "
+  >
     {{ t('header.login') }}
   </NuxtLink>
   <div v-else>
@@ -55,6 +62,13 @@
 
 <style lang="postcss" scoped>
   .login-btn {
-    @apply rounded-xl p-2 lg:rtl:mr-2 lg:ltr:ml-2 text-lg border border-nuha-fushia text-nuha-fushia flex items-center ltr:font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+    @apply rounded-xl p-2 lg:rtl:mr-2 lg:ltr:ml-2 text-lg border flex items-center ltr:font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+
+    &-default {
+      @apply border-nuha-fushia text-nuha-fushia;
+    }
+    &-white {
+      @apply border-white text-white;
+    }
   }
 </style>
