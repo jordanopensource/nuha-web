@@ -29,7 +29,12 @@
           >{{ localeItem.name }}
         </NuxtLink>
 
-        <UserMenu />
+        <div>
+          <UserMenuButton
+            @update:showItems="(value: boolean) => {showMenu = value}"
+          />
+          <UserMenuItems v-if="showMenu" />
+        </div>
       </div>
     </div>
     <div class="header-separator"></div>
@@ -47,6 +52,7 @@
       (l: LocaleObject) => l.code !== locale.value
     )
   })
+  const showMenu = ref<boolean>(false)
 </script>
 
 <style lang="postcss" scoped>
