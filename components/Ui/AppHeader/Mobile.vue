@@ -29,7 +29,11 @@
       </NuxtLink>
 
       <UserMenuButton
-        @update:showItems="(value: boolean) => {showMenu = value}"
+        @update:showItems="
+          (value: boolean) => {
+            showMenu = value
+          }
+        "
         :logo-color="props.logoColor"
       />
     </div>
@@ -37,6 +41,7 @@
     <UserMenuItems :color="props.logoColor" v-if="showMenu" />
 
     <div
+      v-if="!showMenu"
       class="header-separator"
       :class="
         props.logoColor !== 'white'
@@ -61,7 +66,7 @@
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
     return (locales.value as LocaleObject[]).filter(
-      (l: LocaleObject) => l.code !== locale.value
+      (l: LocaleObject) => l.code !== locale.value,
     )
   })
   const showMenu = ref<boolean>(false)
