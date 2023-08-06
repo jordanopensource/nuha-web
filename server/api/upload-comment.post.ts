@@ -1,6 +1,5 @@
 import { SingleComment } from '../../types'
-
-const runtimeConfig = useRuntimeConfig()
+import { predictCommentsResults } from '../utils'
 
 export default defineEventHandler(async (event) => {
   const data = await readBody<SingleComment>(event)
@@ -28,9 +27,12 @@ export default defineEventHandler(async (event) => {
     return err
   }
 
-  // TODO: add the actual data processing part.
-  console.log(data)
-  return {}
+  const prediction = await predictCommentsResults([data])
+  if (prediction.length === 0) {
+    setResponseStatus(event, 500)
+    return 'Something went wrong'
+  }
+  return prediction
 })
 
 async function verifyData(input: SingleComment): Promise<void> {
