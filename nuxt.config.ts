@@ -71,6 +71,10 @@ const config: NuxtConfig = {
       clientId: '',
       clientSecret: '',
     },
+    api: {
+      token: '',
+      url: '',
+    },
   },
 }
 
