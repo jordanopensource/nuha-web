@@ -75,7 +75,7 @@
 
     <div v-if="showChart" class="block lg:flex justify-center items-center">
       <UiPieChart :chart-data="predictionsChartData" />
-      <h3>
+      <h3 class="lg:ltr:-ml-48 lg:ltr:mr-16 lg:rtl:-mr-48 lg:rtl:ml-16">
         {{ t('data.confidenceScore') }}: {{ predictionConfidence }}&percnt;
       </h3>
     </div>
