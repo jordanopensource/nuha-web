@@ -1,5 +1,5 @@
 export default interface PredictionResponse {
-  label: string
+  label: 'hate-speech' | 'non-hate-speech'
   score: number
   model_version: string
 }
