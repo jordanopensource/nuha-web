@@ -49,7 +49,7 @@
       v-if="!commentModeSelected"
       @update:data="
         (_data: UploadRequestBody) => {
-        data = _data
+          data = _data
         }
       "
     />
@@ -58,7 +58,7 @@
       v-else
       @update:data="
         (_data: UploadRequestBody) => {
-        data = _data
+          data = _data
         }
       "
     />
@@ -72,11 +72,18 @@
       </div>
       <div v-else class="loader my-8"></div>
     </button>
+
+    <div v-if="showChart" class="block lg:flex justify-center items-center">
+      <UiPieChart :chart-data="predictionsChartData" />
+      <h3>
+        {{ t('data.confidenceScore') }}: {{ predictionConfidence }}&percnt;
+      </h3>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { UploadRequestBody } from '../../types'
+  import { UploadRequestBody, PredictionResponse } from '../../types'
   import { get, set } from '@vueuse/core'
   import { ElNotification } from 'element-plus'
 
@@ -87,6 +94,9 @@
   })
   const commentModeSelected = ref(false)
   const loading = ref(false)
+  const showChart = ref(false)
+  const predictionsChartData = ref<{ key: string; value: number }>([])
+  const predictionConfidence = ref(0)
 
   async function handleSubmit() {
     if (!get(data).data) {
@@ -94,7 +104,7 @@
         'error',
         get(data)?.type === 'comment'
           ? t('status.commentCantBeEmpty')
-          : t('status.selectAFileToUpload')
+          : t('status.selectAFileToUpload'),
       )
       return
     }
@@ -113,24 +123,38 @@
   async function uploadFile() {
     const formData = new FormData()
     formData.append('file', get(data)?.data as File)
-    await doRequest('/api/upload-file', formData)
+    processResponse(await doRequest('/api/upload-file', formData))
   }
 
   async function uploadComment() {
-    await doRequest('/api/upload-comment', JSON.stringify(get(data).data))
+    processResponse(
+      await doRequest('/api/upload-comment', JSON.stringify(get(data).data)),
+    )
+  }
+
+  function processResponse(response: {
+    chartData: { key: string; value: number }
+    confidenceScore: number
+  }) {
+    set(showChart, true)
+    set(predictionsChartData, response.chartData)
+    set(predictionConfidence, Math.ceil(response.confidenceScore * 100))
   }
 
   async function doRequest(endpoint: string, body: BodyInit) {
-    await useFetch(endpoint, {
+    const { data, error } = await useFetch(endpoint, {
       method: 'POST',
       body: body,
-    }).then((resp) => {
-      if (get(resp.error)) {
-        buildToast('error', get(resp.error)?.data as string)
-        return
-      }
-      buildToast('success', t('status.uploadWasSuccessful'))
     })
+
+    if (get(error)) {
+      console.log(get(error))
+      buildToast('error', get(error)?.data as string)
+      return
+    }
+
+    buildToast('success', t('status.uploadWasSuccessful'))
+    return get(data)
   }
 
   function buildToast(type: 'success' | 'error', message: string) {

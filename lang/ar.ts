@@ -52,6 +52,7 @@ export default {
     positiveSpeech: 'خطاب إيجابي',
     unrelated: 'لا علاقة لها بالسياق',
     neutral: 'محايد',
+    confidenceScore: 'نقاط الثقة',
   },
 
   dashboard: {

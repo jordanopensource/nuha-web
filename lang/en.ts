@@ -54,6 +54,7 @@ export default {
     positiveSpeech: 'Positive speech',
     unrelated: 'Unrelated to discussion',
     neutral: 'Neutral',
+    confidenceScore: 'Confidence Score',
   },
 
   dashboard: {
