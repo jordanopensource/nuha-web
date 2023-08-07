@@ -42,7 +42,10 @@ function getPieChartUsableData(predictions: PredictionResponse[]) {
       { key: 'Non Hate Speech', value: nonHateSpeechPercentage },
     ],
     confidenceScore:
-      (hateSpeechConfidenceScore + nonHateSpeechConfidenceScore) / 2.0,
+      (hateSpeechConfidenceScore + nonHateSpeechConfidenceScore) /
+      (hateSpeechConfidenceScore === 0 || nonHateSpeechConfidenceScore === 0
+        ? 1.0
+        : 2.0),
   }
 }
 
@@ -65,6 +68,13 @@ function computeConfidenceScore(predictions: PredictionResponse[]) {
 
   hateSpeechConfidenceScore /= hateSpeechCount
   nonHateSpeechConfidenceScore /= nonHateSpeechCount
+
+  if (!hateSpeechConfidenceScore) {
+    hateSpeechConfidenceScore = 0
+  }
+  if (!nonHateSpeechConfidenceScore) {
+    nonHateSpeechConfidenceScore = 0
+  }
 
   return {
     hateSpeechConfidenceScore,
