@@ -51,7 +51,7 @@
       type: 'band',
     },
     secondary: {
-      domain: ['dataMin', 'dataMax + 5'],
+      domain: ['dataMin', 'dataMax'],
       type: 'linear',
       ticks: 8,
     },
