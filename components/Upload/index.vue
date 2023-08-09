@@ -74,10 +74,30 @@
     </button>
 
     <div v-if="showChart" class="block lg:flex justify-center items-center">
-      <UiPieChart :chart-data="predictionsChartData" />
-      <h3 class="lg:ltr:-ml-48 lg:ltr:mr-16 lg:rtl:-mr-48 lg:rtl:ml-16">
-        {{ t('data.confidenceScore') }}: {{ predictionConfidence }}&percnt;
-      </h3>
+      <UiPieChart
+        :chart-data="[
+          {
+            key: t('data.hateSpeech'),
+            value: predictionsChartData.hateSpeechPercentage,
+          },
+          {
+            key: t('data.neutral'),
+            value: predictionsChartData.nonHateSpeechPercentage,
+          },
+        ]"
+      />
+      <UiBarChart
+        :chart-data="[
+          {
+            name: t('data.hateSpeech'),
+            count: predictionsChartData.hateSpeechCount,
+          },
+          {
+            name: t('data.neutral'),
+            count: predictionsChartData.nonHateSpeechCount,
+          },
+        ]"
+      />
     </div>
   </div>
 </template>
@@ -95,8 +115,14 @@
   const commentModeSelected = ref(false)
   const loading = ref(false)
   const showChart = ref(false)
-  const predictionsChartData = ref<{ key: string; value: number }>([])
-  const predictionConfidence = ref(0)
+  const predictionsChartData = ref<{
+    hateSpeechPercentage: number
+    hateSpeechCount: number
+    hateSpeechConfidenceScore: number
+    nonHateSpeechPercentage: number
+    nonHateSpeechConfidenceScore: number
+    nonHateSpeechCount: number
+  }>({})
 
   async function handleSubmit() {
     if (!get(data).data) {
@@ -137,8 +163,7 @@
     confidenceScore: number
   }) {
     set(showChart, true)
-    set(predictionsChartData, response.chartData)
-    set(predictionConfidence, Math.ceil(response.confidenceScore * 100))
+    set(predictionsChartData, response)
   }
 
   async function doRequest(endpoint: string, body: BodyInit) {
