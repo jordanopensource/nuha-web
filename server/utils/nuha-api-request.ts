@@ -37,15 +37,12 @@ function getPieChartUsableData(predictions: PredictionResponse[]) {
   const nonHateSpeechPercentage = (nonHateSpeechCount / totalCount) * 100
 
   return {
-    chartData: [
-      { key: 'Hate Speech', value: hateSpeechPercentage },
-      { key: 'Non Hate Speech', value: nonHateSpeechPercentage },
-    ],
-    confidenceScore:
-      (hateSpeechConfidenceScore + nonHateSpeechConfidenceScore) /
-      (hateSpeechConfidenceScore === 0 || nonHateSpeechConfidenceScore === 0
-        ? 1.0
-        : 2.0),
+    hateSpeechPercentage,
+    hateSpeechCount,
+    hateSpeechConfidenceScore,
+    nonHateSpeechPercentage,
+    nonHateSpeechConfidenceScore,
+    nonHateSpeechCount,
   }
 }
 
