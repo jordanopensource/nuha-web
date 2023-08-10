@@ -5,7 +5,7 @@ const runtimeConfig = useRuntimeConfig()
 export async function predictCommentsResults(comments: SingleComment[]) {
   let err: unknown
   const prediciton = await fetch(`${runtimeConfig.apiUrl}/predict`, {
-    mode: 'navigate',
+    mode: 'cors',
     method: 'POST',
     headers: new Headers({
       'Content-Type': 'application/json',
@@ -14,9 +14,12 @@ export async function predictCommentsResults(comments: SingleComment[]) {
   })
     .then((resp) => resp.json())
     .then((predections) => predections)
-    .catch((_err) => (err = _err))
+    .catch((_err) => {
+      err = _err
+      return []
+    })
 
-  if (!prediciton[0]) {
+  if (!prediciton[0] || err) {
     return undefined
   }
 
