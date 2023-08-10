@@ -4,11 +4,10 @@ const runtimeConfig = useRuntimeConfig()
 
 export async function predictCommentsResults(comments: SingleComment[]) {
   let err: unknown
-  const prediciton = await fetch(`${runtimeConfig.api.url}/predict`, {
+  const prediciton = await fetch(`${runtimeConfig.apiUrl}/predict`, {
     mode: 'navigate',
     method: 'POST',
     headers: new Headers({
-      Authorization: `Bearer ${runtimeConfig.api.token}`,
       'Content-Type': 'application/json',
     }),
     body: JSON.stringify(comments),
@@ -18,7 +17,7 @@ export async function predictCommentsResults(comments: SingleComment[]) {
     .catch((_err) => (err = _err))
 
   if (!prediciton[0]) {
-    return []
+    return undefined
   }
 
   return getPieChartUsableData(prediciton)
