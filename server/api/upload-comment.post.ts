@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const prediction = await predictCommentsResults([data])
-  if (prediction.length === 0) {
+  if (!prediction) {
     setResponseStatus(event, 500)
     return 'Something went wrong'
   }

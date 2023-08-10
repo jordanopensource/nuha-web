@@ -134,7 +134,6 @@
       )
       return
     }
-    set(loading, true)
     switch (get(data)?.type) {
       case 'comment':
         await uploadComment()
@@ -143,7 +142,6 @@
         await uploadFile()
         break
     }
-    set(loading, false)
   }
 
   async function uploadFile() {
@@ -159,25 +157,37 @@
   }
 
   function processResponse(response: {
-    chartData: { key: string; value: number }
-    confidenceScore: number
+    hateSpeechPercentage: number
+    hateSpeechCount: number
+    hateSpeechConfidenceScore: number
+    nonHateSpeechPercentage: number
+    nonHateSpeechConfidenceScore: number
+    nonHateSpeechCount: number
   }) {
-    set(showChart, true)
     set(predictionsChartData, response)
   }
 
   async function doRequest(endpoint: string, body: BodyInit) {
+    set(loading, true)
     const { data, error } = await useFetch(endpoint, {
       method: 'POST',
       body: body,
     })
+    set(loading, false)
 
     if (get(error)) {
-      console.log(get(error))
       buildToast('error', get(error)?.data as string)
+      set(showChart, false)
       return
     }
 
+    if (!get(data)) {
+      buildToast('error', t('status.stop'))
+      set(showChart, false)
+      return
+    }
+
+    set(showChart, true)
     buildToast('success', t('status.uploadWasSuccessful'))
     return get(data)
   }
