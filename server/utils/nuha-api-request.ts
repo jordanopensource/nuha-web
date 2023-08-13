@@ -23,7 +23,10 @@ export async function predictCommentsResults(comments: SingleComment[]) {
 
   return {
     chartData: getPieChartUsableData(prediciton),
-    originalData: prediciton,
+    originalData: prediciton.map((p: PredictionResponse) => {
+      p.score = Math.ceil(p.score * 10000) / 100
+      return p
+    }),
   }
 }
 
