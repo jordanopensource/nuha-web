@@ -1,7 +1,5 @@
 import { FileParser, getFileParser, getFileType } from '../utils'
 
-const runtimeConfig = useRuntimeConfig()
-
 export default defineEventHandler(async (event) => {
   const files = await readMultipartFormData(event)
   if (!files || files.length === 0) {
@@ -31,8 +29,10 @@ export default defineEventHandler(async (event) => {
     return err
   }
 
-  // TODO: add the actual data processing part.
-  console.log(parsedFileData)
-
-  return 'ok'
+  const prediction = await predictCommentsResults(parsedFileData)
+  if (!prediction) {
+    setResponseStatus(event, 500)
+    return 'Something went wrong'
+  }
+  return prediction
 })

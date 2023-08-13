@@ -49,7 +49,7 @@
       v-if="!commentModeSelected"
       @update:data="
         (_data: UploadRequestBody) => {
-        data = _data
+          data = _data
         }
       "
     />
@@ -58,7 +58,7 @@
       v-else
       @update:data="
         (_data: UploadRequestBody) => {
-        data = _data
+          data = _data
         }
       "
     />
@@ -72,11 +72,38 @@
       </div>
       <div v-else class="loader my-8"></div>
     </button>
+
+    <div v-if="showChart" class="block lg:flex justify-center items-center">
+      <UiPieChart
+        :chart-data="[
+          {
+            key: t('data.hateSpeech'),
+            value: predictionsChartData.hateSpeechPercentage,
+          },
+          {
+            key: t('data.neutral'),
+            value: predictionsChartData.nonHateSpeechPercentage,
+          },
+        ]"
+      />
+      <UiBarChart
+        :chart-data="[
+          {
+            name: t('data.hateSpeech'),
+            count: predictionsChartData.hateSpeechCount,
+          },
+          {
+            name: t('data.neutral'),
+            count: predictionsChartData.nonHateSpeechCount,
+          },
+        ]"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { UploadRequestBody } from '../../types'
+  import { UploadRequestBody, PredictionResponse } from '../../types'
   import { get, set } from '@vueuse/core'
   import { ElNotification } from 'element-plus'
 
@@ -87,6 +114,15 @@
   })
   const commentModeSelected = ref(false)
   const loading = ref(false)
+  const showChart = ref(false)
+  const predictionsChartData = ref<{
+    hateSpeechPercentage: number
+    hateSpeechCount: number
+    hateSpeechConfidenceScore: number
+    nonHateSpeechPercentage: number
+    nonHateSpeechConfidenceScore: number
+    nonHateSpeechCount: number
+  }>({})
 
   async function handleSubmit() {
     if (!get(data).data) {
@@ -94,11 +130,10 @@
         'error',
         get(data)?.type === 'comment'
           ? t('status.commentCantBeEmpty')
-          : t('status.selectAFileToUpload')
+          : t('status.selectAFileToUpload'),
       )
       return
     }
-    set(loading, true)
     switch (get(data)?.type) {
       case 'comment':
         await uploadComment()
@@ -107,30 +142,54 @@
         await uploadFile()
         break
     }
-    set(loading, false)
   }
 
   async function uploadFile() {
     const formData = new FormData()
     formData.append('file', get(data)?.data as File)
-    await doRequest('/api/upload-file', formData)
+    processResponse(await doRequest('/api/upload-file', formData))
   }
 
   async function uploadComment() {
-    await doRequest('/api/upload-comment', JSON.stringify(get(data).data))
+    processResponse(
+      await doRequest('/api/upload-comment', JSON.stringify(get(data).data)),
+    )
+  }
+
+  function processResponse(response: {
+    hateSpeechPercentage: number
+    hateSpeechCount: number
+    hateSpeechConfidenceScore: number
+    nonHateSpeechPercentage: number
+    nonHateSpeechConfidenceScore: number
+    nonHateSpeechCount: number
+  }) {
+    set(predictionsChartData, response)
   }
 
   async function doRequest(endpoint: string, body: BodyInit) {
-    await useFetch(endpoint, {
+    set(loading, true)
+    const { data, error } = await useFetch(endpoint, {
       method: 'POST',
       body: body,
-    }).then((resp) => {
-      if (get(resp.error)) {
-        buildToast('error', get(resp.error)?.data as string)
-        return
-      }
-      buildToast('success', t('status.uploadWasSuccessful'))
     })
+    set(loading, false)
+
+    if (get(error)) {
+      buildToast('error', get(error)?.data as string)
+      set(showChart, false)
+      return
+    }
+
+    if (!get(data)) {
+      buildToast('error', t('status.stop'))
+      set(showChart, false)
+      return
+    }
+
+    set(showChart, true)
+    buildToast('success', t('status.uploadWasSuccessful'))
+    return get(data)
   }
 
   function buildToast(type: 'success' | 'error', message: string) {
