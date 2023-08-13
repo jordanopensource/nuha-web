@@ -1,6 +1,6 @@
 <template>
   <div class="mt-10">
-    <h4>Prediction Results:</h4>
+    <h4>{{ t('predictionResult.title') }}:</h4>
     <div v-if="!isSingleComment">
       <div class="block lg:flex justify-center items-center">
         <UiPieChart
@@ -31,32 +31,35 @@
 
       <div class="block">
         <el-table
-          :data="
-            predictionData.originalData.map((p) => {
-              p.label =
-                p.label === 'hate-speech'
-                  ? t('data.hateSpeech')
-                  : t('data.neutral')
-              return p
-            })
-          "
+          :data="predictionData.originalData"
           stripe
           style="width: 100%"
         >
-          <el-table-column prop="comment" label="Comment" />
-          <el-table-column prop="label" label="Type" width="180" />
-          <el-table-column prop="score" label="F1 Score" width="180" />
+          <el-table-column prop="comment" :label="t('data.comment')" />
+          <el-table-column prop="label" :label="t('data.type')" width="180" />
+          <el-table-column
+            prop="score"
+            :label="t('data.f1Score')"
+            width="180"
+          />
         </el-table>
       </div>
     </div>
     <div v-else>
       <div class="bg-white mt-5 p-5 rounded-xl border-nuha-grey-200 border">
-        Nuha has found that this post comment is
-        {{ predictionData.originalData[0].label }}
+        {{
+          t('predictionResult.commentTypeMsg') +
+          ' ' +
+          predictionData.originalData[0].label
+        }}.
       </div>
       <div class="bg-white mt-5 p-5 rounded-xl border-nuha-grey-200 border">
-        Nuha is {{ predictionData.originalData[0].score }}&percnt; confident
-        about the prediction result
+        {{
+          t('predictionResult.f1ScoreMsg').replace(
+            '%s',
+            predictionData.originalData[0].score.toString()
+          )
+        }}
       </div>
     </div>
   </div>

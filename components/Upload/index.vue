@@ -152,11 +152,18 @@
       return
     }
 
-    set(predictionData, get(data))
+    const rawData = get(data)
+    rawData.originalData = rawData.originalData.map((p) => {
+      console.log(p.label)
+      p.label =
+        p.label === 'hate-speech' ? t('data.hateSpeech') : t('data.neutral')
+      return p
+    })
+
+    set(predictionData, rawData)
     set(isSingleComment, endpoint === '/api/upload-comment')
     set(showData, true)
     buildToast('success', t('status.uploadWasSuccessful'))
-    return get(data)
   }
 
   function buildToast(type: 'success' | 'error', message: string) {
