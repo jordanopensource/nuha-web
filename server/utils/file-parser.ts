@@ -1,6 +1,5 @@
 import { parse } from 'csv-parse/sync'
 import xlsx from 'node-xlsx'
-import { SingleComment } from '../../types'
 
 export interface FileParser {
   parseFile(file: Buffer): Promise<SingleComment[]>

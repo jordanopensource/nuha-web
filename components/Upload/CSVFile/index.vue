@@ -27,7 +27,6 @@
 <script setup lang="ts">
   import { get, set } from '@vueuse/core'
   import { ref } from 'vue'
-  import { UploadRequestBody } from '../../../types'
 
   const { t } = useI18n()
 

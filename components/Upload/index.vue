@@ -48,7 +48,7 @@
     <UploadCSVFile
       v-if="!commentModeSelected"
       @update:data="
-        (_data: UploadRequestBody) => {
+        (_data: PredictionRequestBody) => {
           data = _data
         }
       "
@@ -57,7 +57,7 @@
     <UploadComment
       v-else
       @update:data="
-        (_data: UploadRequestBody) => {
+        (_data: PredictionRequestBody) => {
           data = _data
         }
       "
@@ -73,55 +73,33 @@
       <div v-else class="loader my-8"></div>
     </button>
 
-    <div v-if="showChart" class="block lg:flex justify-center items-center">
-      <UiPieChart
-        :chart-data="[
-          {
-            key: t('data.hateSpeech'),
-            value: predictionsChartData.hateSpeechPercentage,
-          },
-          {
-            key: t('data.neutral'),
-            value: predictionsChartData.nonHateSpeechPercentage,
-          },
-        ]"
-      />
-      <UiBarChart
-        :chart-data="[
-          {
-            name: t('data.hateSpeech'),
-            count: predictionsChartData.hateSpeechCount,
-          },
-          {
-            name: t('data.neutral'),
-            count: predictionsChartData.nonHateSpeechCount,
-          },
-        ]"
+    <div v-if="showData">
+      <UploadResult
+        :prediction-data="predictionData"
+        :is-single-comment="isSingleComment"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { UploadRequestBody, PredictionResponse } from '../../types'
   import { get, set } from '@vueuse/core'
   import { ElNotification } from 'element-plus'
 
   const { t } = useI18n()
-  const data = ref<UploadRequestBody>({
+  const data = ref<PredictionRequestBody>({
     type: 'csv',
     data: undefined as unknown as File,
   })
   const commentModeSelected = ref(false)
   const loading = ref(false)
-  const showChart = ref(false)
-  const predictionsChartData = ref<{
-    hateSpeechPercentage: number
-    hateSpeechCount: number
-    hateSpeechConfidenceScore: number
-    nonHateSpeechPercentage: number
-    nonHateSpeechConfidenceScore: number
-    nonHateSpeechCount: number
+
+  const showData = ref(false)
+  const isSingleComment = ref(false)
+
+  const predictionData = ref<{
+    chartData: PredictionMetrics
+    originalData: PredictionResponse[]
   }>({})
 
   async function handleSubmit() {
@@ -130,7 +108,7 @@
         'error',
         get(data)?.type === 'comment'
           ? t('status.commentCantBeEmpty')
-          : t('status.selectAFileToUpload'),
+          : t('status.selectAFileToUpload')
       )
       return
     }
@@ -147,24 +125,11 @@
   async function uploadFile() {
     const formData = new FormData()
     formData.append('file', get(data)?.data as File)
-    processResponse(await doRequest('/api/upload-file', formData))
+    await doRequest('/api/upload-file', formData)
   }
 
   async function uploadComment() {
-    processResponse(
-      await doRequest('/api/upload-comment', JSON.stringify(get(data).data)),
-    )
-  }
-
-  function processResponse(response: {
-    hateSpeechPercentage: number
-    hateSpeechCount: number
-    hateSpeechConfidenceScore: number
-    nonHateSpeechPercentage: number
-    nonHateSpeechConfidenceScore: number
-    nonHateSpeechCount: number
-  }) {
-    set(predictionsChartData, response)
+    await doRequest('/api/upload-comment', JSON.stringify(get(data).data))
   }
 
   async function doRequest(endpoint: string, body: BodyInit) {
@@ -177,17 +142,19 @@
 
     if (get(error)) {
       buildToast('error', get(error)?.data as string)
-      set(showChart, false)
+      set(showData, false)
       return
     }
 
     if (!get(data)) {
       buildToast('error', t('status.stop'))
-      set(showChart, false)
+      set(showData, false)
       return
     }
 
-    set(showChart, true)
+    set(predictionData, get(data))
+    set(isSingleComment, endpoint === '/api/upload-comment')
+    set(showData, true)
     buildToast('success', t('status.uploadWasSuccessful'))
     return get(data)
   }
