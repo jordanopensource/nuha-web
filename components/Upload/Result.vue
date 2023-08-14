@@ -29,12 +29,8 @@
         />
       </div>
 
-      <div class="block">
-        <el-table
-          :data="predictionData.originalData"
-          stripe
-          style="width: 100%"
-        >
+      <div class="block w-full my-10">
+        <el-table :data="commentData" stripe style="width: 100%">
           <el-table-column prop="comment" :label="t('data.comment')" />
           <el-table-column prop="label" :label="t('data.type')" width="180" />
           <el-table-column
@@ -43,6 +39,19 @@
             width="180"
           />
         </el-table>
+
+        <div v-if="numPages > 1" class="w-full flex justify-center my-3">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="numPages * 10"
+            @update:current-page="
+              (p) => {
+                currentPage = p - 1
+              }
+            "
+          />
+        </div>
       </div>
     </div>
     <div v-else>
@@ -66,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+  import { get } from '@vueuse/core'
   const { t } = useI18n()
 
   const props = defineProps({
@@ -75,4 +85,22 @@
     },
     isSingleComment: Boolean,
   })
+
+  const itemsPerPage = 20
+
+  const currentPage = ref(0)
+  const numPages = computed(() =>
+    Math.ceil(props.predictionData.originalData.length / itemsPerPage)
+  )
+  const commentData = computed(() =>
+    props.predictionData.originalData
+      .flat()
+      .splice(get(currentPage) * itemsPerPage, itemsPerPage)
+  )
 </script>
+
+<style lang="postcss">
+  .el-pagination.is-background .el-pager li.is-active {
+    @apply bg-nuha-fushia-300;
+  }
+</style>
