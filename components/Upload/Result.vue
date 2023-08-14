@@ -2,31 +2,34 @@
   <div class="mt-10">
     <h4>{{ t('predictionResult.title') }}:</h4>
     <div v-if="!isSingleComment">
-      <div class="block lg:flex justify-center items-center">
-        <UiPieChart
-          :chart-data="[
-            {
-              key: t('data.hateSpeech'),
-              value: predictionData.chartData.hateSpeechPercentage,
-            },
-            {
-              key: t('data.neutral'),
-              value: predictionData.chartData.nonHateSpeechPercentage,
-            },
-          ]"
-        />
-        <UiBarChart
-          :chart-data="[
-            {
-              name: t('data.hateSpeech'),
-              count: predictionData.chartData.hateSpeechCount,
-            },
-            {
-              name: t('data.neutral'),
-              count: predictionData.chartData.nonHateSpeechCount,
-            },
-          ]"
-        />
+      <div class="block lg:flex justify-between items-center">
+        <div class="w-full">
+          <div class="hidden lg:block">
+            <UiPieChart :width="500" :chart-data="chartData" />
+          </div>
+          <div class="block lg:hidden">
+            <UiPieChart :width="300" :chart-data="chartData" />
+          </div>
+          <p class="text-center w-full text-xl font-medium italic">
+            Percantage
+          </p>
+        </div>
+
+        <div class="w-full">
+          <UiBarChart
+            :chart-data="[
+              {
+                name: t('data.hateSpeech'),
+                count: predictionData.chartData.hateSpeechCount,
+              },
+              {
+                name: t('data.neutral'),
+                count: predictionData.chartData.nonHateSpeechCount,
+              },
+            ]"
+          />
+          <p class="text-center w-full text-xl font-medium italic">Count</p>
+        </div>
       </div>
 
       <div class="block w-full my-10">
@@ -86,8 +89,18 @@
     isSingleComment: Boolean,
   })
 
-  const itemsPerPage = 20
+  const chartData = computed(() => [
+    {
+      key: t('data.hateSpeech'),
+      value: props.predictionData.chartData.hateSpeechPercentage,
+    },
+    {
+      key: t('data.neutral'),
+      value: props.predictionData.chartData.nonHateSpeechPercentage,
+    },
+  ])
 
+  const itemsPerPage = 20
   const currentPage = ref(0)
   const numPages = computed(() =>
     Math.ceil(props.predictionData.originalData.length / itemsPerPage)
