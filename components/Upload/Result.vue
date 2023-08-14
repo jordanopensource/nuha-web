@@ -101,6 +101,12 @@
 
 <style lang="postcss">
   .el-pagination.is-background .el-pager li.is-active {
-    @apply bg-nuha-fushia-300;
+    @apply !bg-nuha-fushia-300;
+  }
+
+  .el-pagination.is-background .btn-next,
+  .el-pagination.is-background .btn-prev,
+  .el-pagination.is-background li {
+    @apply hover:text-nuha-fushia-300 !bg-white;
   }
 </style>
