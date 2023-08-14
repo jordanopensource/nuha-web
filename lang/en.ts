@@ -97,5 +97,8 @@ export default {
     commentTypeMsg: "Nuha has found that this post's comment is",
     f1ScoreMsg: 'Nuha is %s% confident about the prediction result.',
     title: 'Prediction Results',
+    percentage: 'Percentage',
+    count: 'Count',
+    details: 'Details',
   },
 }

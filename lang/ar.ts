@@ -95,5 +95,8 @@ export default {
     commentTypeMsg: 'وجدت نهى أن تعليق هذا المنشور هو',
     f1ScoreMsg: 'نهى واثقة بنسبة %%s من نتيجة التوقع.',
     title: 'نتيجة التوقع',
+    percentage: 'نسبة مئوية',
+    count: 'عدد',
+    details: 'تفاصيل',
   },
 }

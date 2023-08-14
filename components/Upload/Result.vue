@@ -11,7 +11,7 @@
             <UiPieChart :width="300" :chart-data="chartData" />
           </div>
           <p class="text-center w-full text-xl font-medium italic">
-            Percantage
+            {{ t('predictionResult.percentage') }}
           </p>
         </div>
 
@@ -28,12 +28,14 @@
               },
             ]"
           />
-          <p class="text-center w-full text-xl font-medium italic">Count</p>
+          <p class="text-center w-full text-xl font-medium italic">
+            {{ t('predictionResult.count') }}
+          </p>
         </div>
       </div>
 
       <div class="block w-full my-10">
-        <h5 class="italic pb-5">Details:</h5>
+        <h5 class="italic pb-5">{{ t('predictionResult.details') }}:</h5>
         <el-table :data="commentData" stripe style="width: 100%">
           <el-table-column prop="comment" :label="t('data.comment')" />
           <el-table-column prop="label" :label="t('data.type')" width="180" />
