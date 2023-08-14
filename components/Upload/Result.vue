@@ -98,3 +98,9 @@
       .splice(get(currentPage) * itemsPerPage, itemsPerPage)
   )
 </script>
+
+<style lang="postcss">
+  .el-pagination.is-background .el-pager li.is-active {
+    @apply bg-nuha-fushia-300;
+  }
+</style>
