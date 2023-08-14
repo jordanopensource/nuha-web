@@ -1,6 +1,6 @@
 <template>
   <div class="mt-10">
-    <h4 class="pb-5">{{ t('predictionResult.title') }}:</h4>
+    <h4 class="italic pb-5">{{ t('predictionResult.title') }}:</h4>
     <div v-if="!isSingleComment">
       <div class="block lg:flex justify-between items-center">
         <div class="w-full">
@@ -33,6 +33,7 @@
       </div>
 
       <div class="block w-full my-10">
+        <h5 class="italic pb-5">Details:</h5>
         <el-table :data="commentData" stripe style="width: 100%">
           <el-table-column prop="comment" :label="t('data.comment')" />
           <el-table-column prop="label" :label="t('data.type')" width="180" />
