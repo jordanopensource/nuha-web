@@ -1,27 +1,29 @@
 <template>
   <!-- TODO: generalize this component to be used with any data -->
   <ClientOnly>
-    <Chart
-      :size="{ width: 350, height: 500 }"
-      :data="props.chartData"
-      :margin="margin"
-      :direction="direction"
-      :axis="axis"
-    >
-      <template #layers>
-        <Grid strokeDasharray="2,2" />
-        <Bar :dataKeys="['name', 'count']" :barStyle="{ fill: '#8e0152' }" />
-      </template>
+    <div class="flex justify-center w-full">
+      <Chart
+        :size="{ width: 350, height: 500 }"
+        :data="props.chartData"
+        :margin="margin"
+        :direction="direction"
+        :axis="axis"
+      >
+        <template #layers>
+          <Grid strokeDasharray="2,2" />
+          <Bar :dataKeys="['name', 'count']" :barStyle="{ fill: '#8e0152' }" />
+        </template>
 
-      <template #widgets>
-        <Tooltip
-          borderColor="#f1b6da"
-          :config="{
-            count: { color: '#90e0ef' },
-          }"
-        />
-      </template>
-    </Chart>
+        <template #widgets>
+          <Tooltip
+            borderColor="#f1b6da"
+            :config="{
+              count: { color: '#90e0ef' },
+            }"
+          />
+        </template>
+      </Chart>
+    </div>
   </ClientOnly>
 </template>
 
@@ -40,10 +42,10 @@
 
   const direction = ref('horizontal')
   const margin = ref({
-    left: 0,
+    left: 20,
     top: 20,
     right: 20,
-    bottom: 0,
+    bottom: 20,
   })
 
   const axis = ref({
