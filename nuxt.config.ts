@@ -24,6 +24,12 @@ const config: NuxtConfig = {
   auth: { globalAppMiddleware: true },
 
   buildModules: ['@nuxt/typescript-build'],
+  typescript: {
+    shim: false,
+    tsConfig: {
+      include: ['~/types/*.ts'],
+    },
+  },
   plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
 
   css: [

@@ -55,6 +55,9 @@ export default {
     unrelated: 'Unrelated to discussion',
     neutral: 'Neutral',
     confidenceScore: 'Confidence Score',
+    comment: 'Comment',
+    type: 'Type',
+    f1Score: 'F1 Score',
   },
 
   dashboard: {
@@ -88,5 +91,11 @@ export default {
   login: {
     header: 'Login to Nuha',
     withGithub: 'Login using GitHub',
+  },
+
+  predictionResult: {
+    commentTypeMsg: "Nuha has found that this post's comment is",
+    f1ScoreMsg: 'Nuha is %s% confident about the prediction result.',
+    title: 'Prediction Results',
   },
 }

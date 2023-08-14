@@ -53,6 +53,9 @@ export default {
     unrelated: 'لا علاقة لها بالسياق',
     neutral: 'محايد',
     confidenceScore: 'نقاط الثقة',
+    comment: 'التعليق',
+    type: 'النوع',
+    f1Score: 'نقاط F1',
   },
 
   dashboard: {
@@ -86,5 +89,11 @@ export default {
   login: {
     header: 'تسجيل الدخول إلى نهى',
     withGithub: 'تسجيل الدخول باستخدام GitHub',
+  },
+
+  predictionResult: {
+    commentTypeMsg: 'وجدت نهى أن تعليق هذا المنشور هو',
+    f1ScoreMsg: 'نهى واثقة بنسبة %%s من نتيجة التوقع.',
+    title: 'نتيجة التوقع',
   },
 }

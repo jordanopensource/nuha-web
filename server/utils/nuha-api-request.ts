@@ -1,5 +1,3 @@
-import { PredictionResponse, SingleComment } from '../../types'
-
 const runtimeConfig = useRuntimeConfig()
 
 export async function predictCommentsResults(comments: SingleComment[]) {
@@ -23,7 +21,13 @@ export async function predictCommentsResults(comments: SingleComment[]) {
     return undefined
   }
 
-  return getPieChartUsableData(prediciton)
+  return {
+    chartData: getPieChartUsableData(prediciton),
+    originalData: prediciton.map((p: PredictionResponse) => {
+      p.score = Math.ceil(p.score * 10000) / 100
+      return p
+    }),
+  }
 }
 
 function getPieChartUsableData(predictions: PredictionResponse[]) {
