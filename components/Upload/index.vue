@@ -154,7 +154,6 @@
 
     const rawData = get(data)
     rawData.originalData = rawData.originalData.map((p) => {
-      console.log(p.label)
       p.label =
         p.label === 'hate-speech' ? t('data.hateSpeech') : t('data.neutral')
       return p
