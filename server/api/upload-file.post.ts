@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const fileType = getFileType(
-    files[0].filename?.substring(files[0].filename?.lastIndexOf('.') + 1) ?? '',
+    files[0].filename?.substring(files[0].filename?.lastIndexOf('.') + 1) ?? ''
   )
   let err: unknown
   const parser = await getFileParser(fileType).catch((_err) => {
@@ -27,6 +27,11 @@ export default defineEventHandler(async (event) => {
   if (err) {
     setResponseStatus(event, 500)
     return err
+  }
+
+  if (parsedFileData.length === 0) {
+    setResponseStatus(event, 400)
+    return 'The input file must have at least one row of data'
   }
 
   const prediction = await predictCommentsResults(parsedFileData)
