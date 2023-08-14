@@ -1,6 +1,6 @@
 <template>
   <div class="mt-10">
-    <h4>{{ t('predictionResult.title') }}:</h4>
+    <h4 class="pb-5">{{ t('predictionResult.title') }}:</h4>
     <div v-if="!isSingleComment">
       <div class="block lg:flex justify-between items-center">
         <div class="w-full">
