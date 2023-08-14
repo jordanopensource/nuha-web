@@ -125,4 +125,8 @@
   .el-pagination.is-background li {
     @apply hover:text-nuha-fushia-300 !bg-white;
   }
+
+  .cell {
+    @apply rtl:!text-right;
+  }
 </style>
