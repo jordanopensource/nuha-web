@@ -115,7 +115,9 @@ export default {
     postContainsEmail: "Invalid data: post contains an email address",
     commentContainsUrl: "Invalid data: comment contains a URL",
     postContainsUrl: "Invalid data: post contains a URL",
-
+    invalidFileType: "Invalid file type",
+    emptyFile: "The input file must have at least one row of data",
+    invalidInputData: "Invalid input data",
     internalError: "Internal error!"
   }
 }
