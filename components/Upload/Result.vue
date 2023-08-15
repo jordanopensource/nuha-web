@@ -4,11 +4,11 @@
     <div v-if="!isSingleComment">
       <div class="block lg:flex justify-between items-center">
         <div class="w-full">
-          <div class="hidden lg:block">
-            <UiPieChart :width="500" :chart-data="chartData" />
-          </div>
-          <div class="block lg:hidden">
+          <div v-if="width < 1024">
             <UiPieChart :width="300" :chart-data="chartData" />
+          </div>
+          <div v-else>
+            <UiPieChart :width="500" :chart-data="chartData" />
           </div>
           <p class="text-center w-full text-xl font-medium italic">
             {{ t('predictionResult.percentage') }}
@@ -91,6 +91,8 @@
     },
     isSingleComment: Boolean,
   })
+
+  const width = useClientWidth();
 
   const chartData = computed(() => [
     {
