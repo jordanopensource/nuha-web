@@ -141,7 +141,7 @@
     set(loading, false)
 
     if (get(error)) {
-      buildToast('error', get(error)?.data as string)
+      buildToast('error', t(get(error)?.data as string))
       set(showData, false)
       return
     }
