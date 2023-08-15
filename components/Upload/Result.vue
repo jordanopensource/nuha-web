@@ -131,4 +131,8 @@
   .cell {
     @apply rtl:!text-right;
   }
+
+  button.btn-prev, button.btn-next {
+    @apply rtl:!rotate-180;
+  }
 </style>
