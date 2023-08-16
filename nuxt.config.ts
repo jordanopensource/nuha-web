@@ -1,18 +1,18 @@
-import type { NuxtConfig } from '@nuxt/types'
+import type {NuxtConfig} from '@nuxt/types'
 
 const config: NuxtConfig = {
-  app: {
-    head: {
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'format-detection', content: 'telephone=no' },
+  app : {
+    head : {
+      meta : [
+        {charset : 'utf-8'},
+        {name : 'viewport', content : 'width=device-width, initial-scale=1'},
+        {name : 'format-detection', content : 'telephone=no'},
       ],
-      title: 'Nuha',
+      title : 'Nuha',
     },
   },
 
-  modules: [
+  modules : [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     '@nuxt/image',
@@ -21,63 +21,68 @@ const config: NuxtConfig = {
     '@sidebase/nuxt-auth',
   ],
 
-  auth: { globalAppMiddleware: true },
+  auth : {globalAppMiddleware : true},
 
-  buildModules: ['@nuxt/typescript-build'],
-  typescript: {
-    shim: false,
-    tsConfig: {
-      include: ['~/types/*.ts'],
+  buildModules : [ '@nuxt/typescript-build' ],
+  typescript : {
+    shim : false,
+    tsConfig : {
+      include : [ '~/types/*.ts' ],
     },
   },
-  plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
+  plugins : [ {src : '~/plugins/use-scroll.ts', ssr : false, mode : 'client'} ],
 
-  css: [
+  css : [
     '@/assets/css/tailwind.css',
     '@/assets/css/fonts/ibm-plex.css',
     '@/assets/css/global.css',
   ],
 
-  i18n: {
-    locales: [
+  i18n : {
+    locales : [
       {
-        code: 'en',
-        name: 'English',
-        iso: 'en-US',
-        dir: 'ltr',
-        file: 'en.ts',
+        code : 'en',
+        name : 'English',
+        iso : 'en-US',
+        dir : 'ltr',
+        file : 'en.ts',
       },
       {
-        code: 'ar',
-        name: 'العربية',
-        iso: 'ar-JO',
-        dir: 'rtl',
-        file: 'ar.ts',
+        code : 'ar',
+        name : 'العربية',
+        iso : 'ar-JO',
+        dir : 'rtl',
+        file : 'ar.ts',
       },
     ],
-    lazy: true,
-    langDir: 'lang',
-    defaultLocale: 'en',
-    baseUrl: 'http://localhost:3000/',
-    debug: false,
+    lazy : true,
+    langDir : 'lang',
+    defaultLocale : 'en',
+    baseUrl : 'http://localhost:3000/',
+    debug : false,
   },
-  runtimeConfig: {
-    public: {
-      targetEnv: '',
-      buildCommitSha: '',
-      buildCommitLink: '',
-      buildNumber: '',
-      buildLink: '',
-      buildRepoLink: '',
-      buildTimestamp: '',
-      monkFormLink: '',
-      monkFormId: '',
+  runtimeConfig : {
+    public : {
+      targetEnv : '',
+      buildCommitSha : '',
+      buildCommitLink : '',
+      buildNumber : '',
+      buildLink : '',
+      buildRepoLink : '',
+      buildTimestamp : '',
+      monkFormLink : '',
+      monkFormId : '',
     },
-    github: {
-      clientId: '',
-      clientSecret: '',
+    github : {
+      clientId : '',
+      clientSecret : '',
     },
-    apiUrl: '',
+    josaOAuth : {
+      clientId : '',
+      clientSecret : '',
+      wellKnown : '',
+    },
+    apiUrl : '',
   },
 }
 
