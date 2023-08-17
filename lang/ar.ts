@@ -92,6 +92,7 @@ export default {
   login: {
     header: 'تسجيل الدخول إلى نهى',
     withGithub: 'تسجيل الدخول باستخدام GitHub',
+    withJosaId: 'تسجيل الدخول باستخدام JOSA ID'
   },
 
   predictionResult: {

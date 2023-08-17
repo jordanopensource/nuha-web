@@ -94,6 +94,7 @@ export default {
   login: {
     header: 'Login to Nuha',
     withGithub: 'Login using GitHub',
+    withJosaId: 'Login using JOSA ID'
   },
 
   predictionResult: {

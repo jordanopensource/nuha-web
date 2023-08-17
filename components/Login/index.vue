@@ -6,6 +6,9 @@
         <button @click="loginWithGithub" class="btn">
           {{ t('login.withGithub') }}
         </button>
+        <button @click="loginWithJosaId" class="btn">
+          {{ t('login.withJosaId') }}
+        </button>
       </div>
     </div>
   </div>
@@ -18,6 +21,10 @@
 
   async function loginWithGithub() {
     await signIn('github', { callbackUrl: localePath('/dashboard') })
+  }
+
+  async function loginWithJosaId() {
+    await signIn('authelia', { callbackUrl: localePath('/dashboard') })
   }
 </script>
 
