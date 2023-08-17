@@ -6,13 +6,13 @@ export default defineEventHandler((event) => {
     josaId : false
   }
 
-  if (runtimeConfig.github && (!!runtimeConfig.github.clientId &&
-                               !!runtimeConfig.github.clientSecret)) {
+  if (runtimeConfig.github &&
+      (runtimeConfig.github.clientId && runtimeConfig.github.clientSecret)) {
     resp.github = true
   }
-  if (runtimeConfig.josaOAuth && (!!runtimeConfig.josaOAuth.clientId &&
-                                  !!runtimeConfig.josaOAuth.clientSecret &&
-                                  !!runtimeConfig.josaOAuth.wellKnown)) {
+  if (runtimeConfig.josaOAuth && (runtimeConfig.josaOAuth.clientId &&
+                                  runtimeConfig.josaOAuth.clientSecret &&
+                                  runtimeConfig.josaOAuth.wellKnown)) {
     resp.josaId = true
   }
 
