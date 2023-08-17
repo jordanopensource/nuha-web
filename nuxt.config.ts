@@ -73,6 +73,7 @@ const config: NuxtConfig = {
       monkFormLink : '',
       monkFormId : '',
     },
+    authSecret : '',
     github : {
       clientId : '',
       clientSecret : '',
