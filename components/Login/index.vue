@@ -3,10 +3,10 @@
     <div class="inner-container">
       <h5 class="login-title">{{ t('login.header') }}</h5>
       <div class="login-btns">
-        <button @click="loginWithGithub" class="btn">
+        <button @click="loginWithGithub" class="btn" v-if="canLoginWithGithub">
           {{ t('login.withGithub') }}
         </button>
-        <button @click="loginWithJosaId" class="btn">
+        <button @click="loginWithJosaId" class="btn" v-if="canLoginWithJosaId">
           {{ t('login.withJosaId') }}
         </button>
       </div>
@@ -15,9 +15,28 @@
 </template>
 
 <script setup lang="ts">
+import { get, set } from '@vueuse/core';
+
   const { signIn } = useAuth()
   const { t } = useI18n()
   const localePath = useLocalePath()
+
+  const canLoginWithGithub = ref(false);
+  const canLoginWithJosaId = ref(false);
+
+  onMounted(async () => {
+     await fetch("/api/check-login-methods", {
+      method: 'GET',
+      mode: 'cors'
+    })
+    .then(resp => resp.json())
+    .then(resp => {
+      if (resp) {
+        set(canLoginWithGithub, resp.github)
+        set(canLoginWithJosaId, resp.josaId)
+      }
+    })
+  })
 
   async function loginWithGithub() {
     await signIn('github', { callbackUrl: localePath('/dashboard') })
