@@ -11,14 +11,6 @@ export default defineEventHandler(async (event) => {
     setResponseStatus(event, 400)
     return 'apiResponse.missingComment'
   }
-  if (!dataKeys.includes('post')) {
-    setResponseStatus(event, 400)
-    return 'apiResponse.missingPost'
-  }
-  if (!data.post) {
-    setResponseStatus(event, 400)
-    return 'apiResponse.missingPost'
-  }
 
   const err = await verifyData(data).catch((err) => err)
   if (err) {

@@ -13,7 +13,7 @@
       ></textarea>
       <textarea
         class="text-area"
-        :placeholder="t('dashboard.comment.content')"
+        :placeholder="t('dashboard.comment.content') + ' *'"
         :value="commentText"
         cols="30"
         rows="5"
