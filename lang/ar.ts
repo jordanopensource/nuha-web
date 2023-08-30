@@ -59,6 +59,7 @@ export default {
     comment: 'التعليق',
     type: 'النوع',
     f1Score: 'نقاط F1',
+    downloadResults: 'تنزيل النتائج'
   },
 
   dashboard: {

@@ -61,6 +61,7 @@ export default {
     comment: 'Comment',
     type: 'Type',
     f1Score: 'F1 Score',
+    downloadResults: 'Download Results'
   },
 
   dashboard: {

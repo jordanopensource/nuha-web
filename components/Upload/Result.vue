@@ -40,9 +40,7 @@
           <button
             class="rounded-xl bg-nuha-fushia-300 text-white text-lg p-3"
             @click="downloadResults"
-          >
-            Download Results
-          </button>
+            >{{ t('data.downloadResults') }}</button>
         </div>
         <el-table :data="commentData" stripe style="width: 100%">
           <el-table-column prop="comment" :label="t('data.comment')" />
@@ -127,7 +125,7 @@
 
   function downloadResults() {
     const resultCSV =
-      '"Comment","Type","F1 Score"\n' +
+      `"${t("data.comment")}","${t("data.type")}","${t("data.f1Score")}"\n` +
       props.predictionData?.originalData
         .map((result) => {
           return `"${result.comment}"|"${result.label}"|"${result.score}"`
