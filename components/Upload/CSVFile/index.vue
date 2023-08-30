@@ -9,7 +9,7 @@
           : `${t('dashboard.fileUpload.selected')}: ${file.name}`
       }}</label>
 
-      <button class="btn download-template" @click="downloadTemplate">
+      <button class="btn" @click="downloadTemplate">
         {{ t('dashboard.fileUpload.downloadTempalte') }}
       </button>
     </div>
@@ -43,7 +43,7 @@
     emit('update:data', {
       type: 'csv',
       data: get(file),
-    } as UploadRequestBody)
+    } as PredictionRequestBody)
   }
 
   function downloadTemplate() {
@@ -59,8 +59,7 @@
   .btn {
     @apply border-2 border-nuha-grey p-3 text-center italic rounded-xl text-nuha-grey bg-white;
   }
-  download-template {
-  }
+
   .select-file {
     @apply cursor-pointer;
   }
