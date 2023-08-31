@@ -26,7 +26,7 @@
         "
       ></div>
 
-      <NuxtLink
+      <!-- <NuxtLink
         class="dashboard-menu-item"
         :class="
           props.color === 'white'
@@ -43,6 +43,7 @@
           props.color === 'white' ? 'separator-white' : 'separator-default'
         "
       ></div>
+      -->
 
       <button class="sign-out-button lg:rounded-b-xl" @click="_signOut">
         {{ $t('header.userMenu.signOut') }}
