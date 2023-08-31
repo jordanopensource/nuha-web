@@ -38,8 +38,9 @@
         <h5 class="italic pb-5">{{ t('predictionResult.details') }}:</h5>
         <el-table :data="commentData" stripe style="width: 100%">
           <el-table-column prop="comment" :label="t('data.comment')" />
-          <el-table-column prop="label" :label="t('data.type')" width="180" />
+          <el-table-column sortable prop="label" :label="t('data.type')" width="180" />
           <el-table-column
+            sortable
             prop="score"
             :label="t('data.f1Score')"
             width="180"
