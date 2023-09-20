@@ -42,7 +42,7 @@
           >
             {{ t('login.withGithub') }}
           </button>
-          <!--
+
           <button
             @click="loginWithJosaId"
             class="btn"
@@ -50,7 +50,6 @@
           >
             {{ t('login.withJosaId') }}
           </button>
-            -->
         </div>
       </div>
     </div>
@@ -80,7 +79,7 @@
       .then((resp) => {
         if (resp) {
           set(canLoginWithGithub, resp.github)
-          set(canLoginWithJosaId, resp.josaId)
+          // set(canLoginWithJosaId, resp.josaId)
         }
       })
   })
