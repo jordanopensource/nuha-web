@@ -5,6 +5,36 @@
       <div class="inner-container">
         <h5 class="login-title">{{ t('login.header') }}</h5>
         <div class="login-btns">
+          <form
+            @submit="
+              (ev) => {
+                ev.stopPropagation()
+                ev.preventDefault()
+                loginWithMagicEmail()
+              }
+            "
+          >
+            <input
+              class="email-input"
+              type="email"
+              required
+              :placeholder="$t('waitlist.email')"
+              :value="email"
+              @keyup="
+                (ev) => {
+                  email = (ev.target as HTMLInputElement).value
+                }
+              "
+            />
+            <input
+              type="submit"
+              class="btn"
+              :value="$t('login.withMagicEmail')"
+            />
+          </form>
+
+          <p class="text-xl font-bold italic my-3">{{ $t('dashboard.or') }}</p>
+
           <button
             @click="loginWithGithub"
             class="btn"
@@ -12,6 +42,7 @@
           >
             {{ t('login.withGithub') }}
           </button>
+
           <button
             @click="loginWithJosaId"
             class="btn"
@@ -37,6 +68,7 @@
 
   const canLoginWithGithub = ref(false)
   const canLoginWithJosaId = ref(false)
+  const email = ref('')
 
   onMounted(async () => {
     await fetch('/api/check-login-methods', {
@@ -47,7 +79,7 @@
       .then((resp) => {
         if (resp) {
           set(canLoginWithGithub, resp.github)
-          set(canLoginWithJosaId, resp.josaId)
+          // set(canLoginWithJosaId, resp.josaId)
         }
       })
   })
@@ -58,6 +90,13 @@
 
   async function loginWithJosaId() {
     await signIn('authelia', { callbackUrl: localePath('/dashboard') })
+  }
+
+  async function loginWithMagicEmail() {
+    await signIn('email', {
+      callbackUrl: localePath('/dashboard'),
+      email: get(email),
+    })
   }
 </script>
 
@@ -76,5 +115,8 @@
   }
   .login-title {
     @apply text-nuha-grey font-semibold;
+  }
+  .email-input {
+    @apply rounded-xl border-2 border-nuha-grey-300 p-3 mb-2;
   }
 </style>
