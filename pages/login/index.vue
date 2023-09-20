@@ -18,7 +18,7 @@
               class="email-input"
               type="email"
               required
-              placeholder="Email"
+              :placeholder="$t('waitlist.email')"
               :value="email"
               @keyup="
                 (ev) => {
@@ -26,10 +26,14 @@
                 }
               "
             />
-            <input type="submit" class="btn" value="email me a mgic link" />
+            <input
+              type="submit"
+              class="btn"
+              :value="$t('login.withMagicEmail')"
+            />
           </form>
 
-          <p class="text-xl font-bold italic my-3">OR</p>
+          <p class="text-xl font-bold italic my-3">{{ $t('dashboard.or') }}</p>
 
           <button
             @click="loginWithGithub"
@@ -38,6 +42,7 @@
           >
             {{ t('login.withGithub') }}
           </button>
+          <!--
           <button
             @click="loginWithJosaId"
             class="btn"
@@ -45,6 +50,7 @@
           >
             {{ t('login.withJosaId') }}
           </button>
+            -->
         </div>
       </div>
     </div>
