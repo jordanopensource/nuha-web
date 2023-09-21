@@ -1,10 +1,12 @@
 import { MongoClient } from 'mongodb'
 
-const runtimeRuntime = useRuntimeConfig()
+const mongo = useRuntimeConfig().mongo
 
-const mongoURI = runtimeRuntime.mongodbUri
+const mongoUri =
+  `mongodb://${mongo.user}:${mongo.password}@${mongo.host.length ? mongo.host+'/' : '' }${mongo.db}
+    ?authSource=admin&tls=${mongo.tlsEnabled}${mongo.caPath.length ? '&tlsCAFile=' + mongo.caPath : ''}`
 
-let client = new MongoClient(mongoURI, {})
+let client = new MongoClient(mongoUri, {})
 let clientPromise = client.connect()
 
 export default clientPromise

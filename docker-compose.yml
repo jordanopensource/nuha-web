@@ -11,7 +11,12 @@ services:
       - nuha-db
     env_file: .env
     environment:
-      NUXT_MONGODB_URI: 'mongodb://admin:admin@nuha-db:27017'
+      NUXT_MONGO_USER: 'admin'
+      NUXT_MONGO_PASSWORD: 'admin'
+      NUXT_MONGO_HOST: 'nuha-db'
+      NUXT_MONGO_DB: ''
+      NUXT_MONGO_TLS_ENABLED: false
+      NUXT_MONGO_CA_PATH: ''
     ports:
       - 3000:3000
     networks:

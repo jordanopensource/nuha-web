@@ -84,7 +84,14 @@ const config: NuxtConfig = {
       wellKnown: '',
     },
     apiUrl: '',
-    mongodbUri: '',
+    mongo: {
+      host: '',
+      user: '',
+      db: '',
+      password: '',
+      tlsEnabled: false,
+      caPath: ''
+    },
     smtp: {
       host: '',
       user: '',
