@@ -8,7 +8,7 @@
         <h2 class="text my-5 text-3xl lg:text-4xl">
           {{ $t('homeHero.intro') }}
         </h2>
-        <a :href="localePath('/login')">
+        <a :href="localePath('/dashboard')">
           <button class="btn">
             {{ $t('homeHero.tryItOut') }}
             <IconArrowRight class="mx-2 rtl:hidden ltr:inline-block" />
