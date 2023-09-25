@@ -1,4 +1,11 @@
 export default {
+  homeHero: {
+    title: 'Nuha',
+    intro:
+      'An open source AI-enabled tool to assist researchers in discovering online gender-based hate speech in Arabic',
+    tryItOut: 'Try it out',
+  },
+
   link: {
     statistics: 'Statistics',
     learnMore: 'Learn more',
@@ -13,11 +20,6 @@ export default {
       settings: 'Settings',
       signOut: 'Sign out',
     },
-  },
-
-  intro: {
-    text: 'An AI-enabled ',
-    sub: 'Monitor of Online Gender Based Hate Speech',
   },
 
   waitlist: {
