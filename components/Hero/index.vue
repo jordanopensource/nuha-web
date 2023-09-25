@@ -2,17 +2,19 @@
   <div class="main">
     <div class="w-full">
       <div class="w-3/4">
-        <h1 class="text text-main text-6xl lg:text-8xl">
+        <h1 class="text text-6xl lg:text-8xl">
           {{ $t('homeHero.title') }}
         </h1>
-        <h2 class="text text-sub text-3xl lg:text-4xl">
+        <h2 class="text my-5 text-3xl lg:text-4xl">
           {{ $t('homeHero.intro') }}
         </h2>
-        <button class="btn">
-          Try it out
-          <IconArrowRight class="rtl:hidden ltr:inline-block" />
-          <IconArrowLeft class="ltr:hidden rtl:inline-block" />
-        </button>
+        <a :href="localePath('/login')">
+          <button class="btn">
+            {{ $t('homeHero.tryItOut') }}
+            <IconArrowRight class="mx-2 rtl:hidden ltr:inline-block" />
+            <IconArrowLeft class="mx-2 ltr:hidden rtl:inline-block" />
+          </button>
+        </a>
       </div>
     </div>
     <div class="w-full">
@@ -21,7 +23,9 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const localePath = useLocalePath()
+</script>
 
 <style lang="postcss" scoped>
   .main {
@@ -42,7 +46,7 @@
   .nuha-logo {
     @apply my-10 lg:my-0;
     @apply w-full;
-    @apply md:w-[707px] md:h-[707px];
-    @apply lg:w-[1024px] lg:h-[1024px];
+    @apply md:w-[512px];
+    @apply lg:w-[707px];
   }
 </style>
