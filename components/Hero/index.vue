@@ -5,9 +5,9 @@
         <h1 class="text text-6xl lg:text-8xl">
           {{ $t('homeHero.title') }}
         </h1>
-        <h2 class="text my-5 text-3xl lg:text-4xl">
+        <p class="text my-5 text-3xl lg:text-4xl">
           {{ $t('homeHero.intro') }}
-        </h2>
+        </p>
         <a :href="localePath('/dashboard')">
           <button class="btn">
             {{ $t('homeHero.tryItOut') }}
