@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <UiAppHeader />
     <Upload class="container" />
   </div>
 </template>

@@ -3,7 +3,6 @@
     class="snap-y snap-proximity h-auto overflow-auto lg:snap-none lg:overflow-x-hidden"
   >
     <div class="h-screen container">
-      <UiAppHeader class="snap-start shrink-0" />
       <Hero class="container" />
     </div>
     <StatisticsIndicator />
