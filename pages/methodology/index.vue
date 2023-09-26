@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <div class="container">
-      <!-- TODO: Add AppHeader to default layout project-wide -->
-      <UiAppHeader
-        class="mb-10"
-      />
-    </div>
+  <div class="container my-24">
     <MethodologyHero />
   </div>
 </template>
