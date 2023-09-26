@@ -11,8 +11,7 @@
         <a :href="localePath('/dashboard')">
           <button class="btn">
             {{ $t('homeHero.tryItOut') }}
-            <IconArrowRight class="mx-2 rtl:hidden ltr:inline-block" />
-            <IconArrowLeft class="mx-2 ltr:hidden rtl:inline-block" />
+            <div class="arrow-icon"></div>
           </button>
         </a>
       </div>
@@ -40,13 +39,20 @@
   .btn {
     @apply border my-3 p-3 flex items-center justify-center text-2xl;
     @apply border-nuha-fushia-300;
-    @apply bg-nuha-fushia-300 text-white;
-    @apply hover:bg-nuha-fushia-100 hover:text-nuha-fushia-300;
+    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-300 hover:text-white;
   }
   .nuha-logo {
     @apply my-10 lg:my-0;
     @apply w-full;
     @apply md:w-[512px];
     @apply lg:w-[707px];
+  }
+  .btn:hover .arrow-icon {
+    @apply bg-[url('/icons/arrow-right-white.svg')];
+  }
+  .arrow-icon {
+    @apply mx-2 w-8 h-8 transform rtl:rotate-180 text-black;
+    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
   }
 </style>
