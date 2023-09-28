@@ -10,6 +10,7 @@
       />
       <UiAppHeader />
       <slot />
+      <UiFooter />
     </Body>
   </Html>
 </template>

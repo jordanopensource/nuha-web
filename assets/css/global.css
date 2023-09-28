@@ -22,3 +22,13 @@ div {
     }
   }
 }
+
+.link {
+  @apply text-xl flex justify-between items-center gap-8;
+  &-nav {
+    @apply font-light;
+  }
+  &-hover:hover {
+    @apply underline;
+  }
+}
