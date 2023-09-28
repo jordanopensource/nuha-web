@@ -5,7 +5,20 @@
         <img width="70" height="70" src="/logo.svg" />
       </NuxtLink>
 
-      <div class="link link-nav max-sm:!hidden">
+      <button
+        class="mobile-menu-btn"
+        aria-label="navigation menu"
+        @click="showMobileMenu = !showMobileMenu"
+      >
+        <img
+          :src="showMobileMenu ? '/close-icon.svg' : '/burger-menu.svg'"
+          width="40" height="40"
+        />
+      </button>
+      <div
+        class="link link-nav"
+        :class="showMobileMenu ? 'mobile-menu' : 'max-sm:!hidden'"
+      >
         <NuxtLink
           v-for="localeItem in availableLocales"
           :key="localeItem.code"
@@ -25,7 +38,7 @@
 
         <!-- User items -->
         <UserMenuButton
-          @update:showItems="(value: boolean) => {showMenu = value}"
+          @update:showItems="(value: boolean) => {showUserMenu = value}"
         />
       </div>
     </div>
@@ -61,7 +74,8 @@
     },
   ])
 
-  const showMenu = ref<boolean>(false)
+  const showUserMenu = ref(false)
+  const showMobileMenu = ref(false)
 </script>
 
 <style lang="postcss" scoped>
@@ -81,4 +95,17 @@
       @apply underline;
     }
   }
+  .mobile-menu-btn {
+    @apply sm:hidden;
+  }
+  .mobile-menu {
+    @apply absolute top-20 ltr:right-4 rtl:left-4;
+    @apply flex flex-col gap-y-2 p-4;
+    @apply bg-nuha-fushia-100 border border-nuha-fushia-300 shadow-2xl;
+  }
+  @media (min-width: 640px) {
+      .link {
+        @apply flex-row static p-0 border-0 shadow-none;
+      }
+    }
 </style>

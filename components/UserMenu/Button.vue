@@ -5,7 +5,7 @@
     class="login-btn login-btn-default"
   >
     {{ t('header.login') }}
-    <span class="mt-1 ms-2">￫</span>
+    <span class="mt-1 ms-2 rtl:rotate-180">￫</span>
   </NuxtLink>
   <!-- TODO -->
   <!-- <div v-else>
