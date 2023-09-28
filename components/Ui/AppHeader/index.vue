@@ -5,7 +5,7 @@
         <img width="75" height="75" src="/logo.svg" />
       </NuxtLink>
 
-      <div class="link link-nav">
+      <div class="link link-nav max-sm:!hidden">
         <NuxtLink
           v-for="localeItem in availableLocales"
           :key="localeItem.code"
@@ -16,16 +16,12 @@
         </NuxtLink>
 
         <NuxtLink
+          v-for="link in links"
           class="link-nav-item link-hover"
-          :to="localePath('/') + '#statistics'"
-          >{{ $t('link.statistics') }}</NuxtLink
+          :to="link.path"
         >
-        &VerticalBar;
-        <NuxtLink
-          class="link-nav-item link-hover"
-          :to="localePath('/') + '#learn-more'"
-          >{{ $t('link.learnMore') }}</NuxtLink
-        >
+          {{ link.title }}
+        </NuxtLink>
 
         <div>
           <UserMenuButton
@@ -37,11 +33,12 @@
     </div>
   </header>
 </template>
+
 <script setup lang="ts">
   import { LocaleObject } from '@nuxtjs/i18n/dist/runtime/composables'
 
   // language switcher
-  const { locale, locales } = useI18n()
+  const { locale, locales, t } = useI18n()
   const switchLocalePath = useSwitchLocalePath()
   const localePath = useLocalePath()
   const availableLocales = computed(() => {
@@ -50,8 +47,25 @@
     )
   })
 
+  type Link = {
+    title: string
+    path: string
+  }
+
+  const links = ref<Link[]>([
+    {
+      title: t('link.statistics'),
+      path: localePath('/') + '#statistics',
+    },
+    {
+      title: t('link.learnMore'),
+      path: localePath('/') + '#learn-more',
+    },
+  ])
+
   const showMenu = ref<boolean>(false)
 </script>
+
 <style lang="postcss" scoped>
   .container {
     @apply flex justify-between text-nuha-fushia;
