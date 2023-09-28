@@ -1,44 +1,39 @@
 <template>
   <header>
     <div class="container">
-      <div class="container-sub">
-        <NuxtLink :to="localePath('/')">
-          <img width="75" height="75" src="/logo.svg" />
+      <NuxtLink :to="localePath('/')">
+        <img width="75" height="75" src="/logo.svg" />
+      </NuxtLink>
+
+      <div class="link link-nav">
+        <NuxtLink
+          v-for="localeItem in availableLocales"
+          :key="localeItem.code"
+          :to="switchLocalePath(localeItem.code)"
+          class="link-locale link-hover"
+          :class="localeItem.code"
+          >{{ localeItem.name }}
         </NuxtLink>
 
-        <div class="link">
-          <div class="link-nav">
-            <NuxtLink
-              class="link-nav-item"
-              :to="localePath('/') + '#statistics'"
-              >{{ $t('link.statistics') }}</NuxtLink
-            >
-            &VerticalBar;
-            <NuxtLink
-              class="link-nav-item"
-              :to="localePath('/') + '#learn-more'"
-              >{{ $t('link.learnMore') }}</NuxtLink
-            >
-          </div>
+        <NuxtLink
+          class="link-nav-item link-hover"
+          :to="localePath('/') + '#statistics'"
+          >{{ $t('link.statistics') }}</NuxtLink
+        >
+        &VerticalBar;
+        <NuxtLink
+          class="link-nav-item link-hover"
+          :to="localePath('/') + '#learn-more'"
+          >{{ $t('link.learnMore') }}</NuxtLink
+        >
 
-          <NuxtLink
-            v-for="localeItem in availableLocales"
-            :key="localeItem.code"
-            :to="switchLocalePath(localeItem.code)"
-            class="link-locale"
-            :class="localeItem.code"
-            >{{ localeItem.name }}
-          </NuxtLink>
-
-          <div>
-            <UserMenuButton
-              @update:showItems="(value: boolean) => {showMenu = value}"
-            />
-            <UserMenuItems v-if="showMenu" />
-          </div>
+        <div>
+          <UserMenuButton
+            @update:showItems="(value: boolean) => {showMenu = value}"
+          />
+          <UserMenuItems v-if="showMenu" />
         </div>
       </div>
-      <div class="header-separator"></div>
     </div>
   </header>
 </template>
@@ -59,30 +54,19 @@
 </script>
 <style lang="postcss" scoped>
   .container {
-    @apply py-2.5 pt-10 text-nuha-fushia;
-
-    &-sub {
-      @apply flex justify-between;
-    }
+    @apply flex justify-between text-nuha-fushia;
+    @apply pb-5 pt-10 mb-20;
+    @apply border-nuha-fushia-300 border-b-2;
   }
 
   .link {
-    @apply flex justify-between items-center;
-
-    &-locale {
-      @apply rounded-xl border p-2 text-xl px-3.5 border-nuha-fushia flex items-center;
-    }
+    @apply text-xl flex justify-between items-center gap-8;
 
     &-nav {
-      @apply text-xl font-light px-7;
-
-      &-item {
-        @apply px-5;
-      }
+      @apply font-light;
     }
-  }
-
-  .header-separator {
-    @apply block my-2.5 border-t border-t-nuha-fushia-300 h-px w-full;
+    &-hover:hover {
+      @apply underline;
+    }
   }
 </style>
