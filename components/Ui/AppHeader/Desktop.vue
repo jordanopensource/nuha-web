@@ -9,6 +9,12 @@
         <div class="link-nav">
           <NuxtLink
             class="link-nav-item"
+            :to="localePath('/methodology')"
+            > {{ $t('methodology.title') }} </NuxtLink
+          >
+          &VerticalBar;
+          <NuxtLink
+            class="link-nav-item"
             :to="localePath('/') + '#statistics'"
             >{{ $t('link.statistics') }}</NuxtLink
           >

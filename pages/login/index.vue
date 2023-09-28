@@ -1,6 +1,5 @@
 <template>
   <div class="container h-screen w-screen">
-    <UiAppHeader />
     <div class="main">
       <div class="inner-container">
         <h5 class="login-title">{{ t('login.header') }}</h5>
