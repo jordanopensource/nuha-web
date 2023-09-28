@@ -65,12 +65,8 @@
 
   const links = ref<Link[]>([
     {
-      title: t('link.statistics'),
-      path: localePath('/') + '#statistics',
-    },
-    {
-      title: t('link.learnMore'),
-      path: localePath('/') + '#learn-more',
+      title: t('methodology.title'),
+      path: localePath('/methodology'),
     },
   ])
 
