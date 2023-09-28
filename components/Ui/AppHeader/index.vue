@@ -2,7 +2,7 @@
   <header>
     <div class="container">
       <NuxtLink :to="localePath('/')">
-        <img width="75" height="75" src="/logo.svg" />
+        <img width="70" height="70" src="/logo.svg" />
       </NuxtLink>
 
       <div class="link link-nav max-sm:!hidden">
@@ -23,12 +23,10 @@
           {{ link.title }}
         </NuxtLink>
 
-        <div>
-          <UserMenuButton
-            @update:showItems="(value: boolean) => {showMenu = value}"
-          />
-          <UserMenuItems v-if="showMenu" />
-        </div>
+        <!-- User items -->
+        <UserMenuButton
+          @update:showItems="(value: boolean) => {showMenu = value}"
+        />
       </div>
     </div>
   </header>
@@ -69,7 +67,7 @@
 <style lang="postcss" scoped>
   .container {
     @apply flex justify-between text-nuha-fushia;
-    @apply pb-5 pt-10 mb-20;
+    @apply pb-5 pt-10 max-lg:mb-10;
     @apply border-nuha-fushia-300 border-b-2;
   }
 
