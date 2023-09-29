@@ -21,6 +21,15 @@ export default {
       signOut: 'تسجيل الخروج',
     },
   },
+  footer: {
+    copyright: "الجمعية الأردنية للمصدر المفتوح (جوسا) © 2021-2023",
+    links: {
+      about: "عن المشروع",
+      github: "جيتهب",
+      terms: "الشروط والسياسات",
+      privacy: "سياسة الخصوصية"
+    }
+  },
 
   waitlist: {
     join: 'سجل مسبقا',

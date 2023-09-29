@@ -21,6 +21,15 @@ export default {
       signOut: 'Sign out',
     },
   },
+  footer: {
+    copyright: "Jordan Open Source Association (JOSA) © 2021-2023",
+    links: {
+      about: "About the Project",
+      github: "GitHub",
+      terms: "Terms and Policies",
+      privacy: "Privacy Policy"
+    }
+  },
 
   waitlist: {
     join: 'Join the waitlist',
