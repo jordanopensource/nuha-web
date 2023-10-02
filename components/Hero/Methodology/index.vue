@@ -6,7 +6,7 @@
           {{ t('methodology.title') }}
         </h4>
       </div>
-      <div class="lg:w-1/2">
+      <div class="pt-5 lg:pt-0 lg:w-1/2">
         <p>
           {{ t('methodology.description') }}
         </p>
