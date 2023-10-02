@@ -58,7 +58,7 @@
 
 <style lang="postcss" scoped>
   .cards {
-    @apply grid grid-cols-1 lg:grid-cols-3;
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
     justify-content: space-evenly;
     justify-items: center;
   }
