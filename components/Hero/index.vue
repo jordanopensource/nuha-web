@@ -1,25 +1,29 @@
 <template>
-  <div class="main">
-    <div class="w-full">
-      <div class="w-3/4">
-        <h1 class="text text-6xl lg:text-8xl">
-          {{ $t('homeHero.title') }}
-        </h1>
-        <p class="text my-5 text-3xl lg:text-4xl">
-          {{ $t('homeHero.intro') }}
-        </p>
-        <a :href="localePath('/dashboard')">
-          <button class="btn">
-            {{ $t('homeHero.tryItOut') }}
-            <div class="arrow-icon"></div>
-          </button>
-        </a>
+  <section class="h-full my-20">
+    <div class="main">
+      <div class="w-full">
+        <div class="w-3/4">
+          <h1 class="text text-6xl lg:text-8xl">
+            {{ $t('homeHero.title') }}
+          </h1>
+          <p class="text my-5 text-3xl lg:text-4xl">
+            {{ $t('homeHero.intro') }}
+          </p>
+          <a :href="localePath('/dashboard')">
+            <button class="btn">
+              {{ $t('homeHero.tryItOut') }}
+              <div class="arrow-icon"></div>
+            </button>
+          </a>
+        </div>
+      </div>
+      <div class="w-full">
+        <NuxtImg class="nuha-logo" src="/hero-logo.svg" />
       </div>
     </div>
-    <div class="w-full">
-      <NuxtImg class="nuha-logo" src="/hero-logo.svg" />
-    </div>
-  </div>
+
+    <HeroMethodology />
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -28,7 +32,7 @@
 
 <style lang="postcss" scoped>
   .main {
-    @apply h-5/6 grid grid-cols-1 place-items-center lg:flex lg:items-center lg:justify-between lg:gap-x-14;
+    @apply grid grid-cols-1 lg:grid-cols-2 place-items-center lg:gap-x-14;
   }
   .link {
     @apply grid grid-cols-1 place-items-center pt-7 italic text-xl font-medium underline text-nuha-fushia;
