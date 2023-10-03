@@ -1,6 +1,7 @@
 <template>
   <div class="container my-24">
     <MethodologyHero />
+    <MethodologyContent />
   </div>
 </template>
 
