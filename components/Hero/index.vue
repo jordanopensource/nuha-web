@@ -49,8 +49,7 @@
   .nuha-logo {
     @apply my-10 lg:my-0;
     @apply w-full;
-    @apply md:w-[512px];
-    @apply lg:w-[707px];
+    @apply w-full lg:w-[707px];
   }
   .btn:hover .arrow-icon {
     @apply bg-[url('/icons/arrow-right-white.svg')];

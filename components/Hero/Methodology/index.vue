@@ -58,6 +58,6 @@
 
 <style lang="postcss" scoped>
   .cards {
-    @apply grid grid-cols-1 xl:grid-cols-3 xl:gap-x-10 justify-between;
+    @apply grid grid-cols-1 lg:grid-cols-3 lg:gap-x-10 justify-between;
   }
 </style>
