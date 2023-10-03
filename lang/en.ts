@@ -56,6 +56,18 @@ export default {
     ethical: 'Ethical considerations',
     ethicalDescription:
       'Nuha model is being trained using a dataset obtained by monitoring 20 trending hashtags related to women and the feminist movement in Jordan, as well as 83 names of women activists and women influencers in Jordan.',
+    content: 'Content',
+    sections: {
+      about: {
+        title: 'About this project',
+      },
+      detailed: {
+        title: 'Detailed Methodology',
+      },
+      ethics: {
+        title: 'Ethical Considerations',
+      },
+    },
   },
 
   statistical: {

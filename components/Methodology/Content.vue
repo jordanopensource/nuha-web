@@ -2,7 +2,7 @@
   <div class="container grid lg:grid-cols-3">
     <!-- Table of content -->
     <nav class="hidden lg:flex flex-col gap-4">
-      <span class="text-lg">Content</span> <!-- TODO: i18n -->
+      <span class="text-lg">{{ $t('methodology.content') }}</span>
       <NuxtLink
         v-for="(section, i) in sections"
         :key="section.id"
@@ -46,23 +46,24 @@
 
 <script lang="ts" setup>
   const route = useRoute()
+  const { t } = useI18n()
+
   const activeSection = ref<string | null>(null)
-  // TODO: i18n
   const sections: {
     id: string
     title: string
   }[] = [
     {
       id: 'about',
-      title: 'About this project',
+      title: computed(() => t('methodology.sections.about.title')).value,
     },
     {
       id: 'detailed',
-      title: 'Detailed Methodology',
+      title: computed(() => t('methodology.sections.detailed.title')).value,
     },
     {
       id: 'ethics',
-      title: 'Ethical Considerations',
+      title: computed(() => t('methodology.sections.ethics.title')).value,
     },
   ]
 
