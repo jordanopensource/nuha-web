@@ -1,8 +1,8 @@
 <template>
   <div class="container flex flex-col gap-y-24 items-center justify-center">
-    <div class="flex flex-row flex-wrap justify-between gap-y-8">
-      <h1>{{ $t('methodology.title') }}</h1>
-      <p class="sm:max-w-[50%]">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <h1 class="text-6xl">{{ $t('methodology.title') }}</h1>
+      <p class="text-xl text-justify">
         {{ $t('methodology.description') }}
       </p>
     </div>
