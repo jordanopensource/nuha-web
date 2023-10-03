@@ -21,7 +21,7 @@
       class="container lg:col-span-2"
       :id="sections[0].id"
     >
-      section 1
+      <MethodologySection1 />
     </section>
 
     <!-- Section 2 -->
