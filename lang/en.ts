@@ -2,7 +2,7 @@ export default {
   homeHero: {
     title: 'Nuha',
     intro:
-      'An open source AI-enabled tool to assist researchers in discovering online gender-based hate speech in Arabic',
+      'An open source AI-enabled tool to assist researchers in discovering online gender-based hate speech in Arabic.',
     tryItOut: 'Try it out',
   },
 
@@ -22,13 +22,13 @@ export default {
     },
   },
   footer: {
-    copyright: "Jordan Open Source Association (JOSA) © 2021-2023",
+    copyright: 'Jordan Open Source Association (JOSA) © 2021-2023',
     links: {
-      about: "About the Project",
-      github: "GitHub",
-      terms: "Terms and Policies",
-      privacy: "Privacy Policy"
-    }
+      about: 'About the Project',
+      github: 'GitHub',
+      terms: 'Terms and Policies',
+      privacy: 'Privacy Policy',
+    },
   },
 
   waitlist: {
@@ -42,9 +42,20 @@ export default {
       fail: 'Something went wrong! Please try again later.',
     },
   },
+
   methodology: {
     title: 'Methodology',
-    description: 'Our text models are advanced language processing tools that can generate, classify, and summarize text with high levels of coherence and accuracy.'
+    description:
+      'Our text models are advanced language processing tools that can generate, classify, and summarize text with high levels of coherence and accuracy.',
+    aboutProject: 'About this project',
+    aboutProjectDescription:
+      'Nuha, is an AI that aims to detect and classify hate speech against women in digital spaces, such as social media platforms. Nuha, which derives from the Arabic word for "mind" or "brain," represents a critical step forward in addressing the pervasive issue of cyber-gender-based and sexist hate speech against women.',
+    detailed: 'Detailed Methodology',
+    detailedDescription:
+      'Nuha model is being trained using a dataset obtained by monitoring 20 trending hashtags related to women and the feminist movement in Jordan, as well as 83 names of women activists and women influencers in Jordan.',
+    ethical: 'Ethical considerations',
+    ethicalDescription:
+      'Nuha model is being trained using a dataset obtained by monitoring 20 trending hashtags related to women and the feminist movement in Jordan, as well as 83 names of women activists and women influencers in Jordan.',
   },
 
   statistical: {
@@ -134,5 +145,9 @@ export default {
     emptyFile: 'The input file must have at least one row of data',
     invalidInputData: 'Invalid input data',
     internalError: 'Internal error!',
+  },
+
+  misc: {
+    readMore: 'Read more',
   },
 }
