@@ -28,7 +28,7 @@
   p,
   .image,
   .card {
-    @apply w-[350px];
+    @apply w-full;
   }
   p {
     @apply my-5;

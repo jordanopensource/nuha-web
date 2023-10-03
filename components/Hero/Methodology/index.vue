@@ -58,8 +58,6 @@
 
 <style lang="postcss" scoped>
   .cards {
-    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
-    justify-content: space-evenly;
-    justify-items: center;
+    @apply grid grid-cols-1 xl:grid-cols-3 xl:gap-x-10 justify-between;
   }
 </style>
