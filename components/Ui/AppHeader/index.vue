@@ -1,6 +1,6 @@
 <template>
-  <header>
-    <div class="container">
+  <header class="container">
+    <div class="nav-container">
       <NuxtLink :to="localePath('/')">
         <img width="70" height="70" src="/logo.svg" />
       </NuxtLink>
@@ -12,7 +12,8 @@
       >
         <img
           :src="showMobileMenu ? '/close-icon.svg' : '/burger-menu.svg'"
-          width="40" height="40"
+          width="40"
+          height="40"
         />
       </button>
       <div
@@ -75,9 +76,9 @@
 </script>
 
 <style lang="postcss" scoped>
-  .container {
+  .nav-container {
     @apply flex justify-between text-nuha-fushia;
-    @apply pb-5 pt-10 max-lg:mb-10;
+    @apply pb-5 pt-10  max-lg:mb-10;
     @apply border-nuha-fushia-300 border-b-2;
   }
 
@@ -100,8 +101,8 @@
     @apply bg-nuha-fushia-100 border border-nuha-fushia-300 shadow-2xl;
   }
   @media (min-width: 640px) {
-      .link {
-        @apply flex-row static p-0 border-0 shadow-none;
-      }
+    .link {
+      @apply flex-row static p-0 border-0 shadow-none;
     }
+  }
 </style>
