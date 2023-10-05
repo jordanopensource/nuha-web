@@ -1,7 +1,7 @@
 <template>
-  <div class="container grid lg:grid-cols-3">
+  <div class="grid lg:grid-cols-3">
     <!-- Table of content -->
-    <nav class="hidden lg:flex flex-col gap-4">
+    <nav class="hidden lg:flex flex-col gap-y-4">
       <span class="text-lg">{{ $t('methodology.content') }}</span>
       <NuxtLink
         v-for="(section, i) in sections"
@@ -14,33 +14,25 @@
         {{ section.title }}
       </NuxtLink>
     </nav>
+    <div class="lg:col-span-2 w-full">
+      <div
+        v-for="(section, i) in sections"
+        :key="section.id"
+        :id="`${i}`"
+        :class="i > 0 && i < sections.length - 1 ? 'border-separator' : ''"
+      >
+        <h2 class="block lg:hidden" @click="activeSection = section.id">
+          <i class="arrow down" v-if="section.id !== activeSection"></i>
+          {{ section.title }}
+        </h2>
 
-    <!-- Section 1 -->
-    <section
-      v-if="activeSection === sections[0].id"
-      class="container lg:col-span-2"
-      :id="sections[0].id"
-    >
-      <MethodologySectionAbout />
-    </section>
-
-    <!-- Section 2 -->
-    <section
-      v-if="activeSection === sections[1].id"
-      class="container lg:col-span-2"
-      :id="sections[1].id"
-    >
-      <MethodologySectionDetails />
-    </section>
-
-    <!-- Section 3 -->
-    <section
-      v-if="activeSection === sections[2].id"
-      class="container lg:col-span-2"
-      :id="sections[2].id"
-    >
-      <MethodologySectionEthics />
-    </section>
+        <section v-if="activeSection === section.id" :id="section.id">
+          <MethodologySectionAbout v-if="section.id === 'about'" />
+          <MethodologySectionDetails v-if="section.id === 'details'" />
+          <MethodologySectionEthics v-if="section.id === 'ethics'" />
+        </section>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -75,4 +67,18 @@
   })
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+  .border-separator {
+    @apply border-y-2 border-[#a066a9] py-10 my-10 lg:border-none lg:py-0 lg:my-0;
+  }
+  .arrow {
+    @apply border-solid border-[#a066a9];
+    border-width: 0 3px 3px 0;
+    @apply inline-block;
+    @apply mx-3 mb-2 p-2;
+  }
+
+  .down {
+    @apply rotate-45;
+  }
+</style>

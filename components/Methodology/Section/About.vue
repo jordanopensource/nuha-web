@@ -1,34 +1,32 @@
 <template>
-  <div class="container">
-    <section>
-      <h3>{{ $t('methodology.sections.about.firstParagraph.title') }}</h3>
-      <p>{{ $t('methodology.sections.about.firstParagraph.p1') }}</p>
-      <p>{{ $t('methodology.sections.about.firstParagraph.p2') }}</p>
-      <figure>
-        <img
-          src="/images/methodology-cycle.png"
-          :alt="$t('methodology.sections.about.firstParagraph.fig1')"
-        />
-        <figcaption class="mt-4">
-          <span class="font-semibold">{{ $t('methodology.figure') }} 1:</span>
-          {{ $t('methodology.sections.about.firstParagraph.fig1') }}
-        </figcaption>
-      </figure>
-    </section>
-    <section>
-      <h3>{{ $t('methodology.sections.about.secondParagraph.title') }}</h3>
-      <p>{{ $t('methodology.sections.about.secondParagraph.p1') }}</p>
-      <p>{{ $t('methodology.sections.about.secondParagraph.p2') }}</p>
-    </section>
-    <div class="footnotes py-8">
-      <p class="text-lg">{{ $t('methodology.footnotes') }}</p>
-      <ol class="list-decimal">
-        <li id="fn-1">{{ $t('methodology.sections.about.footnotes.1') }}</li>
-        <li id="fn-2">{{ $t('methodology.sections.about.footnotes.2') }}</li>
-        <li id="fn-2">{{ $t('methodology.sections.about.footnotes.2') }}</li>
-        <li id="fn-2">{{ $t('methodology.sections.about.footnotes.1') }}</li>
-      </ol>
-    </div>
+  <section>
+    <h3>{{ $t('methodology.sections.about.firstParagraph.title') }}</h3>
+    <p>{{ $t('methodology.sections.about.firstParagraph.p1') }}</p>
+    <p>{{ $t('methodology.sections.about.firstParagraph.p2') }}</p>
+    <figure>
+      <img
+        src="/images/methodology-cycle.png"
+        :alt="$t('methodology.sections.about.firstParagraph.fig1')"
+      />
+      <figcaption class="mt-4">
+        <span class="font-semibold">{{ $t('methodology.figure') }} 1:</span>
+        {{ $t('methodology.sections.about.firstParagraph.fig1') }}
+      </figcaption>
+    </figure>
+  </section>
+  <section>
+    <h3>{{ $t('methodology.sections.about.secondParagraph.title') }}</h3>
+    <p>{{ $t('methodology.sections.about.secondParagraph.p1') }}</p>
+    <p>{{ $t('methodology.sections.about.secondParagraph.p2') }}</p>
+  </section>
+  <div class="footnotes py-8">
+    <p class="text-lg">{{ $t('methodology.footnotes') }}</p>
+    <ol class="list-decimal">
+      <li id="fn-1">{{ $t('methodology.sections.about.footnotes.1') }}</li>
+      <li id="fn-2">{{ $t('methodology.sections.about.footnotes.2') }}</li>
+      <li id="fn-2">{{ $t('methodology.sections.about.footnotes.2') }}</li>
+      <li id="fn-2">{{ $t('methodology.sections.about.footnotes.1') }}</li>
+    </ol>
   </div>
 </template>
 
