@@ -29,6 +29,7 @@
   const innerRadius = ref(radius.value / 2)
 
   onMounted(() => {
+    props.data.sort((a, b) => (a.value as number) - (b.value as number));
     const svg = d3
       .select(chart.value)
       .append('svg')

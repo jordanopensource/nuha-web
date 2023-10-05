@@ -2,36 +2,18 @@
   <div class="mt-10">
     <h4 class="italic pb-5">{{ t('predictionResult.title') }}:</h4>
     <div v-if="!isSingleComment">
-      <div class="block lg:flex justify-between items-center">
-        <div class="w-full">
-          <div v-if="width < 1024">
-            <UiPieChart :width="300" :chart-data="chartData" />
-          </div>
-          <div v-else>
-            <UiPieChart :width="500" :chart-data="chartData" />
-          </div>
-          <p class="text-center w-full text-xl font-medium italic">
-            {{ t('predictionResult.percentage') }}
-          </p>
-        </div>
-
-        <div class="w-full">
-          <UiBarChart
-            :chart-data="[
-              {
-                name: t('data.hateSpeech'),
-                count: predictionData?.chartData?.hateSpeechCount,
-              },
-              {
-                name: t('data.neutral'),
-                count: predictionData?.chartData?.nonHateSpeechCount,
-              },
-            ]"
-          />
-          <p class="text-center w-full text-xl font-medium italic">
-            {{ t('predictionResult.count') }}
-          </p>
-        </div>
+      <div class="w-full flex flex-wrap gap-4 justify-around items-center">
+        <ChartsPie
+          :data="chartData"
+          :colors="['#6db981', '#d13561']"
+          :size="300"
+        />
+        <ChartsBar
+          :data="chartData"
+          :colors="['#6db981', '#d13561']"
+          :max-height="300"
+          :max-width="150"
+        />
       </div>
 
       <div class="block w-full my-10">
