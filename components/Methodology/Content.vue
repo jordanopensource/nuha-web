@@ -33,8 +33,8 @@
       section 2
     </section>
 
-     <!-- Section 3 -->
-     <section
+    <!-- Section 3 -->
+    <section
       v-if="activeSection === sections[2].id"
       class="container lg:col-span-2"
       :id="sections[2].id"
@@ -58,7 +58,7 @@
       title: computed(() => t('methodology.sections.about.title')).value,
     },
     {
-      id: 'detailed',
+      id: 'details',
       title: computed(() => t('methodology.sections.detailed.title')).value,
     },
     {
@@ -68,9 +68,10 @@
   ]
 
   onMounted(() => {
-    activeSection.value = route.hash ? route.hash.replace('#', '') : sections[0].id
-    console.log(activeSection.value);
-    
+    activeSection.value = route.hash
+      ? route.hash.replace('#', '')
+      : sections[0].id
+    console.log(activeSection.value)
   })
 </script>
 

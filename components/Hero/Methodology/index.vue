@@ -39,19 +39,19 @@
       title: () => t('methodology.aboutProject'),
       description: () => t('methodology.aboutProjectDescription'),
       image: '/images/nuha-meth-1.svg',
-      readMoreLink: '/',
+      readMoreLink: '/methodology#about',
     },
     {
       title: () => t('methodology.detailed'),
       description: () => t('methodology.detailedDescription'),
       image: '/images/nuha-meth-2.svg',
-      readMoreLink: '/',
+      readMoreLink: '/methodology#details',
     },
     {
       title: () => t('methodology.ethical'),
       description: () => t('methodology.ethicalDescription'),
       image: '/images/nuha-meth-3.svg',
-      readMoreLink: '/',
+      readMoreLink: '/methodology#ethics',
     },
   ]
 </script>
