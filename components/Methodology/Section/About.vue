@@ -1,21 +1,24 @@
 <template>
   <div class="container">
     <section>
-      <h3> {{ $t('methodology.sections.about.firstParagraph.title') }} </h3>
-      <p> {{ $t('methodology.sections.about.firstParagraph.p1') }} </p>
-      <p> {{ $t('methodology.sections.about.firstParagraph.p2') }} </p>
+      <h3>{{ $t('methodology.sections.about.firstParagraph.title') }}</h3>
+      <p>{{ $t('methodology.sections.about.firstParagraph.p1') }}</p>
+      <p>{{ $t('methodology.sections.about.firstParagraph.p2') }}</p>
       <figure>
-        <img src="/images/methodology-cycle.png" :alt="$t('methodology.sections.about.firstParagraph.fig1')"/>
+        <img
+          src="/images/methodology-cycle.png"
+          :alt="$t('methodology.sections.about.firstParagraph.fig1')"
+        />
         <figcaption class="mt-4">
-          <span class="font-semibold">{{$t('methodology.figure')}} 1:</span>
+          <span class="font-semibold">{{ $t('methodology.figure') }} 1:</span>
           {{ $t('methodology.sections.about.firstParagraph.fig1') }}
         </figcaption>
       </figure>
     </section>
     <section>
-      <h3> {{ $t('methodology.sections.about.secondParagraph.title') }} </h3>
-      <p> {{ $t('methodology.sections.about.secondParagraph.p1') }} </p>
-      <p> {{ $t('methodology.sections.about.secondParagraph.p2') }} </p>
+      <h3>{{ $t('methodology.sections.about.secondParagraph.title') }}</h3>
+      <p>{{ $t('methodology.sections.about.secondParagraph.p1') }}</p>
+      <p>{{ $t('methodology.sections.about.secondParagraph.p2') }}</p>
     </section>
     <div class="footnotes py-8">
       <p class="text-lg">{{ $t('methodology.footnotes') }}</p>
@@ -44,11 +47,11 @@
       ol {
         counter-reset: custom;
         list-style-type: none;
-        
+
         li {
           @apply my-4;
           &::before {
-            content: '['counter(custom)'] ';
+            content: '[' counter(custom) '] ';
             counter-increment: custom;
             @apply font-semibold;
           }

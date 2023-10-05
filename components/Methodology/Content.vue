@@ -21,7 +21,7 @@
       class="container lg:col-span-2"
       :id="sections[0].id"
     >
-      <MethodologySection1 />
+      <MethodologySectionAbout />
     </section>
 
     <!-- Section 2 -->
@@ -30,7 +30,7 @@
       class="container lg:col-span-2"
       :id="sections[1].id"
     >
-      section 2
+      <MethodologySectionDetails />
     </section>
 
     <!-- Section 3 -->
@@ -39,7 +39,7 @@
       class="container lg:col-span-2"
       :id="sections[2].id"
     >
-      section 3
+      <MethodologySectionEthics />
     </section>
   </div>
 </template>
