@@ -3,7 +3,7 @@
     <div
       class="flex justify-between gap-x-8 border-y-2 py-32 my-4 mb-16 border-nuha-fushia-300"
     >
-      <div class="flex max-md:flex-col gap-y-10 md:items-center">
+      <div class="flex max-md:flex-col gap-10 md:items-center">
         <NuxtLink :to="$nuxt.$localePath('/')">
           <img width="75" height="75" src="/logo.svg" alt="Nuha logo" />
         </NuxtLink>
