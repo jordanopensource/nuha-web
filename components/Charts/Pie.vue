@@ -45,7 +45,6 @@
       .pie()
       // @ts-ignore
       .value((d) => d.value)
-      .sort(null);
 
     const arc = d3
       .arc()
@@ -60,23 +59,6 @@
       // @ts-ignore
       .attr('d', arc)
       .attr('fill', (d, i) => color(i.toString()) as string);
-
-    // const label = d3
-    //   .arc()
-    //   .outerRadius(radius)
-    //   .innerRadius(radius - 80);
-
-    // // Add legend text on the chart 
-    // svg
-    //   .selectAll('text')
-    //   .data(pie(props.data as []))
-    //   .enter()
-    //   .append('text')
-    //   .attr('transform', (d) => `translate(${label.centroid(d)})`)
-    //   .attr('text-anchor', 'middle')
-    //   .text((d) => d.data.key)
-    //   .style('fill', '#fff')
-    //   .style('font-size', '10px');
   });
 
 </script>
