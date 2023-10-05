@@ -5,7 +5,8 @@ services:
     container_name: nuha-web
     build:
       context: .
-      dockerfile: Dockerfile
+      # dockerfile: Dockerfile # change to this to test production enviroment
+      dockerfile: Dockerfile.local # This is used only for local development
     restart: always
     depends_on:
       - nuha-db
@@ -16,6 +17,8 @@ services:
       - 3000:3000
     networks:
       - nuha-network
+    volumes:
+      - './:/app'
 
   nuha-db:
     container_name: nuha-db
