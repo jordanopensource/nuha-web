@@ -1,5 +1,7 @@
 <template>
-  <div class="container flex flex-col gap-y-14 items-center justify-center">
+  <div
+    class="methodology-border flex flex-col gap-y-14 items-center justify-center"
+  >
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <h1 class="text-4xl lg:text-6xl">{{ $t('methodology.title') }}</h1>
       <p class="text-xl text-justify">

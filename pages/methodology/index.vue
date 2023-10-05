@@ -11,7 +11,7 @@
 
 <style lang="postcss" scoped>
   .main {
-    div.container:not(:last-child) {
+    .methodology-border {
       @apply border-b-2 border-[#a066a9] pb-16;
     }
   }
