@@ -43,7 +43,11 @@
     <div
       class="hidden lg:block lg:absolute top-0 ltr:left-0 rtl:right-0 z-[-1]"
     >
-      <svg :key="changeIndicator" width="1000" height="1000">
+      <svg
+        :key="changeIndicator"
+        :width="windowDimensions.width"
+        :height="windowDimensions.height"
+      >
         <line
           :x1="stepOneCoordinates.x.value"
           :y1="stepOneCoordinates.y.value"
@@ -63,6 +67,7 @@
   let stepOneCoordinates = { x: ref(0), y: ref(0) }
   let stepTwoCoordinates = { x: ref(0), y: ref(0) }
   const changeIndicator = ref(0)
+  let windowDimensions = { width: 0, height: 0 }
 
   function getElementCoodinates(id: string) {
     const el = document.getElementById(id)
@@ -84,6 +89,11 @@
     window.addEventListener('resize', () => {
       updateLineCoordinates()
     })
+
+    windowDimensions = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }
   })
 </script>
 
