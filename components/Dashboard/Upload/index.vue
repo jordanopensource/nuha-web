@@ -8,7 +8,7 @@
           :description="t('dashboard.steps.step1.name')"
         />
       </div>
-      <div class="w-2/4 inline-block bg-green-500">
+      <div class="w-3/4 inline-block bg-green-500">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus
         laborum sunt ut et earum debitis, harum sequi molestiae odit corporis
         doloribus odio. Blanditiis et explicabo sed dignissimos non atque ut!
@@ -30,7 +30,7 @@
           :description="t('dashboard.steps.step2.name')"
         />
       </div>
-      <div class="w-2/4 inline-block bg-green-500">
+      <div class="w-3/4 inline-block bg-green-500">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus
         laborum sunt ut et earum debitis, harum sequi molestiae odit corporis
         doloribus odio. Blanditiis et explicabo sed dignissimos non atque ut!
