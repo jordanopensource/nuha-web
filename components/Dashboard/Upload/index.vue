@@ -9,7 +9,13 @@
         />
       </div>
       <div class="w-3/4 inline-block mt-2">
-        {{ t('dashboard.steps.step1.description') }}
+        <ul>
+          <li
+            v-for="item in t('dashboard.steps.step1.description').split('\n')"
+          >
+            {{ item }}
+          </li>
+        </ul>
       </div>
     </div>
 
