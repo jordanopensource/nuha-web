@@ -1,8 +1,16 @@
 <template>
-  <div class="container">
-    <Upload class="container" />
-  </div>
+  <section class="container">
+    <DashboardHero />
+    <div class="separator"></div>
+  </section>
 </template>
+
 <script setup lang="ts">
   definePageMeta({ auth: true, callbackUrl: '/login' })
 </script>
+
+<style scoped lang="postcss">
+  .separator {
+    @apply h-0 border-2 border-b-nuha-fushia-300;
+  }
+</style>
