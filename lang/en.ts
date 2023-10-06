@@ -120,6 +120,17 @@ export default {
     title: 'Nuha',
     description:
       'Our text models are advanced language processing tools that can generate, classify, and summarize text with high levels of coherence and accuracy.',
+    steps: {
+      step1: {
+        name: 'Before you start',
+        description:
+          "1. The model analyses text in Arabic only.\n2. It's important to note that this AI model is still experimental, and not all of its generated results may be entirely factual.",
+      },
+      step2: {
+        name: 'Analyse your text',
+        description: 'Insert an Arabic text to be analyzed.',
+      },
+    },
     comment: {
       header: 'Insert the comment and its context',
       content: 'Insert comment',
