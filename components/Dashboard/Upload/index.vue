@@ -63,7 +63,31 @@
             <span class="font-medium text-lg">{{ t('dashboard.or') }}</span>
             <div class="separator"></div>
           </div>
-          <div :key="dataFocus" @click="dataFocus++">comments' file</div>
+          <DashboardUploadFile
+            :key="dataFocus"
+            @focus="
+              () => {
+                dataFocus++
+                isSingleComment = false
+              }
+            "
+            @update:data="
+              (data: PredictionRequestBody) => {
+                requestBody = data
+              }
+            "
+          />
+
+          <button
+            @click="handleSubmit"
+            class="btn ltr:float-right rtl:float-left"
+          >
+            <div class="flex items-center" v-if="!loading">
+              {{ t('dashboard.actions.analyze') }}
+              <div class="arrow-icon"></div>
+            </div>
+            <div v-else class="loader my-8"></div>
+          </button>
         </div>
       </div>
 

@@ -127,7 +127,14 @@ export default {
       step2: {
         name: 'تحليل النص الخاص بك',
         description: 'ادخل نص باللغة العربية ليتم تحليله.',
+        descriptionFile: 'قم بتحميل ملف إذا كان لديك محتوى نصي متعدد.',
       },
+    },
+    actions: {
+      analyze: 'تحليل',
+      chooseFile: 'حدد ملف',
+      upload: 'ارفع الملف',
+      downloadFileTemplate: 'تنزيل نموذج',
     },
 
     comment: {
