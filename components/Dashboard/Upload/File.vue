@@ -3,14 +3,18 @@
     <p>{{ t('dashboard.steps.step2.descriptionFile') }}</p>
 
     <div class="grid gap-2 lg:gap-y-0 grid-cols-1 lg:grid-cols-2">
-      <label class="btn select-file" for="file-upload">{{
-        !file
-          ? t('dashboard.fileUpload.selectFile')
-          : `${t('dashboard.fileUpload.selected')}: ${file.name}`
-      }}</label>
+      <label class="btn select-file" for="file-upload"
+        >{{
+          !file
+            ? t('dashboard.fileUpload.selectFile')
+            : `${t('dashboard.fileUpload.selected')}: ${file.name}`
+        }}
+        <div class="arrow-icon"></div>
+      </label>
 
-      <button class="btn" @click="downloadTemplate">
+      <button @click="downloadTemplate" class="btn">
         {{ t('dashboard.fileUpload.downloadTempalte') }}
+        <div class="arrow-icon"></div>
       </button>
     </div>
   </div>
@@ -58,10 +62,28 @@
 
 <style lang="postcss" scoped>
   .btn {
-    @apply border-2 border-nuha-grey p-3 text-center italic rounded-xl text-nuha-grey bg-white;
+    @apply border my-3 p-1 flex items-center justify-center text-lg;
+    @apply border-nuha-fushia-300;
+    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-300 hover:text-white;
   }
-
+  .btn:hover .arrow-icon {
+    @apply bg-[url('/icons/arrow-right-white.svg')];
+  }
+  .arrow-icon {
+    @apply w-5 h-5 transform rtl:rotate-180 text-black;
+    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
+  }
   .select-file {
     @apply cursor-pointer;
+    @apply !bg-nuha-fushia-300 text-white;
+    @apply hover:!bg-nuha-fushia-100 hover:!text-nuha-fushia-300;
+  }
+  .select-file:hover .arrow-icon {
+    @apply !bg-[url('/icons/arrow-right.svg')];
+  }
+  .select-file .arrow-icon {
+    @apply w-5 h-5 transform rtl:rotate-180 text-black;
+    @apply !bg-[url('/icons/arrow-right-white.svg')] bg-cover;
   }
 </style>
