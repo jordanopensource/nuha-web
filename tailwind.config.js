@@ -28,8 +28,8 @@ module.exports = {
         },
       },
       fontFamily: {
+        LTZaridSerif: 'LT Zarid',
         IBMPlexSansArabic: 'IBM Plex Sans Arabic',
-        IBMPlexMono: 'IBM Plex Mono',
       },
       lineHeight: {
         15: '68px',

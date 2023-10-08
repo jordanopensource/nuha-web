@@ -34,7 +34,8 @@ const config: NuxtConfig = {
 
   css: [
     '@/assets/css/tailwind.css',
-    '@/assets/css/fonts/ibm-plex.css',
+    '@/assets/css/fonts/29lt-zarid-serif.css',
+    '@/assets/css/fonts/ibm-plex-sans-arabic.css',
     '@/assets/css/global.css',
   ],
 
