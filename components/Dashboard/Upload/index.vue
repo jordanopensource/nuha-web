@@ -2,15 +2,15 @@
 <template>
   <section class="w-full my-5 lg:my-20" id="upload-container">
     <div v-if="!showData">
-      <div class="flex items-top min-h-[150px]">
-        <div class="w-1/4 inline-block">
+      <div class="flex flex-wrap min-h-[150px] w-full">
+        <div class="lg:w-1/4 inline-block">
           <DashboardUploadStep
             circle-id="step-one"
             :order="1"
             :description="t('dashboard.steps.step1.name')"
           />
         </div>
-        <div class="w-3/4 inline-block mt-2">
+        <div class="lg:w-3/4 inline-block my-2">
           <ul>
             <li
               v-for="item in t('dashboard.steps.step1.description').split('\n')"
@@ -21,15 +21,15 @@
         </div>
       </div>
 
-      <div class="flex items-top">
-        <div class="w-1/4 inline-block">
+      <div class="flex items-top flex-wrap">
+        <div class="lg:w-1/4 inline-block">
           <DashboardUploadStep
             circle-id="step-two"
             :order="2"
             :description="t('dashboard.steps.step2.name')"
           />
         </div>
-        <div class="w-3/4 inline-block mt-2">
+        <div class="lg:w-3/4 inline-block my-2">
           <div class="w-full mb-20">
             <DashboardUploadSingleComment
               :key="dataFocus"
@@ -229,7 +229,7 @@
     const rect = el.getBoundingClientRect()
     return {
       x: ref(rect.x + rect.width / 2),
-      y: ref(rect.y + rect.height / 2),
+      y: ref(rect.y + rect.height),
     }
   }
 
