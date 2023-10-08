@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'LT Zarid';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('LT Zarid'), local('29LT-ZaridSerif'),
+    url('~/assets/fonts/29LT-ZaridSerif-Rg/29LT-ZaridSerif-Rg.woff2')
+      format('tff');
+}
