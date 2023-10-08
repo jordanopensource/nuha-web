@@ -10,44 +10,12 @@
 
 @font-face {
   font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic Bold Italic'),
-    local('IBMPlexSansArabic-BoldItalic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-BoldItalic.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 200;
   font-display: swap;
   src: local('IBM Plex Sans Arabic ExtraLight'),
     local('IBMPlexSansArabic-ExtraLight'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-ExtraLight.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 200;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic ExtraLight Italic'),
-    local('IBMPlexSansArabic-ExtraLightItalic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-ExtraLightItalic.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic Italic'), local('IBMPlexSansArabic-Italic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Italic.woff2')
       format('woff2');
 }
 
@@ -63,33 +31,11 @@
 
 @font-face {
   font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 300;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic Light Italic'),
-    local('IBMPlexSansArabic-LightItalic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-LightItalic.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
   src: local('IBM Plex Sans Arabic Medium'), local('IBMPlexSansArabic-Medium'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Medium.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic Medium Italic'),
-    local('IBMPlexSansArabic-MediumItalic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-MediumItalic.woff2')
       format('woff2');
 }
 
@@ -116,17 +62,6 @@
 
 @font-face {
   font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic SemiBold Italic'),
-    local('IBMPlexSansArabic-SemiBoldItalic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-SemiBoldItalic.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 450;
   font-display: swap;
@@ -137,32 +72,10 @@
 
 @font-face {
   font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 450;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic Text Italic'),
-    local('IBMPlexSansArabic-TextItalic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-TextItalic.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
   font-weight: 100;
   font-display: swap;
   src: local('IBM Plex Sans Arabic Thin'), local('IBMPlexSansArabic-Thin'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Thin.woff2')
-      format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans Arabic';
-  font-style: italic;
-  font-weight: 100;
-  font-display: swap;
-  src: local('IBM Plex Sans Arabic Thin Italic'),
-    local('IBMPlexSansArabic-ThinItalic'),
-    url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-ThinItalic.woff2')
       format('woff2');
 }

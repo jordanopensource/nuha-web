@@ -19,13 +19,15 @@
       <!-- Desktop list -->
       <div class="list desktop">
         <UiAppHeaderMenuItems
-          @show-mobile-menu="showMobileMenu = !showMobileMenu"
+          @showMobileMenu="showMobileMenu = !showMobileMenu"
         />
       </div>
     </div>
     <!-- Mobile list -->
     <div class="list mobile" :class="showMobileMenu ? 'show' : 'hide'">
-      <UiAppHeaderMenuItems />
+      <UiAppHeaderMenuItems
+        @showMobileMenu="showMobileMenu = !showMobileMenu"
+      />
     </div>
   </header>
 </template>
