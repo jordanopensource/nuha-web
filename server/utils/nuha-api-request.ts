@@ -8,7 +8,11 @@ export async function predictCommentsResults(comments: SingleComment[]) {
     headers: new Headers({
       'Content-Type': 'application/json',
     }),
-    body: JSON.stringify(comments),
+    body: JSON.stringify(
+      comments.map((comment) => {
+        return { post: '', comment: comment.comment }
+      }),
+    ),
   })
     .then((resp) => resp.json())
     .then((predections) => predections)
