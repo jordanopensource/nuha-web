@@ -7,6 +7,10 @@ div {
   scroll-behavior: smooth;
 }
 
+a {
+  @apply font-IBMPlexSansArabic;
+}
+
 .loader {
   @apply h-20 w-20;
   @apply border-4 border-solid border-nuha-grey;

@@ -38,7 +38,7 @@
     @apply grid grid-cols-1 place-items-center pt-7 italic text-xl font-medium underline text-nuha-fushia;
   }
   .text {
-    @apply text-nuha-grey leading-snug font-IBMPlexSansArabic;
+    @apply text-nuha-grey leading-snug;
   }
   .btn {
     @apply border my-3 p-3 flex items-center justify-center text-2xl;
