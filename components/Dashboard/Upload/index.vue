@@ -114,7 +114,11 @@
       </ClientOnly>
     </div>
 
-    <div v-else>dAtA</div>
+    <DashboardResult
+      v-else
+      :prediction-data="predictionData"
+      :is-single-comment="isSingleComment"
+    />
   </section>
 </template>
 
