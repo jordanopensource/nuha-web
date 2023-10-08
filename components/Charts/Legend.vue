@@ -40,7 +40,7 @@
 
 <style lang="postcss" scoped>
   .legend {
-    @apply flex flex-col gap-y-4;
+    @apply flex flex-col gap-y-4 max-sm:w-full;
     &-item {
       @apply flex items-center gap-4;
       @apply pb-4 border-b border-nuha-grey-100 border-dotted;

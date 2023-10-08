@@ -2,20 +2,34 @@
   <div class="mt-10">
     <h2 class="text-4xl my-28">{{ t('predictionResult.title') }}</h2>
     <div v-if="!isSingleComment">
-      <div class="w-full flex flex-wrap gap-4 justify-around items-center">
+      <div class="w-full grid grid-cols-2 max-lg:grid-cols-1 gap-20 justify-center items-center mb-20">
         <ChartsPie
           :data="chartData"
           :colors="['#6db981', '#d13561']"
           :size="300"
           show-legend
-        />
+        >
+          <template #caption>
+            <p class="mt-2">
+              <span class="font-bold">{{ $t('methodology.figure') }} 1:</span>
+              {{ $t('predictionResult.charts.1') }}
+            </p>
+          </template>
+        </ChartsPie>
         <ChartsBar
           :data="chartData"
           :colors="['#6db981', '#d13561']"
           :max-height="300"
           :max-width="150"
           show-legend
-        />
+        >
+          <template #caption>
+            <p class="mt-2">
+              <span class="font-bold">{{ $t('methodology.figure') }} 2:</span>
+              {{ $t('predictionResult.charts.2') }}
+            </p>
+          </template>
+        </ChartsBar>
       </div>
 
       <div class="block w-full my-10">
