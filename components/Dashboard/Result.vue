@@ -1,18 +1,20 @@
 <template>
   <div class="mt-10">
-    <h4 class="italic pb-5">{{ t('predictionResult.title') }}:</h4>
+    <h2 class="text-4xl my-28">{{ t('predictionResult.title') }}</h2>
     <div v-if="!isSingleComment">
       <div class="w-full flex flex-wrap gap-4 justify-around items-center">
         <ChartsPie
           :data="chartData"
           :colors="['#6db981', '#d13561']"
           :size="300"
+          show-legend
         />
         <ChartsBar
           :data="chartData"
           :colors="['#6db981', '#d13561']"
           :max-height="300"
           :max-width="150"
+          show-legend
         />
       </div>
 

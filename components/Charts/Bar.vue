@@ -1,5 +1,7 @@
 <template>
-  <div ref="chart"></div>
+  <div ref="chart" class="chart-container">
+    <ChartsLegend v-if="showLegend" :data="data" :colors="colors" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -13,7 +15,8 @@
       default: [],
     },
     colors: {
-      type: Array as PropType<string[]>
+      type: Array as PropType<string[]>,
+      default: [],
     },
     maxWidth: {
       type: Number,
@@ -22,7 +25,11 @@
     maxHeight: {
       type: Number,
       default: 600,
-    }
+    },
+    showLegend: {
+      type: Boolean,
+      default: false,
+    },
   })
 
   const chart = ref(null);
@@ -67,4 +74,9 @@
 
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+  .chart-container {
+    @apply flex flex-row-reverse justify-center items-start gap-8 p-8;
+    @apply max-sm:flex-col-reverse;
+  }
+</style>
