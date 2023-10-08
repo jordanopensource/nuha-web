@@ -22,10 +22,26 @@
   <div class="footnotes py-8">
     <p class="text-lg">{{ $t('methodology.footnotes') }}</p>
     <ol class="list-decimal">
-      <li id="fn-1">{{ $t('methodology.sections.about.footnotes.1') }}</li>
-      <li id="fn-2">{{ $t('methodology.sections.about.footnotes.2') }}</li>
-      <li id="fn-2">{{ $t('methodology.sections.about.footnotes.2') }}</li>
-      <li id="fn-2">{{ $t('methodology.sections.about.footnotes.1') }}</li>
+      <li id="fn-1">
+        <a href="http://" target="_blank" rel="noopener noreferrer">
+          {{ $t('methodology.sections.about.footnotes.1') }}
+        </a>
+      </li>
+      <li id="fn-2">
+        <a href="http://" target="_blank" rel="noopener noreferrer">
+          {{ $t('methodology.sections.about.footnotes.2') }}
+        </a>
+      </li>
+      <li id="fn-2">
+        <a href="http://" target="_blank" rel="noopener noreferrer">
+          {{ $t('methodology.sections.about.footnotes.2') }}
+        </a>
+      </li>
+      <li id="fn-2">
+        <a href="http://" target="_blank" rel="noopener noreferrer">
+          {{ $t('methodology.sections.about.footnotes.1') }}
+        </a>
+      </li>
     </ol>
   </div>
 </template>

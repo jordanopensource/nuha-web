@@ -111,7 +111,7 @@
     @apply p-10 py-28 lg:p-20 lg:py-28 grid grid-cols-1 gap-2;
   }
   .btn {
-    @apply text-white  text-lg p-2 bg-nuha-fushia flex items-center ltr:font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+    @apply text-white  text-lg p-2 bg-nuha-fushia flex items-center rtl:font-IBMPlexSansArabic;
   }
   .login-title {
     @apply text-nuha-grey font-semibold;

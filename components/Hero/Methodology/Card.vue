@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <NuxtImg class="image" :src="image" loading="lazy" />
-    <p class="font-bold">{{ title }}</p>
-    <p>{{ content }}</p>
+    <h3 class="font-bold font-IBMPlexSansArabic text-lg">{{ title }}</h3>
+    <p class="text-xl">{{ content }}</p>
     <a :href="readMoreLink" class="read-more">
       {{ t('misc.readMore') }}
       <div class="arrow-icon"></div>

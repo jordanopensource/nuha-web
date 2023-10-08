@@ -3,28 +3,31 @@
     v-for="localeItem in availableLocales"
     :key="localeItem.code"
     :to="switchLocalePath(localeItem.code)"
+    class="text-lg"
     :class="localeItem.code"
-    @click="showMobileMenu = !showMobileMenu"
+    @click="emit('showMobileMenu')"
     >{{ localeItem.name }}
   </NuxtLink>
 
   <NuxtLink
     v-for="link in links"
-    @click="showMobileMenu = !showMobileMenu"
+    @click="emit('showMobileMenu')"
     :to="link.path"
+    class="text-lg"
   >
     {{ link.title }}
   </NuxtLink>
 
   <!-- User items -->
   <UserMenuButton
-    @click="showMobileMenu = !showMobileMenu"
+    @click="emit('showMobileMenu')"
     @update:showItems="(value: boolean) => {showUserMenu = value}"
   />
 </template>
 <script setup lang="ts">
   import { LocaleObject } from '@nuxtjs/i18n/dist/runtime/composables'
 
+  const emit = defineEmits(['showMobileMenu'])
   const localePath = useLocalePath()
   const { locale, locales, t } = useI18n()
   const showUserMenu = ref(false)

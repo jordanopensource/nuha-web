@@ -2,7 +2,7 @@
   <NuxtLink
     :to="localePath('/login')"
     v-if="!isLoggedIn()"
-    class="login-btn login-btn-default"
+    class="login-btn login-btn-default text-lg"
   >
     {{ t('header.login') }}
     <span class="mt-1 ms-2 rtl:rotate-180">￫</span>

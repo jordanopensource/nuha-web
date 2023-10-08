@@ -1,10 +1,19 @@
 body {
-  @apply antialiased m-0 font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+  @apply antialiased m-0 font-LTZaridSerif rtl:font-IBMPlexSansArabic;
 }
 
 html,
 div {
   scroll-behavior: smooth;
+}
+
+a {
+  @apply text-sm;
+}
+
+button,
+a {
+  @apply font-IBMPlexSansArabic;
 }
 
 .loader {
