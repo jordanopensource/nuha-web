@@ -8,6 +8,11 @@ div {
 }
 
 a {
+  @apply text-sm;
+}
+
+button,
+a {
   @apply font-IBMPlexSansArabic;
 }
 

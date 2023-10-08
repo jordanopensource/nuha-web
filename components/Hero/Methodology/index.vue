@@ -2,11 +2,11 @@
   <section class="border-nuha-fushia-300 border-t-2 mt-20">
     <div class="lg:flex lg:justify-between py-20">
       <div class="lg:w-1/2">
-        <h4>
+        <h2>
           {{ t('methodology.title') }}
-        </h4>
+        </h2>
       </div>
-      <div class="pt-5 lg:pt-0 lg:w-1/2">
+      <div class="pt-5 lg:pt-0 lg:w-1/2 text-2xl">
         <p>
           {{ t('methodology.description') }}
         </p>

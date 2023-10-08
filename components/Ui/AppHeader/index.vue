@@ -1,7 +1,7 @@
 <template>
   <header class="container">
     <div class="nav-container">
-      <NuxtLink :to="localePath('/')" @click="showMobileMenu = !showMobileMenu">
+      <NuxtLink :to="localePath('/')" @click="showMobileMenu = false">
         <img width="70" height="70" src="/logo.svg" />
       </NuxtLink>
 
@@ -18,7 +18,9 @@
       </button>
       <!-- Desktop list -->
       <div class="list desktop">
-        <UiAppHeaderMenuItems />
+        <UiAppHeaderMenuItems
+          @show-mobile-menu="showMobileMenu = !showMobileMenu"
+        />
       </div>
     </div>
     <!-- Mobile list -->
@@ -38,14 +40,17 @@
 <style lang="postcss" scoped>
   .nav-container,
   .mobile {
-    @apply flex justify-between text-nuha-fushia;
+    @apply flex justify-between;
     @apply pb-5 pt-10;
     @apply border-nuha-fushia-300 border-b-2;
   }
 
   .list {
-    @apply gap-8 font-light text-xl;
+    @apply gap-8 font-light;
     @apply justify-between items-center;
+  }
+  .list a {
+    @apply text-lg text-red-500  bg-red-600 !important;
   }
   .desktop {
     @apply hidden lg:flex;

@@ -8,7 +8,7 @@
           <img width="75" height="75" src="/logo.svg" alt="Nuha logo" />
         </NuxtLink>
         <div>
-          <span class="text-xl font-light">Nuha نهى</span>
+          <span class="text-2xl font-light">Nuha نهى</span>
           <p class="text-nuha-grey-100">{{ $t('footer.copyright') }}</p>
         </div>
       </div>
@@ -16,7 +16,7 @@
         <NuxtLink
           v-for="(link, i) in links"
           :key="i"
-          class="link link-nav link-hover !text-sm max-md:min-w-max"
+          class="link link-nav link-hover max-md:min-w-max text-base"
           :to="link.path"
           :external="link.external"
           :target="link.external ? '_blank' : '_self'"
