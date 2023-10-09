@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     setResponseStatus(event, 500)
     return 'apiResponse.internalError'
   }
-  return prediction
+  return { prediction }
 })
 
 async function verifyData(input: SingleComment): Promise<void> {
