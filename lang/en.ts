@@ -184,6 +184,8 @@ export default {
       1: 'Percentage of have speech vs. neutral content.',
       2: 'Number of rows containing hate speech vs. neutral.',
     },
+    importedRows: 'Rows imported:',
+    fileName: 'Analysis of the file:',
   },
 
   apiResponse: {

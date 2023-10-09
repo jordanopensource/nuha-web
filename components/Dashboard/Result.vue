@@ -1,8 +1,30 @@
 <template>
-  <div class="mt-10">
-    <h2 class="text-4xl my-28">{{ t('predictionResult.title') }}</h2>
+  <div class="my-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 my-20 gap-y-10">
+      <h2 class="text-4xl">{{ t('predictionResult.title') }}</h2>
+      <div v-if="!isSingleComment">
+        <p>
+          {{ t('predictionResult.fileName') }}
+          <span class="text-nuha-fushia">
+            {{ fileName }}
+          </span>
+        </p>
+        <p>
+          {{ t('predictionResult.importedRows') }}
+          <span class="font-bold">
+            {{ importedRows }}
+          </span>
+        </p>
+        <button @click="downloadResults" class="btn">
+          {{ t('data.downloadResults') }}
+          <div class="arrow-icon rotate-90"></div>
+        </button>
+      </div>
+    </div>
     <div v-if="!isSingleComment">
-      <div class="w-full grid grid-cols-2 max-lg:grid-cols-1 gap-20 justify-center items-center mb-20">
+      <div
+        class="w-full grid grid-cols-2 max-lg:grid-cols-1 gap-20 justify-center items-center mb-20"
+      >
         <ChartsPie
           :data="chartData"
           :colors="['#6db981', '#d13561']"
@@ -35,14 +57,15 @@
       <div class="block w-full my-10">
         <div class="flex justify-between items-center py-5">
           <h5 class="italic">{{ t('predictionResult.details') }}:</h5>
-          <button
-            class="rounded-xl bg-nuha-fushia-300 text-white text-lg p-3"
-            @click="downloadResults"
-            >{{ t('data.downloadResults') }}</button>
         </div>
         <el-table :data="commentData" stripe style="width: 100%">
           <el-table-column prop="comment" :label="t('data.comment')" />
-          <el-table-column sortable prop="label" :label="t('data.type')" width="180" />
+          <el-table-column
+            sortable
+            prop="label"
+            :label="t('data.type')"
+            width="180"
+          />
           <el-table-column
             sortable
             prop="score"
@@ -95,6 +118,8 @@
       originalData: Array<PredictionResponse>
     }>,
     isSingleComment: Boolean,
+    importedRows: Number,
+    fileName: String,
   })
 
   const width = useClientWidth()
@@ -124,17 +149,17 @@
 
   function downloadResults() {
     const resultCSV =
-      `"${t("data.comment")}","${t("data.type")}","${t("data.f1Score")}"\n` +
+      `"${t('data.comment')}","${t('data.type')}","${t('data.f1Score')}"\n` +
       props.predictionData?.originalData
         .map((result) => {
-          return `"${result.comment}"|"${result.label}"|"${result.score}"`
+          return `"${result.comment}","${result.label}","${result.score}"`
         })
         .join('\n')
 
-    const download = document.createElement("a");
-    const blob = new Blob(["\ufeff", resultCSV]);
-    download.href = URL.createObjectURL(blob);
-    download.download = `Prediction results - ${new Date().toString()}.csv`;
+    const download = document.createElement('a')
+    const blob = new Blob(['\ufeff', resultCSV])
+    download.href = URL.createObjectURL(blob)
+    download.download = `Prediction results - ${new Date().toString()}.csv`
     download.click()
   }
 </script>
@@ -157,5 +182,19 @@
   button.btn-prev,
   button.btn-next {
     @apply rtl:!rotate-180;
+  }
+
+  .btn {
+    @apply border my-3 p-1 flex items-center justify-center text-lg;
+    @apply border-nuha-fushia-300;
+    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-300 hover:text-white;
+  }
+  .btn:hover .arrow-icon {
+    @apply bg-[url('/icons/arrow-right-white.svg')];
+  }
+  .arrow-icon {
+    @apply w-5 h-5 transform text-black;
+    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
   }
 </style>

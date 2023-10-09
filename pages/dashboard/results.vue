@@ -4,6 +4,8 @@
       <DashboardResult
         :prediction-data="resultsData.predictionData"
         :is-single-comment="resultsData.isSingleComment"
+        :imported-rows="resultsData.importedRows"
+        :file-name="resultsData.fileName"
       />
     </ClientOnly>
   </div>
@@ -23,6 +25,8 @@
       chartData: PredictionMetrics
       originalData: Array<PredictionResponse>
     }
+    importedRows: number
+    fileName: string
   }>(useResultsData().resultsData().value)
 
   onMounted(() => {
@@ -33,6 +37,7 @@
     ) {
       router.push(localePath('/dashboard'))
     }
+    console.log('res', resultsData)
     useResultsData().resetResutsData()
   })
 </script>
