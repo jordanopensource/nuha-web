@@ -195,7 +195,7 @@
       return
     }
 
-    const rawData = data.value as any
+    const rawData = data.value.prediction as any
     rawData.originalData = rawData.originalData.map((p: any) => {
       p.label =
         p.label === 'hate-speech' ? t('data.hateSpeech') : t('data.neutral')
@@ -210,6 +210,8 @@
     useResultsData().updateResultsData({
       isSingleComment: isSingleComment.value,
       predictionData: predictionData.value,
+      importedRows: !isSingleComment.value ? data.value.importedRows : 0,
+      fileName: !isSingleComment.value ? data.value.fileName : '',
     })
     router.push(localePath('/dashboard/results'))
   }
