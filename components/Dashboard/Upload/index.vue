@@ -89,7 +89,8 @@
         </button>
       </div>
 
-      <!-- the mysterous line  -->
+      <!--
+      <!- the mysterous line  ->
       <ClientOnly>
         <div
           class="hidden lg:block lg:absolute top-0 ltr:left-0 rtl:right-0 z-[-1]"
@@ -110,7 +111,7 @@
           </svg>
         </div>
       </ClientOnly>
-    </div>
+    --></div>
   </section>
 </template>
 
