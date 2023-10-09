@@ -1,6 +1,6 @@
 <template>
-  <div class="my-20">
-    <div class="grid grid-cols-1 lg:grid-cols-2 my-20 gap-y-10">
+  <div class="mb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 mt-10 mb-20 gap-y-10">
       <h2 class="text-4xl">{{ t('predictionResult.title') }}</h2>
       <div v-if="!isSingleComment">
         <p>

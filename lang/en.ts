@@ -137,6 +137,7 @@ export default {
       chooseFile: 'Choose a file',
       upload: 'Upload file',
       downloadFileTemplate: 'Download template',
+      goBack: 'Go back',
     },
 
     comment: {

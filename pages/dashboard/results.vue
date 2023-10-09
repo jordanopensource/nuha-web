@@ -1,5 +1,19 @@
 <template>
   <div class="container">
+    <div class="mt-10">
+      <button
+        @click="
+          () => {
+            router.push(localePath('/dashboard'))
+          }
+        "
+        class="btn"
+      >
+        <div class="arrow-icon"></div>
+        {{ t('dashboard.actions.goBack') }}
+      </button>
+    </div>
+
     <ClientOnly>
       <DashboardResult
         :prediction-data="resultsData.predictionData"
@@ -19,6 +33,7 @@
 
   const router = useRouter()
   const localePath = useLocalePath()
+  const { t } = useI18n()
 
   const resultsData = ref<{
     isSingleComment: boolean
@@ -44,4 +59,19 @@
   })
 </script>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+  .btn {
+    @apply border my-3 p-1 flex items-center justify-center text-lg;
+    @apply border-nuha-fushia-300;
+    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-300 hover:text-white;
+  }
+  .btn:hover .arrow-icon {
+    @apply bg-[url('/icons/arrow-right-white.svg')];
+  }
+  .arrow-icon {
+    @apply transform rotate-180 rtl:rotate-0;
+    @apply w-5 h-5 text-black;
+    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
+  }
+</style>
