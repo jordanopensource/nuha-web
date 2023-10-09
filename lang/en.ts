@@ -180,6 +180,10 @@ export default {
     percentage: 'Percentage',
     count: 'Count',
     details: 'Details',
+    charts: {
+      1: 'Percentage of have speech vs. neutral content.',
+      2: 'Number of rows containing hate speech vs. neutral.',
+    },
   },
 
   apiResponse: {
