@@ -20,6 +20,14 @@
           <div class="arrow-icon rotate-90"></div>
         </button>
       </div>
+      <div v-else>
+        <p class="text-xl">
+          {{ t('predictionResult.originalComment') }}
+          <span class="font-bold">
+            {{ comment }}
+          </span>
+        </p>
+      </div>
     </div>
     <div v-if="!isSingleComment">
       <div
@@ -89,14 +97,14 @@
       </div>
     </div>
     <div v-else>
-      <div class="bg-white mt-5 p-5 rounded-xl border-nuha-grey-200 border">
+      <div class="bg-white mt-5 p-5 border-nuha-grey-200 border">
         {{
           t('predictionResult.commentTypeMsg') +
           ' ' +
           predictionData?.originalData[0]?.label
         }}.
       </div>
-      <div class="bg-white mt-5 p-5 rounded-xl border-nuha-grey-200 border">
+      <div class="bg-white mt-5 p-5 border-nuha-grey-200 border">
         {{
           t('predictionResult.f1ScoreMsg').replace(
             '%s',
@@ -117,6 +125,7 @@
       chartData: PredictionMetrics
       originalData: Array<PredictionResponse>
     }>,
+    comment: String,
     isSingleComment: Boolean,
     importedRows: Number,
     fileName: String,

@@ -6,6 +6,7 @@
         :is-single-comment="resultsData.isSingleComment"
         :imported-rows="resultsData.importedRows"
         :file-name="resultsData.fileName"
+        :comment="resultsData.originalComment"
       />
     </ClientOnly>
   </div>
@@ -25,6 +26,7 @@
       chartData: PredictionMetrics
       originalData: Array<PredictionResponse>
     }
+    originalComment: string
     importedRows: number
     fileName: string
   }>(useResultsData().resultsData().value)

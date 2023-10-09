@@ -212,6 +212,9 @@
       predictionData: predictionData.value,
       importedRows: !isSingleComment.value ? data.value.importedRows : 0,
       fileName: !isSingleComment.value ? data.value.fileName : '',
+      originalComment: isSingleComment.value
+        ? requestBody.value.data.comment
+        : '',
     })
     router.push(localePath('/dashboard/results'))
   }

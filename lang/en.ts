@@ -174,7 +174,7 @@ export default {
   },
 
   predictionResult: {
-    commentTypeMsg: "Nuha has found that this post's comment is",
+    commentTypeMsg: 'Nuha has found that this comment is',
     f1ScoreMsg: 'Nuha is %s% confident about the prediction result.',
     title: 'Prediction Results',
     percentage: 'Percentage',
@@ -186,6 +186,7 @@ export default {
     },
     importedRows: 'Rows imported:',
     fileName: 'Analysis of the file:',
+    originalComment: 'Comment:',
   },
 
   apiResponse: {

@@ -172,7 +172,7 @@ export default {
   },
 
   predictionResult: {
-    commentTypeMsg: 'وجدت نهى أن تعليق هذا المنشور هو',
+    commentTypeMsg: 'وقد وجدت نهى أن هذا التعليق هو',
     f1ScoreMsg: 'نهى واثقة بنسبة %%s من نتيجة التوقع.',
     title: 'نتيجة التوقع',
     percentage: 'نسبة مئوية',
@@ -184,6 +184,7 @@ export default {
     },
     importedRows: 'عدد الصفوف المدخلة:',
     fileName: 'التحليل للملف:',
+    originalComment: 'التعليق:',
   },
 
   apiResponse: {
