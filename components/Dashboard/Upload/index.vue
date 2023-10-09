@@ -44,17 +44,6 @@
               }
             "
           />
-
-          <button
-            @click="handleSubmit"
-            class="btn ltr:float-right rtl:float-left"
-          >
-            <div class="flex items-center" v-if="!loading">
-              {{ t('dashboard.actions.analyze') }}
-              <div class="arrow-icon"></div>
-            </div>
-            <div v-else class="loader my-8"></div>
-          </button>
         </div>
 
         <div class="flex items-center gap-x-5">
@@ -85,7 +74,7 @@
             {{ t('dashboard.actions.analyze') }}
             <div class="arrow-icon"></div>
           </div>
-          <div v-else class="loader my-8"></div>
+          <div v-else class="loader my-2"></div>
         </button>
       </div>
 
