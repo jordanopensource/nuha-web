@@ -1,74 +1,41 @@
 <!-- WARN: you're gonna need some welding goggles before browsing this code, just saying... -->
 <template>
   <section class="w-full my-5 lg:my-20" id="upload-container">
-    <div v-if="!showData">
-      <div class="flex items-top min-h-[150px]">
-        <div class="w-1/4 inline-block">
-          <DashboardUploadStep
-            circle-id="step-one"
-            :order="1"
-            :description="t('dashboard.steps.step1.name')"
-          />
-        </div>
-        <div class="w-3/4 inline-block mt-2">
-          <ul>
-            <li
-              v-for="item in t('dashboard.steps.step1.description').split('\n')"
-            >
-              {{ item }}
-            </li>
-          </ul>
-        </div>
+    <div class="flex items-top min-h-[150px]">
+      <div class="w-1/4 inline-block">
+        <DashboardUploadStep
+          circle-id="step-one"
+          :order="1"
+          :description="t('dashboard.steps.step1.name')"
+        />
       </div>
+      <div class="w-3/4 inline-block mt-2">
+        <ul>
+          <li
+            v-for="item in t('dashboard.steps.step1.description').split('\n')"
+          >
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+    </div>
 
-      <div class="flex items-top">
-        <div class="w-1/4 inline-block">
-          <DashboardUploadStep
-            circle-id="step-two"
-            :order="2"
-            :description="t('dashboard.steps.step2.name')"
-          />
-        </div>
-        <div class="w-3/4 inline-block mt-2">
-          <div class="w-full mb-20">
-            <DashboardUploadSingleComment
-              :key="dataFocus"
-              @focus="
-                () => {
-                  dataFocus++
-                  isSingleComment = true
-                }
-              "
-              @update:data="
-                (data: PredictionRequestBody) => {
-                  requestBody = data
-                }
-              "
-            />
-
-            <button
-              @click="handleSubmit"
-              class="btn ltr:float-right rtl:float-left"
-            >
-              <div class="flex items-center" v-if="!loading">
-                {{ t('dashboard.actions.analyze') }}
-                <div class="arrow-icon"></div>
-              </div>
-              <div v-else class="loader my-8"></div>
-            </button>
-          </div>
-
-          <div class="flex items-center gap-x-5">
-            <div class="separator"></div>
-            <span class="font-medium text-lg">{{ t('dashboard.or') }}</span>
-            <div class="separator"></div>
-          </div>
-          <DashboardUploadFile
+    <div class="flex items-top">
+      <div class="w-1/4 inline-block">
+        <DashboardUploadStep
+          circle-id="step-two"
+          :order="2"
+          :description="t('dashboard.steps.step2.name')"
+        />
+      </div>
+      <div class="w-3/4 inline-block mt-2">
+        <div class="w-full mb-20">
+          <DashboardUploadSingleComment
             :key="dataFocus"
             @focus="
               () => {
                 dataFocus++
-                isSingleComment = false
+                isSingleComment = true
               }
             "
             @update:data="
@@ -89,6 +56,37 @@
             <div v-else class="loader my-8"></div>
           </button>
         </div>
+
+        <div class="flex items-center gap-x-5">
+          <div class="separator"></div>
+          <span class="font-medium text-lg">{{ t('dashboard.or') }}</span>
+          <div class="separator"></div>
+        </div>
+        <DashboardUploadFile
+          :key="dataFocus"
+          @focus="
+            () => {
+              dataFocus++
+              isSingleComment = false
+            }
+          "
+          @update:data="
+            (data: PredictionRequestBody) => {
+              requestBody = data
+            }
+          "
+        />
+
+        <button
+          @click="handleSubmit"
+          class="btn ltr:float-right rtl:float-left"
+        >
+          <div class="flex items-center" v-if="!loading">
+            {{ t('dashboard.actions.analyze') }}
+            <div class="arrow-icon"></div>
+          </div>
+          <div v-else class="loader my-8"></div>
+        </button>
       </div>
 
       <!-- the mysterous line  -->
@@ -113,18 +111,14 @@
         </div>
       </ClientOnly>
     </div>
-
-    <DashboardResult
-      v-else
-      :prediction-data="predictionData"
-      :is-single-comment="isSingleComment"
-    />
   </section>
 </template>
 
 <script setup lang="ts">
   import { ElNotification } from 'element-plus'
 
+  const router = useRouter()
+  const localePath = useLocalePath()
   const { t } = useI18n()
 
   let stepOneCoordinates = { x: ref(0), y: ref(0) }
@@ -175,7 +169,6 @@
   }
 
   async function uploadComment() {
-    console.log(requestBody.value)
     await doRequest(
       '/api/upload-comment',
       JSON.stringify(requestBody.value.data),
@@ -213,6 +206,12 @@
     isSingleComment.value = endpoint === '/api/upload-comment'
     showData.value = true
     buildToast('success', t('status.uploadWasSuccessful'))
+
+    useResultsData().updateResultsData({
+      isSingleComment: isSingleComment.value,
+      predictionData: predictionData.value,
+    })
+    router.push(localePath('/dashboard/results'))
   }
 
   function buildToast(type: 'success' | 'error', message: string) {
