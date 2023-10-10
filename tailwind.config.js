@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         'nuha-fushia': {
           DEFAULT: '#c40f55',
+          secondary: '#ee4d7a',
           300: '#e53076',
           200: '#f4deeb',
           100: '#fcf0f7',
@@ -25,6 +26,12 @@ module.exports = {
           300: '#4e4e4e',
           200: '#8f8f8f',
           100: '#afafaf',
+        },
+        'prediction-neutral': {
+          DEFAULT: '#6db981',
+        },
+        'prediction-hatespeach': {
+          DEFAULT: '#d13561',
         },
       },
       fontFamily: {

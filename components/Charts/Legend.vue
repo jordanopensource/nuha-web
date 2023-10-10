@@ -1,6 +1,6 @@
 <template>
   <div
-    class="legend"
+    class="legend font-IBMPlexSansArabic"
   >
     <div
       v-for="(item, i) in data"

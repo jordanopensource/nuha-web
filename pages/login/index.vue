@@ -108,10 +108,14 @@
     @apply py-5 text-center shadow-sm shadow-nuha-grey-100;
   }
   .login-btns {
-    @apply p-10 py-28 lg:p-20 lg:py-28 grid grid-cols-1 gap-2;
+    @apply p-10 lg:p-20 grid grid-cols-1 gap-2;
   }
   .btn {
-    @apply text-white  text-lg p-2 bg-nuha-fushia flex items-center rtl:font-IBMPlexSansArabic;
+    @apply w-full p-2 bg-nuha-fushia-300 flex justify-center items-center cursor-pointer;
+    @apply rtl:font-IBMPlexSansArabic text-lg text-nuha-fushia-100;
+    @apply border border-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-100 hover:text-nuha-fushia-300;
+    @apply disabled:cursor-not-allowed disabled:bg-nuha-grey-200 disabled:border-none disabled:text-nuha-fushia-100;
   }
   .login-title {
     @apply text-nuha-grey font-semibold;

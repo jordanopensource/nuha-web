@@ -18,16 +18,12 @@
       </button>
       <!-- Desktop list -->
       <div class="list desktop">
-        <UiAppHeaderMenuItems
-          @showMobileMenu="showMobileMenu = !showMobileMenu"
-        />
+        <UiAppHeaderMenuItems @showMobileMenu="showMobileMenu = false" />
       </div>
     </div>
     <!-- Mobile list -->
     <div class="list mobile" :class="showMobileMenu ? 'show' : 'hide'">
-      <UiAppHeaderMenuItems
-        @showMobileMenu="showMobileMenu = !showMobileMenu"
-      />
+      <UiAppHeaderMenuItems @showMobileMenu="showMobileMenu = false" />
     </div>
   </header>
 </template>

@@ -111,8 +111,10 @@ export default {
     neutral: 'Neutral',
     confidenceScore: 'Confidence Score',
     comment: 'Comment',
+    text: 'Text',
     type: 'Type',
     f1Score: 'F1 Score',
+    score: 'Score',
     downloadResults: 'Download Results',
   },
 
@@ -137,6 +139,7 @@ export default {
       chooseFile: 'Choose a file',
       upload: 'Upload file',
       downloadFileTemplate: 'Download template',
+      goBack: 'Go back',
     },
 
     comment: {
@@ -174,7 +177,7 @@ export default {
   },
 
   predictionResult: {
-    commentTypeMsg: "Nuha has found that this post's comment is",
+    commentTypeMsg: 'Nuha has found that this comment is',
     f1ScoreMsg: 'Nuha is %s% confident about the prediction result.',
     title: 'Prediction Results',
     percentage: 'Percentage',
@@ -184,6 +187,9 @@ export default {
       1: 'Percentage of have speech vs. neutral content.',
       2: 'Number of rows containing hate speech vs. neutral.',
     },
+    importedRows: 'Rows imported:',
+    fileName: 'Analysis of the file:',
+    originalComment: 'Comment:',
   },
 
   apiResponse: {
