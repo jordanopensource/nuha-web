@@ -64,10 +64,14 @@
 
       <div class="block w-full my-10">
         <div class="flex justify-between items-center py-5">
-          <h5 class="italic">{{ t('predictionResult.details') }}:</h5>
+          <h5>{{ t('predictionResult.details') }}:</h5>
         </div>
         <el-table :data="commentData" stripe style="width: 100%">
-          <el-table-column prop="comment" :label="t('data.comment')" />
+          <el-table-column
+            prop="comment"
+            :label="t('data.comment')"
+            class-name="comment-text"
+          />
           <el-table-column
             sortable
             prop="label"
@@ -75,7 +79,7 @@
             width="180"
             v-slot="colProp"
           >
-            <div class="flex items-center gap-4 flex-wrap">
+            <div class="flex items-center gap-4">
               <div
                 class="w-5 aspect-square h-5"
                 :class="colProp?.row?.label === $t('data.neutral') ? 'bg-prediction-neutral' : 'bg-prediction-hatespeach'"
@@ -88,6 +92,7 @@
             prop="score"
             :label="t('data.f1Score')"
             width="200"
+            class-name="f1score"
             v-slot="colProp"
           >
             <div class="flex flex-wrap gap-2 items-center">
@@ -225,5 +230,35 @@
   .arrow-icon {
     @apply w-5 h-5 transform text-black;
     @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
+  }
+
+  /* Results Table Styling */
+  table, tbody, td {
+    @apply max-sm:inline;
+  }
+  tr {
+    @apply max-sm:flex flex-col max-sm:p-1 max-sm:pb-4 max-sm:mx-4 max-sm:my-4;
+    @apply max-sm:border-b-2 border-nuha-grey-200 border-dashed border-opacity-50;
+    td {
+      @apply max-sm:py-2;
+      &:not(:last-child) {
+        @apply max-sm:!border-0 max-sm:!border-nuha-grey-100;
+        @apply max-sm:!border-dotted max-sm:!border-b max-sm:border-opacity-50;
+      }
+      &:last-child {
+        /* remove default border form Element Plus */
+        @apply max-sm:!border-none;
+      }
+      &.comment-text div.cell {
+        direction: rtl;
+        text-align: right;
+      }
+    }
+  }
+  table.el-table__header {
+    @apply max-sm:hidden;
+  }
+  .el-table .cell {
+    @apply break-normal;
   }
 </style>
