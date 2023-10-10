@@ -66,7 +66,11 @@
         <div class="flex justify-between items-center py-5">
           <h5>{{ t('predictionResult.details') }}:</h5>
         </div>
-        <el-table :data="commentData" stripe style="width: 100%">
+        <el-table
+          :data="commentData"
+          style="width: 100%"
+          class-name="table-container"
+        >
           <el-table-column
             prop="comment"
             :label="t('data.comment')"
@@ -234,21 +238,21 @@
 
   /* Results Table Styling */
   table, tbody, td {
-    @apply max-sm:inline;
+    @apply max-sm:inline !bg-transparent;
   }
   tr {
     @apply max-sm:flex flex-col max-sm:p-1 max-sm:pb-4 max-sm:mx-4 max-sm:my-4;
+    @apply !bg-transparent;
     @apply max-sm:border-b-2 border-nuha-grey-200 border-dashed border-opacity-50;
     td {
-      @apply max-sm:py-2;
-      &:not(:last-child) {
-        @apply max-sm:!border-0 max-sm:!border-nuha-grey-100;
-        @apply max-sm:!border-dotted max-sm:!border-b max-sm:border-opacity-50;
-      }
+      @apply py-8 max-sm:py-2;
+      @apply !border-0 !border-nuha-grey-100;
+      @apply !border-dotted !border-b max-sm:border-opacity-50;
+
       &:last-child {
-        /* remove default border form Element Plus */
-        @apply max-sm:!border-none;
+        @apply max-sm:!border-0;
       }
+
       &.comment-text div.cell {
         direction: rtl;
         text-align: right;
@@ -257,6 +261,14 @@
   }
   table.el-table__header {
     @apply max-sm:hidden;
+    @apply border-t-2 border-nuha-grey-100;
+    thead {
+      @apply min-h-[100px];
+      th {
+        @apply !bg-transparent py-4;
+        @apply !border-0 !border-b-2 !border-dotted !border-nuha-grey border-opacity-70;
+      }
+    }
   }
   .el-table .cell {
     @apply break-normal;
