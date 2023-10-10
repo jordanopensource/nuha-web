@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         'nuha-fushia': {
           DEFAULT: '#c40f55',
+          secondary: '#ee4d7a',
           300: '#e53076',
           200: '#f4deeb',
           100: '#fcf0f7',

@@ -87,8 +87,19 @@
             sortable
             prop="score"
             :label="t('data.f1Score')"
-            width="180"
-          />
+            width="200"
+            v-slot="colProp"
+          >
+            <div class="flex flex-wrap gap-2 items-center">
+              {{ (colProp?.row?.score / 100).toFixed(2) }}
+              <div class="bg-nuha-fushia-200 flex-1 h-5">
+                <div
+                  class="h-full bg-nuha-fushia-secondary"
+                  :style="`width: ${colProp?.row?.score?.toFixed(0)}%;`"
+                ></div>
+              </div>
+            </div>
+          </el-table-column>
         </el-table>
 
         <div v-if="numPages > 1" class="w-full flex justify-center my-3">
