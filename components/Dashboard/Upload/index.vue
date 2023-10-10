@@ -1,7 +1,7 @@
 <!-- WARN: you're gonna need some welding goggles before browsing this code, just saying... -->
 <template>
   <section class="w-full my-5 lg:my-20" id="upload-container">
-    <div class="flex items-top min-h-[150px]">
+    <div class="flex max-sm:flex-col items-top gap-4 my-8">
       <div class="w-1/4 inline-block">
         <DashboardUploadStep
           circle-id="step-one"
@@ -9,7 +9,7 @@
           :description="t('dashboard.steps.step1.name')"
         />
       </div>
-      <div class="w-3/4 inline-block mt-2">
+      <div class="w-3/4 max-sm:w-full inline-block mt-2">
         <ul>
           <li
             v-for="item in t('dashboard.steps.step1.description').split('\n')"
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="flex items-top">
+    <div class="flex max-sm:flex-col items-top gap-4">
       <div class="w-1/4 inline-block">
         <DashboardUploadStep
           circle-id="step-two"
@@ -28,7 +28,7 @@
           :description="t('dashboard.steps.step2.name')"
         />
       </div>
-      <div class="w-3/4 inline-block mt-2">
+      <div class="w-3/4 max-sm:w-full inline-block mt-2">
         <div class="w-full mb-20">
           <DashboardUploadSingleComment
             :key="dataFocus"
