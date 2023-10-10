@@ -68,13 +68,14 @@
 
         <button
           @click="handleSubmit"
-          class="btn ltr:float-right rtl:float-left"
+          class="btn ltr:float-right rtl:float-left w-20 h-10"
+          :disabled="loading"
         >
           <div class="flex items-center" v-if="!loading">
             {{ t('dashboard.actions.analyze') }}
             <div class="arrow-icon"></div>
           </div>
-          <div v-else class="loader my-2"></div>
+          <div v-else class="loader !h-8 !w-8"></div>
         </button>
       </div>
 
@@ -286,6 +287,7 @@
     @apply border-nuha-fushia-300;
     @apply bg-nuha-fushia-100 text-nuha-fushia-300;
     @apply hover:bg-nuha-fushia-300 hover:text-white;
+    @apply disabled:bg-transparent;
   }
   .btn:hover .arrow-icon {
     @apply bg-[url('/icons/arrow-right-white.svg')];
