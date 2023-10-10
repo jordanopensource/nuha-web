@@ -275,4 +275,9 @@
   .table-container {
     @apply !bg-transparent;
   }
+  .el-pagination.is-background .btn-next,
+  .el-pagination.is-background .btn-prev,
+  .el-pagination.is-background li {
+    @apply !bg-transparent;
+  }
 </style>
