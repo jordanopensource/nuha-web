@@ -109,8 +109,10 @@ export default {
     neutral: 'محايد',
     confidenceScore: 'نقاط الثقة',
     comment: 'التعليق',
+    text: 'النص',
     type: 'النوع',
     f1Score: 'نقاط F1',
+    score: 'النقاط',
     downloadResults: 'تنزيل النتائج',
   },
 
@@ -135,6 +137,7 @@ export default {
       chooseFile: 'حدد ملف',
       upload: 'ارفع الملف',
       downloadFileTemplate: 'تنزيل نموذج',
+      goBack: 'الرجوع',
     },
 
     comment: {
@@ -172,12 +175,19 @@ export default {
   },
 
   predictionResult: {
-    commentTypeMsg: 'وجدت نهى أن تعليق هذا المنشور هو',
+    commentTypeMsg: 'وقد وجدت نهى أن هذا التعليق هو',
     f1ScoreMsg: 'نهى واثقة بنسبة %%s من نتيجة التوقع.',
     title: 'نتيجة التوقع',
     percentage: 'نسبة مئوية',
     count: 'عدد',
     details: 'تفاصيل',
+    charts: {
+      1: 'النسبة المئوية لخطاب الكراهية مقابل المحتوى المحايد.',
+      2: 'عدد الصفوف التي تحتوي على كلام يحض على الكراهية مقابل الكلام المحايد.',
+    },
+    importedRows: 'عدد الصفوف المدخلة:',
+    fileName: 'التحليل للملف:',
+    originalComment: 'التعليق:',
   },
 
   apiResponse: {

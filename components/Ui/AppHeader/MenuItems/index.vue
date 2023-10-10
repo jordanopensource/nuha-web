@@ -15,13 +15,17 @@
     :to="link.path"
     class="text-lg"
   >
-    {{ link.title }}
+    {{ link.title() }}
   </NuxtLink>
 
   <!-- User items -->
   <UserMenuButton
     @click="emit('showMobileMenu')"
-    @update:showItems="(value: boolean) => {showUserMenu = value}"
+    @update:showItems="
+      (value: boolean) => {
+        showUserMenu = value
+      }
+    "
   />
 </template>
 <script setup lang="ts">
@@ -35,19 +39,23 @@
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
     return (locales.value as LocaleObject[]).filter(
-      (l: LocaleObject) => l.code !== locale.value
+      (l: LocaleObject) => l.code !== locale.value,
     )
   })
 
   type Link = {
-    title: string
+    title(): string
     path: string
   }
 
   const links = ref<Link[]>([
     {
-      title: t('methodology.title'),
+      title: () => t('methodology.title'),
       path: localePath('/methodology'),
+    },
+    {
+      title: () => t('header.userMenu.dashboard'),
+      path: localePath('/dashboard'),
     },
   ])
 </script>
