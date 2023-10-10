@@ -73,7 +73,16 @@
             prop="label"
             :label="t('data.type')"
             width="180"
-          />
+            v-slot="colProp"
+          >
+            <div class="flex items-center gap-4 flex-wrap">
+              <div
+                class="w-5 aspect-square h-5"
+                :class="colProp?.row?.label === $t('data.neutral') ? 'bg-prediction-neutral' : 'bg-prediction-hatespeach'"
+              ></div>
+              {{ colProp?.row?.label }}
+            </div>
+          </el-table-column>
           <el-table-column
             sortable
             prop="score"

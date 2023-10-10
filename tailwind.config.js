@@ -26,6 +26,12 @@ module.exports = {
           200: '#8f8f8f',
           100: '#afafaf',
         },
+        'prediction-neutral': {
+          DEFAULT: '#6db981',
+        },
+        'prediction-hatespeach': {
+          DEFAULT: '#d13561',
+        },
       },
       fontFamily: {
         LTZaridSerif: 'LT Zarid',
