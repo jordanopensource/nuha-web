@@ -1,11 +1,8 @@
 <template>
-  <p>
+  <label>
     {{ t('dashboard.steps.step2.description') }}
-  </p>
-
-  <div class="my-2">
     <textarea
-      class="w-full border-2 border-nuha-fushia-200 p-5"
+      class="w-full border-2 border-nuha-fushia-200 p-5 my-4"
       :value="comment"
       cols="30"
       rows="5"
@@ -16,7 +13,7 @@
         }
       "
     ></textarea>
-  </div>
+  </label>
 </template>
 
 <script setup lang="ts">
