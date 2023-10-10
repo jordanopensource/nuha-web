@@ -68,7 +68,7 @@
 
         <button
           @click="handleSubmit"
-          class="btn ltr:float-right rtl:float-left w-20 h-10"
+          class="btn ltr:float-right rtl:float-left min-w-[5rem] min-h-[2.5rem] p-4"
           :disabled="loading"
         >
           <div class="flex items-center" v-if="!loading">
