@@ -109,8 +109,10 @@ export default {
     neutral: 'محايد',
     confidenceScore: 'نقاط الثقة',
     comment: 'التعليق',
+    text: 'النص',
     type: 'النوع',
     f1Score: 'نقاط F1',
+    score: 'النقاط',
     downloadResults: 'تنزيل النتائج',
   },
 

@@ -111,8 +111,10 @@ export default {
     neutral: 'Neutral',
     confidenceScore: 'Confidence Score',
     comment: 'Comment',
+    text: 'Text',
     type: 'Type',
     f1Score: 'F1 Score',
+    score: 'Score',
     downloadResults: 'Download Results',
   },
 

@@ -73,7 +73,7 @@
         >
           <el-table-column
             prop="comment"
-            :label="t('data.comment')"
+            :label="t('data.text')"
             class-name="comment-text"
           />
           <el-table-column
@@ -94,7 +94,7 @@
           <el-table-column
             sortable
             prop="score"
-            :label="t('data.f1Score')"
+            :label="t('data.score')"
             width="200"
             class-name="f1score"
             v-slot="colProp"
@@ -238,14 +238,14 @@
 
   /* Results Table Styling */
   table, tbody, td {
-    @apply max-sm:inline !bg-transparent;
+    @apply max-sm:inline !bg-nuha-fushia-100;
   }
   tr {
-    @apply max-sm:flex flex-col max-sm:p-1 max-sm:pb-4 max-sm:mx-4 max-sm:my-4;
-    @apply !bg-transparent;
+    @apply max-sm:flex flex-col max-sm:!p-1 max-sm:pb-4 max-sm:!mx-4 max-sm:!my-4;
+    @apply !bg-nuha-fushia-100;
     @apply max-sm:border-b-2 border-nuha-grey-200 border-dashed border-opacity-50;
     td {
-      @apply py-8 max-sm:py-2;
+      @apply !py-8 max-sm:!py-2;
       @apply !border-0 !border-nuha-grey-100;
       @apply !border-dotted !border-b max-sm:border-opacity-50;
 
@@ -263,14 +263,16 @@
     @apply max-sm:hidden;
     @apply border-t-2 border-nuha-grey-100;
     thead {
-      @apply min-h-[100px];
       th {
-        @apply !bg-transparent py-4;
+        @apply !bg-nuha-fushia-100 !py-4;
         @apply !border-0 !border-b-2 !border-dotted !border-nuha-grey border-opacity-70;
       }
     }
   }
   .el-table .cell {
     @apply break-normal;
+  }
+  .table-container {
+    @apply !bg-transparent;
   }
 </style>
