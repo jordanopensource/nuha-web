@@ -6,5 +6,6 @@
   src:
     local('LT Zarid Text'),
     url('https://webfonts.fontstand.com/Webfont-084743-002802-015176-1bc51958725299a4dd72433ca0c611fdc0b26137.woff')
-      format('woff');
+      format('woff'),
+    url('~/assets/fonts/LT-Zarid/29LT Zarid Text.woff') format('woff');
 }
