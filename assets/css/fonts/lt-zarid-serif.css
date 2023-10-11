@@ -1,8 +1,10 @@
 @font-face {
-  font-family: 'LT Zarid';
+  font-family: 'LT Zarid Text';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('LT Zarid'), local('LT-ZaridSerif'),
-    url('~/assets/fonts/LT-ZaridSerif-Rg/LT-ZaridSerif-Rg.ttf') format('tff');
+  src:
+    local('LT Zarid Text'),
+    url('https://webfonts.fontstand.com/Webfont-084743-002802-015176-1bc51958725299a4dd72433ca0c611fdc0b26137.woff')
+      format('woff');
 }

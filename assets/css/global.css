@@ -1,5 +1,5 @@
 body {
-  @apply antialiased m-0 font-LTZaridSerif rtl:font-IBMPlexSansArabic;
+  @apply antialiased m-0 font-LTZarid;
 }
 
 html,
