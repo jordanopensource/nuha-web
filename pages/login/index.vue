@@ -1,6 +1,5 @@
 <template>
-  <div class="container h-screen w-screen">
-    <UiAppHeader />
+  <div class="h-screen">
     <div class="main">
       <div class="inner-container">
         <h5 class="login-title">{{ t('login.header') }}</h5>
@@ -105,18 +104,23 @@
     @apply w-full h-4/5 grid place-items-center;
   }
   .inner-container {
-    @apply p-5 text-center shadow-sm shadow-nuha-grey-100 rounded-xl bg-nuha-fushia-200;
+    @apply border-solid border-nuha-fushia-300 border-2;
+    @apply py-5 text-center shadow-sm shadow-nuha-grey-100;
   }
   .login-btns {
-    @apply p-10 py-28 lg:p-20 lg:py-28 grid grid-cols-1 gap-2;
+    @apply p-10 lg:p-20 grid grid-cols-1 gap-2;
   }
   .btn {
-    @apply text-white rounded-xl text-lg p-2 bg-nuha-fushia flex items-center ltr:font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+    @apply w-full p-2 bg-nuha-fushia-300 flex justify-center items-center cursor-pointer;
+    @apply rtl:font-IBMPlexSansArabic text-lg text-nuha-fushia-100;
+    @apply border border-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-100 hover:text-nuha-fushia-300;
+    @apply disabled:cursor-not-allowed disabled:bg-nuha-grey-200 disabled:border-none disabled:text-nuha-fushia-100;
   }
   .login-title {
     @apply text-nuha-grey font-semibold;
   }
   .email-input {
-    @apply rounded-xl border-2 border-nuha-grey-300 p-3 mb-2;
+    @apply border-2 border-nuha-grey-300 p-3 mb-2 flex w-full;
   }
 </style>

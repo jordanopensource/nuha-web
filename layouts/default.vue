@@ -8,8 +8,9 @@
       <buildInfoBanner
         v-if="useRuntimeConfig().public.targetEnv === 'development'"
       />
-
+      <UiAppHeader />
       <slot />
+      <UiFooter />
     </Body>
   </Html>
 </template>

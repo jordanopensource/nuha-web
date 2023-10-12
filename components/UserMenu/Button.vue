@@ -2,14 +2,13 @@
   <NuxtLink
     :to="localePath('/login')"
     v-if="!isLoggedIn()"
-    class="login-btn"
-    :class="
-      props.logoColor === 'white' ? 'login-btn-white' : 'login-btn-default'
-    "
+    class="login-btn login-btn-default text-lg"
   >
     {{ t('header.login') }}
+    <span class="mt-1 ms-2 rtl:rotate-180">￫</span>
   </NuxtLink>
-  <div v-else>
+  <!-- TODO -->
+  <!-- <div v-else>
     <button
       @click="
         () => {
@@ -17,18 +16,14 @@
           showItems = !showItems
         }
       "
-      class="lg:ltr:pl-8 lg:rtl:pr-8 text-nuha-fushia"
+      class="lg:ps-8 text-nuha-fushia"
     >
-      <nuxt-img
-        :src="
-          props.logoColor === 'white'
-            ? '/burger-menu-white.svg'
-            : '/burger-menu.svg'
-        "
+      <img
+        src="/burger-menu.svg"
         class="w-10 h-10"
       />
     </button>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -47,12 +42,6 @@
     }
   })
 
-  const props = defineProps({
-    logoColor: {
-      type: String,
-      default: 'default',
-    },
-  })
   const localePath = useLocalePath()
 
   function isLoggedIn() {
@@ -62,13 +51,11 @@
 
 <style lang="postcss" scoped>
   .login-btn {
-    @apply rounded-xl p-2 lg:rtl:mr-2 lg:ltr:ml-2 text-lg border flex items-center ltr:font-IBMPlexMono rtl:font-IBMPlexSansArabic;
+    @apply p-2 ms-2 text-lg border flex items-center;
 
     &-default {
       @apply border-nuha-fushia text-nuha-fushia;
-    }
-    &-white {
-      @apply border-white text-white;
+      @apply hover:bg-nuha-fushia-300 hover:text-nuha-fushia-100;
     }
   }
 </style>
