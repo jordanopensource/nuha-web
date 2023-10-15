@@ -41,3 +41,16 @@ a {
     @apply underline;
   }
 }
+
+/* Homepage */
+main {
+  section {
+    @apply py-20 max-sm:py-5;
+    &:not(:first-child) {
+      @apply border-nuha-fushia-300 border-t-2;
+    }
+  }
+  .main {
+    @apply grid grid-cols-1 lg:grid-cols-2 place-items-center  items-start lg:gap-x-14 gap-y-8;
+  }
+}

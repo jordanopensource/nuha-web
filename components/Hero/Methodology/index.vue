@@ -1,16 +1,12 @@
 <template>
-  <section class="border-nuha-fushia-300 border-t-2 mt-20">
-    <div class="lg:flex lg:justify-between py-20">
-      <div class="lg:w-1/2">
-        <h2>
-          {{ t('methodology.title') }}
-        </h2>
-      </div>
-      <div class="pt-5 lg:pt-0 lg:w-1/2 text-2xl">
-        <p>
-          {{ t('methodology.description') }}
-        </p>
-      </div>
+  <section class="flex flex-col gap-y-16 max-sm:gap-y-12">
+    <div class="main">
+      <h2 class="w-full">
+        {{ t('methodology.title') }}
+      </h2>
+      <p class="text-2xl leading-none">
+        {{ t('methodology.description') }}
+      </p>
     </div>
 
     <div class="cards">
@@ -18,6 +14,7 @@
         v-for="(meth, i) in methodologies"
         :key="i"
         :title="meth.title()"
+        :subtitle="meth.subtitle()"
         :content="meth.description()"
         :image="meth.image"
         :read-more-link="meth.readMoreLink"
@@ -31,24 +28,28 @@
 
   const methodologies: {
     title(): string
+    subtitle(): string
     description(): string
     image: string
     readMoreLink: string
   }[] = [
     {
       title: () => t('methodology.aboutProject'),
+      subtitle: () => t('methodology.aboutProjectSubtitle'),
       description: () => t('methodology.aboutProjectDescription'),
       image: '/images/nuha-meth-1.svg',
       readMoreLink: '/methodology#about',
     },
     {
       title: () => t('methodology.detailed'),
+      subtitle: () => t('methodology.detailedSubtitle'),
       description: () => t('methodology.detailedDescription'),
       image: '/images/nuha-meth-2.svg',
       readMoreLink: '/methodology#details',
     },
     {
       title: () => t('methodology.ethical'),
+      subtitle: () => t('methodology.ethical'),
       description: () => t('methodology.ethicalDescription'),
       image: '/images/nuha-meth-3.svg',
       readMoreLink: '/methodology#ethics',
@@ -58,6 +59,6 @@
 
 <style lang="postcss" scoped>
   .cards {
-    @apply grid grid-cols-1 lg:grid-cols-3 lg:gap-x-10 justify-between;
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-between;
   }
 </style>

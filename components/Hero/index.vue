@@ -1,6 +1,6 @@
 <template>
-  <section class="h-full my-20">
-    <div class="main">
+  <main>
+    <section class="main">
       <div class="w-full p-4">
         <h1 class="text">
           {{ $t('homeHero.title') }}
@@ -20,10 +20,10 @@
       <div class="w-full">
         <NuxtImg class="nuha-logo" src="/hero-logo.svg" alt="Nuha logo"/>
       </div>
-    </div>
-
+    </section>
+  
     <HeroMethodology />
-  </section>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -31,9 +31,6 @@
 </script>
 
 <style lang="postcss" scoped>
-  .main {
-    @apply grid grid-cols-1 lg:grid-cols-2 place-items-center lg:gap-x-14 items-start;
-  }
   .text {
     @apply text-nuha-grey leading-none;
   }
