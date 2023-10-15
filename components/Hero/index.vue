@@ -5,20 +5,20 @@
         <h1 class="text">
           {{ $t('homeHero.title') }}
         </h1>
-        <p class="text my-5 text-4xl lg:w-2/3">
+        <p class="text my-6 mb-12 text-4xl lg:w-2/3">
           {{ $t('homeHero.intro') }}
         </p>
 
-        <button
-          class="btn text-base"
-          @click="navigateTo(localePath('/dashboard'))"
+        <NuxtLink
+          class="btn"
+          :to="localePath('/dashboard')"
         >
           {{ $t('homeHero.tryItOut') }}
-          <div class="arrow-icon"></div>
-        </button>
+          <span class="rtl:rotate-180 mt-1">￫</span>
+        </NuxtLink>
       </div>
       <div class="w-full">
-        <NuxtImg class="nuha-logo" src="/hero-logo.svg" />
+        <NuxtImg class="nuha-logo" src="/hero-logo.svg" alt="Nuha logo"/>
       </div>
     </div>
 
@@ -41,9 +41,9 @@
     @apply text-nuha-grey leading-none;
   }
   .btn {
-    @apply border my-3 p-3 flex items-center justify-center;
-    @apply border-nuha-fushia-300;
-    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
+    @apply text-base w-32 h-10 border px-6 py-3;
+    @apply flex items-center justify-center gap-1;
+    @apply border-nuha-fushia-300 bg-nuha-fushia-100 text-nuha-fushia-300;
     @apply hover:bg-nuha-fushia-300 hover:text-white;
   }
   .nuha-logo {
