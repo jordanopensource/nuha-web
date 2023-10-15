@@ -8,7 +8,11 @@
     </div>
     <h3 class="font-bold font-IBMPlexSansArabic text-lg">{{ title }}</h3>
     <p class="text-xl">{{ content }}</p>
-    <NuxtLink :to="readMoreLink" class="read-more">
+    <NuxtLink
+      v-if="readMoreLink"
+      :to="$nuxt.$localePath(readMoreLink) + readMoreLink.substring(readMoreLink.lastIndexOf('#'))"
+      class="read-more"
+    >
       {{ t('misc.readMore') }}
       <div class="arrow-icon"></div>
     </NuxtLink>
