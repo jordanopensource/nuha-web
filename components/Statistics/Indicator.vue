@@ -1,22 +1,27 @@
 <template>
   <div
-    class="bg-nuha-fushia-100 rounded-t-[2.75rem] text-center text-nuha-fushia text-2xl py-24 lg:hidden snap-end relative"
+    class="bg-nuha-grey rounded-t-[2.75rem] text-center text-nuha-fushia-100 text-2xl py-24 pt-12 lg:hidden snap-end relative"
   >
-    <NuxtLink :to="localePath('/') + '#learn-more'">
-      <span class="cursor-pointer">
-        {{ t('nuha.title') }} <br />
-        <i class="arrow down"></i>
+    <a href="#statistics">
+      <span class="moving-text wrapper cursor-pointer">
+        {{ t('link.statistics') }} <i class="arrow down"></i>
       </span>
-    </NuxtLink>
+    </a>
   </div>
 </template>
 <script setup>
   const { t } = useI18n()
-  const localePath = useLocalePath()
 </script>
 <style scoped lang="postcss">
+  .moving-text {
+    @apply text-center;
+    animation: move 5s ease-in-out infinite;
+  }
+  .wrapper {
+    @apply flex justify-center items-center;
+  }
   .arrow {
-    @apply border-solid border-nuha-fushia;
+    @apply border-solid;
     border-width: 0 3px 3px 0;
     @apply inline-block;
     @apply mx-3 mb-2 p-2;
