@@ -2,16 +2,17 @@
   <div
     class="bg-nuha-fushia-100 rounded-t-[2.75rem] text-center text-nuha-fushia text-2xl py-24 lg:hidden snap-end relative"
   >
-    <a href="#learn-more">
+    <NuxtLink :to="localePath('/') + '#learn-more'">
       <span class="cursor-pointer">
         {{ t('nuha.title') }} <br />
         <i class="arrow down"></i>
       </span>
-    </a>
+    </NuxtLink>
   </div>
 </template>
 <script setup>
   const { t } = useI18n()
+  const localePath = useLocalePath()
 </script>
 <style scoped lang="postcss">
   .arrow {

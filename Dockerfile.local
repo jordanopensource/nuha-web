@@ -1,0 +1,14 @@
+FROM node:18.14.0 AS builder
+
+
+# copy build context and install dependencinpm res
+WORKDIR /app
+COPY . .
+# Or try the below command since we are mapping the volumns
+# COPY ./package.json .
+RUN yarn install
+
+# expose port
+EXPOSE ${PORT}
+
+CMD ["yarn", "dev", "--host"]

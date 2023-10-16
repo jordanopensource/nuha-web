@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  nuha-web:
+    container_name: nuha-web
+    build:
+      context: .
+      # dockerfile: Dockerfile # change to this to test production enviroment
+      dockerfile: Dockerfile.local # This is used only for local development
+    restart: always
+    depends_on:
+      - nuha-db
+    env_file: .env
+    environment:
+      NUXT_MONGODB_URI: 'mongodb://admin:admin@nuha-db:27017'
+    ports:
+      - 3000:3000
+    networks:
+      - nuha-network
+    volumes:
+      - './:/app'
+
+  nuha-db:
+    container_name: nuha-db
+    restart: always
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'admin'
+      MONGO_INITDB_ROOT_PASSWORD: 'admin'
+    ports:
+      - 27017
+    networks:
+      - nuha-network
+
+networks:
+  nuha-network: {}

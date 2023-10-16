@@ -8,8 +8,7 @@ yarn.lock
 .github
 
 # Docker
-Dockerfile
-docker-compose.yaml
+Dockerfile*
 docker-compose.yml
 .dockerignore
 

@@ -15,13 +15,27 @@ const config: NuxtConfig = {
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
+    '@nuxt/image',
     '@josango/nuxt3-build-banner',
+    '@element-plus/nuxt',
+    '@sidebase/nuxt-auth',
   ],
+
+  auth: { globalAppMiddleware: true },
+
   buildModules: ['@nuxt/typescript-build'],
+  typescript: {
+    shim: false,
+    tsConfig: {
+      include: ['~/types/*.ts'],
+    },
+  },
+  plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
 
   css: [
     '@/assets/css/tailwind.css',
-    '@/assets/css/fonts/ibm-plex.css',
+    '@/assets/css/fonts/lt-zarid-serif.css',
+    '@/assets/css/fonts/ibm-plex-sans-arabic.css',
     '@/assets/css/global.css',
   ],
 
@@ -59,6 +73,23 @@ const config: NuxtConfig = {
       buildTimestamp: '',
       monkFormLink: '',
       monkFormId: '',
+    },
+    authSecret: '',
+    github: {
+      clientId: '',
+      clientSecret: '',
+    },
+    josaOAuth: {
+      clientId: '',
+      clientSecret: '',
+      wellKnown: '',
+    },
+    apiUrl: '',
+    mongodbUri: '',
+    smtp: {
+      host: '',
+      user: '',
+      password: '',
     },
   },
 }
