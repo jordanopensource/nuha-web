@@ -9,7 +9,7 @@
           :description="t('dashboard.steps.step1.name')"
         />
       </div>
-      <div class="w-3/4 max-sm:w-full inline-block mt-2">
+      <div class="w-3/4 max-sm:w-full inline-block mt-2 text-2xl">
         <ul>
           <li
             v-for="item in t('dashboard.steps.step1.description').split('\n')"
@@ -28,7 +28,7 @@
           :description="t('dashboard.steps.step2.name')"
         />
       </div>
-      <div class="w-3/4 max-sm:w-full inline-block mt-2">
+      <div class="w-3/4 max-sm:w-full inline-block mt-2 text-2xl">
         <div class="w-full mb-20">
           <DashboardUploadSingleComment
             :key="dataFocus"
@@ -48,7 +48,7 @@
 
         <div class="flex items-center gap-x-5">
           <div class="separator"></div>
-          <span class="font-medium text-lg">{{ t('dashboard.or') }}</span>
+          <span class="font-medium text-sm">{{ t('dashboard.or') }}</span>
           <div class="separator"></div>
         </div>
         <DashboardUploadFile
@@ -68,12 +68,12 @@
 
         <button
           @click="handleSubmit"
-          class="btn ltr:float-right rtl:float-left min-w-[5rem] min-h-[2.5rem] p-4"
+          class="btn ltr:float-right rtl:float-left max-h-9 min-w-[6rem]"
           :disabled="loading"
         >
           <div class="flex items-center" v-if="!loading">
             {{ t('dashboard.actions.analyze') }}
-            <div class="arrow-icon"></div>
+            <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
           </div>
           <div v-else class="loader !h-8 !w-8"></div>
         </button>
@@ -283,17 +283,10 @@
     @apply h-0 border-b border-b-nuha-fushia-300 w-full;
   }
   .btn {
-    @apply border my-3 p-1 flex items-center justify-center text-lg;
+    @apply border my-3 p-3 flex items-center justify-center text-lg;
     @apply border-nuha-fushia-300;
     @apply bg-nuha-fushia-100 text-nuha-fushia-300;
     @apply hover:bg-nuha-fushia-300 hover:text-white;
     @apply disabled:bg-transparent;
-  }
-  .btn:hover .arrow-icon {
-    @apply bg-[url('/icons/arrow-right-white.svg')];
-  }
-  .arrow-icon {
-    @apply w-5 h-5 transform rtl:rotate-180 text-black;
-    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
   }
 </style>
