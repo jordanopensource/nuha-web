@@ -27,6 +27,9 @@ module.exports = {
           200: '#8f8f8f',
           100: '#afafaf',
         },
+        'nuha-white': {
+          DEFAULT: '#faf4f4'
+        },
         'prediction-neutral': {
           DEFAULT: '#6db981',
         },
