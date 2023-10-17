@@ -12,7 +12,7 @@
   <NuxtLink
     v-for="link in links"
     @click="emit('showMobileMenu')"
-    :to="link.path"
+    :to="link.path()"
     class="text-lg"
   >
     {{ link.title() }}
@@ -45,17 +45,17 @@
 
   type Link = {
     title(): string
-    path: string
+    path(): string
   }
 
   const links = ref<Link[]>([
     {
       title: () => t('methodology.title'),
-      path: localePath('/methodology'),
+      path: () => localePath('/methodology'),
     },
     {
       title: () => t('header.userMenu.dashboard'),
-      path: localePath('/dashboard'),
+      path: () => localePath('/dashboard'),
     },
   ])
 </script>
