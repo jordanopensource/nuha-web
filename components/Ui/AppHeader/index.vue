@@ -44,7 +44,7 @@
   }
 
   .list {
-    @apply gap-8 font-light;
+    @apply gap-12 font-light;
     @apply justify-between items-center;
   }
   .list a {
