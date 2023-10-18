@@ -31,6 +31,12 @@
 </script>
 
 <style lang="postcss" scoped>
+  .main {
+    @apply grid grid-cols-1 lg:grid-cols-2 place-items-center lg:gap-x-14;
+  }
+  .link {
+    @apply grid grid-cols-1 place-items-center pt-7 italic text-xl font-medium underline text-nuha-fushia;
+  }
   .text {
     @apply text-nuha-grey leading-none;
   }
@@ -44,5 +50,12 @@
     @apply my-10 lg:my-0;
     @apply w-full;
     @apply w-full lg:w-[707px];
+  }
+  .btn:hover .arrow-icon {
+    @apply bg-[url('/icons/arrow-right-white.svg')];
+  }
+  .arrow-icon {
+    @apply mx-2 w-8 h-8 transform rtl:rotate-180 text-black;
+    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
   }
 </style>
