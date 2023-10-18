@@ -39,7 +39,7 @@
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
     return (locales.value as LocaleObject[]).filter(
-      (l: LocaleObject) => l.code !== locale.value,
+      (l: LocaleObject) => l.code !== locale.value
     )
   })
 
@@ -53,10 +53,14 @@
       title: () => t('methodology.title'),
       path: () => localePath('/methodology'),
     },
-    {
-      title: () => t('header.userMenu.dashboard'),
-      path: () => localePath('/dashboard'),
-    },
   ])
+  watchEffect(() => {
+    if (useAuthCheck()) {
+      links.value.push({
+        title: () => t('header.userMenu.dashboard'),
+        path: () => localePath('/dashboard'),
+      })
+    }
+  })
 </script>
 <style scoped lang="postcss"></style>
