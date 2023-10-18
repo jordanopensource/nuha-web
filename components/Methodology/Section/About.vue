@@ -1,8 +1,8 @@
 <template>
   <section>
-    <h3>{{ $t('methodology.sections.about.firstParagraph.title') }}</h3>
-    <p>{{ $t('methodology.sections.about.firstParagraph.p1') }}</p>
-    <p>{{ $t('methodology.sections.about.firstParagraph.p2') }}</p>
+    <h2 class="font-medium text-[36px]">{{ $t('methodology.sections.about.firstParagraph.title') }}</h2>
+    <p class="font-medium text-[24px] leading-[1.2]">{{ $t('methodology.sections.about.firstParagraph.p1') }}</p>
+    <p class="font-medium text-[24px] leading-[1.2]">{{ $t('methodology.sections.about.firstParagraph.p2') }}</p>
     <figure>
       <img
         src="/images/methodology-cycle.png"
@@ -15,9 +15,9 @@
     </figure>
   </section>
   <section>
-    <h3>{{ $t('methodology.sections.about.secondParagraph.title') }}</h3>
-    <p>{{ $t('methodology.sections.about.secondParagraph.p1') }}</p>
-    <p>{{ $t('methodology.sections.about.secondParagraph.p2') }}</p>
+    <h2 class="font-medium text-[36px]">{{ $t('methodology.sections.about.secondParagraph.title') }}</h2>
+    <p class="font-medium text-[24px] leading-[1.2]">{{ $t('methodology.sections.about.secondParagraph.p1') }}</p>
+    <p class="font-medium text-[24px] leading-[1.2]">{{ $t('methodology.sections.about.secondParagraph.p2') }}</p>
   </section>
   <div class="footnotes py-8">
     <p class="text-lg">{{ $t('methodology.footnotes') }}</p>
