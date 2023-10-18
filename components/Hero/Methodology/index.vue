@@ -20,7 +20,7 @@
         :title="meth.title()"
         :content="meth.description()"
         :image="meth.image"
-        :read-more-link="meth.readMoreLink"
+        :read-more-link="localePath(meth.readMoreLink)"
       />
     </div>
   </section>
@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
   const { t } = useI18n()
+  const localePath = useLocalePath()
 
   const methodologies: {
     title(): string
