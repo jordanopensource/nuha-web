@@ -2,7 +2,7 @@
 <template>
   <section class="w-full my-5 lg:my-20" id="upload-container">
     <div class="flex max-sm:flex-col items-top gap-4 my-8">
-      <div class="w-1/4 inline-block">
+      <div class="w-1/4 max-sm:w-full inline-block">
         <DashboardUploadStep
           circle-id="step-one"
           :order="1"
@@ -21,7 +21,7 @@
     </div>
 
     <div class="flex max-sm:flex-col items-top gap-4">
-      <div class="w-1/4 inline-block">
+      <div class="w-1/4 max-sm:w-full inline-block">
         <DashboardUploadStep
           circle-id="step-two"
           :order="2"
