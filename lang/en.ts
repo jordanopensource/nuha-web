@@ -128,7 +128,7 @@ export default {
       step1: {
         name: 'Before you start',
         description:
-          "1. The model analysis text in Arabic only.\n2. It's important to note that this AI model is still experimental, and not all of its generated results may be entirely factual.",
+          "1. The model analyses text in Arabic only.\n2. It's important to note that this AI model is still experimental, and not all of its generated results may be entirely factual.",
       },
       step2: {
         name: 'Analyse your text',
