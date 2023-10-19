@@ -1,6 +1,6 @@
 <template>
-  <div class="my-5 grid grid-cols-none gap-5">
-    <p>{{ t('dashboard.steps.step2.descriptionFile') }}</p>
+  <div class="flex flex-col gap-6">
+    <p class="leading-none">{{ t('dashboard.steps.step2.descriptionFile') }}</p>
 
     <div class="flex gap-4 items-center flex-wrap">
       <label class="btn select-file" for="file-upload"
@@ -62,7 +62,7 @@
 
 <style lang="postcss" scoped>
   .btn {
-    @apply border my-3 p-3 flex items-center justify-center text-lg max-h-9;
+    @apply border p-3 flex items-center justify-center text-lg max-h-9;
     @apply border-nuha-fushia-300;
     @apply text-nuha-fushia-300 font-IBMPlexSansArabic;
     @apply hover:bg-nuha-fushia-200;

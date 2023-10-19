@@ -46,7 +46,7 @@
           />
         </div>
 
-        <div class="flex items-center gap-x-5">
+        <div class="flex items-center gap-x-5 mb-14">
           <div class="separator"></div>
           <span class="font-medium text-sm">{{ t('dashboard.or') }}</span>
           <div class="separator"></div>
