@@ -285,8 +285,8 @@
   .btn {
     @apply border my-3 p-3 flex items-center justify-center text-lg;
     @apply border-nuha-fushia-300;
-    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-300 hover:text-white;
+    @apply bg-nuha-white text-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-300 hover:text-nuha-white;
     @apply disabled:bg-transparent;
   }
 </style>
