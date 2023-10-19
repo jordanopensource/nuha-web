@@ -1,17 +1,13 @@
 <template>
   <div class="container">
     <div class="mt-10">
-      <button
-        @click="
-          () => {
-            router.push(localePath('/dashboard'))
-          }
-        "
+      <NuxtLink
+        :to="localePath('/dashboard')"
         class="btn"
       >
-        <div class="arrow-icon"></div>
+        <span class="me-1 rotate-180 rtl:rotate-0">￫</span>
         {{ t('dashboard.actions.goBack') }}
-      </button>
+      </NuxtLink>
     </div>
 
     <ClientOnly>
@@ -61,17 +57,9 @@
 
 <style scoped lang="postcss">
   .btn {
-    @apply border my-3 p-1 flex items-center justify-center text-lg;
+    @apply border px-3 py-1 text-lg max-w-max max-h-9 h-9;
     @apply border-nuha-fushia-300;
-    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-300 hover:text-white;
-  }
-  .btn:hover .arrow-icon {
-    @apply bg-[url('/icons/arrow-right-white.svg')];
-  }
-  .arrow-icon {
-    @apply transform rotate-180 rtl:rotate-0;
-    @apply w-5 h-5 text-black;
-    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
+    @apply bg-nuha-white text-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-300 hover:text-nuha-white;
   }
 </style>
