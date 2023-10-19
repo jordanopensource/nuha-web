@@ -1,7 +1,7 @@
 <template>
   <footer class="container">
     <div
-      class="flex justify-between gap-x-8 border-y-2 py-32 my-4 mb-16 border-nuha-fushia-300"
+      class="flex justify-between gap-x-8 border-y-2 py-16 my-4 mb-16 border-nuha-fushia-300"
     >
       <div class="flex max-md:flex-col gap-10 md:items-center">
         <NuxtLink :to="$nuxt.$localePath('/')">

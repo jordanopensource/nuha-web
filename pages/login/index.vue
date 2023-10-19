@@ -112,15 +112,15 @@
   }
   .btn {
     @apply w-full p-2 bg-nuha-fushia-300 flex justify-center items-center cursor-pointer;
-    @apply rtl:font-IBMPlexSansArabic text-lg text-nuha-fushia-100;
+    @apply font-IBMPlexSansArabic text-base text-nuha-white;
     @apply border border-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-100 hover:text-nuha-fushia-300;
+    @apply hover:bg-nuha-white hover:text-nuha-fushia-300;
     @apply disabled:cursor-not-allowed disabled:bg-nuha-grey-200 disabled:border-none disabled:text-nuha-fushia-100;
   }
   .login-title {
     @apply text-nuha-grey font-semibold;
   }
   .email-input {
-    @apply border-2 border-nuha-grey-300 p-3 mb-2 flex w-full;
+    @apply border border-nuha-grey-100 p-3 mb-2 w-full;
   }
 </style>
