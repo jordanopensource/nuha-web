@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-2 flex-wrap items-center text-xl font-medium">
+  <div class="flex gap-1.5 flex-wrap items-center font-medium font-IBMPlexSansArabic text-2xl">
     <div
       :id="circleId"
       class="flex justify-center items-center w-[44px] h-[44px] aspect-square text-white rounded-full bg-nuha-fushia-300"

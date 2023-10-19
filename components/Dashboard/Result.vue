@@ -15,7 +15,7 @@
             {{ importedRows }}
           </span>
         </p>
-        <button @click="downloadResults" class="btn">
+        <button @click="downloadResults" class="download-btn">
           {{ t('data.downloadResults') }}
           <div class="arrow-icon rotate-90"></div>
         </button>
@@ -40,7 +40,7 @@
           show-legend
         >
           <template #caption>
-            <p class="mt-2">
+            <p class="mt-2 font-IBMPlexSansArabic text-sm">
               <span class="font-bold">{{ $t('methodology.figure') }} 1:</span>
               {{ $t('predictionResult.charts.1') }}
             </p>
@@ -54,7 +54,7 @@
           show-legend
         >
           <template #caption>
-            <p class="mt-2">
+            <p class="mt-2 font-IBMPlexSansArabic text-sm">
               <span class="font-bold">{{ $t('methodology.figure') }} 2:</span>
               {{ $t('predictionResult.charts.2') }}
             </p>
@@ -83,7 +83,7 @@
             width="180"
             v-slot="colProp"
           >
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 font-IBMPlexSansArabic text-base">
               <div
                 class="w-5 aspect-square h-5"
                 :class="colProp?.row?.label === $t('data.neutral') ? 'bg-prediction-neutral' : 'bg-prediction-hatespeach'"
@@ -99,7 +99,7 @@
             class-name="f1score"
             v-slot="colProp"
           >
-            <div class="flex flex-wrap gap-2 items-center">
+            <div class="flex flex-wrap gap-2 items-center font-IBMPlexSansArabic text-base">
               {{ (colProp?.row?.score / 100).toFixed(2) }}
               <div class="bg-nuha-fushia-200 flex-1 h-5">
                 <div
@@ -159,8 +159,6 @@
     importedRows: Number,
     fileName: String,
   })
-
-  const width = useClientWidth()
 
   const chartData = computed(() => [
     {
@@ -222,13 +220,13 @@
     @apply rtl:!rotate-180;
   }
 
-  .btn {
-    @apply border my-3 p-1 flex items-center justify-center text-lg;
+  .download-btn {
+    @apply border p-3 max-h-9 flex items-center justify-center text-lg;
     @apply border-nuha-fushia-300;
-    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-300 hover:text-white;
+    @apply bg-nuha-white text-nuha-fushia-300;
+    @apply hover:bg-nuha-fushia-300 hover:text-nuha-white;
   }
-  .btn:hover .arrow-icon {
+  .download-btn:hover .arrow-icon {
     @apply bg-[url('/icons/arrow-right-white.svg')];
   }
   .arrow-icon {
@@ -238,11 +236,11 @@
 
   /* Results Table Styling */
   table, tbody, td {
-    @apply max-sm:inline !bg-nuha-fushia-100;
+    @apply max-sm:inline !bg-nuha-white text-black text-xl;
   }
   tr {
     @apply max-sm:flex flex-col max-sm:!p-1 max-sm:pb-4 max-sm:!mx-4 max-sm:!my-4;
-    @apply !bg-nuha-fushia-100;
+    @apply !bg-nuha-white;
     @apply max-sm:border-b-2 border-nuha-grey-200 border-dashed border-opacity-50;
     td {
       @apply !py-8 max-sm:!py-2;
@@ -264,7 +262,7 @@
     @apply border-t-2 border-nuha-grey-100;
     thead {
       th {
-        @apply !bg-nuha-fushia-100 !py-4;
+        @apply !bg-nuha-white !py-4;
         @apply !border-0 !border-b-2 !border-dotted !border-nuha-grey border-opacity-70;
       }
     }
@@ -278,6 +276,6 @@
   .el-pagination.is-background .btn-next,
   .el-pagination.is-background .btn-prev,
   .el-pagination.is-background li {
-    @apply !bg-transparent;
+    @apply !bg-transparent font-IBMPlexSansArabic !text-sm;
   }
 </style>

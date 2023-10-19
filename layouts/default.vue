@@ -2,9 +2,8 @@
   <Html
     :lang="head.htmlAttrs!.lang"
     :dir="head.htmlAttrs!.dir"
-    class="bg-nuha-fushia-100"
   >
-    <Body>
+    <Body class="bg-nuha-white">
       <buildInfoBanner
         v-if="useRuntimeConfig().public.targetEnv === 'development'"
       />

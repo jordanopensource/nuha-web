@@ -48,9 +48,11 @@ export default {
     description:
       'Our text models are advanced language processing tools that can generate, classify, and summarize text with high levels of coherence and accuracy.',
     aboutProject: 'About this project',
+    aboutProjectSubtitle: 'What is Nuha?',
     aboutProjectDescription:
       'Nuha, is an AI that aims to detect and classify hate speech against women in digital spaces, such as social media platforms. Nuha, which derives from the Arabic word for "mind" or "brain," represents a critical step forward in addressing the pervasive issue of cyber-gender-based and sexist hate speech against women.',
     detailed: 'Detailed Methodology',
+    detailedSubtitle: 'How does Nuha work?',
     detailedDescription:
       'Nuha model is being trained using a dataset obtained by monitoring 20 trending hashtags related to women and the feminist movement in Jordan, as well as 83 names of women activists and women influencers in Jordan.',
     ethical: 'Ethical considerations',
@@ -126,7 +128,7 @@ export default {
       step1: {
         name: 'Before you start',
         description:
-          "1. The model analysis text in Arabic only.\n2. It's important to note that this AI model is still experimental, and not all of its generated results may be entirely factual.",
+          "1. The model analyses text in Arabic only.\n2. It's important to note that this AI model is still experimental, and not all of its generated results may be entirely factual.",
       },
       step2: {
         name: 'Analyse your text',

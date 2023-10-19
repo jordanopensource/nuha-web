@@ -1,18 +1,28 @@
 <template>
-  <div class="card">
-    <NuxtImg class="image" :src="image" loading="lazy" />
+  <div class="card flex flex-col gap-y-5">
+    <div
+      class="bg-cover w-full aspect-square p-8 bg-no-repeat"
+      :style="`background-image: url('${image}')`"
+    >
+      <h4 class="text-4xl text-nuha-fushia-100 w-3/5">{{ subtitle }}</h4>
+    </div>
     <h3 class="font-bold font-IBMPlexSansArabic text-lg">{{ title }}</h3>
     <p class="text-xl">{{ content }}</p>
-    <a :href="readMoreLink" class="read-more">
+    <NuxtLink
+      v-if="readMoreLink"
+      :to="$nuxt.$localePath(readMoreLink) + readMoreLink.substring(readMoreLink.lastIndexOf('#'))"
+      class="read-more"
+    >
       {{ t('misc.readMore') }}
       <div class="arrow-icon"></div>
-    </a>
+    </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
   defineProps({
     title: String,
+    subtitle: String,
     content: String,
     image: String,
     readMoreLink: String,
@@ -22,17 +32,6 @@
 </script>
 
 <style lang="postcss" scoped>
-  .card {
-    @apply inline-block my-5;
-  }
-  p,
-  .image,
-  .card {
-    @apply w-full;
-  }
-  p {
-    @apply my-5;
-  }
   .read-more {
     @apply text-nuha-fushia-300;
     @apply flex items-center;
