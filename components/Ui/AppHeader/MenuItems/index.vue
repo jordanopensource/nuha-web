@@ -9,14 +9,16 @@
     >{{ localeItem.name }}
   </NuxtLink>
 
-  <NuxtLink
-    v-for="link in links"
-    @click="emit('showMobileMenu')"
-    :to="link.path()"
-    class="text-lg"
-  >
-    {{ link.title() }}
-  </NuxtLink>
+  <template v-for="link in links">
+    <NuxtLink
+      v-if="link.condition === undefined || link.condition"
+      @click="emit('showMobileMenu')"
+      :to="link.path()"
+      class="text-lg"
+    >
+      {{ link.title() }}
+    </NuxtLink>
+  </template>
 
   <!-- User items -->
   <UserMenuButton
@@ -46,6 +48,7 @@
   type Link = {
     title(): string
     path(): string
+    condition?: boolean
   }
 
   const links = ref<Link[]>([
@@ -53,14 +56,11 @@
       title: () => t('methodology.title'),
       path: () => localePath('/methodology'),
     },
-  ])
-  watchEffect(() => {
-    if (useAuthCheck()) {
-      links.value.push({
-        title: () => t('header.userMenu.dashboard'),
-        path: () => localePath('/dashboard'),
-      })
+    {
+      title: () => t('header.userMenu.dashboard'),
+      path: () => localePath('/dashboard'),
+      condition: useAuthCheck()
     }
-  })
+  ])
 </script>
 <style scoped lang="postcss"></style>

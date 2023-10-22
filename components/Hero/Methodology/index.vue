@@ -17,7 +17,7 @@
         :subtitle="meth.subtitle()"
         :content="meth.description()"
         :image="meth.image"
-        :read-more-link="localePath(meth.readMoreLink)"
+        :read-more-link="meth.readMoreLink"
       />
     </div>
   </section>
