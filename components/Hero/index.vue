@@ -18,7 +18,7 @@
         </NuxtLink>
       </div>
       <div class="w-full">
-        <NuxtImg class="nuha-logo" src="/hero-logo.svg" alt="Nuha logo"/>
+        <img class="nuha-logo" src="/hero-logo.svg" alt="Nuha logo"/>
       </div>
     </section>
   
