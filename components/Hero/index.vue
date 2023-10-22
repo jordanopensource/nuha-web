@@ -1,7 +1,7 @@
 <template>
   <main>
     <section class="main">
-      <div class="w-full p-4">
+      <div class="w-full">
         <h1 class="text">
           {{ $t('homeHero.title') }}
         </h1>
@@ -32,7 +32,7 @@
 
 <style lang="postcss" scoped>
   .main {
-    @apply grid grid-cols-1 lg:grid-cols-2 place-items-center lg:gap-x-14;
+    @apply grid grid-cols-1 lg:grid-cols-2 place-items-start lg:gap-x-14;
   }
   .link {
     @apply grid grid-cols-1 place-items-center pt-7 italic text-xl font-medium underline text-nuha-fushia;

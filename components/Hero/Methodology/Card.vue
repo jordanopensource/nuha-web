@@ -4,7 +4,7 @@
       class="bg-cover w-full aspect-square p-8 bg-no-repeat"
       :style="`background-image: url('${image}')`"
     >
-      <h4 class="text-4xl text-nuha-fushia-100 w-3/5">{{ subtitle }}</h4>
+      <h4 class="text-4xl text-nuha-fushia-100 w-3/5 leading-[0.83]">{{ subtitle }}</h4>
     </div>
     <h3 class="font-bold font-IBMPlexSansArabic text-lg">{{ title }}</h3>
     <p class="text-xl">{{ content }}</p>
