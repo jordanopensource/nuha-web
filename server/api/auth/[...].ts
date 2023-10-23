@@ -165,13 +165,13 @@ function html(
         };"
       >
         <img
-          style="display: inline; height: 70px; padding-right: 30px"
-          alt="JOSA Logo" title="JOSA Logo" height="75" width="100"
+          style="display: inline; height: 80px; padding-right: 30px"
+          alt="JOSA Logo" title="JOSA Logo" height="80" width="240"
           src="https://josa.ngo/_ipx/_/logos/logo-colored-en.svg"
         />
         <img
-          style="display: inline; height: 70px"
-          alt="Nuha Logo" title="Nuha Logo" height="75" width="75"
+          style="display: inline; height: 80px"
+          alt="Nuha Logo" title="Nuha Logo" height="80" width="80"
           src="https://nuha.josa.ngo/logo.svg"
         />
       </td>
