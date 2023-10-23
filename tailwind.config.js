@@ -40,6 +40,7 @@ module.exports = {
       fontFamily: {
         LTZarid: 'LT Zarid Text',
         IBMPlexSansArabic: 'IBM Plex Sans Arabic',
+        IBMPlexMono: 'IBM Plex Mono',
       },
       lineHeight: {
         15: '68px',
