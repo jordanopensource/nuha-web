@@ -176,6 +176,7 @@ export default {
     withGithub: 'Login using GitHub',
     withJosaId: 'Login using JOSA ID',
     withMagicEmail: 'Email me a magic link',
+    emailLoginSuccess: 'Check ypur email to complete the login process',
   },
 
   predictionResult: {

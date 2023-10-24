@@ -60,10 +60,12 @@
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
   })
   import { get, set } from '@vueuse/core'
+  import { ElNotification } from 'element-plus'
 
   const { signIn } = useAuth()
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const route = useRoute()
 
   const canLoginWithGithub = ref(false)
   const canLoginWithJosaId = ref(false)
@@ -81,6 +83,17 @@
           // set(canLoginWithJosaId, resp.josaId)
         }
       })
+
+    if (route.query['email-login']) {
+      ElNotification({
+        title: t('status.success'),
+        message: t('login.emailLoginSuccess'),
+        type: 'success',
+        duration: 10000,
+        position: 'bottom-right',
+      })
+      console.log('hello, I have hacked your computer')
+    }
   })
 
   async function loginWithGithub() {

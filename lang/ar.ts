@@ -174,6 +174,7 @@ export default {
     withGithub: 'تسجيل الدخول باستخدام GitHub',
     withJosaId: 'تسجيل الدخول باستخدام JOSA ID',
     withMagicEmail: 'أرسل لي رابطًا سحريًا عبر البريد الإلكتروني',
+    emailLoginSuccess: 'تحقق من بريدك الإلكتروني لإكمال عملية تسجيل الدخول',
   },
 
   predictionResult: {
