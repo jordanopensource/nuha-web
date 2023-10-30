@@ -10,7 +10,6 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@nuxt/image": "^1.0.0-rc.1",
     "@nuxt/types": "^2.17.1",
     "@nuxt/typescript-build": "^3.0.1",
     "@nuxtjs/i18n": "^8.0.0-beta.12",

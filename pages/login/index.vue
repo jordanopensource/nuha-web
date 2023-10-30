@@ -60,10 +60,12 @@
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
   })
   import { get, set } from '@vueuse/core'
+  import { ElNotification } from 'element-plus'
 
   const { signIn } = useAuth()
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const route = useRoute()
 
   const canLoginWithGithub = ref(false)
   const canLoginWithJosaId = ref(false)
@@ -81,6 +83,17 @@
           // set(canLoginWithJosaId, resp.josaId)
         }
       })
+
+    if (route.query['email-login']) {
+      ElNotification({
+        title: t('status.success'),
+        message: t('login.emailLoginSuccess'),
+        type: 'success',
+        duration: 10000,
+        position: 'bottom-right',
+      })
+      console.log('hello, I have hacked your computer')
+    }
   })
 
   async function loginWithGithub() {
@@ -112,15 +125,15 @@
   }
   .btn {
     @apply w-full p-2 bg-nuha-fushia-300 flex justify-center items-center cursor-pointer;
-    @apply rtl:font-IBMPlexSansArabic text-lg text-nuha-fushia-100;
+    @apply font-IBMPlexSansArabic text-base text-nuha-white;
     @apply border border-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-100 hover:text-nuha-fushia-300;
+    @apply hover:bg-nuha-white hover:text-nuha-fushia-300;
     @apply disabled:cursor-not-allowed disabled:bg-nuha-grey-200 disabled:border-none disabled:text-nuha-fushia-100;
   }
   .login-title {
     @apply text-nuha-grey font-semibold;
   }
   .email-input {
-    @apply border-2 border-nuha-grey-300 p-3 mb-2 flex w-full;
+    @apply border border-nuha-grey-100 p-3 mb-2 w-full;
   }
 </style>

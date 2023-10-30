@@ -4,7 +4,7 @@
   >
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <h1>{{ $t('methodology.title') }}</h1>
-      <p class="text-4xl text-justify">
+      <p class="text-4xl">
         {{ $t('methodology.description') }}
       </p>
     </div>

@@ -1,22 +1,22 @@
 <template>
   <footer class="container">
     <div
-      class="flex justify-between gap-x-8 border-y-2 py-32 my-4 mb-16 border-nuha-fushia-300"
+      class="flex justify-between gap-x-8 border-y-2 py-16 my-4 mb-16 border-nuha-fushia-300"
     >
       <div class="flex max-md:flex-col gap-10 md:items-center">
         <NuxtLink :to="$nuxt.$localePath('/')">
           <img width="75" height="75" src="/logo.svg" alt="Nuha logo" />
         </NuxtLink>
         <div>
-          <span class="text-2xl font-light">Nuha نهى</span>
-          <p class="text-nuha-grey-100">{{ $t('footer.copyright') }}</p>
+          <span class="text-2xl font-light leading-none">Nuha نهى</span>
+          <p class="text-nuha-grey-100 text-base leading-none">{{ $t('footer.copyright') }}</p>
         </div>
       </div>
-      <nav class="flex max-md:flex-col gap-y-16 md:gap-4 justify-center">
+      <nav class="flex max-md:flex-col gap-6 justify-end">
         <NuxtLink
           v-for="(link, i) in links"
           :key="i"
-          class="link link-nav link-hover max-md:min-w-max text-base"
+          class="link link-nav link-hover max-md:min-w-max !text-base"
           :to="link.path"
           :external="link.external"
           :target="link.external ? '_blank' : '_self'"

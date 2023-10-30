@@ -5,7 +5,7 @@
     class="login-btn login-btn-default text-lg"
   >
     {{ t('header.login') }}
-    <span class="mt-1 ms-2 rtl:rotate-180">￫</span>
+    <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
   </NuxtLink>
   <!-- TODO -->
   <!-- <div v-else>
@@ -51,10 +51,10 @@
 
 <style lang="postcss" scoped>
   .login-btn {
-    @apply p-2 ms-2 text-lg border flex items-center;
+    @apply px-6 py-2 text-lg border flex items-center;
 
     &-default {
-      @apply border-nuha-fushia text-nuha-fushia;
+      @apply border-nuha-fushia text-nuha-fushia text-base leading-none;
       @apply hover:bg-nuha-fushia-300 hover:text-nuha-fushia-100;
     }
   }

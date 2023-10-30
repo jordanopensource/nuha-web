@@ -9,14 +9,16 @@
     >{{ localeItem.name }}
   </NuxtLink>
 
-  <NuxtLink
-    v-for="link in links"
-    @click="emit('showMobileMenu')"
-    :to="link.path"
-    class="text-lg"
-  >
-    {{ link.title() }}
-  </NuxtLink>
+  <template v-for="link in links">
+    <NuxtLink
+      v-if="link.condition === undefined || link.condition"
+      @click="emit('showMobileMenu')"
+      :to="link.path()"
+      class="text-lg"
+    >
+      {{ link.title() }}
+    </NuxtLink>
+  </template>
 
   <!-- User items -->
   <UserMenuButton
@@ -39,24 +41,26 @@
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
     return (locales.value as LocaleObject[]).filter(
-      (l: LocaleObject) => l.code !== locale.value,
+      (l: LocaleObject) => l.code !== locale.value
     )
   })
 
   type Link = {
     title(): string
-    path: string
+    path(): string
+    condition?: boolean
   }
 
   const links = ref<Link[]>([
     {
       title: () => t('methodology.title'),
-      path: localePath('/methodology'),
+      path: () => localePath('/methodology'),
     },
     {
       title: () => t('header.userMenu.dashboard'),
-      path: localePath('/dashboard'),
-    },
+      path: () => localePath('/dashboard'),
+      condition: useAuthCheck()
+    }
   ])
 </script>
 <style scoped lang="postcss"></style>

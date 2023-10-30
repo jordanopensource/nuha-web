@@ -1,20 +1,20 @@
 <template>
-  <div class="my-5 grid grid-cols-none gap-5">
-    <p>{{ t('dashboard.steps.step2.descriptionFile') }}</p>
+  <div class="flex flex-col gap-6">
+    <p class="leading-none">{{ t('dashboard.steps.step2.descriptionFile') }}</p>
 
-    <div class="grid gap-2 lg:gap-y-0 grid-cols-1 lg:grid-cols-2">
+    <div class="flex gap-4 items-center flex-wrap">
       <label class="btn select-file" for="file-upload"
         >{{
           !file
             ? t('dashboard.fileUpload.selectFile')
             : `${t('dashboard.fileUpload.selected')}: ${file.name}`
         }}
-        <div class="arrow-icon"></div>
+        <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
       </label>
 
       <button @click="downloadTemplate" class="btn">
         {{ t('dashboard.fileUpload.downloadTempalte') }}
-        <div class="arrow-icon"></div>
+        <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
       </button>
     </div>
   </div>
@@ -62,28 +62,14 @@
 
 <style lang="postcss" scoped>
   .btn {
-    @apply border my-3 p-1 flex items-center justify-center text-lg;
+    @apply border p-3 flex items-center justify-center text-lg max-h-9;
     @apply border-nuha-fushia-300;
-    @apply bg-nuha-fushia-100 text-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-300 hover:text-white;
-  }
-  .btn:hover .arrow-icon {
-    @apply bg-[url('/icons/arrow-right-white.svg')];
-  }
-  .arrow-icon {
-    @apply w-5 h-5 transform rtl:rotate-180 text-black;
-    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
+    @apply text-nuha-fushia-300 font-IBMPlexSansArabic;
+    @apply hover:bg-nuha-fushia-200;
   }
   .select-file {
     @apply cursor-pointer;
-    @apply !bg-nuha-fushia-300 text-white;
-    @apply hover:!bg-nuha-fushia-100 hover:!text-nuha-fushia-300;
-  }
-  .select-file:hover .arrow-icon {
-    @apply !bg-[url('/icons/arrow-right.svg')];
-  }
-  .select-file .arrow-icon {
-    @apply w-5 h-5 transform rtl:rotate-180 text-black;
-    @apply !bg-[url('/icons/arrow-right-white.svg')] bg-cover;
+    @apply !bg-nuha-fushia-300 text-nuha-white;
+    @apply hover:!bg-nuha-fushia-200 hover:!text-nuha-fushia-300;
   }
 </style>
