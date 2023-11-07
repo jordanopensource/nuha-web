@@ -29,7 +29,13 @@ const config: NuxtConfig = {
       include: ['~/types/*.ts'],
     },
   },
-  plugins: [{ src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' }],
+  plugins: [
+    { src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' },
+    {
+      src: '~/plugins/matomo-plugin.client.js',
+      ssr: false,
+    },
+  ],
 
   css: [
     '@/assets/css/tailwind.css',
@@ -72,6 +78,8 @@ const config: NuxtConfig = {
       buildTimestamp: '',
       monkFormLink: '',
       monkFormId: '',
+      matomoSiteId: 19,
+      matomoHost: 'https://analytics.josa.ngo/',
     },
     authSecret: '',
     github: {
