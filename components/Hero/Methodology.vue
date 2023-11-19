@@ -10,7 +10,7 @@
     </div>
 
     <div class="cards">
-      <HeroMethodologyCard
+      <HeroCard
         v-for="(meth, i) in methodologies"
         :key="i"
         :title="meth.title()"
