@@ -52,7 +52,7 @@ export default NuxtAuthHandler({
           pass: runtimeConfig.smtp.password,
         },
       },
-      from: `Nuha Magic Link Login <${runtimeConfig.smtp.user}>`,
+      from: `NUHA <${runtimeConfig.smtp.user}>`,
       sendVerificationRequest: async (params) => {
         const { identifier, url, provider, theme } = params
         const _url = new URL(url)
