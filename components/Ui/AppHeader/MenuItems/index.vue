@@ -55,6 +55,10 @@
       path: () => localePath('/methodology'),
     },
     {
+      title: () => t('findings.title'),
+      path: () => localePath('/findings'),
+    },
+    {
       title: () => t('header.userMenu.dashboard'),
       path: () => localePath('/dashboard'),
       condition: useAuthCheck()
