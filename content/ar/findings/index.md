@@ -1,3 +1,4 @@
-# Hello, world
+## النتائج
 
-Findings content in Arabic will be in this dir
+محتوى النتائج باللغة العربية سيكون في هذا المجلد.
+هذا هو محتوى الصفحة الرئيسية للنتائج.
