@@ -18,6 +18,7 @@ const config: NuxtConfig = {
     '@josango/nuxt3-build-banner',
     '@element-plus/nuxt',
     '@sidebase/nuxt-auth',
+    '@nuxt/content',
   ],
 
   auth: { globalAppMiddleware: true },
