@@ -127,7 +127,7 @@ function html(
       >
         ${
           locale === 'en'
-            ? "Dear user, please note that this is a magic link to only sign in once into your Nuha dashboard. Keep in mind that this won't create an account for you nor will we save any data. Once you click on the link the token will be used to verify. If you session ends or your log out the token will expire and you will need to re-enter you email again to receive a new link"
+            ? "Dear user, please note that this is a magic link to only sign in once into your Nuha dashboard. Keep in mind that this won't create an account for you nor will we save any data. Once you click on the link the token will be used to verify. If your session ends or you log out the token will expire and you will need to re-enter you email again to receive a new link"
             : 'عزيزي المستخدم، يرجى ملاحظة أن هذا هو رابط سحري لتسجيل الدخول مرة واحدة فقط إلى لوحة القيادة الخاصة بـ Nuha الخاصة بك. تذكر أن هذا لن ينشئ حسابًا لك ولن نقوم بحفظ أي بيانات. بمجرد النقر على الرابط ، سيتم استخدام الرمز المميز للتحقق. إذا انتهت جلستك أو قمت بتسجيل الخروج ، فسينتهي صلاحية الرمز المميز وستحتاج إلى إعادة إدخال عنوان بريدك الإلكتروني مرة أخرى لتلقي رابط جديد'
         }
 
@@ -182,7 +182,7 @@ function html(
 
 function text({ url, host }: { url: string; host: string }, locale: Locale) {
   return locale === 'en'
-    ? `Dear user, please note that this is a magic link to only sign in once into your Nuha dashboard. Keep in mind that this won't create an account for you nor will we save any data. Once you click on the link the token will be used to verify. If you session ends or your log out the token will expire and you will need to re-enter you email again to receive a new link\n${url}\n\n`
+    ? `Dear user, please note that this is a magic link to only sign in once into your Nuha dashboard. Keep in mind that this won't create an account for you nor will we save any data. Once you click on the link the token will be used to verify. If your session ends or you log out the token will expire and you will need to re-enter you email again to receive a new link\n${url}\n\n`
     : `عزيزي المستخدم، يرجى ملاحظة أن هذا هو رابط سحري لتسجيل الدخول مرة واحدة فقط إلى لوحة القيادة الخاصة بـ Nuha الخاصة بك. تذكر أن هذا لن ينشئ حسابًا لك ولن نقوم بحفظ أي بيانات. بمجرد النقر على الرابط ، سيتم استخدام الرمز المميز للتحقق. إذا انتهت جلستك أو قمت بتسجيل الخروج ، فسينتهي صلاحية الرمز المميز وستحتاج إلى إعادة إدخال عنوان بريدك الإلكتروني مرة أخرى لتلقي رابط جديد
 \n${url}\n\n`
 }
