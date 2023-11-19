@@ -23,6 +23,7 @@
     </section>
   
     <HeroMethodology />
+    <HeroFindings />
   </main>
 </template>
 
