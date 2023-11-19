@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full mb-10">
     <div ref="chart" class="chart-container">
-      <ChartsLegend v-if="showLegend" :data="data" :colors="colors" />
+      <ChartsLegend v-if="showLegend" :data="data" />
     </div>
     <slot name="caption" />
   </div>
@@ -14,11 +14,8 @@
       type: Array as PropType<{
         key: string
         value?: number
+        color?: string
       }[]>,
-      default: [],
-    },
-    colors: {
-      type: Array as PropType<string[]>,
       default: [],
     },
     maxWidth: {
@@ -60,10 +57,6 @@
       .domain([0, d3.max(props.data as [], d => d.value)])
       .range([height.value, 20]);
 
-    const color = d3.scaleOrdinal()
-      .domain(props.data.map(d => d.key))
-      .range(props.colors as string[]);
-
     svg.selectAll('rect')
       .data(props.data)
       .enter()
@@ -72,7 +65,7 @@
       .attr('y', d => y(d.value as number))
       .attr('width', x.bandwidth())
       .attr('height', d => height.value - y(d.value as number))
-      .attr('fill', d => color(d.key) as string)
+      .attr('fill', d => d.color as string)
       .attr("transform", `translate(0, -${10})`)
       
       const xAxis = svg.append("g")

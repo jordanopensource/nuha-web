@@ -9,7 +9,7 @@
     >
       <div
         class="w-6 aspect-square h-full"
-        :style="`background-color: ${colors[i]};`"
+        :style="`background-color: ${item.color};`"
       ></div>
       <div class="flex flex-col">
         <span class="key">{{ item.key }}</span>
@@ -28,11 +28,8 @@
       type: Array as PropType<{
         key: string
         value?: number
+        color?: string
       }[]>,
-      default: [],
-    },
-    colors: {
-      type: Array as PropType<string[]>,
       default: [],
     },
   })

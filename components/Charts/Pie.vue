@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full mb-10">
     <div ref="chart" class="chart-container">
-      <ChartsLegend v-if="showLegend" :data="data" :colors="colors" />
+      <ChartsLegend v-if="showLegend" :data="data" />
     </div>
     <slot name="caption" />
   </div>
@@ -14,11 +14,8 @@
       type: Array as PropType<{
         key: string
         value?: number
+        color?: string
       }[]>,
-      default: [],
-    },
-    colors: {
-      type: Array as PropType<string[]>,
       default: [],
     },
     size: {
@@ -48,10 +45,6 @@
       .append('g')
       .attr('transform', `translate(${width.value / 2}, ${height.value / 2})`);
 
-    const color = d3.scaleOrdinal()
-      .domain(props.data.map(d => d.key))
-      .range(props.colors as string[]);
-
     const pie = d3
       .pie()
       // @ts-ignore
@@ -69,7 +62,8 @@
       .append('path')
       // @ts-ignore
       .attr('d', arc)
-      .attr('fill', (d, i) => color(i.toString()) as string);
+      // @ts-ignore
+      .attr('fill', d => d.data.color)
   });
 
 </script>
