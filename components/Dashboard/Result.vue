@@ -35,7 +35,6 @@
       >
         <ChartsPie
           :data="chartData"
-          :colors="['#6db981', '#d13561']"
           :size="300"
           show-legend
         >
@@ -48,7 +47,6 @@
         </ChartsPie>
         <ChartsBar
           :data="chartData"
-          :colors="['#6db981', '#d13561']"
           :max-height="300"
           :max-width="150"
           show-legend
@@ -164,10 +162,12 @@
     {
       key: t('data.hateSpeech'),
       value: props.predictionData?.chartData.hateSpeechPercentage,
+      color: '#d13561',
     },
     {
       key: t('data.neutral'),
       value: props.predictionData?.chartData.nonHateSpeechPercentage,
+      color: '#6db981',
     },
   ])
 
