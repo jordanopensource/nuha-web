@@ -89,7 +89,10 @@ export default {
     },
   },
   findings: {
-    title: 'الموجودات'
+    title: 'النتائج',
+    // TODO: update description
+    description:
+      'نماذج النصوص لدينا هي أدوات معالجة لغة متقدمة يمكنها إنشاء نص وتصنيفه وتلخيصه بمستويات عالية من التماسك والدقة.',
   },
 
   statistical: {

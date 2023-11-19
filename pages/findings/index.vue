@@ -1,7 +1,6 @@
 <template>
   <div class="main container my-24 flex flex-col gap-y-10">
-    <!-- <MethodologyHero />
-    <MethodologyContent /> -->
+    <FindingsHero />
     <ContentDoc />
   </div>
 </template>
@@ -12,7 +11,7 @@
 
 <style lang="postcss" scoped>
   .main {
-    .methodology-border {
+    .findings-border {
       @apply border-b-2 border-[#a066a9] pb-16;
     }
   }
