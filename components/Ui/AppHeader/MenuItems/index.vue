@@ -31,8 +31,6 @@
   />
 </template>
 <script setup lang="ts">
-  import { LocaleObject } from '@nuxtjs/i18n/dist/runtime/composables'
-
   const emit = defineEmits(['showMobileMenu'])
   const localePath = useLocalePath()
   const { locale, locales, t } = useI18n()
@@ -40,8 +38,8 @@
 
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
-    return (locales.value as LocaleObject[]).filter(
-      (l: LocaleObject) => l.code !== locale.value
+    return (locales.value as any[]).filter(
+      (l: any) => l.code !== locale.value
     )
   })
 
