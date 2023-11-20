@@ -1,16 +1,17 @@
 <template>
   <div class="main container my-24 flex flex-col gap-y-10">
     <FindingsHero />
-    <div class="flex justify-between">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4">
       <nav class="hidden lg:flex flex-col gap-y-4 w-1/4">
-        <span class="text-lg">{{ t('methodology.content') }}</span>
+        <span class="text-xl">{{ t('methodology.content') }}</span>
         <button
           v-for="(section, i) in sections"
           :key="section.target"
-          class="text-nuha-grey-200 hover:text-nuha-grey transition-colors"
-          :class="{ '!text-nuha-grey': activeSection === sections[i].target }"
+          class="text-nuha-grey-200 hover:text-nuha-grey transition-colors text-left"
+          :class="{ '!text-nuha-grey': activeSection === section.target }"
           @click="
             () => {
+              activeSection = section.target
               router.push(
                 router.currentRoute.value.fullPath.substring(
                   0,
@@ -26,7 +27,7 @@
         </button>
       </nav>
 
-      <section>
+      <section class="lg:col-span-3">
         <ContentDoc />
       </section>
     </div>
@@ -38,7 +39,7 @@
 
   const { t, locale } = useI18n()
   const router = useRouter()
-  const activeSection = ref(router.currentRoute)
+  const activeSection = ref('')
 
   const findingName = router.currentRoute.value.fullPath.substring(
     router.currentRoute.value.fullPath.lastIndexOf('/') + 1,
