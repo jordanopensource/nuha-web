@@ -15,6 +15,7 @@ export default {
     whatIsNuha: 'What is Nuha?',
     howItWorks: 'How it works?',
     login: 'Login',
+    logout: 'Logout',
     userMenu: {
       dashboard: 'Dashboard',
       settings: 'Settings',
