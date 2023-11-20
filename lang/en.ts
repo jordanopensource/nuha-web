@@ -90,7 +90,9 @@ export default {
     },
   },
   findings: {
-    title: 'Findings'
+    title: 'Findings',
+    // TODO: update description
+    description: 'Our text models are advanced language processing tools that can generate, classify, and summarize text with high levels of coherence and accuracy.'
   },
 
   statistical: {
