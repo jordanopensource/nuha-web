@@ -25,30 +25,44 @@
                 }
               "
             />
-            <input
-              type="submit"
-              class="btn"
-              :value="$t('login.withMagicEmail')"
-            />
+            <button type="submit" class="btn" :disabled="loginInProgress">
+              <div v-if="!loginInProgress">
+                {{ $t('login.withMagicEmail') }}
+              </div>
+              <div v-else class="loader !h-8 !w-8"></div>
+            </button>
           </form>
 
-          <p class="text-xl font-bold italic my-3">{{ $t('dashboard.or') }}</p>
+          <div v-if="canLoginWithGithub || canLoginWithJosaId">
+            <p class="text-xl font-bold italic my-3">
+              {{ $t('dashboard.or') }}
+            </p>
 
-          <button
-            @click="loginWithGithub"
-            class="btn"
-            v-if="canLoginWithGithub"
-          >
-            {{ t('login.withGithub') }}
-          </button>
+            <button
+              @click="loginWithGithub"
+              class="btn"
+              :disabled="loginInProgress"
+            >
+              <div v-if="!loginInProgress">
+                {{ t('login.withGithub') }}
+              </div>
+              <div v-else class="loader !h-8 !w-8"></div>
+            </button>
 
-          <button
-            @click="loginWithJosaId"
-            class="btn"
-            v-if="canLoginWithJosaId"
-          >
-            {{ t('login.withJosaId') }}
-          </button>
+            <button
+              @click="loginWithJosaId"
+              class="btn"
+              v-if="canLoginWithJosaId"
+              :disabled="loginInProgress"
+            >
+              <div v-if="!loginInProgress">
+                {{ t('login.withJosaId') }}
+              </div>
+              <div v-else class="loader !h-8 !w-8"></div>
+            </button>
+          </div>
+
+          <div></div>
         </div>
       </div>
     </div>
@@ -70,6 +84,7 @@
   const canLoginWithGithub = ref(false)
   const canLoginWithJosaId = ref(false)
   const email = ref('')
+  const loginInProgress = ref(false)
 
   onMounted(async () => {
     await fetch('/api/check-login-methods', {
@@ -97,18 +112,24 @@
   })
 
   async function loginWithGithub() {
+    loginInProgress.value = true
     await signIn('github', { callbackUrl: localePath('/dashboard') })
+    loginInProgress.value = false
   }
 
   async function loginWithJosaId() {
+    loginInProgress.value = true
     await signIn('authelia', { callbackUrl: localePath('/dashboard') })
+    loginInProgress.value = false
   }
 
   async function loginWithMagicEmail() {
+    loginInProgress.value = true
     await signIn('email', {
       callbackUrl: localePath('/dashboard'),
       email: get(email),
     })
+    loginInProgress.value = false
   }
 </script>
 
@@ -129,6 +150,12 @@
     @apply border border-nuha-fushia-300;
     @apply hover:bg-nuha-white hover:text-nuha-fushia-300;
     @apply disabled:cursor-not-allowed disabled:bg-nuha-grey-200 disabled:border-none disabled:text-nuha-fushia-100;
+  }
+  .btn:disabled {
+    @apply bg-nuha-grey-100;
+  }
+  .btn > .loader {
+    @apply !border-nuha-fushia-300;
   }
   .login-title {
     @apply text-nuha-grey font-semibold;

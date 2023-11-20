@@ -15,6 +15,7 @@ export default {
     whatIsNuha: 'تعرف على نهى',
     howItWorks: 'كيف يعمل',
     login: 'تسجيل الدخول',
+    logout: 'تسجيل الخروج',
     userMenu: {
       dashboard: 'لوحة المراقبة',
       settings: 'الإعدادات',
