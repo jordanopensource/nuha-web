@@ -1,0 +1,12 @@
+default_stages:
+- commit
+repos:
+- hooks:
+  - id: run-samplr
+  repo: https://github.com/jordanopensource/pre-commit-hooks
+  rev: v0.4.2
+- hooks:
+  - id: gitleaks
+    name: detect hardcoded secrets
+  repo: https://github.com/zricethezav/gitleaks
+  rev: v8.18.0
