@@ -7,6 +7,10 @@
     {{ t('header.login') }}
     <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
   </NuxtLink>
+  <button v-else class="login-btn login-btn-default text-lg" @click="signOut">
+    {{ t('header.logout') }}
+    <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
+  </button>
   <!-- TODO -->
   <!-- <div v-else>
     <button
@@ -35,6 +39,8 @@
   const { t } = useI18n()
   const hideMenu = useHideMenu()
   const showItems = ref(false)
+  const { signOut } = useAuth()
+
   watch(hideMenu, (value) => {
     if (value) {
       set(showItems, false)
