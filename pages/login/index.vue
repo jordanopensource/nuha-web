@@ -32,23 +32,23 @@
             />
           </form>
 
-          <p class="text-xl font-bold italic my-3">{{ $t('dashboard.or') }}</p>
+          <div v-if="canLoginWithGithub || canLoginWithJosaId">
+            <p class="text-xl font-bold italic my-3">
+              {{ $t('dashboard.or') }}
+            </p>
 
-          <button
-            @click="loginWithGithub"
-            class="btn"
-            v-if="canLoginWithGithub"
-          >
-            {{ t('login.withGithub') }}
-          </button>
+            <button @click="loginWithGithub" class="btn">
+              {{ t('login.withGithub') }}
+            </button>
 
-          <button
-            @click="loginWithJosaId"
-            class="btn"
-            v-if="canLoginWithJosaId"
-          >
-            {{ t('login.withJosaId') }}
-          </button>
+            <button
+              @click="loginWithJosaId"
+              class="btn"
+              v-if="canLoginWithJosaId"
+            >
+              {{ t('login.withJosaId') }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
