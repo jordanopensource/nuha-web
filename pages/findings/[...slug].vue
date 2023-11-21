@@ -1,6 +1,6 @@
 <template>
   <div class="main container my-24 flex flex-col gap-y-10">
-    <FindingsHero />
+    <FindingsHero :title="data?.title" :description="data?.excerpt?.children[0].value" />
     <div class="grid md:grid-cols-2 lg:grid-cols-4">
       <nav v-if="sections.length" class="hidden lg:flex flex-col gap-y-4 w-1/4">
         <span class="text-xl">{{ t('methodology.content') }}</span>
