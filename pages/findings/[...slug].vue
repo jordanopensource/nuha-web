@@ -50,14 +50,14 @@
 
   const { data } = await useAsyncData(() => {
     return locale.value === 'en'
-      ? queryContent(`/findings/${findingName}`).find()
-      : queryContent(`/ar/findings/${findingName}`).find()
+      ? queryContent(`/findings/${findingName}`).findOne()
+      : queryContent(`/ar/findings/${findingName}`).findOne()
   })
 
   const sections = ref(
-    !!data.value && !!data.value[0] && !!data.value[0].body
+    !!data.value && !!data.value.body
       ? data
-          .value![0].body?.children.filter(
+          .value!.body?.children.filter(
             (element) =>
               element.tag?.startsWith('h') &&
               element.props &&
@@ -74,12 +74,6 @@
           })
       : [],
   )
-
-  onMounted(() => {
-    if (router.currentRoute.value.fullPath.endsWith('findings')) {
-      router.push(`${router.currentRoute.value.fullPath}/about`)
-    }
-  })
 </script>
 
 <style lang="postcss" scoped>
