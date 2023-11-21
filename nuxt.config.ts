@@ -21,6 +21,10 @@ const config: NuxtConfig = {
     '@nuxt/content',
   ],
 
+  routeRules: {
+    '/**': { prerender: false },
+  },
+
   auth: { globalAppMiddleware: true },
 
   buildModules: ['@nuxt/typescript-build'],
