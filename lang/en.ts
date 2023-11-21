@@ -11,6 +11,13 @@ export default {
     learnMore: 'Learn more',
   },
 
+  findings: {
+    title: 'Findings',
+    // TODO: update description
+    description:
+      'Our text models are advanced language processing tools that can generate, classify, and summarize text with high levels of coherence and accuracy.',
+  },
+
   header: {
     whatIsNuha: 'What is Nuha?',
     howItWorks: 'How it works?',

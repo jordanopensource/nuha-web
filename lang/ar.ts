@@ -11,6 +11,13 @@ export default {
     learnMore: 'تعرف علينا',
   },
 
+  findings: {
+    title: 'النتائج',
+    // TODO: update description
+    description:
+      'نماذج النصوص لدينا هي أدوات معالجة لغة متقدمة يمكنها إنشاء نص وتصنيفه وتلخيصه بمستويات عالية من التماسك والدقة.',
+  },
+
   header: {
     whatIsNuha: 'تعرف على نهى',
     howItWorks: 'كيف يعمل',
