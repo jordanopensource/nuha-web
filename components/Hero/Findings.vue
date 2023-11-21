@@ -1,6 +1,6 @@
 <template>
   <section class="flex flex-col gap-y-16 max-sm:gap-y-12">
-    <div class="main">
+    <div v-if="showHeading" class="main">
       <h2 class="w-full">
         {{ t('findings.title') }}
       </h2>
@@ -36,6 +36,12 @@
     return locale.value === 'en' ?
       queryContent('/findings').find() :
       queryContent('/ar/findings').find()
+  })
+  defineProps({
+    showHeading: {
+      type: Boolean,
+      default: true,
+    },
   })
 </script>
 
