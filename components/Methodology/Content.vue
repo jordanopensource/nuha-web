@@ -63,7 +63,6 @@
     activeSection.value = route.hash
       ? route.hash.replace('#', '')
       : sections[0].id
-    console.log(activeSection.value)
   })
 </script>
 

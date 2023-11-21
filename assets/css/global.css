@@ -54,3 +54,27 @@ main {
     @apply grid grid-cols-1 lg:grid-cols-2 place-items-center  items-start lg:gap-x-14 gap-y-8;
   }
 }
+
+.article {
+  h1, h2, h3, h4, h5, h6 {
+    @apply my-4;
+    a {
+      @apply !font-LTZarid;
+    }
+  }
+  a {
+    font-size: unset;
+  }
+  p, ul, ol, li {
+    @apply text-2xl my-1;
+  }
+}
+ul {
+  @apply list-inside list-disc;
+}
+ol {
+  @apply list-inside list-decimal;
+}
+blockquote {
+  @apply ps-4 my-4 border-s-2 border-s-nuha-grey-200;
+}

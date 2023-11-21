@@ -27,7 +27,7 @@
         </button>
       </nav>
 
-      <section class="lg:col-span-3">
+      <section class="article lg:col-span-3">
         <ContentDoc />
       </section>
     </div>
