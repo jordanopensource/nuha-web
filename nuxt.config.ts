@@ -102,11 +102,6 @@ const config: NuxtConfig = {
     },
     apiUrl: '',
     mongodbUri: '',
-    smtp: {
-      host: '',
-      user: '',
-      password: '',
-    },
     listMonk: {
       apiUrl: '',
       user: '',
