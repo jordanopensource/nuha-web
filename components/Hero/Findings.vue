@@ -4,10 +4,18 @@
       <h2 class="w-full">
         {{ t('findings.title') }}
       </h2>
-      <p class="text-2xl leading-none">
-        {{ t('findings.description') }}
-      </p>
-      <!-- TODO: add link to all findings -->
+      <div class="flex flex-col gap-y-8">
+        <p class="text-2xl leading-none">
+          {{ t('findings.description') }}
+        </p>
+        <NuxtLink
+          v-if="showLinktoAll"
+          class="text-nuha-grey-300 flex items-center gap-x-1 hover:underline"
+          :to="$nuxt.$localePath('/findings')"
+        >
+          {{ $t('findings.seeAll') }} <span class="arrow-icon"></span>
+        </NuxtLink>
+      </div>
     </div>
 
     <div class="cards">
@@ -33,12 +41,16 @@
   const { t, locale } = useI18n()
   // fetch findings
   const { data } = await useAsyncData(() => {
-    return locale.value === 'en' ?
-      queryContent('/findings').find() :
-      queryContent('/ar/findings').find()
+    return locale.value === 'en'
+      ? queryContent('/findings').find()
+      : queryContent('/ar/findings').find()
   })
   defineProps({
     showHeading: {
+      type: Boolean,
+      default: true,
+    },
+    showLinktoAll: {
       type: Boolean,
       default: true,
     },
@@ -48,6 +60,10 @@
 <style lang="postcss" scoped>
   .cards {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-between;
+  }
+  .arrow-icon {
+    @apply inline-block w-5 h-5 rtl:rotate-180;
+    @apply bg-[url('/icons/arrow-right-grey.svg')] bg-cover bg-no-repeat;
   }
 </style>
 <style>
