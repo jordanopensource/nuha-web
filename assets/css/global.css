@@ -1,5 +1,6 @@
 body {
-  @apply antialiased m-0 font-LTZarid;
+  @apply antialiased m-0;
+  font-family: '29LT Zarid Text Regular';
 }
 
 html,

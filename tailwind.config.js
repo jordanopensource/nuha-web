@@ -38,7 +38,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        LTZarid: 'LT Zarid Text',
+        LTZarid: '29LT Zarid Text Regular',
         IBMPlexSansArabic: 'IBM Plex Sans Arabic',
         IBMPlexMono: 'IBM Plex Mono',
       },
