@@ -9,6 +9,13 @@ const config: NuxtConfig = {
         { name: 'format-detection', content: 'telephone=no' },
       ],
       title: 'Nuha',
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://webfonts.fontstand.com/WF-084743-1b13b14034fdcff6da11465383ec5465.css',
+          type: 'text/css',
+        },
+      ],
     },
   },
 
@@ -18,9 +25,14 @@ const config: NuxtConfig = {
     '@josango/nuxt3-build-banner',
     '@element-plus/nuxt',
     '@sidebase/nuxt-auth',
+    '@nuxt/content',
   ],
 
   auth: { globalAppMiddleware: true },
+
+  routeRules: {
+    '/**': { prerender: false },
+  },
 
   buildModules: ['@nuxt/typescript-build'],
   typescript: {
@@ -39,7 +51,6 @@ const config: NuxtConfig = {
 
   css: [
     '@/assets/css/tailwind.css',
-    '@/assets/css/fonts/lt-zarid-serif.css',
     '@/assets/css/fonts/ibm-plex-sans-arabic.css',
     '@/assets/css/global.css',
   ],

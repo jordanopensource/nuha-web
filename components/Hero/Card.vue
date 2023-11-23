@@ -4,13 +4,17 @@
       class="bg-cover w-full aspect-square p-8 bg-no-repeat"
       :style="`background-image: url('${image}')`"
     >
-      <h4 class="text-4xl text-nuha-fushia-100 w-3/5 leading-[0.83]">{{ subtitle }}</h4>
+      <span
+        class="category text-2xl block text-nuha-fushia-100 w-3/5 leading-[0.83]"
+        v-if="category"
+      >{{ category }}</span>
+      <span class="subtitle block text-3xl text-nuha-fushia-100 w-3/5 leading-[0.83]">{{ subtitle }}</span>
     </div>
     <h3 class="font-bold font-IBMPlexSansArabic text-lg">{{ title }}</h3>
     <p class="text-xl">{{ content }}</p>
     <NuxtLink
       v-if="readMoreLink"
-      :to="$nuxt.$localePath(readMoreLink) + readMoreLink.substring(readMoreLink.lastIndexOf('#'))"
+      :to="$nuxt.$localePath(readMoreLink)"
       class="read-more"
     >
       {{ t('misc.readMore') }}
@@ -22,6 +26,7 @@
 <script setup lang="ts">
   defineProps({
     title: String,
+    category: String,
     subtitle: String,
     content: String,
     image: String,

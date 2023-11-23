@@ -27,6 +27,7 @@
     "@auth/mongodb-adapter": "^2.0.0",
     "@element-plus/nuxt": "^1.0.6",
     "@josango/nuxt3-build-banner": "^3.0.2",
+    "@nuxt/content": "^2.9.0",
     "@types/nodemailer": "^6.4.10",
     "@vueuse/core": "^10.4.1",
     "csv-parse": "^5.5.0",
