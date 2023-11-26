@@ -53,7 +53,7 @@ export default NuxtAuthHandler({
         const locale =
           callbackUrl?.substring(
             _url.origin.length + 1,
-            _url.origin.length + 3, // length of the locale's code
+            _url.origin.length + 3 // length of the locale's code
           ) === 'ar'
             ? 'ar'
             : 'en'
@@ -68,7 +68,7 @@ export default NuxtAuthHandler({
               btoa(
                 runtimeConfig.listMonk.user +
                   ':' +
-                  runtimeConfig.listMonk.password,
+                  runtimeConfig.listMonk.password
               ),
           }),
           body: JSON.stringify({
