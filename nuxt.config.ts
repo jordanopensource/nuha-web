@@ -87,8 +87,6 @@ const config: NuxtConfig = {
       buildLink: '',
       buildRepoLink: '',
       buildTimestamp: '',
-      monkFormLink: '',
-      monkFormId: '',
       matomoSiteId: 19,
       matomoHost: 'https://analytics.josa.ngo/',
     },
@@ -104,10 +102,12 @@ const config: NuxtConfig = {
     },
     apiUrl: '',
     mongodbUri: '',
-    smtp: {
-      host: '',
+    listMonk: {
+      apiUrl: '',
       user: '',
       password: '',
+      enTemplateId: '',
+      arTemplateId: '',
     },
   },
 }
