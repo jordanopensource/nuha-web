@@ -38,9 +38,7 @@
 
   const switchLocalePath = useSwitchLocalePath()
   const availableLocales = computed(() => {
-    return (locales.value as any[]).filter(
-      (l: any) => l.code !== locale.value
-    )
+    return (locales.value as any[]).filter((l: any) => l.code !== locale.value)
   })
 
   type Link = {
@@ -54,11 +52,15 @@
       title: () => t('methodology.title'),
       path: () => localePath('/methodology'),
     },
+    //   {
+    //     title: () => t('findings.title'),
+    //     path: () => localePath('/findings'),
+    //   },
     {
       title: () => t('header.userMenu.dashboard'),
       path: () => localePath('/dashboard'),
-      condition: useAuthCheck()
-    }
+      condition: useAuthCheck(),
+    },
   ])
 </script>
 <style scoped lang="postcss"></style>

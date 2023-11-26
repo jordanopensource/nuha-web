@@ -10,13 +10,13 @@
         />
       </div>
       <div class="w-3/4 max-sm:w-full inline-block mt-2 text-2xl">
-        <ul>
+        <ol class="!list-none">
           <li
             v-for="item in t('dashboard.steps.step1.description').split('\n')"
           >
             {{ item }}
           </li>
-        </ul>
+        </ol>
       </div>
     </div>
 
@@ -172,7 +172,6 @@
       method: 'POST',
       body: body,
     })
-    loading.value = false
 
     if (error.value) {
       buildToast('error', t(error.value?.data as string))
@@ -207,6 +206,7 @@
         ? requestBody.value.data.comment
         : '',
     })
+    loading.value = false
     router.push(localePath('/dashboard/results'))
   }
 
