@@ -9,21 +9,18 @@
           {{ $t('homeHero.intro') }}
         </p>
 
-        <NuxtLink
-          class="btn"
-          :to="localePath('/dashboard')"
-        >
+        <NuxtLink class="btn" :to="localePath('/dashboard')">
           {{ $t('homeHero.tryItOut') }}
           <span class="rtl:rotate-180 mt-1">￫</span>
         </NuxtLink>
       </div>
       <div class="w-full">
-        <img class="nuha-logo" src="/hero-logo.svg" alt="Nuha logo"/>
+        <img class="nuha-logo" src="/hero-logo.svg" alt="Nuha logo" />
       </div>
     </section>
-  
+
     <HeroMethodology />
-    <HeroFindings />
+    <!-- <HeroFindings /> -->
   </main>
 </template>
 
