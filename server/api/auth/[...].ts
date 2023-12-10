@@ -7,6 +7,7 @@ import { EmailConfig } from 'next-auth/providers/email'
 import GithubProvider from 'next-auth/providers/github'
 
 import db from '../../db'
+import { sendLoginEmail } from '../../utils/listmonk-requests'
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -53,44 +54,13 @@ export default NuxtAuthHandler({
         const locale =
           callbackUrl?.substring(
             _url.origin.length + 1,
-            _url.origin.length + 3 // length of the locale's code
+            _url.origin.length + 3, // length of the locale's code
           ) === 'ar'
             ? 'ar'
             : 'en'
 
-        await fetch(`${runtimeConfig.listMonk.apiUrl}/tx`, {
-          method: 'POST',
-          mode: 'cors',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-            Authorization:
-              'Basic ' +
-              btoa(
-                runtimeConfig.listMonk.user +
-                  ':' +
-                  runtimeConfig.listMonk.password
-              ),
-          }),
-          body: JSON.stringify({
-            subscriber_email: identifier,
-            template_id:
-              locale === 'en'
-                ? runtimeConfig.listMonk.enTemplateId
-                : runtimeConfig.listMonk.arTemplateId,
-            data: {
-              link: url,
-            },
-            content_type: 'html',
-          }),
-        })
-          .catch((err) => {
-            console.log(err)
-          })
-          .finally((fin) => {
-            if (fin) {
-              console.log(fin)
-            }
-          })
+        await registerEmail(identifier)
+        await sendLoginEmail(identifier, locale, url)
       },
     } as EmailConfig),
   ],
