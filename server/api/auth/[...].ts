@@ -6,7 +6,7 @@ import { EmailConfig } from 'next-auth/providers/email'
 import GithubProvider from 'next-auth/providers/github'
 
 import db from '../../db'
-import { sendLoginEmail } from '../../utils/listmonk-requests'
+import { sendLoginEmail, subscribeEmail } from '../../utils/listmonk-requests'
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -58,7 +58,7 @@ export default NuxtAuthHandler({
             ? 'ar'
             : 'en'
 
-        await registerEmail(identifier)
+        await subscribeEmail(identifier)
         await sendLoginEmail(identifier, locale, url)
       },
     } as EmailConfig),
