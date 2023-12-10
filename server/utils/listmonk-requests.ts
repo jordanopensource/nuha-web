@@ -14,10 +14,11 @@ export async function sendLoginEmail(
     ListmonkRequests.SEND_EMAIL,
     JSON.stringify({
       subscriber_email: targetEmail,
-      template_id:
+      template_id: parseInt(
         locale === 'en'
           ? runtimeConfig.listMonk.enTemplateId
           : runtimeConfig.listMonk.arTemplateId,
+      ),
       data: {
         link: loginUrl,
       },
@@ -31,12 +32,9 @@ export async function registerEmail(email: string): Promise<void> {
     ListmonkRequests.REGISTER_EMAIL,
     JSON.stringify({
       email,
-      name: 'Nuha User',
+      name: email.substring(0, email.indexOf('@')),
       status: 'enabled',
-      lists: [
-        runtimeConfig.listMonk.enTemplateId,
-        runtimeConfig.listMonk.arTemplateId,
-      ].map(parseInt),
+      lists: [runtimeConfig.listMonk.listId].map(parseInt),
     }),
   )
 }
