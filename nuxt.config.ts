@@ -108,6 +108,7 @@ const config: NuxtConfig = {
       password: '',
       enTemplateId: '',
       arTemplateId: '',
+      listId: '',
     },
   },
 }
