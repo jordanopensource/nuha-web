@@ -1,6 +1,5 @@
 import { NuxtAuthHandler } from '#auth'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
-import { Theme } from 'next-auth'
 import { Adapter } from 'next-auth/adapters'
 import EmailProvider from 'next-auth/providers/email'
 import { EmailConfig } from 'next-auth/providers/email'
@@ -65,9 +64,3 @@ export default NuxtAuthHandler({
     } as EmailConfig),
   ],
 })
-
-type Locale = 'en' | 'ar'
-
-function subject(locale: Locale) {
-  return locale === 'en' ? 'Sign in to Nuha' : 'تسجيل الدخول الى نهى'
-}
