@@ -1,8 +1,10 @@
 const runtimeConfig = useRuntimeConfig()
 
-enum ListmonkRequests {
-  SEND_EMAIL = 'tx',
-  REGISTER_EMAIL = 'subscribers',
+enum ListmonkEndpoint {
+  // reference https://listmonk.app/docs/apis/transactional/
+  SEND_TRANSACTIONAL_EMAIL = 'tx',
+  // reference https://listmonk.app/docs/apis/subscribers/#post-apisubscribers
+  SUBSCRIBE_EMAIL = 'subscribers',
 }
 
 export async function sendLoginEmail(
@@ -11,7 +13,7 @@ export async function sendLoginEmail(
   loginUrl: string,
 ): Promise<void> {
   await makeListmonkRequest(
-    ListmonkRequests.SEND_EMAIL,
+    ListmonkEndpoint.SEND_TRANSACTIONAL_EMAIL,
     JSON.stringify({
       subscriber_email: targetEmail,
       template_id: parseInt(
@@ -27,9 +29,9 @@ export async function sendLoginEmail(
   )
 }
 
-export async function registerEmail(email: string): Promise<void> {
+export async function subscribeEmail(email: string): Promise<void> {
   await makeListmonkRequest(
-    ListmonkRequests.REGISTER_EMAIL,
+    ListmonkEndpoint.SUBSCRIBE_EMAIL,
     JSON.stringify({
       email,
       name: email.substring(0, email.indexOf('@')),
@@ -40,7 +42,7 @@ export async function registerEmail(email: string): Promise<void> {
 }
 
 async function makeListmonkRequest(
-  path: ListmonkRequests,
+  path: ListmonkEndpoint,
   body: BodyInit,
 ): Promise<void | Response> {
   return await fetch(`${runtimeConfig.listMonk.apiUrl}/${path}`, {
