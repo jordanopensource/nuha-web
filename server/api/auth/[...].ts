@@ -22,6 +22,7 @@ export default NuxtAuthHandler({
     GithubProvider.default({
       clientId: runtimeConfig.github.clientId,
       clientSecret: runtimeConfig.github.clientSecret,
+      allowDangerousEmailAccountLinking: true,
     }),
     {
       id: 'authelia',
@@ -29,6 +30,7 @@ export default NuxtAuthHandler({
       type: 'oauth',
       clientId: runtimeConfig.josaOAuth.clientId,
       clientSecret: runtimeConfig.josaOAuth.clientSecret,
+      allowDangerousEmailAccountLinking: true,
       wellKnown: runtimeConfig.josaOAuth.wellKnown,
       authorization: { params: { scope: 'openid email profile' } },
       idToken: true,
@@ -53,7 +55,7 @@ export default NuxtAuthHandler({
         const locale =
           callbackUrl?.substring(
             _url.origin.length + 1,
-            _url.origin.length + 3, // length of the locale's code
+            _url.origin.length + 3 // length of the locale's code
           ) === 'ar'
             ? 'ar'
             : 'en'
