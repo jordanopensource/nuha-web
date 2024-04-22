@@ -26,6 +26,7 @@ const config: NuxtConfig = {
     '@element-plus/nuxt',
     '@sidebase/nuxt-auth',
     '@nuxt/content',
+    '@nuxtjs/robots',
   ],
 
   auth: { globalAppMiddleware: true },
