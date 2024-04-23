@@ -31,7 +31,7 @@
     "csv-parse": "^5.5.5",
     "d3": "^7.9.0",
     "element-plus": "^2.7.1",
-    "mongodb": "^6.3.0",
+    "mongodb": "^6.5.0",
     "next-auth": "4.21.1",
     "node-xlsx": "^0.23.0",
     "nodemailer": "^6.9.7",
