@@ -1,6 +1,4 @@
-import type { NuxtConfig } from '@nuxt/types'
-
-const config: NuxtConfig = {
+export default defineNuxtConfig({
   app: {
     head: {
       meta: [
@@ -35,7 +33,6 @@ const config: NuxtConfig = {
     '/**': { prerender: false },
   },
 
-  buildModules: ['@nuxt/typescript-build'],
   typescript: {
     shim: false,
     tsConfig: {
@@ -112,6 +109,4 @@ const config: NuxtConfig = {
       listId: '',
     },
   },
-}
-
-export default config
+})
