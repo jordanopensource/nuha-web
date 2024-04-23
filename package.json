@@ -14,7 +14,7 @@
     "@nuxt/typescript-build": "^3.0.2",
     "@nuxtjs/i18n": "^8.3.0",
     "@nuxtjs/tailwindcss": "^6.12.0",
-    "@sidebase/nuxt-auth": "^0.6.2",
+    "@sidebase/nuxt-auth": "^0.6.7",
     "@types/d3": "^7.4.3",
     "@types/node": "^20",
     "nuxt": "^3.11.2",

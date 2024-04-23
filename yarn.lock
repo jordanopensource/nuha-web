@@ -1478,7 +1478,7 @@
   dependencies:
     shiki "1.3.0"
 
-"@sidebase/nuxt-auth@^0.6.2":
+"@sidebase/nuxt-auth@^0.6.7":
   version "0.6.7"
   resolved "https://registry.yarnpkg.com/@sidebase/nuxt-auth/-/nuxt-auth-0.6.7.tgz#88bd3741d0b2565dd67fec1cc7aacaa00d37d6bf"
   integrity sha512-cfCRL0LTtv2Ih8VQSkyLyuYAJwNxYXT7ocAXRF9Ys0Lru0XtCl8gbtZMkbjk4iPDlCJv8QIqXCUM0t5TRUcytA==
