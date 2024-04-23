@@ -67,7 +67,6 @@
 <script lang="ts" setup>
   import { ref } from 'vue'
   import { set } from '@vueuse/core'
-  import { emit } from 'process'
 
   const emit = defineEmits(['hideIntro'])
   const showWaitlist = ref(false)

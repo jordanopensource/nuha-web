@@ -1,4 +1,4 @@
-FROM node:18.14.0 AS builder
+FROM node:18 AS builder
 
 
 # copy build context and install dependencinpm res
