@@ -21,7 +21,7 @@
     "@element-plus/nuxt": "^1.0.10",
     "@josango/nuxt3-build-banner": "^3.0.2",
     "@nuxt/content": "^2.13.2",
-    "@nuxtjs/robots": "^3.0.0",
+    "@nuxtjs/robots": "^4.1.6",
     "@types/nodemailer": "^6.4.15",
     "@vueuse/core": "^10.9.0",
     "csv-parse": "^5.5.6",
