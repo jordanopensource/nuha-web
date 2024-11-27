@@ -10,7 +10,7 @@ enum ListmonkEndpoint {
 export async function sendLoginEmail(
   targetEmail: string,
   locale: string,
-  loginUrl: string,
+  loginUrl: string
 ): Promise<void> {
   await makeListmonkRequest(
     ListmonkEndpoint.SEND_TRANSACTIONAL_EMAIL,
@@ -19,13 +19,13 @@ export async function sendLoginEmail(
       template_id: parseInt(
         locale === 'en'
           ? runtimeConfig.listMonk.enTemplateId
-          : runtimeConfig.listMonk.arTemplateId,
+          : runtimeConfig.listMonk.arTemplateId
       ),
       data: {
         link: loginUrl,
       },
       content_type: 'html',
-    }),
+    })
   )
 }
 
@@ -37,13 +37,13 @@ export async function subscribeEmail(email: string): Promise<void> {
       name: email.substring(0, email.indexOf('@')),
       status: 'enabled',
       lists: [runtimeConfig.listMonk.listId].map(parseInt),
-    }),
+    })
   )
 }
 
 async function makeListmonkRequest(
   path: ListmonkEndpoint,
-  body: BodyInit,
+  body: BodyInit
 ): Promise<void | Response> {
   return await fetch(`${runtimeConfig.listMonk.apiUrl}/${path}`, {
     method: 'POST',
@@ -51,10 +51,10 @@ async function makeListmonkRequest(
     headers: new Headers({
       'Content-Type': 'application/json',
       Authorization:
-        'Basic ' +
-        btoa(
-          runtimeConfig.listMonk.user + ':' + runtimeConfig.listMonk.password,
-        ),
+        'token ' +
+        runtimeConfig.listMonk.user +
+        ':' +
+        runtimeConfig.listMonk.token,
     }),
     body,
   })

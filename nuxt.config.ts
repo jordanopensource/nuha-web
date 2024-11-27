@@ -39,6 +39,7 @@ export default defineNuxtConfig({
       include: ['~/types/*.ts'],
     },
   },
+
   plugins: [
     { src: '~/plugins/use-scroll.ts', ssr: false, mode: 'client' },
     {
@@ -76,6 +77,7 @@ export default defineNuxtConfig({
     baseUrl: 'http://localhost:3000/',
     debug: false,
   },
+
   runtimeConfig: {
     public: {
       targetEnv: '',
@@ -103,10 +105,12 @@ export default defineNuxtConfig({
     listMonk: {
       apiUrl: '',
       user: '',
-      password: '',
+      token: '',
       enTemplateId: '',
       arTemplateId: '',
       listId: '',
     },
   },
+
+  compatibilityDate: '2024-11-26',
 })
