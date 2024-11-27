@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nuha-web:
     container_name: nuha-web
