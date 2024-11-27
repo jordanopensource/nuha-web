@@ -1,11 +1,9 @@
-FROM node:18 AS builder
-
+FROM node:22.11.0
 
 # copy build context and install dependencinpm res
 WORKDIR /app
 COPY . .
-# Or try the below command since we are mapping the volumns
-# COPY ./package.json .
+
 RUN yarn install
 
 # expose port
