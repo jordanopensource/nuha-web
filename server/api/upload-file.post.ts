@@ -1,4 +1,4 @@
-import { FileParser, getFileParser, getFileType } from '../utils'
+import { FileParser, getFileParser, getFileType } from '../utils/file-parser'
 
 export default defineEventHandler(async (event) => {
   const files = await readMultipartFormData(event)
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const fileType = getFileType(
-    files[0].filename?.substring(files[0].filename?.lastIndexOf('.') + 1) ?? '',
+    files[0].filename?.substring(files[0].filename?.lastIndexOf('.') + 1) ?? ''
   )
   let err: unknown
   const parser = await getFileParser(fileType).catch((_err) => {
