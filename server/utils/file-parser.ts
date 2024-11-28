@@ -1,4 +1,5 @@
 import { parse } from 'csv-parse/sync'
+import { resolve, reject } from './promise-handlers'
 import xlsx from 'node-xlsx'
 
 export interface FileParser {
