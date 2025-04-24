@@ -10,27 +10,28 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "^8.5.2",
-    "@nuxtjs/tailwindcss": "^6.12.2",
+    "@nuxtjs/i18n": "^9.5.3",
+    "@nuxtjs/tailwindcss": "^6.13.2",
     "@sidebase/nuxt-auth": "^0.9.4",
     "@types/d3": "^7.4.3",
-    "nuxt": "^3.11.2"
+    "nuxt": "^3.16.2"
   },
   "dependencies": {
-    "@auth/mongodb-adapter": "^3.7.4",
-    "@element-plus/nuxt": "^1.1.0",
+    "@auth/mongodb-adapter": "^3.9.0",
+    "@element-plus/nuxt": "^1.1.1",
     "@josango/nuxt3-build-banner": "^3.0.2",
-    "@nuxt/content": "^2.13.4",
+    "@nuxt/content": "^3.4.0",
     "@nuxtjs/robots": "^4.1.11",
     "@types/nodemailer": "^6.4.17",
-    "@vueuse/core": "^11.3.0",
+    "@vueuse/core": "^13.1.0",
     "csv-parse": "^5.6.0",
     "d3": "^7.9.0",
-    "element-plus": "^2.8.8",
-    "mongodb": "^6.10.0",
+    "element-plus": "^2.9.8",
+    "mongodb": "^6.16.0",
     "next-auth": "4.21.1",
     "node-xlsx": "^0.24.0",
-    "nodemailer": "^6.9.16",
+    "nodemailer": "^6.10.1",
     "vue-matomo": "^4.2.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
