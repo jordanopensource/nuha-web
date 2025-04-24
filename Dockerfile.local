@@ -1,4 +1,4 @@
-FROM node:22.11.0
+FROM node:22.15.0
 
 # copy build context and install dependencinpm res
 WORKDIR /app
