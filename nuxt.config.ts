@@ -100,7 +100,7 @@ export default defineNuxtConfig({
       wellKnown: '',
     },
     apiUrl: '',
-    mongodbUri: '',
+    mongodbUri: 'mongodb://user:pass@localhost:27017',
     listMonk: {
       apiUrl: '',
       user: '',
