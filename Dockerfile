@@ -4,7 +4,7 @@ ARG USER=node DRONE_COMMIT_SHA=${DRONE_COMMIT_SHA} DRONE_BUILD_NUMBER=${DRONE_BU
 ###########
 # BUILDER #
 ###########
-FROM node:22.11.0 AS builder
+FROM node:22.15.0 AS builder
 
 # copy build context and install dependencinpm res
 WORKDIR /workspace
@@ -17,7 +17,7 @@ RUN yarn build
 ###########
 # PROJECT #
 ###########
-FROM node:22-slim
+FROM node:22.15.0-slim
 
 # pass the global args
 ARG USER
