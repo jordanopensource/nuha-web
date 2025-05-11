@@ -7,13 +7,7 @@ export default defineNuxtConfig({
         { name: 'format-detection', content: 'telephone=no' },
       ],
       title: 'Nuha',
-      link: [
-        {
-          rel: 'stylesheet',
-          href: 'https://webfonts.fontstand.com/WF-084743-1b13b14034fdcff6da11465383ec5465.css',
-          type: 'text/css',
-        },
-      ],
+      link: [],
     },
   },
 
@@ -50,8 +44,9 @@ export default defineNuxtConfig({
 
   css: [
     '@/assets/css/tailwind.css',
-    '@/assets/css/fonts/ibm-plex-sans-arabic.css',
     '@/assets/css/global.css',
+    '@/assets/css/fonts/ibm-plex.css',
+    '@/assets/css/fonts/29lt-zarid-text.css',
   ],
 
   i18n: {

@@ -28,7 +28,7 @@ module.exports = {
           100: '#afafaf',
         },
         'nuha-white': {
-          DEFAULT: '#faf4f4'
+          DEFAULT: '#faf4f4',
         },
         'prediction-neutral': {
           DEFAULT: '#6db981',
@@ -38,9 +38,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        LTZarid: '29LT Zarid Text Regular',
-        IBMPlexSansArabic: 'IBM Plex Sans Arabic',
-        IBMPlexMono: 'IBM Plex Mono',
+        LTZarid: '"29LT Zarid Text Regular"',
+        IBMPlexSansArabic: '"IBM Plex Sans Arabic"',
+        IBMPlexMono: '"IBM Plex Mono"',
       },
       lineHeight: {
         15: '68px',
