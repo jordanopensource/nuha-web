@@ -1,30 +1,30 @@
 <template>
-    <div class="main">
-      <div class="inner-container">
-        <h2 class="login-title">{{ t('login.header') }}</h2>
-        <div class="login-btns">
-          <form class="w-full" @submit.stop.prevent="loginWithMagicEmail()">
-            <label for="email-input" class="text-xl w-full block text-start">
+  <div class="main">
+    <div class="inner-container">
+      <h2 class="login-title">{{ t('login.header') }}</h2>
+      <div class="login-btns">
+        <form class="w-full" @submit.stop.prevent="loginWithMagicEmail()">
+          <label for="email-input" class="text-xl w-full block text-start">
+            {{ $t('login.withMagicEmail') }}
+          </label>
+          <input
+            id="email-input"
+            class="email-input"
+            type="email"
+            required
+            v-model="email"
+            :placeholder="$t('login.emailPlaceholder')"
+          />
+          <button type="submit" class="btn" :disabled="loggingIn">
+            <div v-if="!currentLoginMethod.magicEmail">
               {{ $t('login.withMagicEmail') }}
-            </label>
-            <input
-              id="email-input"
-              class="email-input"
-              type="email"
-              required
-              v-model="email"
-              :placeholder="$t('login.emailPlaceholder')"
-            />
-            <button type="submit" class="btn" :disabled="loggingIn">
-              <div v-if="!currentLoginMethod.magicEmail">
-                {{ $t('login.withMagicEmail') }}
-              </div>
-              <div v-else class="loader !h-8 !w-8"></div>
-            </button>
-            <p class="text-xl w-full text-start leading-4 mt-2">
-              {{ $t('login.emailLoginInfo') }}
-            </p>
-          </form>
+            </div>
+            <div v-else class="loader !h-8 !w-8"></div>
+          </button>
+          <p class="text-xl w-full text-start leading-4 mt-2">
+            {{ $t('login.emailLoginInfo') }}
+          </p>
+        </form>
 
           <div v-if="canLoginWithGithub || canLoginWithJosaId">
             <!-- Divider -->
