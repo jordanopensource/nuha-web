@@ -4,26 +4,13 @@
       <div class="inner-container">
         <h5 class="login-title">{{ t('login.header') }}</h5>
         <div class="login-btns">
-          <form
-            @submit="
-              (ev) => {
-                ev.stopPropagation()
-                ev.preventDefault()
-                loginWithMagicEmail()
-              }
-            "
-          >
+          <form @submit.stop.prevent="loginWithMagicEmail()">
             <input
               class="email-input"
               type="email"
               required
+              v-model="email"
               :placeholder="$t('waitlist.email')"
-              :value="email"
-              @keyup="
-                (ev) => {
-                  email = (ev.target as HTMLInputElement).value
-                }
-              "
             />
             <button type="submit" class="btn" :disabled="loginInProgress">
               <div v-if="!loginInProgress">
