@@ -179,11 +179,13 @@ export default {
   },
 
   login: {
-    header: 'تسجيل الدخول إلى نهى',
-    withGithub: 'تسجيل الدخول باستخدام GitHub',
-    withJosaId: 'تسجيل الدخول باستخدام JOSA ID',
-    withMagicEmail: 'أرسل لي رابطًا سحريًا عبر البريد الإلكتروني',
+    header: 'سجل الدخول إلى نهى',
+    withGithub: 'الاستمرار عبر GitHub',
+    withJosaId: 'الاستمرار عبر JOSA ID',
+    withMagicEmail: 'الاستمرار عبر البريد الإلكتروني',
     emailLoginSuccess: 'تحقق من بريدك الإلكتروني لإكمال عملية تسجيل الدخول',
+    emailLoginInfo: "سنرسل لك رابطًا سحريًا لتسجيل الدخول. لا حاجة لكلمة مرور.",
+    emailPlaceholder: 'أكتب بريدك الإلكتروني',
   },
 
   predictionResult: {

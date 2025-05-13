@@ -1,16 +1,19 @@
 <template>
-  <div class="h-screen">
     <div class="main">
       <div class="inner-container">
-        <h5 class="login-title">{{ t('login.header') }}</h5>
+        <h2 class="login-title">{{ t('login.header') }}</h2>
         <div class="login-btns">
-          <form @submit.stop.prevent="loginWithMagicEmail()">
+          <form class="w-full" @submit.stop.prevent="loginWithMagicEmail()">
+            <label for="email-input" class="text-xl w-full block text-start">
+              {{ $t('login.withMagicEmail') }}
+            </label>
             <input
+              id="email-input"
               class="email-input"
               type="email"
               required
               v-model="email"
-              :placeholder="$t('waitlist.email')"
+              :placeholder="$t('login.emailPlaceholder')"
             />
             <button type="submit" class="btn" :disabled="loggingIn">
               <div v-if="!currentLoginMethod.magicEmail">
@@ -18,23 +21,37 @@
               </div>
               <div v-else class="loader !h-8 !w-8"></div>
             </button>
+            <p class="text-xl w-full text-start leading-4 mt-2">
+              {{ $t('login.emailLoginInfo') }}
+            </p>
           </form>
 
           <div v-if="canLoginWithGithub || canLoginWithJosaId">
-            <p class="text-xl font-bold italic my-3">
-              {{ $t('dashboard.or') }}
-            </p>
+            <!-- Divider -->
+            <div class="flex items-center justify-center my-3">
+              <div class="w-full border-t border-nuha-grey-100"></div>
+              <span class="mx-2 text-nuha-grey font-semibold">
+                {{ $t('dashboard.or') }}
+              </span>
+              <div class="w-full border-t border-nuha-grey-100"></div>  
+            </div>
 
             <button
               @click="loginWithGithub"
-              class="btn"
+              class="btn btn-github"
               v-if="canLoginWithGithub"
               :disabled="loggingIn"
             >
-              <div v-if="!currentLoginMethod.github">
-                {{ t('login.withGithub') }}
-              </div>
-              <div v-else class="loader !h-8 !w-8"></div>
+            <div class="flex flex-wrap justify-center items-center gap-1">
+              <span>{{ t('login.withGithub') }}</span>
+              <img
+                v-if="!currentLoginMethod.github"
+                src="~/assets/icons/mdi_github.svg"
+                alt="github"
+                class="h-6 w-6 mr-2"
+              />
+              <div v-else class="loader !border-nuha-white !h-6 !w-6"></div>
+            </div>
             </button>
 
             <button
@@ -54,7 +71,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -131,32 +147,34 @@
 
 <style lang="postcss" scoped>
   .main {
-    @apply w-full h-4/5 grid place-items-center;
+    @apply w-full flex justify-center items-center p-12 max-sm:p-4;
   }
   .inner-container {
-    @apply border-solid border-nuha-fushia-300 border-2;
-    @apply py-5 text-center shadow-sm shadow-nuha-grey-100;
-  }
-  .login-btns {
-    @apply p-10 lg:p-20 grid grid-cols-1 gap-2;
+    @apply p-10 text-center border rounded-md border-nuha-grey-100;
+    @apply max-sm:px-4 max-sm:border-none; 
   }
   .btn {
-    @apply w-full p-2 bg-nuha-fushia-300 flex justify-center items-center cursor-pointer;
+    @apply w-full p-2 rounded-md bg-nuha-fushia-300 cursor-pointer;
+    @apply flex justify-center items-center;
     @apply font-IBMPlexSansArabic text-base text-nuha-white;
     @apply border border-nuha-fushia-300;
-    @apply hover:bg-nuha-white hover:text-nuha-fushia-300;
-    @apply disabled:cursor-not-allowed disabled:bg-nuha-grey-200 disabled:border-none disabled:text-nuha-fushia-100;
+    @apply hover:bg-opacity-80  transition-colors duration-200;
+    @apply disabled:bg-nuha-grey-300 disabled:border-none disabled:text-white disabled:cursor-not-allowed;
   }
-  .btn:disabled {
-    @apply bg-nuha-grey-100;
+  .btn-github {
+    @apply bg-white text-nuha-grey border-nuha-grey-100;
+    @apply hover:bg-gray-200;
   }
-  .btn > .loader {
-    @apply !border-nuha-fushia-300;
+  .btn-github:disabled  img {
+    @apply invert;
   }
   .login-title {
-    @apply text-nuha-grey font-semibold;
+    @apply mb-6 text-nuha-grey font-semibold text-5xl max-sm:text-4xl;
   }
   .email-input {
-    @apply border border-nuha-grey-100 p-3 mb-2 w-full;
+    @apply border rounded-md border-nuha-grey-100;
+    @apply text-2xl text-left p-3 mb-2 w-full;
+    @apply placeholder:text-lg rtl:placeholder:text-right;
+    direction: ltr;
   }
 </style>

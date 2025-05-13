@@ -182,10 +182,12 @@ export default {
 
   login: {
     header: 'Login to Nuha',
-    withGithub: 'Login using GitHub',
-    withJosaId: 'Login using JOSA ID',
-    withMagicEmail: 'Email me a magic link',
+    withGithub: 'Continue with GitHub',
+    withJosaId: 'Continue with JOSA ID',
+    withMagicEmail: 'Continue with email',
     emailLoginSuccess: 'Check ypur email to complete the login process',
+    emailLoginInfo: "We'll send you a magic login link. No password needed.",
+    emailPlaceholder: 'Enter your email address',
   },
 
   predictionResult: {
