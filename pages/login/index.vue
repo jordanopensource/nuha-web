@@ -12,8 +12,8 @@
               v-model="email"
               :placeholder="$t('waitlist.email')"
             />
-            <button type="submit" class="btn" :disabled="loginInProgress">
-              <div v-if="!loginInProgress">
+            <button type="submit" class="btn" :disabled="loggingIn">
+              <div v-if="!currentLoginMethod.magicEmail">
                 {{ $t('login.withMagicEmail') }}
               </div>
               <div v-else class="loader !h-8 !w-8"></div>
@@ -28,9 +28,10 @@
             <button
               @click="loginWithGithub"
               class="btn"
-              :disabled="loginInProgress"
+              v-if="canLoginWithGithub"
+              :disabled="loggingIn"
             >
-              <div v-if="!loginInProgress">
+              <div v-if="!currentLoginMethod.github">
                 {{ t('login.withGithub') }}
               </div>
               <div v-else class="loader !h-8 !w-8"></div>
@@ -40,9 +41,9 @@
               @click="loginWithJosaId"
               class="btn"
               v-if="canLoginWithJosaId"
-              :disabled="loginInProgress"
+              :disabled="loggingIn"
             >
-              <div v-if="!loginInProgress">
+              <div v-if="!currentLoginMethod.josaId">
                 {{ t('login.withJosaId') }}
               </div>
               <div v-else class="loader !h-8 !w-8"></div>
@@ -71,10 +72,18 @@
   const canLoginWithGithub = ref(false)
   const canLoginWithJosaId = ref(false)
   const email = ref('')
-  const loginInProgress = ref(false)
+  const currentLoginMethod = reactive({
+    github: false,
+    josaId: false,
+    magicEmail: false,
+  })
+  
+  const loggingIn = computed(() => {
+    return currentLoginMethod.github || currentLoginMethod.magicEmail || currentLoginMethod.josaId 
+  })
 
   onMounted(async () => {
-    await fetch('/api/check-login-methods', {
+    fetch('/api/check-login-methods', {
       method: 'GET',
       mode: 'cors',
     })
@@ -99,24 +108,24 @@
   })
 
   async function loginWithGithub() {
-    loginInProgress.value = true
+    currentLoginMethod.github = true
     await signIn('github', { callbackUrl: localePath('/dashboard') })
-    loginInProgress.value = false
+    currentLoginMethod.github = false
   }
 
   async function loginWithJosaId() {
-    loginInProgress.value = true
+    currentLoginMethod.josaId = true
     await signIn('authelia', { callbackUrl: localePath('/dashboard') })
-    loginInProgress.value = false
+    currentLoginMethod.josaId = false
   }
 
   async function loginWithMagicEmail() {
-    loginInProgress.value = true
+    currentLoginMethod.magicEmail = true
     await signIn('email', {
       callbackUrl: localePath('/dashboard'),
       email: get(email),
     })
-    loginInProgress.value = false
+    currentLoginMethod.magicEmail = false
   }
 </script>
 
