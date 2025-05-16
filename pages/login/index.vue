@@ -67,6 +67,14 @@
           </button>
         </div>
 
+        <div class="legal-info">
+          {{ t('login.legalInfo') }}
+          <NuxtLink to="/privacy">{{ t('login.privacyPolicy') }}</NuxtLink>
+          {{ t('login.and') }}
+          <NuxtLink to="/terms">{{ t('login.termsOfService') }}</NuxtLink>.
+        </div>
+      </div>
+    </div>
     <div v-else class="inner-container mail-sent">
       <h2 class="text-3xl font-semibold text-nuha-grey mb-4">
         {{ t('login.emailLoginSentTitle') }}
@@ -89,7 +97,6 @@
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
   })
   import { get, set } from '@vueuse/core'
-  import { ElNotification } from 'element-plus'
 
   const { signIn } = useAuth()
   const { t } = useI18n()
@@ -161,7 +168,7 @@
     @apply hover:bg-opacity-80  transition-colors duration-200;
     @apply disabled:bg-nuha-grey-300 disabled:border-none disabled:text-white disabled:cursor-not-allowed;
   }
-  .btn-github {
+  .btn-github:not(:disabled) {
     @apply bg-white text-nuha-grey border-nuha-grey-100;
     @apply hover:bg-gray-200;
   }
@@ -176,5 +183,11 @@
     @apply text-2xl text-left p-3 mb-2 w-full;
     @apply placeholder:text-lg rtl:placeholder:text-right;
     direction: ltr;
+  }
+  .legal-info {
+    @apply text-xl mt-2;
+  }
+  .legal-info a {
+    @apply text-xl text-nuha-fushia hover:underline font-LTZarid;
   }
 </style>
