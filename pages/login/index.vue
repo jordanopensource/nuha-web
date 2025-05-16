@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="inner-container">
+    <div v-if="!currentLoginMethod.magicEmail" class="inner-container">
       <h2 class="login-title">{{ t('login.header') }}</h2>
       <div class="login-btns">
         <form class="w-full" @submit.stop.prevent="loginWithMagicEmail()">
@@ -26,51 +26,62 @@
           </p>
         </form>
 
-          <div v-if="canLoginWithGithub || canLoginWithJosaId">
-            <!-- Divider -->
-            <div class="flex items-center justify-center my-3">
-              <div class="w-full border-t border-nuha-grey-100"></div>
-              <span class="mx-2 text-nuha-grey font-semibold">
-                {{ $t('dashboard.or') }}
-              </span>
-              <div class="w-full border-t border-nuha-grey-100"></div>  
-            </div>
-
-            <button
-              @click="loginWithGithub"
-              class="btn btn-github"
-              v-if="canLoginWithGithub"
-              :disabled="loggingIn"
-            >
-            <div class="flex flex-wrap justify-center items-center gap-1">
-              <span>{{ t('login.withGithub') }}</span>
-              <img
-                v-if="!currentLoginMethod.github"
-                src="~/assets/icons/mdi_github.svg"
-                alt="github"
-                class="h-6 w-6 mr-2"
-              />
-              <div v-else class="loader !border-nuha-white !h-6 !w-6"></div>
-            </div>
-            </button>
-
-            <button
-              @click="loginWithJosaId"
-              class="btn"
-              v-if="canLoginWithJosaId"
-              :disabled="loggingIn"
-            >
-              <div v-if="!currentLoginMethod.josaId">
-                {{ t('login.withJosaId') }}
-              </div>
-              <div v-else class="loader !h-8 !w-8"></div>
-            </button>
+        <div v-if="canLoginWithGithub || canLoginWithJosaId">
+          <!-- Divider -->
+          <div class="flex items-center justify-center my-3">
+            <div class="w-full border-t border-nuha-grey-100"></div>
+            <span class="mx-2 text-nuha-grey font-semibold">
+              {{ $t('dashboard.or') }}
+            </span>
+            <div class="w-full border-t border-nuha-grey-100"></div>  
           </div>
 
-          <div></div>
+          <button
+            @click="loginWithGithub"
+            class="btn btn-github"
+            v-if="canLoginWithGithub"
+            :disabled="loggingIn"
+          >
+          <div class="flex flex-wrap justify-center items-center gap-1">
+            <span>{{ t('login.withGithub') }}</span>
+            <img
+              v-if="!currentLoginMethod.github"
+              src="~/assets/icons/mdi_github.svg"
+              alt="github"
+              class="h-6 w-6 mr-2"
+            />
+            <div v-else class="loader !border-nuha-white !h-6 !w-6"></div>
+          </div>
+          </button>
+
+          <button
+            @click="loginWithJosaId"
+            class="btn"
+            v-if="canLoginWithJosaId"
+            :disabled="loggingIn"
+          >
+            <div v-if="!currentLoginMethod.josaId">
+              {{ t('login.withJosaId') }}
+            </div>
+            <div v-else class="loader !h-8 !w-8"></div>
+          </button>
         </div>
-      </div>
+
+    <div v-else class="inner-container mail-sent">
+      <h2 class="text-3xl font-semibold text-nuha-grey mb-4">
+        {{ t('login.emailLoginSentTitle') }}
+      </h2>
+      <p class="text-xl text-nuha-grey">
+        {{ t('login.emailLoginSentInfo') }}
+      </p>
+      <button
+        @click="currentLoginMethod.magicEmail = false"
+        class="btn !bg-white !text-nuha-grey !border-nuha-grey-100 hover:!bg-gray-200 mt-4"
+      >
+        {{t('login.backToLogin')}}
+      </button>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -110,17 +121,6 @@
           // set(canLoginWithJosaId, resp.josaId)
         }
       })
-
-    if (route.query['email-login']) {
-      ElNotification({
-        title: t('status.success'),
-        message: t('login.emailLoginSuccess'),
-        type: 'success',
-        duration: 10000,
-        position: 'bottom-right',
-      })
-      console.log('hello, I have hacked your computer')
-    }
   })
 
   async function loginWithGithub() {
@@ -139,9 +139,9 @@
     currentLoginMethod.magicEmail = true
     await signIn('email', {
       callbackUrl: localePath('/dashboard'),
+      redirect: false,
       email: get(email),
     })
-    currentLoginMethod.magicEmail = false
   }
 </script>
 

@@ -185,9 +185,16 @@ export default {
     withGithub: 'Continue with GitHub',
     withJosaId: 'Continue with JOSA ID',
     withMagicEmail: 'Continue with email',
-    emailLoginSuccess: 'Check ypur email to complete the login process',
-    emailLoginInfo: "We'll send you a magic login link. No password needed.",
+    emailLoginSentTitle: 'Magic login link sent',
+    emailLoginSentInfo: 'Check your email to complete the login process.',
+    emailLoginInfo: "We’ll send you a magic login link. No password needed.",
     emailPlaceholder: 'Enter your email address',
+    backToLogin: "Back to login",
+    legalInfo:
+      'By logging in, you agree to our',
+    termsOfService: 'Terms of Service',
+    and: 'and',
+    privacyPolicy: 'Privacy Policy',
   },
 
   predictionResult: {
