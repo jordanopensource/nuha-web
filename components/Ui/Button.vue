@@ -1,5 +1,6 @@
 <template>
   <button
+    v-if="!to"
     class="button"
     :class="`btn-${size} btn-${variant}`"
     :type="type"
@@ -11,6 +12,19 @@
       <div class="loader !h-8 !w-8"></div>
     </slot>
   </button>
+  <NuxtLink
+    v-else
+    :to="to"
+    class="button"
+    :class="`btn-${size} btn-${variant}`"
+    :disabled="disabled || loading"
+  >
+    <slot name="icon"></slot>
+    <slot></slot>
+    <slot name="loading" v-if="loading">
+      <div class="loader !h-8 !w-8"></div>
+    </slot>
+  </NuxtLink>
 </template>
 
 <script lang="ts" setup>
@@ -34,6 +48,11 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false,
+  },
+  // for rendering a button-styled link
+  to: {
+    type: String,
+    required: false,
   },
 })
 </script>

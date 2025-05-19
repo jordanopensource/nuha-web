@@ -10,6 +10,9 @@ div {
 ::selection {
   @apply bg-nuha-fushia-300 text-nuha-white bg-opacity-90;
 }
+a::selection {
+  @apply underline;
+}
 
 a {
   @apply text-sm;

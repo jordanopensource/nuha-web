@@ -24,12 +24,12 @@
           >
             {{ $t('login.withMagicEmail') }}
           </UiButton>
-          <p class="text-xl w-full text-start leading-4 mt-2">
+          <div class="text-xl w-full text-start mt-2">
             {{ $t('login.emailLoginInfo') }}
-          </p>
+          </div>
         </form>
 
-        <div v-if="canLoginWithGithub || canLoginWithJosaId">
+        <div class="flex flex-col gap-2" v-if="canLoginWithGithub || canLoginWithJosaId">
           <!-- Divider -->
           <div class="flex items-center justify-center my-3">
             <div class="w-full border-t border-nuha-grey-100"></div>
@@ -38,6 +38,18 @@
             </span>
             <div class="w-full border-t border-nuha-grey-100"></div>  
           </div>
+
+          <UiButton
+            v-if="canLoginWithJosaId"
+            @click="loginWithJosaId"
+            :disabled="loggingIn"
+            :loading="currentLoginMethod.josaId"
+            variant="outline"
+            class="w-full"
+            size="md"
+          >
+            {{ t('login.withJosaId') }}
+          </UiButton>
 
           <UiButton
             @click="loginWithGithub"
@@ -55,18 +67,6 @@
               />
             </template>
           </UiButton>
-
-          <button
-            @click="loginWithJosaId"
-            class="btn"
-            v-if="canLoginWithJosaId"
-            :disabled="loggingIn"
-          >
-            <div v-if="!currentLoginMethod.josaId">
-              {{ t('login.withJosaId') }}
-            </div>
-            <div v-else class="loader !h-8 !w-8"></div>
-          </button>
         </div>
 
         <div class="legal-info">
@@ -84,12 +84,13 @@
       <p class="text-xl text-nuha-grey">
         {{ t('login.emailLoginSentInfo') }}
       </p>
-      <button
+      <UiButton
         @click="currentLoginMethod.magicEmail = false"
-        class="btn !bg-white !text-nuha-grey !border-nuha-grey-100 hover:!bg-gray-200 mt-4"
+        variant="outline"
+        class="w-full mt-4"
       >
         {{t('login.backToLogin')}}
-      </button>
+      </UiButton>
     </div>
   </div>
 </template>
@@ -159,8 +160,8 @@
     @apply w-full flex justify-center items-center p-12 max-sm:p-4;
   }
   .inner-container {
-    @apply p-10 text-center border rounded-md border-nuha-grey-100;
-    @apply max-sm:px-4 max-sm:border-none; 
+    @apply p-10 text-center border rounded-md border-nuha-grey-100 sm:shadow-lg;
+    @apply max-sm:px-4 max-sm:border-none;
   }
   .btn {
     @apply w-full p-2 rounded-md bg-nuha-fushia-300 cursor-pointer;
@@ -187,7 +188,7 @@
     direction: ltr;
   }
   .legal-info {
-    @apply text-xl mt-2;
+    @apply text-xl mt-2 text-start;
   }
   .legal-info a {
     @apply text-xl text-nuha-fushia hover:underline font-LTZarid;
