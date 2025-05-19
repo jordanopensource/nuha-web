@@ -7,6 +7,9 @@ html,
 div {
   scroll-behavior: smooth;
 }
+::selection {
+  @apply bg-nuha-fushia-300 text-nuha-white bg-opacity-90;
+}
 
 a {
   @apply text-sm;

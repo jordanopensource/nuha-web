@@ -9,18 +9,21 @@
           </label>
           <input
             id="email-input"
-            class="email-input"
+            class="email-input placeholder:select-none"
             type="email"
             required
             v-model="email"
             :placeholder="$t('login.emailPlaceholder')"
           />
-          <button type="submit" class="btn" :disabled="loggingIn">
-            <div v-if="!currentLoginMethod.magicEmail">
-              {{ $t('login.withMagicEmail') }}
-            </div>
-            <div v-else class="loader !h-8 !w-8"></div>
-          </button>
+          <UiButton
+            :loading="currentLoginMethod.magicEmail"
+            :disabled="loggingIn"
+            size="md"
+            class="w-full"
+            type="submit"
+          >
+            {{ $t('login.withMagicEmail') }}
+          </UiButton>
           <p class="text-xl w-full text-start leading-4 mt-2">
             {{ $t('login.emailLoginInfo') }}
           </p>
@@ -36,23 +39,22 @@
             <div class="w-full border-t border-nuha-grey-100"></div>  
           </div>
 
-          <button
+          <UiButton
             @click="loginWithGithub"
-            class="btn btn-github"
+            class="w-full bg-white !text-black !border-black"
+            variant="outline"
             v-if="canLoginWithGithub"
-            :disabled="loggingIn"
+            :loading="currentLoginMethod.github"
           >
-          <div class="flex flex-wrap justify-center items-center gap-1">
             <span>{{ t('login.withGithub') }}</span>
-            <img
-              v-if="!currentLoginMethod.github"
-              src="~/assets/icons/mdi_github.svg"
-              alt="github"
-              class="h-6 w-6 mr-2"
-            />
-            <div v-else class="loader !border-nuha-white !h-6 !w-6"></div>
-          </div>
-          </button>
+            <template #icon>
+              <img
+                src="~/assets/icons/mdi_github.svg"
+                alt="github"
+                class="h-6 w-6 mr-2 select-none"
+              />
+            </template>
+          </UiButton>
 
           <button
             @click="loginWithJosaId"
