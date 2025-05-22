@@ -163,21 +163,6 @@
     @apply p-10 text-center border rounded-md border-nuha-grey-100 sm:shadow-lg;
     @apply max-sm:px-4 max-sm:border-none;
   }
-  .btn {
-    @apply w-full p-2 rounded-md bg-nuha-fushia-300 cursor-pointer;
-    @apply flex justify-center items-center;
-    @apply font-IBMPlexSansArabic text-base text-nuha-white;
-    @apply border border-nuha-fushia-300;
-    @apply hover:bg-opacity-80  transition-colors duration-200;
-    @apply disabled:bg-nuha-grey-300 disabled:border-none disabled:text-white disabled:cursor-not-allowed;
-  }
-  .btn-github:not(:disabled) {
-    @apply bg-white text-nuha-grey border-nuha-grey-100;
-    @apply hover:bg-gray-200;
-  }
-  .btn-github:disabled  img {
-    @apply invert;
-  }
   .login-title {
     @apply mb-6 text-nuha-grey font-semibold text-5xl max-sm:text-4xl;
   }

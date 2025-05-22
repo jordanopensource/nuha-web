@@ -1,15 +1,13 @@
 <template>
   <section class="w-full my-5 lg:my-20" id="upload-container">
-    <div class="flex max-sm:flex-col items-top gap-4 my-8">
-      <div class="w-1/4 max-sm:w-full inline-block">
-        <DashboardUploadStep
-          circle-id="step-one"
-          :order="1"
-          :description="t('dashboard.steps.step1.name')"
-        />
-      </div>
-      <div class="w-3/4 max-sm:w-full inline-block mt-2 text-2xl">
-        <ol class="!list-none">
+    <div class="flex flex-col items-top gap-4 my-8">
+      <DashboardUploadStep
+        circle-id="step-one"
+        :order="1"
+        :description="t('dashboard.steps.step1.name')"
+      />
+      <div class="text-2xl">
+        <ol>
           <li
             v-for="item in t('dashboard.steps.step1.description').split('\n')"
           >
@@ -19,22 +17,40 @@
       </div>
     </div>
 
-    <div class="flex max-sm:flex-col items-top gap-4">
-      <div class="w-1/4 max-sm:w-full inline-block">
-        <DashboardUploadStep
-          circle-id="step-two"
-          :order="2"
-          :description="t('dashboard.steps.step2.name')"
-        />
-      </div>
-      <div class="w-3/4 max-sm:w-full inline-block mt-2 text-2xl">
-        <div class="w-full mb-20">
-          <DashboardUploadSingleComment
+    <div class="flex flex-col gap-4">
+      <DashboardUploadStep
+        circle-id="step-two"
+        :order="2"
+        :description="t('dashboard.steps.step2.name')"
+      />
+      <div class="analyze-container">
+        <div class="flex max-lg:flex-col gap-8">
+            <DashboardUploadSingleComment
+              :key="dataFocus"
+              @focus="
+                () => {
+                  dataFocus++
+                  isSingleComment = true
+                }
+              "
+              @update:data="
+                (data: PredictionRequestBody) => {
+                  requestBody = data
+                }
+              "
+            />
+  
+          <div class="separator-container">
+            <div class="separator"></div>
+            <span class="font-bold text-base">{{ t('dashboard.or') }}</span>
+            <div class="separator"></div>
+          </div>
+          <DashboardUploadFile
             :key="dataFocus"
             @focus="
               () => {
                 dataFocus++
-                isSingleComment = true
+                isSingleComment = false
               }
             "
             @update:data="
@@ -45,37 +61,17 @@
           />
         </div>
 
-        <div class="flex items-center gap-x-5 mb-14">
-          <div class="separator"></div>
-          <span class="font-medium text-sm">{{ t('dashboard.or') }}</span>
-          <div class="separator"></div>
-        </div>
-        <DashboardUploadFile
-          :key="dataFocus"
-          @focus="
-            () => {
-              dataFocus++
-              isSingleComment = false
-            }
-          "
-          @update:data="
-            (data: PredictionRequestBody) => {
-              requestBody = data
-            }
-          "
-        />
-
-        <button
+        <UiButton
           @click="handleSubmit"
-          class="btn ltr:float-right rtl:float-left max-h-9 min-w-[6rem]"
+          class="ms-auto max-lg:w-full"
+          size="lg"
           :disabled="loading"
         >
-          <div class="flex items-center" v-if="!loading">
-            {{ t('dashboard.actions.analyze') }}
-            <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
-          </div>
-          <div v-else class="loader !h-8 !w-8"></div>
-        </button>
+          {{ t('dashboard.actions.analyze') }}
+          <template #icon>
+            <IconArrowForward class="rtl:rotate-180"/>
+          </template>
+        </UiButton>
       </div>
     </div>
   </section>

@@ -40,19 +40,10 @@
   .text {
     @apply text-nuha-grey leading-none;
   }
-  .btn {
-    @apply text-base w-32 h-10 border px-6 py-3;
-    @apply flex items-center justify-center gap-1;
-    @apply border-nuha-fushia-300 bg-nuha-white text-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-300 hover:text-nuha-white;
-  }
   .nuha-logo {
     @apply my-10 lg:my-0;
     @apply w-full;
     @apply w-full lg:w-[707px];
-  }
-  .btn:hover .arrow-icon {
-    @apply bg-[url('/icons/arrow-right-white.svg')];
   }
   .arrow-icon {
     @apply mx-2 w-8 h-8 transform rtl:rotate-180 text-black;

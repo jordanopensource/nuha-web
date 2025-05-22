@@ -1,17 +1,13 @@
 <template>
   <label>
-    {{ t('dashboard.steps.step2.description') }}
+    <div class="mb-4">{{ t('dashboard.steps.step2.description') }}</div>
     <textarea
-      class="w-full border-2 border-nuha-fushia-200 p-5 my-4"
-      :value="comment"
-      cols="30"
-      rows="5"
-      @keyup="
-        (ev) => {
-          comment = (ev.target as HTMLTextAreaElement).value
-          updateData()
-        }
-      "
+      class="block max-h-48 min-h-16 w-full placeholder:text-lg"
+      rows="3"
+      name="comment"
+      v-model="comment"
+      @change="updateData()"
+      :placeholder="t('dashboard.steps.step2.commentPlaceholder')"
     ></textarea>
   </label>
 </template>
