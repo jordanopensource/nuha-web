@@ -6,10 +6,10 @@
     :type="type"
     :disabled="disabled || loading"
   >
-    <slot name="icon"></slot>
     <slot></slot>
-    <slot name="loading" v-if="loading">
-      <div class="loader !h-8 !w-8"></div>
+    <slot name="icon" v-if="!loading"></slot>
+    <slot name="loading" v-else>
+      <div class="loader !h-6 !w-6"></div>
     </slot>
   </button>
   <NuxtLink
@@ -19,10 +19,10 @@
     :class="`btn-${size} btn-${variant}`"
     :disabled="disabled || loading"
   >
-    <slot name="icon"></slot>
     <slot></slot>
-    <slot name="loading" v-if="loading">
-      <div class="loader !h-8 !w-8"></div>
+    <slot name="icon" v-if="!loading"></slot>
+    <slot name="loading" v-else>
+      <div class="loader !h-6 !w-6"></div>
     </slot>
   </NuxtLink>
 </template>
@@ -59,7 +59,7 @@ const props = defineProps({
 
 <style lang="postcss" scoped>
 .button {
-  @apply flex items-center justify-center gap-2 rounded-md;
+  @apply flex items-center justify-center gap-2 rounded-md font-normal;
   @apply max-sm:gap-1 disabled:cursor-not-allowed text-start;
   @apply transition duration-200 ease-in-out;
 }

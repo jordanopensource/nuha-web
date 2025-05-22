@@ -7,7 +7,9 @@
       variant="primary"
     >
       {{ t('header.login') }}
-      <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
+      <template #icon>
+        <IconArrowForward class="rtl:rotate-180"/>
+      </template>
     </UiButton>
   </template>
   <UiButton
@@ -16,7 +18,9 @@
     variant="ghost"
   >
     {{ t('header.logout') }}
-    <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
+    <template #icon>
+      <IconArrowForward class="rtl:rotate-180"/>
+    </template>
   </UiButton>
   <!-- TODO -->
   <!-- <div v-else>

@@ -1,23 +1,25 @@
 <template>
-  <NuxtLink
+  <UiButton
     v-for="localeItem in availableLocales"
     :key="localeItem.code"
     :to="switchLocalePath(localeItem.code)"
-    class="text-lg"
+    class="!text-nuha-grey"
     :class="localeItem.code"
     @click="emit('showMobileMenu')"
+    variant="ghost"
     >{{ localeItem.name }}
-  </NuxtLink>
+  </UiButton>
 
   <template v-for="link in links">
-    <NuxtLink
+    <UiButton
       v-if="link.condition === undefined || link.condition"
       @click="emit('showMobileMenu')"
       :to="link.path()"
-      class="text-lg"
+      :variant="link.path() === localePath('/dashboard') ? 'outline' : 'ghost'"
+      class="!text-nuha-grey"
     >
       {{ link.title() }}
-    </NuxtLink>
+    </UiButton>
   </template>
 
   <!-- User items -->
