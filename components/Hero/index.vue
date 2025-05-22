@@ -9,10 +9,12 @@
           {{ $t('homeHero.intro') }}
         </p>
 
-        <NuxtLink class="btn" :to="localePath('/dashboard')">
+        <UiButton class="w-fit" size="lg" :to="localePath('/dashboard')">
           {{ $t('homeHero.tryItOut') }}
-          <span class="rtl:rotate-180 mt-1">￫</span>
-        </NuxtLink>
+          <template #icon>
+            <IconArrowForward class="rtl:rotate-180"/>
+          </template>
+        </UiButton>
       </div>
       <div class="w-full">
         <img class="nuha-logo" src="/hero-logo.svg" alt="Nuha logo" />

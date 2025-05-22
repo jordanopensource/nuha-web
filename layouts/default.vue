@@ -3,7 +3,7 @@
     :lang="head.htmlAttrs!.lang"
     :dir="head.htmlAttrs!.dir"
   >
-    <Body class="bg-nuha-white">
+    <Body class="bg-nuha-white bg-opacity-30">
       <buildInfoBanner
         v-if="useRuntimeConfig().public.targetEnv === 'development'"
       />
