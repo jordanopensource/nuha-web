@@ -1,8 +1,12 @@
 <template>
   <header class="container">
     <div class="nav-container">
-      <NuxtLink :to="localePath('/')" @click="showMobileMenu = false">
-        <img width="70" height="70" src="/logo.svg" />
+      <NuxtLink
+        :to="localePath('/')"
+        @click="showMobileMenu = false"
+        aria-label="home"
+      >
+        <img class="select-none" width="70" height="70" src="/logo.svg" alt="Nuha logo" />
       </NuxtLink>
 
       <button
@@ -14,6 +18,8 @@
           :src="showMobileMenu ? '/close-icon.svg' : '/burger-menu.svg'"
           width="40"
           height="40"
+          alt="menu icon"
+          class="select-none"
         />
       </button>
       <!-- Desktop list -->

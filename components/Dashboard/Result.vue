@@ -200,7 +200,7 @@
   }
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
   .el-pagination.is-background .el-pager li.is-active {
     @apply !bg-nuha-fushia-300;
   }
