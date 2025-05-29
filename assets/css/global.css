@@ -1,5 +1,5 @@
 body {
-  @apply antialiased m-0;
+  @apply antialiased m-0 px-20 max-md:px-5;
   @apply font-LTZarid;
 }
 
@@ -48,7 +48,7 @@ a {
 /* Homepage */
 main {
   section {
-    @apply py-20 max-sm:py-5;
+    @apply py-20 max-sm:py-9;
     &:not(:first-child) {
       @apply border-nuha-fushia-300 border-t-2;
     }

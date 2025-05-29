@@ -194,14 +194,19 @@
 </script>
 
 <style scoped lang="postcss">
-  .separator {
-    @apply h-0 border-b border-b-nuha-fushia-300 w-full;
+  .separator-container {
+    @apply h-48 w-0;
+    @apply flex flex-col items-center justify-center gap-5;
+    @apply max-lg:h-0 max-lg:w-full max-lg:flex-row;
   }
-  .btn {
-    @apply border my-3 p-3 flex items-center justify-center text-lg;
-    @apply border-nuha-fushia-300;
-    @apply bg-nuha-white text-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-300 hover:text-nuha-white;
-    @apply disabled:bg-transparent;
+  .separator {
+    @apply h-full border-l border-nuha-fushia-300;
+    @apply max-lg:h-0 max-lg:border-b  max-lg:w-full;
+
+  }
+  .analyze-container {
+    @apply flex flex-col gap-8 mx-auto max-w-fit;
+    @apply p-8 border-nuha-fushia-200 border rounded-md shadow-lg;
+    @apply w-3/4 mt-2 text-2xl max-lg:w-full max-lg:p-4;
   }
 </style>
