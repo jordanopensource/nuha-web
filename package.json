@@ -14,7 +14,8 @@
     "@nuxtjs/tailwindcss": "^6.13.2",
     "@sidebase/nuxt-auth": "^0.9.4",
     "@types/d3": "^7.4.3",
-    "nuxt": "^3.16.2"
+    "nuxt": "^3.16.2",
+    "nuxt-svgo": "4.2.1"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.9.0",

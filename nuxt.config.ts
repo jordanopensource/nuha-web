@@ -19,7 +19,13 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@nuxt/content',
     '@nuxtjs/robots',
+    'nuxt-svgo',
   ],
+
+  svgo: {
+    autoImportPath: './assets/images/',
+    defaultImport: 'component',
+  },
 
   auth: { globalAppMiddleware: true },
 

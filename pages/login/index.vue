@@ -60,11 +60,7 @@
           >
             <span>{{ t('login.withGithub') }}</span>
             <template #icon>
-              <img
-                src="~/assets/icons/mdi_github.svg"
-                alt="github"
-                class="h-6 w-6 mr-2 select-none"
-              />
+              <SvgoIconsMdiGithub class="h-6 w-6 mr-2 select-none" />
             </template>
           </UiButton>
         </div>
