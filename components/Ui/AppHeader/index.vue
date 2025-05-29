@@ -14,12 +14,13 @@
         aria-label="navigation menu"
         @click="showMobileMenu = !showMobileMenu"
       >
-        <img
-          :src="showMobileMenu ? '/close-icon.svg' : '/burger-menu.svg'"
-          width="40"
-          height="40"
-          alt="menu icon"
-          class="select-none"
+        <SvgoIconsCloseIcon
+          v-if="showMobileMenu"
+          class="mobile-icon p-0"
+        />
+        <SvgoIconsBurgerMenu
+          v-else
+          class="mobile-icon"
         />
       </button>
       <!-- Desktop list -->

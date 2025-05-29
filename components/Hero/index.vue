@@ -17,11 +17,7 @@
         </UiButton>
       </div>
       <div class="w-full">
-        <img
-          class="w-full rounded-md my-10 lg:my-0"
-          src="/hero-logo.svg"
-          alt="Nuha logo"
-        />
+        <SvgoHeroLogo class="w-full rounded-md my-10 lg:my-0"/>
       </div>
     </section>
 

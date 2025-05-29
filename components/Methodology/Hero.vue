@@ -8,12 +8,7 @@
         {{ $t('methodology.description') }}
       </p>
     </div>
-    <img
-      src="/images/meth-hero.svg"
-      width="838.5"
-      height="323.25"
-      class="w-full"
-    />
+    <SvgoMethHero class="w-full" />
   </div>
 </template>
 
