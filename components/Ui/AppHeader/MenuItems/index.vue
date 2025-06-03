@@ -3,7 +3,7 @@
     v-for="localeItem in availableLocales"
     :key="localeItem.code"
     :to="switchLocalePath(localeItem.code)"
-    class="!text-nuha-grey"
+    class="!text-nuha-grey max-lg:w-full"
     :class="localeItem.code"
     @click="emit('showMobileMenu')"
     variant="ghost"
@@ -15,8 +15,9 @@
       v-if="link.condition === undefined || link.condition"
       @click="emit('showMobileMenu')"
       :to="link.path()"
-      :variant="link.path() === localePath('/dashboard') ? 'outline' : 'ghost'"
-      class="!text-nuha-grey"
+      :variant="link.path() === localePath('/dashboard') ? 'primary' : 'ghost'"
+      class="max-lg:w-full"
+      :class="link.style ? link.style : ''"
     >
       {{ link.title() }}
     </UiButton>
@@ -48,12 +49,14 @@
     title(): string
     path(): string
     condition?: boolean
+    style?: string
   }
 
   const links = ref<Link[]>([
     {
       title: () => t('methodology.title'),
       path: () => localePath('/methodology'),
+      style: "!text-nuha-grey"
     },
     //   {
     //     title: () => t('findings.title'),

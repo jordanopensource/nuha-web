@@ -36,8 +36,8 @@
     ></div>
     <div class="relative">
       <div
-        v-if="showMobileMenu"
-        class="list mobile z-20 w-full flex flex-col gap-y-5 lg:!hidden"
+        class="list mobile z-20 w-full flex flex-col transition-all gap-y-5 lg:!hidden"
+        :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"
       >
         <UiAppHeaderMenuItems @showMobileMenu="showMobileMenu = false" />
       </div>

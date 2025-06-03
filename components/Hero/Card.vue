@@ -1,7 +1,7 @@
 <template>
   <div class="card flex flex-col gap-y-5">
     <div
-      class="bg-cover w-full aspect-square p-8 bg-no-repeat bg-nuha-fushia-300"
+      class="bg-cover rounded-md w-full aspect-square p-8 bg-no-repeat bg-nuha-fushia-300"
       :style="`background-image: url('${image}')`"
     >
       <span

@@ -1,5 +1,5 @@
 body {
-  @apply antialiased m-0 px-20 max-md:px-5;
+  @apply antialiased m-0 px-20 max-lg:px-5;
   @apply font-LTZarid;
 }
 

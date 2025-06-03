@@ -6,6 +6,7 @@
       :to="localePath('/login')"
       size="md"
       variant="primary"
+      class="max-lg:w-full"
     >
       {{ t('header.login') }}
       <template #icon>
@@ -17,6 +18,7 @@
     v-else
     @click="logout"
     variant="ghost"
+    class="max-lg:w-full"
   >
     {{ t('header.logout') }}
     <template #icon>
