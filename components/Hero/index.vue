@@ -9,7 +9,10 @@
           {{ $t('homeHero.intro') }}
         </p>
 
-        <UiButton class="w-fit" size="lg" :to="localePath('/dashboard')">
+        <UiButton
+          class="w-fit"
+          size="lg"
+          :to="useAuthCheck() ? localePath('/dashboard') : localePath('/login')">
           {{ $t('homeHero.tryItOut') }}
           <template #icon>
             <IconArrowForward class="rtl:rotate-180"/>
