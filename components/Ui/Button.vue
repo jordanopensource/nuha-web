@@ -59,7 +59,7 @@ const props = defineProps({
 
 <style lang="postcss" scoped>
 .button {
-  @apply flex items-center justify-center gap-2 rounded-md font-normal;
+  @apply select-none flex items-center justify-center gap-2 rounded-md font-normal;
   @apply max-sm:gap-1 disabled:cursor-not-allowed text-start;
   @apply transition duration-200 ease-in-out;
 }

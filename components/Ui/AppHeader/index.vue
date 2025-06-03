@@ -10,7 +10,7 @@
       </NuxtLink>
 
       <button
-        class="lg:hidden"
+        class="lg:hidden z-20"
         aria-label="navigation menu"
         @click="showMobileMenu = !showMobileMenu"
       >
@@ -24,13 +24,23 @@
         />
       </button>
       <!-- Desktop list -->
-      <div class="list desktop">
+      <div class="list hidden lg:flex">
         <UiAppHeaderMenuItems @showMobileMenu="showMobileMenu = false" />
       </div>
     </div>
-    <!-- Mobile list -->
-    <div class="list mobile" :class="showMobileMenu ? 'show' : 'hide'">
-      <UiAppHeaderMenuItems @showMobileMenu="showMobileMenu = false" />
+    <!-- Mobile list & backdrop -->
+    <div
+      v-if="showMobileMenu"
+      class="w-full h-screen start-0 top-0 absolute bg-transparent border lg:hidden"
+      @click="showMobileMenu = false"
+    ></div>
+    <div class="relative">
+      <div
+        v-if="showMobileMenu"
+        class="list mobile z-20 w-full flex flex-col gap-y-5 lg:!hidden"
+      >
+        <UiAppHeaderMenuItems @showMobileMenu="showMobileMenu = false" />
+      </div>
     </div>
   </header>
 </template>
@@ -45,29 +55,20 @@
 <style lang="postcss" scoped>
   .nav-container,
   .mobile {
-    @apply flex justify-between;
-    @apply pb-5 pt-10;
+    @apply flex justify-between py-5 lg:pt-10;
     @apply border-nuha-fushia-300 border-b-2;
   }
 
   .list {
-    @apply gap-12 font-light;
+    @apply lg:gap-12 font-light;
     @apply justify-between items-center;
   }
   .list a {
     @apply text-lg text-red-500  bg-red-600 !important;
   }
-  .desktop {
-    @apply hidden lg:flex;
-  }
-
-  .mobile {
-    @apply flex-col gap-y-5 lg:hidden;
-  }
-  .mobile.show {
-    @apply flex;
-  }
-  .mobile.hide {
-    @apply hidden;
+  .mobile-icon {
+    @apply w-12 h-12 p-2 rounded-md transition-colors;
+    @apply hover:bg-nuha-fushia-100 [&_path]:hover:fill-nuha-fushia-hover;
+    @apply active:bg-nuha-fushia-200;
   }
 </style>

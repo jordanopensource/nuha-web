@@ -25,6 +25,7 @@
   <!-- User items -->
   <UserMenuButton
     @click="emit('showMobileMenu')"
+    @show-mobile-menu="emit('showMobileMenu')"
     @update:showItems="
       (value: boolean) => {
         showUserMenu = value

@@ -2,6 +2,7 @@
   <template v-if="!isLoggedIn()">
     <UiButton
       v-if="!isLoginPage"
+      @click="emit('showMobileMenu')"
       :to="localePath('/login')"
       size="md"
       variant="primary"
@@ -14,7 +15,7 @@
   </template>
   <UiButton
     v-else
-    @click="signOut"
+    @click="logout"
     variant="ghost"
   >
     {{ t('header.logout') }}
@@ -45,7 +46,7 @@
   import { set } from '@vueuse/core'
   import { ref } from 'vue'
 
-  const emit = defineEmits(['update:showItems'])
+  const emit = defineEmits(['update:showItems', 'showMobileMenu'])
 
   const { t } = useI18n()
   const hideMenu = useHideMenu()
@@ -61,6 +62,10 @@
 
   const localePath = useLocalePath()
 
+  const logout = () => {
+    emit('showMobileMenu')
+    signOut()
+  }
   function isLoggedIn() {
     return useAuthCheck()
   }
