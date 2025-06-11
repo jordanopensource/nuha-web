@@ -48,7 +48,7 @@ a {
 /* Homepage */
 main {
   section {
-    @apply py-20 max-sm:py-9;
+    @apply py-20 max-lg:py-10;
     &:not(:first-child) {
       @apply border-nuha-fushia-300 border-t-2;
     }
@@ -56,6 +56,10 @@ main {
   .main {
     @apply grid grid-cols-1 lg:grid-cols-2 place-items-center  items-start lg:gap-x-14 gap-y-8;
   }
+}
+.hero-grid {
+  @apply grid grid-cols-3 max-lg:grid-cols-1;
+  @apply place-items-start gap-12;
 }
 
 .article {

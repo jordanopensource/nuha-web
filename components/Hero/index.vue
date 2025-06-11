@@ -1,11 +1,11 @@
 <template>
   <main>
-    <section class="grid grid-cols-1 lg:grid-cols-2 place-items-start lg:gap-x-14">
-      <div class="w-full">
+    <section class="hero-grid !grid-cols-2 max-lg:!grid-cols-1">
+      <div class="w-full flex flex-col gap-y-12">
         <h1 class="text-nuha-grey leading-none">
           {{ $t('homeHero.title') }}
         </h1>
-        <p class="text-nuha-grey leading-none my-6 mb-12 text-4xl lg:w-2/3">
+        <p class="text-nuha-grey leading-none text-4xl lg:w-4/5">
           {{ $t('homeHero.intro') }}
         </p>
 

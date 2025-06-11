@@ -2,9 +2,9 @@
   <div
     class="methodology-border flex flex-col gap-y-14 items-center justify-center"
   >
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <h1>{{ $t('methodology.title') }}</h1>
-      <p class="text-4xl">
+    <div class="hero-grid">
+      <h1 class="col-span-1">{{ $t('methodology.title') }}</h1>
+      <p class="text-4xl col-span-2 max-lg:text-3xl lg:px-8">
         {{ $t('methodology.description') }}
       </p>
     </div>
@@ -14,4 +14,8 @@
 
 <script lang="ts" setup></script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.methodology-border {
+  @apply border-b-2 border-[#a066a9] pb-16;
+}
+</style>

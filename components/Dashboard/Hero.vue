@@ -1,12 +1,12 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 items-top gap-5 my-5 lg:my-20">
+  <div class="hero-grid">
     <h1>{{ t('dashboard.title') }}</h1>
-    <p class="text-4xl">{{ t('dashboard.description') }}</p>
+    <p class="text-4xl col-span-2 max-lg:text-3xl lg:px-8">
+      {{ t('dashboard.description') }}
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
   const { t } = useI18n()
 </script>
-
-<style scoped lang="postcss"></style>

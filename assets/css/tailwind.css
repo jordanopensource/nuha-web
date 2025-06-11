@@ -4,24 +4,24 @@
 
 @layer base {
   h1 {
-    @apply text-7xl max-md:text-5xl;
+    @apply text-7xl max-lg:text-6xl;
   }
   h2 {
-    @apply text-4xl max-md:text-2xl;
+    @apply text-4xl max-lg:text-3xl;
   }
   h3 {
-    @apply text-3xl max-md:text-xl;
+    @apply text-3xl max-lg:text-2xl;
   }
   h4 {
-    @apply text-2xl max-md:text-lg;
+    @apply text-2xl max-lg:text-lg;
   }
   h5 {
-    @apply text-xl max-md:text-base;
+    @apply text-xl max-lg:text-base;
   }
   h6 {
-    @apply text-lg max-md:text-base;
+    @apply text-lg max-lg:text-base;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply max-md:font-semibold;
+    @apply max-lg:font-semibold;
   }
 }
