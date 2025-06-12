@@ -202,6 +202,6 @@
   .analyze-container {
     @apply flex flex-col gap-8 mx-auto;
     @apply p-8 border-nuha-fushia-200 border rounded-md shadow-lg;
-    @apply w-3/4 mt-2 text-2xl max-lg:w-full max-lg:p-4;
+    @apply w-fit mt-2 text-2xl max-lg:w-full max-lg:p-4;
   }
 </style>
