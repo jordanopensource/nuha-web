@@ -1,6 +1,7 @@
 <template>
   <div class="h-full w-full mb-10">
-    <div ref="chart" class="chart-container">
+    <div class="chart-container">
+      <div ref="chart"></div>
       <ChartsLegend v-if="showLegend" :data="data" />
     </div>
     <slot name="caption" />
@@ -70,7 +71,7 @@
 
 <style lang="postcss" scoped>
   .chart-container {
-    @apply flex flex-row-reverse justify-center items-center gap-8 max-sm:flex-col-reverse;
-    @apply p-8 h-full border-y-2 border-nuha-grey-100 border-opacity-50;
+    @apply flex flex-row justify-center items-center gap-8 max-sm:flex-col;
+    @apply lg:p-8 h-full border-y-2 border-nuha-grey-100 border-opacity-50;
   }
 </style>

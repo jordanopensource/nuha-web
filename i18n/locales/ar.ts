@@ -147,7 +147,7 @@ export default {
       chooseFile: 'حدد ملف',
       upload: 'ارفع الملف',
       downloadFileTemplate: 'تنزيل نموذج',
-      goBack: 'الرجوع',
+      goBack: 'عودة',
     },
 
     comment: {

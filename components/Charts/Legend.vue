@@ -8,7 +8,7 @@
       class="legend-item"
     >
       <div
-        class="w-6 aspect-square h-full"
+        class="w-6 h-6 aspect-square"
         :style="`background-color: ${item.color};`"
       ></div>
       <div class="flex flex-col">

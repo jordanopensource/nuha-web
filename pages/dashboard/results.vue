@@ -1,13 +1,16 @@
 <template>
   <div class="container">
     <div class="mt-10">
-      <NuxtLink
+      <UiButton
         :to="localePath('/dashboard')"
-        class="btn"
+        variant="ghost"
+        class="w-fit flex-row-reverse me-auto"
       >
-        <span class="me-1 rotate-180 rtl:rotate-0">￫</span>
         {{ t('dashboard.actions.goBack') }}
-      </NuxtLink>
+        <template #icon>
+          <IconArrowForward class="ltr:rotate-180"/>
+        </template>
+      </UiButton>
     </div>
 
     <ClientOnly>
