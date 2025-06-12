@@ -17,6 +17,7 @@
         <SvgoIconsCloseIcon
           v-if="showMobileMenu"
           class="mobile-icon p-0"
+          :aria-label="$t('misc.close')"
         />
         <SvgoIconsBurgerMenu
           v-else

@@ -84,11 +84,6 @@
   const localePath = useLocalePath()
   const { t } = useI18n()
 
-  let stepOneCoordinates = { x: ref(0), y: ref(0) }
-  let stepTwoCoordinates = { x: ref(0), y: ref(0) }
-  const changeIndicator = ref(0)
-  let windowDimensions = { width: 0, height: 0 }
-
   const loading = ref(false)
   const isSingleComment = ref(false)
   const showData = ref(false)
@@ -205,7 +200,7 @@
 
   }
   .analyze-container {
-    @apply flex flex-col gap-8 mx-auto max-w-fit;
+    @apply flex flex-col gap-8 mx-auto;
     @apply p-8 border-nuha-fushia-200 border rounded-md shadow-lg;
     @apply w-3/4 mt-2 text-2xl max-lg:w-full max-lg:p-4;
   }

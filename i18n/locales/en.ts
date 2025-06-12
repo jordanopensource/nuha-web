@@ -44,8 +44,6 @@ export default {
     join: 'Join the waitlist',
     enterEmail: 'Enter your email',
     email: 'Email',
-    done: 'Done',
-    close: 'Close',
     send: {
       success: 'Message was sent successfully!',
       fail: 'Something went wrong! Please try again later.',
@@ -158,6 +156,7 @@ export default {
       header: 'Insert the comment and its context',
       content: 'Insert comment',
       context: "Insert comment's context",
+      enlargeBtn: "Enlarge comment box",
     },
     fileUpload: {
       header: 'Upload a file with suspected hate speeches',
@@ -232,5 +231,7 @@ export default {
 
   misc: {
     readMore: 'Read more',
+    close: "Close",
+    done: 'Done',
   },
 }

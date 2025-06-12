@@ -34,7 +34,7 @@
           <input
             class="join-waitlist-modal-submission-input"
             type="submit"
-            :value="$t('waitlist.done')"
+            :value="$t('misc.done')"
           />
           <div class="flex flex-col">
             <button
@@ -42,7 +42,7 @@
               type="button"
               class="join-waitlist-modal-submission-input lg:hidden w-fit"
             >
-              {{ $t('waitlist.close') }}
+              {{ $t('misc.close') }}
             </button>
             <input
               id="a9cbf"
