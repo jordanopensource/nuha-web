@@ -153,10 +153,10 @@
 
 <style lang="postcss" scoped>
   .main {
-    @apply w-full flex justify-center items-center p-12 max-sm:p-4;
+    @apply w-full h-full flex justify-center items-center p-12 max-sm:p-4;
   }
   .inner-container {
-    @apply p-10 text-center border rounded-md border-nuha-grey-100 sm:shadow-lg;
+    @apply p-10 my-auto text-center border rounded-md border-nuha-grey-100 sm:shadow-lg;
     @apply max-sm:px-4 max-sm:border-none;
   }
   .login-title {
