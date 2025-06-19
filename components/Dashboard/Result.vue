@@ -1,8 +1,8 @@
 <template>
-  <div class="mb-20">
-    <div class="grid grid-cols-1 lg:grid-cols-2 mt-10 mb-20 gap-y-10">
+  <div class="mb-20 p-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 mb-20 gap-10">
       <h2 class="text-4xl">{{ t('predictionResult.title') }}</h2>
-      <div v-if="!isSingleComment">
+      <div v-if="!isSingleComment" class="font-IBMPlexSansArabic text-lg flex flex-col gap-4">
         <p>
           {{ t('predictionResult.fileName') }}
           <span class="text-nuha-fushia">
@@ -15,10 +15,16 @@
             {{ importedRows }}
           </span>
         </p>
-        <button @click="downloadResults" class="download-btn">
+        <UiButton
+          @click="downloadResults"
+          variant="outline"
+          class="w-fit"
+        >
           {{ t('data.downloadResults') }}
-          <div class="arrow-icon rotate-90"></div>
-        </button>
+          <template #icon>
+            <IconDownload class="[&_path]:fill-current"/>
+          </template>
+        </UiButton>
       </div>
       <div v-else>
         <p class="text-xl">
@@ -31,11 +37,12 @@
     </div>
     <div v-if="!isSingleComment">
       <div
-        class="w-full grid grid-cols-2 max-lg:grid-cols-1 gap-20 justify-center items-center mb-20"
+        class="w-full grid grid-cols-2 max-lg:grid-cols-1 gap-10 justify-center items-center mb-20"
       >
         <ChartsPie
           :data="chartData"
-          :size="300"
+          :size="width > 768 ? 300 : 150"
+          :max-width="150"
           show-legend
         >
           <template #caption>
@@ -62,7 +69,7 @@
 
       <div class="block w-full my-10">
         <div class="flex justify-between items-center py-5">
-          <h5>{{ t('predictionResult.details') }}:</h5>
+          <h2>{{ t('predictionResult.details') }}:</h2>
         </div>
         <el-table
           :data="commentData"
@@ -144,8 +151,9 @@
 </template>
 
 <script setup lang="ts">
-  import { get } from '@vueuse/core'
+  import { get, useWindowSize } from '@vueuse/core'
   const { t } = useI18n()
+  const { width } = useWindowSize()
 
   const props = defineProps({
     predictionData: Object as PropType<{
@@ -215,54 +223,31 @@
     @apply rtl:!text-right;
   }
 
-  button.btn-prev,
-  button.btn-next {
-    @apply rtl:!rotate-180;
-  }
-
-  .download-btn {
-    @apply border p-3 max-h-9 flex items-center justify-center text-lg;
-    @apply border-nuha-fushia-300;
-    @apply bg-nuha-white text-nuha-fushia-300;
-    @apply hover:bg-nuha-fushia-300 hover:text-nuha-white;
-  }
-  .download-btn:hover .arrow-icon {
-    @apply bg-[url('/icons/arrow-right-white.svg')];
-  }
-  .arrow-icon {
-    @apply w-5 h-5 transform text-black;
-    @apply bg-[url('/icons/arrow-right.svg')] bg-cover;
-  }
-
   /* Results Table Styling */
-  table, tbody, td {
-    @apply max-sm:inline !bg-nuha-white text-black text-xl;
+  table {
+    @apply max-sm:inline !bg-white text-xl;
   }
   tr {
-    @apply max-sm:flex flex-col max-sm:!p-1 max-sm:pb-4 max-sm:!mx-4 max-sm:!my-4;
-    @apply !bg-nuha-white;
     @apply max-sm:border-b-2 border-nuha-grey-200 border-dashed border-opacity-50;
     td {
-      @apply !py-8 max-sm:!py-2;
       @apply !border-0 !border-nuha-grey-100;
       @apply !border-dotted !border-b max-sm:border-opacity-50;
 
       &:last-child {
         @apply max-sm:!border-0;
       }
-
-      &.comment-text div.cell {
-        direction: rtl;
-        text-align: right;
-      }
     }
+  }
+  .comment-text .cell {
+    direction: rtl;
+    text-align: right;
   }
   table.el-table__header {
     @apply max-sm:hidden;
     @apply border-t-2 border-nuha-grey-100;
     thead {
       th {
-        @apply !bg-nuha-white !py-4;
+        @apply !py-4;
         @apply !border-0 !border-b-2 !border-dotted !border-nuha-grey border-opacity-70;
       }
     }
@@ -270,12 +255,9 @@
   .el-table .cell {
     @apply break-normal;
   }
-  .table-container {
-    @apply !bg-transparent;
-  }
   .el-pagination.is-background .btn-next,
   .el-pagination.is-background .btn-prev,
   .el-pagination.is-background li {
-    @apply !bg-transparent font-IBMPlexSansArabic !text-sm;
+    @apply font-IBMPlexSansArabic !text-sm;
   }
 </style>

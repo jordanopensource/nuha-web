@@ -1,5 +1,5 @@
 body {
-  @apply antialiased m-0;
+  @apply antialiased m-0 px-20 max-lg:px-5;
   @apply font-LTZarid;
 }
 
@@ -12,10 +12,6 @@ div {
 }
 a::selection {
   @apply underline;
-}
-
-a {
-  @apply text-sm;
 }
 
 button,
@@ -52,7 +48,7 @@ a {
 /* Homepage */
 main {
   section {
-    @apply py-20 max-sm:py-5;
+    @apply py-20 max-lg:py-10;
     &:not(:first-child) {
       @apply border-nuha-fushia-300 border-t-2;
     }
@@ -60,6 +56,10 @@ main {
   .main {
     @apply grid grid-cols-1 lg:grid-cols-2 place-items-center  items-start lg:gap-x-14 gap-y-8;
   }
+}
+.hero-grid {
+  @apply grid grid-cols-3 max-lg:grid-cols-1;
+  @apply place-items-start gap-12;
 }
 
 .article {
@@ -92,4 +92,9 @@ ol {
 }
 blockquote {
   @apply ps-4 my-4 border-s-2 border-s-nuha-grey-200;
+}
+
+textarea, input[type="text"] {
+  @apply border-2 border-nuha-grey-200 rounded-md p-3;
+  @apply focus:outline-nuha-fushia-300;
 }

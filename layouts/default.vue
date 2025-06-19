@@ -3,7 +3,7 @@
     :lang="head.htmlAttrs!.lang"
     :dir="head.htmlAttrs!.dir"
   >
-    <Body class="bg-nuha-white">
+    <Body class="bg-nuha-white bg-opacity-30">
       <buildInfoBanner
         v-if="useRuntimeConfig().public.targetEnv === 'development'"
       />
@@ -26,3 +26,10 @@
     },
   })
 </script>
+<style>
+#__nuxt {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</style>

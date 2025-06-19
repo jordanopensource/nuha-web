@@ -1,5 +1,5 @@
 <template>
-  <footer class="container">
+  <footer class="container mt-auto">
     <div
       class="flex justify-between gap-x-8 border-y-2 py-16 my-4 mb-16 border-nuha-fushia-300"
     >

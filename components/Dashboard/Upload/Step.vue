@@ -1,12 +1,12 @@
 <template>
-  <div class="flex gap-1.5 flex-wrap items-center font-medium font-IBMPlexSansArabic text-2xl">
+  <div class="flex gap-4 items-center font-medium font-IBMPlexSansArabic text-2xl">
     <div
       :id="circleId"
-      class="flex justify-center items-center w-[44px] h-[44px] aspect-square text-white rounded-full bg-nuha-fushia-300"
+      class="flex justify-center items-center w-10 h-10 aspect-square text-nuha-white rounded-full bg-nuha-fushia-300"
     >
       {{ order }}
     </div>
-    <p class="me-2">
+    <p>
       {{ description }}
     </p>
   </div>

@@ -60,11 +60,7 @@
           >
             <span>{{ t('login.withGithub') }}</span>
             <template #icon>
-              <img
-                src="~/assets/icons/mdi_github.svg"
-                alt="github"
-                class="h-6 w-6 mr-2 select-none"
-              />
+              <SvgoIconsMdiGithub class="h-6 w-6 mr-2 select-none" />
             </template>
           </UiButton>
         </div>
@@ -157,26 +153,11 @@
 
 <style lang="postcss" scoped>
   .main {
-    @apply w-full flex justify-center items-center p-12 max-sm:p-4;
+    @apply w-full h-full flex justify-center items-center p-12 max-sm:p-4;
   }
   .inner-container {
-    @apply p-10 text-center border rounded-md border-nuha-grey-100 sm:shadow-lg;
+    @apply p-10 my-auto text-center border rounded-md border-nuha-grey-100 sm:shadow-lg;
     @apply max-sm:px-4 max-sm:border-none;
-  }
-  .btn {
-    @apply w-full p-2 rounded-md bg-nuha-fushia-300 cursor-pointer;
-    @apply flex justify-center items-center;
-    @apply font-IBMPlexSansArabic text-base text-nuha-white;
-    @apply border border-nuha-fushia-300;
-    @apply hover:bg-opacity-80  transition-colors duration-200;
-    @apply disabled:bg-nuha-grey-300 disabled:border-none disabled:text-white disabled:cursor-not-allowed;
-  }
-  .btn-github:not(:disabled) {
-    @apply bg-white text-nuha-grey border-nuha-grey-100;
-    @apply hover:bg-gray-200;
-  }
-  .btn-github:disabled  img {
-    @apply invert;
   }
   .login-title {
     @apply mb-6 text-nuha-grey font-semibold text-5xl max-sm:text-4xl;
