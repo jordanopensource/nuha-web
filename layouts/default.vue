@@ -26,3 +26,10 @@
     },
   })
 </script>
+<style>
+#__nuxt {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</style>
