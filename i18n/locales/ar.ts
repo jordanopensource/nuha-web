@@ -179,11 +179,20 @@ export default {
   },
 
   login: {
-    header: 'تسجيل الدخول إلى نهى',
-    withGithub: 'تسجيل الدخول باستخدام GitHub',
-    withJosaId: 'تسجيل الدخول باستخدام JOSA ID',
-    withMagicEmail: 'أرسل لي رابطًا سحريًا عبر البريد الإلكتروني',
-    emailLoginSuccess: 'تحقق من بريدك الإلكتروني لإكمال عملية تسجيل الدخول',
+    header: 'سجل الدخول إلى نهى',
+    withGithub: 'الاستمرار عبر GitHub',
+    withJosaId: 'الاستمرار عبر JOSA ID',
+    withMagicEmail: 'الاستمرار عبر البريد الإلكتروني',
+    emailLoginSentTitle: 'أرسلنا رابط تسجيل الدخول',
+    emailLoginSentInfo: 'تحقق من بريدك الإلكتروني لإكمال عملية تسجيل الدخول.',
+    emailLoginInfo: "سنرسل لك رابطًا سحريًا لتسجيل الدخول. لا حاجة لكلمة مرور.",
+    emailPlaceholder: 'أكتب بريدك الإلكتروني',
+    backToLogin: "العودة إلى تسجيل الدخول",
+    legalInfo:
+      'بتسجيل الدخول، فإنك توافق على',
+    termsOfService: 'شروط الخدمة',
+    and: 'و',
+    privacyPolicy: 'سياسة الخصوصية',
   },
 
   predictionResult: {

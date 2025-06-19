@@ -1,11 +1,17 @@
 body {
   @apply antialiased m-0;
-  font-family: '29LT Zarid Text Regular';
+  @apply font-LTZarid;
 }
 
 html,
 div {
   scroll-behavior: smooth;
+}
+::selection {
+  @apply bg-nuha-fushia-300 text-nuha-white bg-opacity-90;
+}
+a::selection {
+  @apply underline;
 }
 
 a {
@@ -57,16 +63,24 @@ main {
 }
 
 .article {
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply my-4;
     a {
-      @apply !font-LTZarid;
+      @apply font-LTZarid;
     }
   }
   a {
     font-size: unset;
   }
-  p, ul, ol, li {
+  p,
+  ul,
+  ol,
+  li {
     @apply text-2xl my-1;
   }
 }

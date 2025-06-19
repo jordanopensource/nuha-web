@@ -1,70 +1,96 @@
 <template>
-  <div class="h-screen">
-    <div class="main">
-      <div class="inner-container">
-        <h5 class="login-title">{{ t('login.header') }}</h5>
-        <div class="login-btns">
-          <form
-            @submit="
-              (ev) => {
-                ev.stopPropagation()
-                ev.preventDefault()
-                loginWithMagicEmail()
-              }
-            "
+  <div class="main">
+    <div v-if="!currentLoginMethod.magicEmail" class="inner-container">
+      <h2 class="login-title">{{ t('login.header') }}</h2>
+      <div class="login-btns">
+        <form class="w-full" @submit.stop.prevent="loginWithMagicEmail()">
+          <label for="email-input" class="text-xl w-full block text-start">
+            {{ $t('login.withMagicEmail') }}
+          </label>
+          <input
+            id="email-input"
+            class="email-input placeholder:select-none"
+            type="email"
+            required
+            v-model="email"
+            :placeholder="$t('login.emailPlaceholder')"
+          />
+          <UiButton
+            :loading="currentLoginMethod.magicEmail"
+            :disabled="loggingIn"
+            size="md"
+            class="w-full"
+            type="submit"
           >
-            <input
-              class="email-input"
-              type="email"
-              required
-              :placeholder="$t('waitlist.email')"
-              :value="email"
-              @keyup="
-                (ev) => {
-                  email = (ev.target as HTMLInputElement).value
-                }
-              "
-            />
-            <button type="submit" class="btn" :disabled="loginInProgress">
-              <div v-if="!loginInProgress">
-                {{ $t('login.withMagicEmail') }}
-              </div>
-              <div v-else class="loader !h-8 !w-8"></div>
-            </button>
-          </form>
+            {{ $t('login.withMagicEmail') }}
+          </UiButton>
+          <div class="text-xl w-full text-start mt-2">
+            {{ $t('login.emailLoginInfo') }}
+          </div>
+        </form>
 
-          <div v-if="canLoginWithGithub || canLoginWithJosaId">
-            <p class="text-xl font-bold italic my-3">
+        <div class="flex flex-col gap-2" v-if="canLoginWithGithub || canLoginWithJosaId">
+          <!-- Divider -->
+          <div class="flex items-center justify-center my-3">
+            <div class="w-full border-t border-nuha-grey-100"></div>
+            <span class="mx-2 text-nuha-grey font-semibold">
               {{ $t('dashboard.or') }}
-            </p>
-
-            <button
-              @click="loginWithGithub"
-              class="btn"
-              :disabled="loginInProgress"
-            >
-              <div v-if="!loginInProgress">
-                {{ t('login.withGithub') }}
-              </div>
-              <div v-else class="loader !h-8 !w-8"></div>
-            </button>
-
-            <button
-              @click="loginWithJosaId"
-              class="btn"
-              v-if="canLoginWithJosaId"
-              :disabled="loginInProgress"
-            >
-              <div v-if="!loginInProgress">
-                {{ t('login.withJosaId') }}
-              </div>
-              <div v-else class="loader !h-8 !w-8"></div>
-            </button>
+            </span>
+            <div class="w-full border-t border-nuha-grey-100"></div>  
           </div>
 
-          <div></div>
+          <UiButton
+            v-if="canLoginWithJosaId"
+            @click="loginWithJosaId"
+            :disabled="loggingIn"
+            :loading="currentLoginMethod.josaId"
+            variant="outline"
+            class="w-full"
+            size="md"
+          >
+            {{ t('login.withJosaId') }}
+          </UiButton>
+
+          <UiButton
+            @click="loginWithGithub"
+            class="w-full bg-white !text-black !border-black"
+            variant="outline"
+            v-if="canLoginWithGithub"
+            :loading="currentLoginMethod.github"
+          >
+            <span>{{ t('login.withGithub') }}</span>
+            <template #icon>
+              <img
+                src="~/assets/icons/mdi_github.svg"
+                alt="github"
+                class="h-6 w-6 mr-2 select-none"
+              />
+            </template>
+          </UiButton>
+        </div>
+
+        <div class="legal-info">
+          {{ t('login.legalInfo') }}
+          <NuxtLink to="/privacy">{{ t('login.privacyPolicy') }}</NuxtLink>
+          {{ t('login.and') }}
+          <NuxtLink to="/terms">{{ t('login.termsOfService') }}</NuxtLink>.
         </div>
       </div>
+    </div>
+    <div v-else class="inner-container mail-sent">
+      <h2 class="text-3xl font-semibold text-nuha-grey mb-4">
+        {{ t('login.emailLoginSentTitle') }}
+      </h2>
+      <p class="text-xl text-nuha-grey">
+        {{ t('login.emailLoginSentInfo') }}
+      </p>
+      <UiButton
+        @click="currentLoginMethod.magicEmail = false"
+        variant="outline"
+        class="w-full mt-4"
+      >
+        {{t('login.backToLogin')}}
+      </UiButton>
     </div>
   </div>
 </template>
@@ -74,7 +100,6 @@
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
   })
   import { get, set } from '@vueuse/core'
-  import { ElNotification } from 'element-plus'
 
   const { signIn } = useAuth()
   const { t } = useI18n()
@@ -84,10 +109,18 @@
   const canLoginWithGithub = ref(false)
   const canLoginWithJosaId = ref(false)
   const email = ref('')
-  const loginInProgress = ref(false)
+  const currentLoginMethod = reactive({
+    github: false,
+    josaId: false,
+    magicEmail: false,
+  })
+  
+  const loggingIn = computed(() => {
+    return currentLoginMethod.github || currentLoginMethod.magicEmail || currentLoginMethod.josaId 
+  })
 
   onMounted(async () => {
-    await fetch('/api/check-login-methods', {
+    fetch('/api/check-login-methods', {
       method: 'GET',
       mode: 'cors',
     })
@@ -98,69 +131,66 @@
           // set(canLoginWithJosaId, resp.josaId)
         }
       })
-
-    if (route.query['email-login']) {
-      ElNotification({
-        title: t('status.success'),
-        message: t('login.emailLoginSuccess'),
-        type: 'success',
-        duration: 10000,
-        position: 'bottom-right',
-      })
-      console.log('hello, I have hacked your computer')
-    }
   })
 
   async function loginWithGithub() {
-    loginInProgress.value = true
+    currentLoginMethod.github = true
     await signIn('github', { callbackUrl: localePath('/dashboard') })
-    loginInProgress.value = false
+    currentLoginMethod.github = false
   }
 
   async function loginWithJosaId() {
-    loginInProgress.value = true
+    currentLoginMethod.josaId = true
     await signIn('authelia', { callbackUrl: localePath('/dashboard') })
-    loginInProgress.value = false
+    currentLoginMethod.josaId = false
   }
 
   async function loginWithMagicEmail() {
-    loginInProgress.value = true
+    currentLoginMethod.magicEmail = true
     await signIn('email', {
       callbackUrl: localePath('/dashboard'),
+      redirect: false,
       email: get(email),
     })
-    loginInProgress.value = false
   }
 </script>
 
 <style lang="postcss" scoped>
   .main {
-    @apply w-full h-4/5 grid place-items-center;
+    @apply w-full flex justify-center items-center p-12 max-sm:p-4;
   }
   .inner-container {
-    @apply border-solid border-nuha-fushia-300 border-2;
-    @apply py-5 text-center shadow-sm shadow-nuha-grey-100;
-  }
-  .login-btns {
-    @apply p-10 lg:p-20 grid grid-cols-1 gap-2;
+    @apply p-10 text-center border rounded-md border-nuha-grey-100 sm:shadow-lg;
+    @apply max-sm:px-4 max-sm:border-none;
   }
   .btn {
-    @apply w-full p-2 bg-nuha-fushia-300 flex justify-center items-center cursor-pointer;
+    @apply w-full p-2 rounded-md bg-nuha-fushia-300 cursor-pointer;
+    @apply flex justify-center items-center;
     @apply font-IBMPlexSansArabic text-base text-nuha-white;
     @apply border border-nuha-fushia-300;
-    @apply hover:bg-nuha-white hover:text-nuha-fushia-300;
-    @apply disabled:cursor-not-allowed disabled:bg-nuha-grey-200 disabled:border-none disabled:text-nuha-fushia-100;
+    @apply hover:bg-opacity-80  transition-colors duration-200;
+    @apply disabled:bg-nuha-grey-300 disabled:border-none disabled:text-white disabled:cursor-not-allowed;
   }
-  .btn:disabled {
-    @apply bg-nuha-grey-100;
+  .btn-github:not(:disabled) {
+    @apply bg-white text-nuha-grey border-nuha-grey-100;
+    @apply hover:bg-gray-200;
   }
-  .btn > .loader {
-    @apply !border-nuha-fushia-300;
+  .btn-github:disabled  img {
+    @apply invert;
   }
   .login-title {
-    @apply text-nuha-grey font-semibold;
+    @apply mb-6 text-nuha-grey font-semibold text-5xl max-sm:text-4xl;
   }
   .email-input {
-    @apply border border-nuha-grey-100 p-3 mb-2 w-full;
+    @apply border rounded-md border-nuha-grey-100;
+    @apply text-2xl text-left p-3 mb-2 w-full;
+    @apply placeholder:text-lg rtl:placeholder:text-right;
+    direction: ltr;
+  }
+  .legal-info {
+    @apply text-xl mt-2 text-start;
+  }
+  .legal-info a {
+    @apply text-xl text-nuha-fushia hover:underline font-LTZarid;
   }
 </style>

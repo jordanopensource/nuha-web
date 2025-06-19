@@ -1,16 +1,23 @@
 <template>
-  <NuxtLink
-    :to="localePath('/login')"
-    v-if="!isLoggedIn()"
-    class="login-btn login-btn-default text-lg"
+  <template v-if="!isLoggedIn()">
+    <UiButton
+      v-if="!isLoginPage"
+      :to="localePath('/login')"
+      size="md"
+      variant="primary"
+    >
+      {{ t('header.login') }}
+      <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
+    </UiButton>
+  </template>
+  <UiButton
+    v-else
+    @click="signOut"
+    variant="ghost"
   >
-    {{ t('header.login') }}
-    <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
-  </NuxtLink>
-  <button v-else class="login-btn login-btn-default text-lg" @click="signOut">
     {{ t('header.logout') }}
     <span class="mt-1 ms-1 rtl:rotate-180">￫</span>
-  </button>
+  </UiButton>
   <!-- TODO -->
   <!-- <div v-else>
     <button
@@ -53,6 +60,10 @@
   function isLoggedIn() {
     return useAuthCheck()
   }
+  const isLoginPage = computed(() =>
+    useRoute().path.endsWith('/login') ||
+      useRoute().path.endsWith('/login/')
+  )
 </script>
 
 <style lang="postcss" scoped>
