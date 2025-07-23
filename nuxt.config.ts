@@ -29,5 +29,9 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
   ],
-  css: ['~/assets/css/main.css'],
+  css: [
+    '@/assets/css/main.css',
+    '@/assets/css/fonts/ibm-plex.css',
+    '@/assets/css/fonts/29lt-zarid-text.css',
+  ],
 })
