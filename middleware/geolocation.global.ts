@@ -9,8 +9,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
     supportedRegions,
     region,
   } = useGeolocation()
-  const nuxtApp = useNuxtApp()
-  const localePath = useLocalePath(nuxtApp)
 
   const countryCode = (to.params.region as string)?.toLowerCase();
   let isRegionSet = false
@@ -37,21 +35,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
     // region is set using cookie
     if (isRegionDetected.value && region.value?.countryCode) {
-      if (!to.path.includes(region.value.countryCode)) {
-        const pathArray = to.path.split("/").filter(i => i.trim().length != 0)
-        const locale = localePath("/").replaceAll("/", "")
-        let path
-        if (pathArray.includes(locale)) {
-          pathArray.splice(1, 0, region.value?.countryCode)
-          path = pathArray.join("/")
-        }
-        else {
-          pathArray.splice(0, 0, region.value?.countryCode)
-          path = localePath(pathArray.join("/"))
-        }
-        console.info("LOCALE PATH: ", `/${path}`, "LOCALE: ", locale, "PATH ARR: ", pathArray)
-        return navigateTo(`/${path}`, { replace: true, external: true });
-      }
+      return
   }
 
   // if no param and no stored region, auto-detect it
