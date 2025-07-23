@@ -1,8 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
- i18n: {
+  i18n: {
     strategy: 'prefix_and_default',
     detectBrowserLanguage: {
       useCookie: true,
@@ -25,6 +26,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/icon',
-    '@nuxtjs/i18n'
-  ]
+    '@nuxtjs/i18n',
+    '@nuxtjs/tailwindcss',
+  ],
+  css: ['~/assets/css/main.css'],
 })
