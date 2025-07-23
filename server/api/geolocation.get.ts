@@ -1,9 +1,28 @@
-import { getRequestIP } from 'h3'
+// import { getRequestIP } from 'h3'
+interface GeoLocationData {
+  query: string
+  status: "success" | "fail"
+  message?: string
+  country?: string
+  countryCode?: string
+  region?: string
+  regionName?: string
+  city?: string
+  zip?: string
+  lat?: number
+  lon?: number
+  timezone?: string
+  isp?: string
+  org?: string
+  as?: string
+}
 
 export default defineEventHandler(async (event) => {
   try {
-    const clientIP = getRequestIP(event);
-    // const clientIP = getHeader(event, 'x-forwarded-for')
+    // const clientIP = getRequestIP(event);
+    // TODO: remove the dev environment-specific logic
+    const isDev = process.env.NODE_ENV === "development"
+    const clientIP = isDev ? '149.200.184.187' : getHeader(event, 'x-forwarded-for')
     console.info("CLIENT IP ADDRESS: ", clientIP)
     
     // Skip private/local IPs for development
@@ -11,20 +30,20 @@ export default defineEventHandler(async (event) => {
       return {
         query: clientIP,
         status: 'fail',
-        message: 'Private IP address'
+        message: 'Local IP address'
       }
     }
 
-    const res: string = await $fetch(`https://ipapi.co/${clientIP}/country/`);
-    if (res !== "Undefined") return { country: res.toLowerCase() };
-    else {
-      console.error('Undefined IP API Response')
-      throw createError({
-        statusCode: 500,
-        statusMessage: 'Failed to fetch geo-location data'
-      })
-    }
+    const API_URL = "http://ip-api.com"
+    const res = await $fetch<GeoLocationData>(`${API_URL}/json/${clientIP}`)
+    if (res.status !== "fail")
+      return res;
 
+    console.error(`Failed to fetch geo-location data.`, res.message)
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Failed to fetch geo-location data${res.message ? ": " + res.message : "."}`
+    })
   } catch (error) {
     console.error('Geo-location API error:', error)
     throw createError({
