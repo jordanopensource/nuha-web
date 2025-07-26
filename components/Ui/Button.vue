@@ -9,6 +9,7 @@
     <slot></slot>
     <slot v-if="!loading" name="icon"></slot>
     <slot v-else name="loading">
+      <!-- default loading animation -->
       <Icon name="mdi:loading" class="loader !h-6 !w-6" />
     </slot>
   </button>

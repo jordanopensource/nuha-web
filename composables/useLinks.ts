@@ -1,0 +1,65 @@
+export type LinkGroup = 'desktop-header' | 'footer' | 'mobile-header'
+
+export interface Link {
+  title(): string
+  path: string
+  external?: boolean
+  icon?: string
+  groups?: LinkGroup[]
+}
+
+export const useLinks = () => {
+  
+  const { t } = useI18n()
+  const localePath = useLocalePath()
+
+  const allLinks: Link[] = [
+    {
+      path: localePath('/about'),
+      title: () => t('links.general.about'),
+      groups: ['footer', "mobile-header", "desktop-header"],
+    },
+    {
+      path: localePath('/terms'),
+      title: () => t('links.footer.terms'),
+      groups: ['footer'],
+    },
+    {
+      path: localePath('/privacy'),
+      title: () => t('links.footer.privacy'),
+      groups: ['footer'],
+    },
+    {
+      path: 'https://github.com/jordanopensource/nuha-web',
+      title: () => t('links.social.github'),
+      external: true,
+      icon: 'mdi:github',
+      groups: ['footer'],
+    },
+    {
+      path: 'https://github.com/jordanopensource/nuha-web',
+      title: () => t('links.social.instagram'),
+      external: true,
+      icon: 'mdi:instagram',
+      groups: ['footer'],
+    },
+    {
+      path: localePath('/analyze'),
+      title: () => t('links.general.analyze'),
+      groups: ['desktop-header', "mobile-header", "footer"],
+    },
+    {
+      path: localePath('/findings'),
+      title: () => t('links.general.findings'),
+      groups: ['desktop-header', 'mobile-header', "footer"],
+    },
+  ]
+
+  const getLinksByGroup = (group: LinkGroup): Link[] =>
+    allLinks.filter(link => link.groups?.includes(group))
+
+  return {
+    allLinks,
+    getLinksByGroup,
+  }
+}
