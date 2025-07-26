@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="main_app_container">
     <NuxtRouteAnnouncer />
     <div>Path is: {{ route.path }} </div>
     <div>Region Param is: {{ region }}</div>
@@ -8,8 +8,8 @@
       <div>Detected Region code: {{ userRegion?.countryCode }}</div>
     </ClientOnly>
     <div>Language is: {{ locale }}</div>
-    <div>{{ $t("hello") }}</div>
-    <NuxtPage />
+    <UiHeader />
+    <NuxtPage class="container" />
   </div>
 </template>
 
@@ -20,3 +20,12 @@
   const { region: userRegion } = useGeolocation()
 
 </script>
+
+<style lang="postcss">
+body, #__nuxt, #main_app_container {
+  height: 100vh;
+}
+#main_app_container {
+  @apply bg-colors-neutral-background text-colors-neutral-foreground;
+}
+</style>

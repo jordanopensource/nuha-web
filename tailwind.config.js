@@ -2,6 +2,14 @@
 export default {
   content: [],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        sm: '1rem',
+        lg: '2rem',
+      }
+    },
     extend: {
       colors: {
         colors: {
@@ -14,7 +22,7 @@ export default {
             DEFAULT: '#C40F55', // main pink
             hover: '#8B0A39',   // hover state
             active: '#72082F',  // active / pressed
-            light: '#FCF0F7',   // light pink for secondary
+            light: '#fdeaed',   // light pink for secondary. OLD COLOR: #FCF0F7
           },
         },
       },
