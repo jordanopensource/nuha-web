@@ -1,3 +1,19 @@
 {
-  "hello": "مرحبًا"
+  "links": {
+    "general": {
+      "login": "تسجيل الدخول",
+      "findings": "النتائج",
+      "analyze": "تحليل",
+      "about": "حول"
+    },
+    "footer": {
+      "privacy": "سياسة الخصوصية",
+      "terms": "شروط الاستخدام"
+    },
+    "social": {
+      "github": "جيت‌هب",
+      "linkedin": "لينكدإن",
+      "instagram": "إنستغرام"
+    }
+  }
 }

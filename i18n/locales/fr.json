@@ -1,3 +1,19 @@
 {
-  "hello": "Bonjour"
+  "links": {
+    "general": {
+      "login": "Connexion",
+      "findings": "Résultats",
+      "analyze": "Analyser",
+      "about": "À propos"
+    },
+    "footer": {
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation"
+    },
+    "social": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram"
+    }
+  }
 }
