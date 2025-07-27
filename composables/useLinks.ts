@@ -1,4 +1,4 @@
-export type LinkGroup = 'desktop-header' | 'footer' | 'mobile-header'
+export type LinkGroup = 'desktop-header' | 'footer' | 'mobile-header' | "social" | "info"
 
 export interface Link {
   title(): string
@@ -17,31 +17,31 @@ export const useLinks = () => {
     {
       path: localePath('/about'),
       title: () => t('links.general.about'),
-      groups: ['footer', "mobile-header", "desktop-header"],
+      groups: ['footer', "mobile-header", "desktop-header", "info"],
     },
     {
       path: localePath('/terms'),
       title: () => t('links.footer.terms'),
-      groups: ['footer'],
+      groups: ['footer', "info"],
     },
     {
       path: localePath('/privacy'),
       title: () => t('links.footer.privacy'),
-      groups: ['footer'],
+      groups: ['footer', "info"],
     },
     {
       path: 'https://github.com/jordanopensource/nuha-web',
       title: () => t('links.social.github'),
       external: true,
       icon: 'mdi:github',
-      groups: ['footer'],
+      groups: ['footer', "social"],
     },
     {
       path: 'https://github.com/jordanopensource/nuha-web',
       title: () => t('links.social.instagram'),
       external: true,
       icon: 'mdi:instagram',
-      groups: ['footer'],
+      groups: ['footer', "social"],
     },
     {
       path: localePath('/analyze'),

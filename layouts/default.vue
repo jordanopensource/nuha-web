@@ -9,7 +9,8 @@
     </ClientOnly>
     <div>Language is: {{ locale }}</div> -->
     <UiHeader />
-    <NuxtPage class="container" />
+    <NuxtPage class="container py-8" />
+    <UiFooter />
   </div>
 </template>
 
@@ -23,9 +24,9 @@
 
 <style lang="postcss">
 body, #__nuxt, #main_app_container {
-  height: 100vh;
+  @apply h-screen;
 }
 #main_app_container {
-  @apply bg-colors-neutral-background text-colors-neutral-foreground;
+  @apply bg-colors-neutral-background text-colors-neutral-foreground h-full flex flex-col;
 }
 </style>
