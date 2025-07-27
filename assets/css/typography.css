@@ -1,0 +1,21 @@
+@layer base {
+  h1 {
+    @apply font-LTZarid text-h1-m lg:text-h1;
+  }
+
+  h2 {
+    @apply font-LTZarid text-h2-m lg:text-h2;
+  }
+
+  h3 {
+    @apply font-LTZarid text-h3-m lg:text-h3;
+  }
+
+  body {
+    @apply text-base font-normal font-IBMPlexSansArabic;
+  }
+
+  small {
+    @apply text-subtext text-colors-neutral-placeholder;
+  }
+}
