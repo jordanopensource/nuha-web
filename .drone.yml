@@ -1,8 +1,0 @@
-# Drone CI File!
-
-kind: template
-load: container.jsonnet
-data:
-  repositoryName: josaorg/nuha-web
-  releaseName: nuha-web
-  buildArgs: USER=1001
