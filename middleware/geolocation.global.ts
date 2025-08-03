@@ -19,7 +19,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (!regionSupported) {
       return createError({
         statusCode: 404,
-        message: "Region not found",
       })
     }
 
