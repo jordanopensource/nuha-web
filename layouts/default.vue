@@ -9,7 +9,9 @@
     </ClientOnly>
     <div>Language is: {{ locale }}</div> -->
     <UiHeader />
-    <NuxtPage class="container py-8" />
+    <main>
+      <NuxtPage class="container py-8" />
+    </main>
     <UiFooter />
   </div>
 </template>

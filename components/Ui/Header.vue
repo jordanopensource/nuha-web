@@ -11,7 +11,7 @@
       </NuxtLink>
 
       <!-- Desktop list -->
-      <div class="list hidden lg:flex">
+      <nav class="list hidden lg:flex">
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
@@ -21,7 +21,7 @@
         >
           {{ link.title() }}
         </UiButton>
-      </div>
+      </nav>
       <!-- TODO: replace this with a user menu when logged-in -->
        <!-- TODO: i18n -->
       <div class="list hidden lg:flex">
@@ -58,11 +58,11 @@
       @click="showMobileMenu = false"
     />
     <div class="absolute z-40 left-0 right-0 ">
-      <div
+      <nav
         class="w-full flex flex-col transition-all gap-y-2.5 p-5 lg:!hidden"
         :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"
       >
-        <!-- FIXME: hide mobile menu when any button is clicked -->
+        <!-- FIXME: hide mobile menu when any button/link inside it is clicked -->
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
@@ -81,7 +81,7 @@
         >
           Login
         </UiButton>
-      </div>
+      </nav>
     </div>
   </header>
 </template>

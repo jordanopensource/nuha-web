@@ -5,34 +5,34 @@
     >
       <div class="flex-col gap-4 col-span-1 hidden md:flex">
         <NuxtLink :to="$nuxt.$localePath('/')">
-          <img width="75" height="75" src="/logo.png" alt="Nuha logo">
+          <img width="86" src="/logo.png" alt="Nuha logo">
         </NuxtLink>
         <div>
-          <h3>Nuha نهى</h3>
+          <h3 class="!font-normal">Nuha نهى</h3>
           <small>
             {{ $t('links.footer.copyright') }}
           </small>
         </div>
       </div>
-      <nav class="flex flex-col md:items-center gap-4 col-span-1">
+      <nav class="flex flex-col md:items-center gap-4 col-span-1 w-max md:mx-auto">
         <NuxtLink
           v-for="(link, i) in projectLinks"
           :key="i"
-          class="max-md:min-w-max text-base hover:underline"
-          :to="$nuxt.$localePath(link.path)"
+          class="w-full max-md:min-w-max text-base hover:underline"
+          :to="link.path"
           :external="link.external"
           :target="link.external ? '_blank' : '_self'"
         >
           {{ link.title() }}
         </NuxtLink>
       </nav>
-      <div class="flex flex-col gap-4 col-span-1">
+      <div class="flex flex-col gap-4 max-md:gap-8 col-span-1">
         <nav class="flex flex-col gap-4 md:items-end">
           <NuxtLink
             v-for="(link, i) in infoLinks"
             :key="i"
-            class="max-md:min-w-max text-base hover:underline"
-            :to="$nuxt.$localePath(link.path)"
+            class="max-md:min-w-max text-base hover:underline md:text-end"
+            :to="link.path"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"
           >
@@ -47,6 +47,7 @@
             :to="link.path"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"
+            :aria-label="link.title()"
           >
             <Icon v-if="link.icon" :name="link.icon" size="32" />
           </NuxtLink>
@@ -57,7 +58,7 @@
           <img width="75" height="75" src="/logo.png" alt="Nuha logo" />
         </NuxtLink>
         <div> 
-          <h3>Nuha نهى</h3>
+          <h3 class="!font-normal">Nuha نهى</h3>
           <small>
             {{ $t('links.footer.copyright') }}
           </small>

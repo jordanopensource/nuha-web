@@ -37,7 +37,7 @@ export const useLinks = () => {
       groups: ['footer', "social"],
     },
     {
-      path: 'https://github.com/jordanopensource/nuha-web',
+      path: 'https://instagram.com/jordanopensource',
       title: () => t('links.social.instagram'),
       external: true,
       icon: 'mdi:instagram',
