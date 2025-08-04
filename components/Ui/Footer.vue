@@ -18,13 +18,14 @@
         <NuxtLink
           v-for="(link, i) in projectLinks"
           :key="i"
-          class="w-full max-md:min-w-max text-base hover:underline"
+          class="w-full max-md:min-w-max text-base text-center hover:underline"
           :to="link.path"
           :external="link.external"
           :target="link.external ? '_blank' : '_self'"
         >
           {{ link.title() }}
         </NuxtLink>
+        <UiRegionLanguageSelector size="md" />
       </nav>
       <div class="flex flex-col gap-4 max-md:gap-8 col-span-1">
         <nav class="flex flex-col gap-4 md:items-end">

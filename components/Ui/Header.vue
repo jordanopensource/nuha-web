@@ -11,7 +11,7 @@
       </NuxtLink>
 
       <!-- Desktop list -->
-      <nav class="list hidden lg:flex">
+      <nav class="list hidden lg:flex gap-2">
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
@@ -23,14 +23,15 @@
         </UiButton>
       </nav>
       <!-- TODO: replace this with a user menu when logged-in -->
-       <!-- TODO: i18n -->
-      <div class="list hidden lg:flex">
+      <div class="list hidden lg:flex items-center gap-2">
+        <UiRegionLanguageSelector size="lg" />
+
         <UiButton
           :to="localePath('/login')"
           variant="primary"
           size="lg"
         >
-          Login
+          {{ $t('links.general.login') }}
         </UiButton>
       </div>
 
@@ -79,8 +80,10 @@
           variant="primary"
           size="lg"
         >
-          Login
+          {{ $t('links.general.login') }}
         </UiButton>
+
+        <UiRegionLanguageSelector size="lg" />
       </nav>
     </div>
   </header>
