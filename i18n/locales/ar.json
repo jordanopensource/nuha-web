@@ -28,5 +28,11 @@
   },
   "misc": {
     "cancel": "إلغاء"
+  },
+  "region": {
+    "jordan": "الأردن",
+    "egypt": "مصر",
+    "tunisia": "تونس",
+    "iraq": "العراق"
   }
 }

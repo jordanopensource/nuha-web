@@ -28,5 +28,11 @@
   },
   "misc": {
     "cancel": "Cancel"
+  },
+  "region": {
+    "jordan": "Jordan",
+    "egypt": "Egypt", 
+    "tunisia": "Tunisia",
+    "iraq": "Iraq"
   }
 }

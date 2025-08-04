@@ -29,5 +29,11 @@
   "misc": {
     "cancel": "Betal bike",
     "close": "Bigire"
+  },
+  "region": {
+    "jordan": "Urdun",
+    "egypt": "Misir", 
+    "tunisia": "Tûnis",
+    "iraq": "Iraq"
   }
 }
