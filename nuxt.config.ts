@@ -18,9 +18,7 @@ export default defineNuxtConfig({
       { code: 'ku', file: 'ku.json', name: 'Kurdî' }
     ],
     defaultLocale: 'en',
-    // langDir: 'i18n/locales/',
-    // lazy: true,
-    // vueI18n: './i18n.config.ts'
+    defaultDirection: "ltr",
   },
   modules: [
     '@nuxt/eslint',

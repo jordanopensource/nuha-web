@@ -110,8 +110,7 @@ withDefaults(defineProps<Props>(), {
 })
 
 // Composables
-const { locale, locales, setLocale } = useI18n()
-// const { t } = useI18n()
+const { locale, locales, setLocale, t } = useI18n()
 const { region, supportedRegions, setRegion } = useGeolocation()
 
 // Modal state
@@ -134,12 +133,9 @@ const availableLocales = computed(() => {
 // Current selection text for button
 const currentSelectionText = computed(() => {
   const currentLocale = availableLocales.value.find(l => l.code === locale.value)
-  const currentRegion = supportedRegions.find(r => r.code === region.value?.countryCode?.toLowerCase())
-  
   const languageName = currentLocale?.name || locale.value.toUpperCase()
-  const regionName = currentRegion?.name || region.value?.country || 'Unknown'
   
-  return `${languageName} • ${regionName}`
+  return `${languageName} ${region.value?.country ? '• ' + t(`region.${region.value.country?.toLowerCase()}`) : 'Unknown' }`
 })
 
 // Methods
