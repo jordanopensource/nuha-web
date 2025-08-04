@@ -16,5 +16,17 @@
       "linkedin": "LinkedIn",
       "instagram": "Instagram"
     }
+  },
+  "settings": {
+    "regionLanguage": {
+      "title": "Region & Language",
+      "language": "Language",
+      "region": "Region",
+      "detectedLocation": "Detected Location",
+      "apply": "Apply Changes"
+    }
+  },
+  "misc": {
+    "cancel": "Cancel"
   }
 }

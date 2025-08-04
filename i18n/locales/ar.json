@@ -16,5 +16,17 @@
       "linkedin": "لينكدإن",
       "instagram": "إنستغرام"
     }
+  },
+  "settings": {
+    "regionLanguage": {
+      "title": "المنطقة واللغة",
+      "language": "اللغة",
+      "region": "المنطقة",
+      "detectedLocation": "الموقع المكتشف",
+      "apply": "تطبيق التغييرات"
+    }
+  },
+  "misc": {
+    "cancel": "إلغاء"
   }
 }

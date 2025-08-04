@@ -1,3 +1,33 @@
 {
-  "hello": "Slav"
+  "links": {
+    "general": {
+      "login": "Têketin",
+      "findings": "Encam",
+      "analyze": "Şirove bike",
+      "about": "Derbarê me"
+    },
+    "footer": {
+      "privacy": "Politîkaya Taybetiyê",
+      "terms": "Mercên Bikaranînê",
+      "copyright": "Jordan Open Source Association (JOSA) © 2021—2025"
+    },
+    "social": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn", 
+      "instagram": "Instagram"
+    }
+  },
+  "settings": {
+    "regionLanguage": {
+      "title": "Herêm û Ziman",
+      "language": "Ziman",
+      "region": "Herêm",
+      "detectedLocation": "Cîhê Dîtî",
+      "apply": "Guheran Bisepîne"
+    }
+  },
+  "misc": {
+    "cancel": "Betal bike",
+    "close": "Bigire"
+  }
 }
