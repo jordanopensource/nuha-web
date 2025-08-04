@@ -22,6 +22,7 @@
       size="lg"
       @action="applyChanges"
       @close="resetSelections"
+      @cancel="resetSelections"
     >
       <div class="space-y-6">
         <!-- Language Selection -->
@@ -29,25 +30,24 @@
           <h3 class="text-lg font-medium text-colors-neutral-foreground font-IBMPlexSansArabic mb-4">
             {{ $t('settings.regionLanguage.language') }}
           </h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <button
-              v-for="locale in availableLocales"
-              :key="locale.code"
-              class="flex items-center gap-3 p-3 rounded-lg border transition-all hover:bg-colors-primary-light hover:bg-opacity-40"
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2">
+            <UiButton
+              v-for="l in availableLocales"
+              :key="l.code"
+              variant="ghost"
+              size="lg"
+              class="border"
               :class="{
-                'border-colors-primary bg-colors-primary-light bg-opacity-20': selectedLanguage === locale.code,
-                'border-colors-neutral-foreground border-opacity-20': selectedLanguage !== locale.code
+                'border-colors-primary bg-colors-primary-light bg-opacity-20': selectedLanguage === l.code,
+                'border-colors-neutral-foreground border-opacity-20': selectedLanguage !== l.code
               }"
-              @click="selectedLanguage = locale.code"
+              @click="selectedLanguage = l.code"
             >
-              <!-- <div class="flex-shrink-0">
-                <Icon :name="locale.flag" size="24" />
-              </div> -->
-              <div :class="locale.dir === 'rtl' ? 'text-right ms-auto' : 'text-left'">
-                <div class="font-medium font-IBMPlexSansArabic">{{ locale.name }}</div>
-                <small>{{ locale.nativeName }}</small>
+              <div :class="l.dir === 'rtl' ? 'text-right' : 'text-left'">
+                <div class="font-medium font-IBMPlexSansArabic">{{ l.nativeName }}</div>
+                <small>{{ l.name }}</small>
               </div>
-            </button>
+            </UiButton>
           </div>
         </div>
 
@@ -56,25 +56,26 @@
           <h3 class="text-lg font-medium text-colors-neutral-foreground font-IBMPlexSansArabic mb-4">
             {{ $t('settings.regionLanguage.region') }}
           </h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <button
-              v-for="region in supportedRegions"
-              :key="region.code"
-              class="flex items-center gap-3 p-3 rounded-lg border transition-all hover:bg-colors-primary-light hover:bg-opacity-40"
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2">
+            <UiButton
+              v-for="r in supportedRegions"
+              :key="r.code"
+              variant="ghost"
+              size="lg"
+              class="!grid border region-btn"
               :class="{
-                'border-colors-primary bg-colors-primary-light bg-opacity-20': selectedRegion === region.code,
-                'border-colors-neutral-foreground border-opacity-20': selectedRegion !== region.code
+                'border-colors-primary bg-colors-primary-light bg-opacity-20': selectedRegion === r.code,
+                'border-colors-neutral-foreground border-opacity-20': selectedRegion !== r.code
               }"
-              @click="selectedRegion = region.code"
+              @click="selectedRegion = r.code"
             >
-              <div class="flex-shrink-0">
-                <Icon :name="`flag:${region.code}-4x3`" size="24" />
+              <template #icon>
+                <Icon class="col-start-1 row-start-1" :name="`flag:${r.code}-4x3`" size="20" />
+              </template>
+              <div class="text-left col-start-2">
+                <div class="font-medium font-IBMPlexSansArabic">{{ $t(`region.${r.name?.toLowerCase()}`) }}</div>
               </div>
-              <div class="text-left">
-                <div class="font-medium font-IBMPlexSansArabic">{{ region.name }}</div>
-                <div class="text-sm text-colors-neutral-foreground opacity-70">{{ region.aiModel }}</div>
-              </div>
-            </button>
+            </UiButton>
           </div>
         </div>
 
@@ -182,3 +183,16 @@ onMounted(() => {
   resetSelections()
 })
 </script>
+
+<style lang="postcss" scoped>
+.region-btn {
+  grid-template-columns: repeat(2, minmax(0, 8%));
+}
+
+@media (max-width: 768px) {
+  .region-btn {
+    grid-template-columns: repeat(2, minmax(0, 15%));
+  }
+}
+
+</style>
