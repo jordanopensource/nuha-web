@@ -4,6 +4,7 @@
     <UiButton
       variant="ghost"
       class="max-lg:w-full"
+      :class="$attrs.class"
       :size="size"
       @click="showModal = true"
     >
