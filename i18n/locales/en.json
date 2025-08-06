@@ -27,7 +27,9 @@
     }
   },
   "misc": {
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "close": "Close",
+    "expandText": "Expand Text Field"
   },
   "region": {
     "jordan": "Jordan",

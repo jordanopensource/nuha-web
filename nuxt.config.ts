@@ -12,13 +12,14 @@ export default defineNuxtConfig({
       alwaysRedirect: true,
     },
     locales: [
-      { code: 'en', file: 'en.json', name: 'English' },
-      { code: 'ar', file: 'ar.json', name: 'العربية', dir: 'rtl' },
-      { code: 'fr', file: 'fr.json', name: 'Français' },
-      { code: 'ku', file: 'ku.json', name: 'Kurdî' }
+      { code: 'en', file: 'en.json', name: 'English', language: 'en' },
+      { code: 'ar', file: 'ar.json', name: 'العربية', dir: 'rtl', language: 'ar' },
+      { code: 'fr', file: 'fr.json', name: 'Français', language: 'fr' },
+      { code: 'ku', file: 'ku.json', name: 'Kurdî', language: 'ku' }
     ],
     defaultLocale: 'en',
     defaultDirection: "ltr",
+    baseUrl: 'http://localhost:3000/'
   },
   modules: [
     '@nuxt/eslint',

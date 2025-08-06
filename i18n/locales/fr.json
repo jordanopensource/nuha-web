@@ -27,7 +27,9 @@
     }
   },
   "misc": {
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "close": "Ferme",
+    "expandText": "Agrandir le champ de texte"
   },
   "region": {
     "jordan": "Jordanie",
