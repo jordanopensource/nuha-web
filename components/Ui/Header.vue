@@ -1,6 +1,6 @@
 <template>
   <header class="container py-4">
-    <div class="flex justify-between">
+    <div class="flex lg:grid grid-cols-3">
       <NuxtLink
         class="z-40"
         :to="localePath('/')"
@@ -11,19 +11,20 @@
       </NuxtLink>
 
       <!-- Desktop list -->
-      <nav class="list hidden lg:flex gap-2">
+      <nav class="list hidden lg:flex gap-2 mx-auto">
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
           :to="link.path"
           variant="ghost"
           size="lg"
+          class="min-w-fit"
         >
           {{ link.title() }}
         </UiButton>
       </nav>
       <!-- TODO: replace this with a user menu when logged-in -->
-      <div class="list hidden lg:flex items-center gap-2">
+      <div class="list hidden lg:flex items-center gap-2 ms-auto">
         <UiRegionLanguageSelector size="lg" />
 
         <UiButton
@@ -37,12 +38,11 @@
 
       <!-- Mobile menu control -->
       <UiButton
-        class="lg:!hidden z-40 ms-auto"
+        class="lg:!hidden z-40 ms-auto justify-end !px-1 aspect-square"
         aria-label="navigation menu"
         variant="ghost"
         @click="showMobileMenu = !showMobileMenu"
       >
-      <!-- TODO: ARIA label i18n -->
         <template #icon>
           <Icon
             :name="showMobileMenu ? 'mdi:close' : 'mdi:menu'"
@@ -58,7 +58,7 @@
       class="w-full h-screen start-0 top-0 z-30 absolute bg-colors-neutral-background bg-opacity-20 backdrop-blur-lg border lg:hidden"
       @click="showMobileMenu = false"
     />
-    <div class="absolute z-40 left-0 right-0 ">
+    <div v-if="showMobileMenu" class="absolute container z-40 left-0 right-0 ">
       <nav
         class="w-full flex flex-col transition-all gap-y-2.5 p-5 lg:!hidden"
         :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"
