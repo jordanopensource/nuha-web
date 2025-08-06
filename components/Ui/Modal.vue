@@ -1,84 +1,85 @@
 <template>
-  <!-- FIXME: focus the modal once opened -->
-  <Teleport to="body">
-    <Transition
-      enter-active-class="duration-100 ease-out"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="duration-100 ease-in"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
+  <Transition
+    enter-active-class="duration-100 ease-out"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="duration-100 ease-in"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div
+      v-if="isOpen"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      tabindex="-1"
+      aria-modal="true"
+      role="dialog"
+      @click="onBackdropClick"
     >
+      <!-- Backdrop -->
+      <div class="absolute inset-0 bg-colors-neutral-background bg-opacity-20 backdrop-blur-lg" />
+      
+      <!-- Modal Container -->
       <div
-        v-if="isOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        @click="onBackdropClick"
+        class="modal-container relative w-full max-w-2xl max-h-[80vh] bg-colors-neutral-background rounded-lg shadow-xl overflow-hidden flex flex-col"
+        :class="modalSizeClasses"
+        @click.stop
       >
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-colors-neutral-background bg-opacity-20 backdrop-blur-lg" />
-        
-        <!-- Modal Container -->
-        <div
-          class="modal-container relative w-full max-w-2xl max-h-[80vh] bg-colors-neutral-background rounded-lg shadow-xl overflow-hidden flex flex-col"
-          :class="modalSizeClasses"
-          @click.stop
+        <!-- Header -->
+        <div class="flex items-center justify-between p-6 border-b border-colors-neutral-foreground border-opacity-20">
+          <h2 v-if="title" class="text-xl font-medium text-colors-neutral-foreground font-IBMPlexSansArabic">
+            {{ title }}
+          </h2>
+          <div v-else class="flex-1">
+            <slot name="title" />
+          </div>
+          
+          <UiButton
+            variant="ghost"
+            size="sm"
+            :aria-label="closeAriaLabel"
+            class="aspect-square !p-2"
+            @click="close"
+          >
+            <template #icon>
+              <Icon :name="closeIcon" size="24" />
+            </template>
+          </UiButton>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 overflow-y-auto p-6">
+          <slot />
+        </div>
+
+        <!-- Footer Actions -->
+        <div 
+          v-if="showFooter"
+          class="flex items-center justify-end gap-3 p-6 border-t border-colors-neutral-foreground border-opacity-20"
         >
-          <!-- Header -->
-          <div class="flex items-center justify-between p-6 border-b border-colors-neutral-foreground border-opacity-20">
-            <h2 v-if="title" class="text-xl font-medium text-colors-neutral-foreground font-IBMPlexSansArabic">
-              {{ title }}
-            </h2>
-            <div v-else class="flex-1">
-              <slot name="title" />
-            </div>
+          <slot name="actions">
+            <UiButton
+              v-if="showCancelButton"
+              variant="ghost"
+              :disabled="loading"
+              @click="cancel"
+            >
+              {{ cancelButtonText }}
+            </UiButton>
             
             <UiButton
-              variant="ghost"
-              size="sm"
-              :aria-label="closeAriaLabel"
-              @click="close"
+              v-if="showActionButton"
+              :variant="actionButtonVariant"
+              :loading="loading"
+              :disabled="actionButtonDisabled"
+              @click="action"
             >
-              <template #icon>
-                <Icon :name="closeIcon" size="20" />
-              </template>
+              {{ actionButtonText }}
             </UiButton>
-          </div>
-
-          <!-- Content -->
-          <div class="flex-1 overflow-y-auto p-6">
-            <slot />
-          </div>
-
-          <!-- Footer Actions -->
-          <div 
-            v-if="showFooter"
-            class="flex items-center justify-end gap-3 p-6 border-t border-colors-neutral-foreground border-opacity-20"
-          >
-            <slot name="actions">
-              <UiButton
-                v-if="showCancelButton"
-                variant="ghost"
-                :disabled="loading"
-                @click="cancel"
-              >
-                {{ cancelButtonText }}
-              </UiButton>
-              
-              <UiButton
-                v-if="showActionButton"
-                :variant="actionButtonVariant"
-                :loading="loading"
-                :disabled="actionButtonDisabled"
-                @click="action"
-              >
-                {{ actionButtonText }}
-              </UiButton>
-            </slot>
-          </div>
+          </slot>
         </div>
       </div>
-    </Transition>
-  </Teleport>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
