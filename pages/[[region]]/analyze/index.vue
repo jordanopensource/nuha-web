@@ -1,6 +1,6 @@
 <template>
   <div>
-    Analyze Page
+    <analyze-form />
   </div>
 </template>
 <script setup lang="ts">
