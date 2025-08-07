@@ -1,5 +1,5 @@
 <template>
-  <label>
+  <label class="block" :class="{'mb-4': showExpandButton}">
     <div v-if="label" class="mb-2">{{ label }}</div>
     <textarea
       v-model="text"
