@@ -35,7 +35,7 @@
       <div class="p-2 flex-grow overflow-auto">
         <textarea
           v-model="text"
-          class="h-[50vh] resize-y"
+          class="h-[50vh] resize-y bg-colors-neutral-background bg-opacity-85"
           :placeholder="placeholder"
           @change="updateData()"
         />

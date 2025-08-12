@@ -20,7 +20,7 @@
       
       <!-- Modal Container -->
       <div
-        class="modal-container relative w-full max-w-2xl max-h-[80vh] bg-colors-neutral-background rounded-lg shadow-xl overflow-hidden flex flex-col"
+        class="modal-container relative w-full max-w-2xl max-h-[80vh] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col"
         :class="modalSizeClasses"
         @click.stop
       >

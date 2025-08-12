@@ -1,6 +1,6 @@
 <template>
   <form class="max-w-3xl mx-auto" @submit.prevent>
-    <div class="flex lg:px-4 justify-center lg:justify-start">
+    <div class="flex justify-center lg:justify-start">
       <ui-button
         variant="ghost"
         class="!rounded-none !rounded-t-md"
@@ -18,7 +18,9 @@
         {{ $t('analyze.form.fileUpload') }}
       </ui-button>
     </div>
-    <div class="flex flex-col gap-2 border border-colors-primary-light rounded-md p-4 lg:px-8 bg-white">
+    <div
+      class="flex flex-col gap-2 border border-colors-primary-light rounded-md p-4 lg:px-8 bg-white"
+      :class="{'ltr:lg:rounded-tl-none rtl:lg:rounded-tr-none': selectedMethod === 0 }">
        <div class="flex justify-between py-2">
           <ui-region-language-selector
             mode="region"
