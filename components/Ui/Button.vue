@@ -6,8 +6,8 @@
     :type="type"
     :disabled="disabled || loading"
   >
-    <slot></slot>
-    <slot v-if="!loading" name="icon"></slot>
+    <slot />
+    <slot v-if="!loading" name="icon" />
     <slot v-else name="loading">
       <!-- default loading animation -->
       <Icon name="mdi:loading" class="loader !h-6 !w-6" />
@@ -20,10 +20,10 @@
     :class="`btn-${size} btn-${variant}`"
     :disabled="disabled || loading"
   >
-    <slot></slot>
-    <slot v-if="!loading" name="icon"></slot>
+    <slot />
+    <slot v-if="!loading" name="icon" />
     <slot v-else name="loading">
-      <div class="loader !h-6 !w-6"></div>
+      <div class="loader !h-6 !w-6" />
     </slot>
   </NuxtLink>
 </template>
@@ -64,7 +64,15 @@ defineProps({
   @apply select-none flex items-center justify-center gap-2 rounded-md font-normal font-IBMPlexSansArabic;
   @apply max-sm:gap-1 disabled:cursor-not-allowed text-start;
   @apply transition duration-200 ease-in-out;
-  @apply focus:outline focus:outline-colors-neutral-foreground focus:scale-95;
+  &:focus-visible {
+    @apply outline-colors-neutral-foreground;
+    outline-width: 2px;
+    outline-style: solid;
+    isolation: isolate;
+  }
+  &:not(:disabled):active {
+    @apply scale-95;
+  }
 }
 .btn-sm {
   @apply text-sm px-3 py-1.5;
@@ -72,6 +80,7 @@ defineProps({
 .btn-md {
   @apply text-base px-4 py-2;
 }
+/* FIXME: text-lg and text-base have the same size */
 .btn-lg {
   @apply text-lg px-5 py-2.5;
 }
@@ -86,11 +95,16 @@ defineProps({
   }
 }
 
+/* FIXME: the colors of the outline button styles */
 .btn-outline {
   @apply bg-colors-primary-light border border-colors-neutral-foreground text-colors-neutral-foreground;
-  @apply hover:bg-colors-primary-light hover:bg-opacity-40;
-  @apply active:bg-colors-primary-light;
+  @apply hover:bg-colors-neutral-foreground hover:bg-opacity-80;
+  @apply active:bg-colors-neutral-foreground;
   @apply  disabled:bg-transparent disabled:bg-opacity-80;
+  &:not(:disabled):hover,
+  &:not(:disabled):active {
+    @apply text-colors-primary-light;
+  }
   .loader {
     @apply border-colors-neutral-foreground;
   }
