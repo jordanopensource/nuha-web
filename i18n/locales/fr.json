@@ -36,5 +36,32 @@
     "egypt": "Égypte",
     "tunisia": "Tunisie",
     "iraq": "Irak"
+  },
+  "analyze": {
+    "help": {
+      "title": "Aide Format d'Entrée",
+      "textInput": {
+        "title": "Format d'Entrée de Texte",
+        "structure": "Structure du Texte:",
+        "example": "Entrez votre texte directement dans le champ ci-dessous:",
+        "sampleText": "Ceci est un texte d'exemple qui sera analysé pour les modèles linguistiques et les caractéristiques dialectales.",
+        "tips": "Conseils:",
+        "tip1": "Utilisez un langage clair et naturel",
+        "tip2": "Les textes plus longs donnent de meilleurs résultats d'analyse",
+        "tip3": "Les dialectes mixtes dans le même texte peuvent affecter la précision"
+      },
+      "fileUpload": {
+        "title": "Exigences de Téléchargement de Fichier",
+        "supportedTypes": "Types de Fichiers Supportés:",
+        "textFile": "Fichiers de texte brut",
+        "wordFile": "Documents Microsoft Word",
+        "pdfFile": "Format de Document Portable",
+        "csvFile": "Valeurs séparées par des virgules",
+        "requirements": "Exigences du Fichier:",
+        "maxSize": "Taille maximale du fichier: 10MB",
+        "encoding": "Encodage du texte: UTF-8 préféré",
+        "content": "Les fichiers doivent contenir du texte arabe lisible"
+      }
+    }
   }
 }

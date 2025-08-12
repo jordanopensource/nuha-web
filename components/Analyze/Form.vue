@@ -69,6 +69,90 @@
         </template>
       </ui-button>
     </div>
+
+    <!-- Help Modal -->
+    <UiModal
+      v-model="showHelpModal"
+      :title="$t('analyze.help.title')"
+      :show-action-button="false"
+      :cancel-button-text="$t('misc.close')"
+      :close-aria-label="$t('misc.close')"
+      size="md"
+      @cancel="showHelpModal = false"
+    >
+      <!-- Text Input Help -->
+      <div v-if="selectedMethod === 0" class="space-y-4">
+        <h3 class="text-lg font-medium font-IBMPlexSansArabic">{{ $t('analyze.help.textInput.title') }}</h3>
+        <div class="space-y-3">
+          <div>
+            <h4 class="font-medium mb-2">{{ $t('analyze.help.textInput.structure') }}</h4>
+            <div class="bg-colors-primary-light bg-opacity-10 p-4 rounded-lg text-sm font-mono">
+              <p>{{ $t('analyze.help.textInput.example') }}</p>
+              <br>
+              <p class="text-colors-neutral-foreground opacity-70">
+                "{{ $t('analyze.help.textInput.sampleText') }}"
+              </p>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-medium mb-2">{{ $t('analyze.help.textInput.tips') }}</h4>
+            <ul class="text-sm space-y-1 list-disc list-inside text-colors-neutral-foreground opacity-80">
+              <li>{{ $t('analyze.help.textInput.tip1') }}</li>
+              <li>{{ $t('analyze.help.textInput.tip2') }}</li>
+              <li>{{ $t('analyze.help.textInput.tip3') }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- File Upload Help -->
+      <div v-else class="space-y-4">
+        <h3 class="text-lg font-medium font-IBMPlexSansArabic">{{ $t('analyze.help.fileUpload.title') }}</h3>
+        <div class="space-y-3">
+          <div>
+            <h4 class="font-medium mb-2">{{ $t('analyze.help.fileUpload.supportedTypes') }}</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
+                <Icon name="mdi:file-document" size="24" class="text-colors-primary" />
+                <div>
+                  <div dir="ltr" class="font-medium rtl:text-end">.txt</div>
+                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.textFile') }}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
+                <Icon name="mdi:file-word" size="24" class="text-colors-primary" />
+                <div>
+                  <div dir="ltr" class="font-medium rtl:text-end">.docx</div>
+                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.wordFile') }}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
+                <Icon name="mdi:file-pdf-box" size="24" class="text-colors-primary" />
+                <div>
+                  <div dir="ltr" class="font-medium rtl:text-end">.pdf</div>
+                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.pdfFile') }}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
+                <Icon name="mdi:file-table" size="24" class="text-colors-primary" />
+                <div>
+                  <div dir="ltr" class="font-medium rtl:text-end">.csv</div>
+                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.csvFile') }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-medium mb-2">{{ $t('analyze.help.fileUpload.requirements') }}</h4>
+            <ul class="text-sm space-y-1 list-disc list-inside text-colors-neutral-foreground opacity-80">
+              <li>{{ $t('analyze.help.fileUpload.maxSize') }}</li>
+              <li>{{ $t('analyze.help.fileUpload.encoding') }}</li>
+              <li>{{ $t('analyze.help.fileUpload.content') }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </UiModal>
   </form>
 </template>
 <script setup lang="ts">

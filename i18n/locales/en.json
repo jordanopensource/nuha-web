@@ -36,5 +36,32 @@
     "egypt": "Egypt", 
     "tunisia": "Tunisia",
     "iraq": "Iraq"
+  },
+  "analyze": {
+    "help": {
+      "title": "Input Format Help",
+      "textInput": {
+        "title": "Text Input Format",
+        "structure": "Text Structure:",
+        "example": "Enter your text directly in the field below:",
+        "sampleText": "This is a sample text that will be analyzed for linguistic patterns and dialectal features.",
+        "tips": "Tips:",
+        "tip1": "Use clear, natural language",
+        "tip2": "Longer texts provide better analysis results",
+        "tip3": "Mixed dialects in the same text may affect accuracy"
+      },
+      "fileUpload": {
+        "title": "File Upload Requirements",
+        "supportedTypes": "Supported File Types:",
+        "textFile": "Plain text files",
+        "wordFile": "Microsoft Word documents",
+        "pdfFile": "Portable Document Format",
+        "csvFile": "Comma-separated values",
+        "requirements": "File Requirements:",
+        "maxSize": "Maximum file size: 10MB",
+        "encoding": "Text encoding: UTF-8 preferred",
+        "content": "Files should contain readable Arabic text"
+      }
+    }
   }
 }

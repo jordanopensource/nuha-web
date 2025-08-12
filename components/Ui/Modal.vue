@@ -37,6 +37,7 @@
             variant="ghost"
             size="sm"
             :aria-label="closeAriaLabel"
+            :title="closeAriaLabel"
             class="aspect-square !p-2"
             @click="close"
           >

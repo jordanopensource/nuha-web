@@ -36,5 +36,32 @@
     "egypt": "Misir", 
     "tunisia": "Tûnis",
     "iraq": "Iraq"
+  },
+  "analyze": {
+    "help": {
+      "title": "Alîkariya Forma Têketinê",
+      "textInput": {
+        "title": "Forma Têketina Nivîsê",
+        "structure": "Avahiya Nivîsê:",
+        "example": "Nivîsa xwe rasterast di qada jêrîn de binivîse:",
+        "sampleText": "Ev nimûneyek nivîsê ye ku ji bo şêwazên zimannasî û taybetmendiyên devokî were analîzkirin.",
+        "tips": "Şîret:",
+        "tip1": "Zimanekî zelal û xwezayî bikar bîne",
+        "tip2": "Nivîsên dirêjtir encamên analîzê yên çêtir didin",
+        "tip3": "Devokên tevlihev di heman nivîsê de dibe ku bandorê li rastbûnê bikin"
+      },
+      "fileUpload": {
+        "title": "Mercên Barkirina Pelan",
+        "supportedTypes": "Cureyên Pelan ên Piştgirîkirî:",
+        "textFile": "Pelên nivîsa hêsan",
+        "wordFile": "Belgeyên Microsoft Word",
+        "pdfFile": "Forma Belgeya Veguherbar",
+        "csvFile": "Nirxên bi koma veqetandî",
+        "requirements": "Mercên Pelê:",
+        "maxSize": "Mezinahiya herî zêde ya pelê: 10MB",
+        "encoding": "Kodkirina nivîsê: UTF-8 tercîh e",
+        "content": "Pel divê nivîsa erebî ya xwendbar tê de hebe"
+      }
+    }
   }
 }
