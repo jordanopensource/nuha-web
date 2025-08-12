@@ -147,7 +147,11 @@ const availableLocales = computed(() => {
 const currentSelectionText = computed(() => {
   const currentLocale = availableLocales.value.find(l => l.code === locale.value)
   const languageName = currentLocale?.name || locale.value.toUpperCase()
-  const regionName = region.value?.country ? t(`region.${region.value.country?.toLowerCase()}`) : 'Unknown'
+  const regionName = region.value?.country ?
+    currentLocale?.code === 'en' ?
+      region.value.countryCode?.toLocaleUpperCase() :
+      t(`region.${region.value.country?.toLowerCase()}`) :
+    'Unknown'
   
   if (props.mode === 'language') {
     return languageName
