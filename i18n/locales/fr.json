@@ -38,6 +38,14 @@
     "iraq": "Irak"
   },
   "analyze": {
+    "form": {
+      "textInput": "Saisie de Texte",
+      "fileUpload": "Téléchargement de Fichier",
+      "regionTitle": "Région pour le Dialecte du Modèle IA",
+      "help": "Aide",
+      "textPlaceholder": "Ajouter du texte",
+      "filePlaceholder": "Télécharger ou Déposer le Fichier"
+    },
     "help": {
       "title": "Aide Format d'Entrée",
       "textInput": {

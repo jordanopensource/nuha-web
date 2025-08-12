@@ -38,6 +38,14 @@
     "iraq": "العراق"
   },
   "analyze": {
+    "form": {
+      "textInput": "إدخال النص",
+      "fileUpload": "رفع الملف",
+      "regionTitle": "المنطقة للهجة نموذج الذكاء الاصطناعي",
+      "help": "مساعدة",
+      "textPlaceholder": "أضف النص",
+      "filePlaceholder": "ارفع أو اسقط الملف"
+    },
     "help": {
       "title": "مساعدة تنسيق الإدخال",
       "textInput": {

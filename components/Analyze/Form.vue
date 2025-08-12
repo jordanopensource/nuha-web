@@ -1,5 +1,3 @@
-<!-- TODO: i18n -->
- <!-- TODO: make buttons smaller on small screens -->
 <template>
   <form class="max-w-3xl mx-auto" @submit.prevent>
     <div class="flex lg:px-4 justify-center lg:justify-start">
@@ -9,7 +7,7 @@
         :class="{'selected-method-style': selectedMethod === 0}"
         @click="selectedMethod = 0"
       >
-        Text Input
+        {{ $t('analyze.form.textInput') }}
       </ui-button>
       <ui-button
         variant="ghost"
@@ -17,19 +15,19 @@
         :class="{'selected-method-style': selectedMethod === 1}"
         @click="selectedMethod = 1"
       >
-        File Upload
+        {{ $t('analyze.form.fileUpload') }}
       </ui-button>
     </div>
     <div class="flex flex-col gap-2 border border-colors-primary-light rounded-md p-4 lg:px-8 bg-white">
        <div class="flex justify-between py-2">
           <ui-region-language-selector
             mode="region"
-            title="Region for the AI Model Dialect"
+            :title="$t('analyze.form.regionTitle')"
           />
           <ui-button
             variant="ghost"
-            aria-label="help"
-            title="help"
+            :aria-label="$t('analyze.form.help')"
+            :title="$t('analyze.form.help')"
             class=""
             @click.prevent="showHelpModal = true"
           >
@@ -45,13 +43,13 @@
       <div>
         <ui-text-area
           v-if="selectedMethod === 0"
-          modal-label="Text Input"
-          placeholder="Add text"
+          :modal-label="$t('analyze.form.textInput')"
+          :placeholder="$t('analyze.form.textPlaceholder')"
           :required="true"
         />
         <ui-file-input
           v-else
-          placeholder="Upload or Drop File"
+          :placeholder="$t('analyze.form.filePlaceholder')"
           @error="(message) => onFileError(message)"
         />
       </div>
@@ -60,11 +58,12 @@
         class="mx-auto mt-4"
         type="submit"
       >
-        Analyze
+        {{ $t('links.general.analyze') }}
         <template #icon>
           <Icon
             name="mdi:arrow-right"
             size="24"
+            class="rtl:rotate-180"
           />
         </template>
       </ui-button>

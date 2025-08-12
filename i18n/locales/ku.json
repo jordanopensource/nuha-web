@@ -38,6 +38,14 @@
     "iraq": "Iraq"
   },
   "analyze": {
+    "form": {
+      "textInput": "Têketina Nivîsê",
+      "fileUpload": "Barkirina Pelê",
+      "regionTitle": "Herêm ji bo Devoka Modela AI",
+      "help": "Alîkarî",
+      "textPlaceholder": "Nivîs tevlî bike",
+      "filePlaceholder": "Pel Bar bike an Bavêje"
+    },
     "help": {
       "title": "Alîkariya Forma Têketinê",
       "textInput": {

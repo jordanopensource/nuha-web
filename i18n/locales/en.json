@@ -38,6 +38,14 @@
     "iraq": "Iraq"
   },
   "analyze": {
+    "form": {
+      "textInput": "Text Input",
+      "fileUpload": "File Upload",
+      "regionTitle": "Region for the AI Model Dialect",
+      "help": "Help",
+      "textPlaceholder": "Add text",
+      "filePlaceholder": "Upload or Drop File"
+    },
     "help": {
       "title": "Input Format Help",
       "textInput": {
