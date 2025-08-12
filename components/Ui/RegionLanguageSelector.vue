@@ -15,9 +15,10 @@
     </UiButton>
 
     <!-- Modal -->
+     <!-- TODO: make it instantly switch language once selected -->
     <UiModal
       v-model="showModal"
-      :title="$t('settings.regionLanguage.title')"
+      :title="title || $t('settings.regionLanguage.title')"
       :action-button-text="$t('settings.regionLanguage.apply')"
       :cancel-button-text="$t('misc.cancel')"
       size="lg"
@@ -27,7 +28,7 @@
     >
       <div class="space-y-6">
         <!-- Language Selection -->
-        <div>
+        <div v-if="mode === 'both' || mode === 'language'">
           <h3 class="text-lg font-medium text-colors-neutral-foreground font-IBMPlexSansArabic mb-4">
             {{ $t('settings.regionLanguage.language') }}
           </h3>
@@ -53,7 +54,7 @@
         </div>
 
         <!-- Region Selection -->
-        <div>
+        <div v-if="mode === 'both' || mode === 'region'">
           <h3 class="text-lg font-medium text-colors-neutral-foreground font-IBMPlexSansArabic mb-4">
             {{ $t('settings.regionLanguage.region') }}
           </h3>
@@ -84,7 +85,7 @@
          <!-- FIXME: make it actually make a call to detect the language
                      rather than getting it from the cached value -->
         <div
-          v-if="region?.country"
+          v-if="region?.country && (mode === 'region' || mode === 'both')"
           class="p-4 rounded-lg bg-colors-primary-light bg-opacity-10"
         >
           <div class="flex items-center gap-2 mb-2">
@@ -103,10 +104,22 @@
 <script setup lang="ts">
 interface Props {
   size?: 'sm' | 'md' | 'lg'
+  /**
+   * Controls which selectors to show
+   * @default 'both'
+   */
+  mode?: 'language' | 'region' | 'both'
+  
+  /**
+   * Controls the modal title
+   */
+  title?: string
 }
 
-withDefaults(defineProps<Props>(), {
-  size: 'md'
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md',
+  mode: 'both',
+  title: undefined
 })
 
 // Composables
@@ -134,8 +147,15 @@ const availableLocales = computed(() => {
 const currentSelectionText = computed(() => {
   const currentLocale = availableLocales.value.find(l => l.code === locale.value)
   const languageName = currentLocale?.name || locale.value.toUpperCase()
+  const regionName = region.value?.country ? t(`region.${region.value.country?.toLowerCase()}`) : 'Unknown'
   
-  return `${languageName} ${region.value?.country ? '• ' + t(`region.${region.value.country?.toLowerCase()}`) : 'Unknown' }`
+  if (props.mode === 'language') {
+    return languageName
+  } else if (props.mode === 'region') {
+    return regionName
+  } else {
+    return `${languageName} • ${regionName}`
+  }
 })
 
 // Methods
