@@ -51,8 +51,8 @@
       "textInput": {
         "title": "Forma Têketina Nivîsê",
         "structure": "Avahiya Nivîsê:",
-        "example": "Nivîsa xwe rasterast di qada jêrîn de binivîse:",
-        "sampleText": "Ev nimûneyek nivîsê ye ku ji bo şêwazên zimannasî û taybetmendiyên devokî were analîzkirin.",
+        "structure-subtitle": "Qadên bi * hatine nîşankirin mecbûrî ne.",
+        "sampleText": "şîrove*, platform, dîrok\nşîrove*, platform, dîrok\n...",
         "tips": "Şîret:",
         "tip1": "Zimanekî zelal û xwezayî bikar bîne",
         "tip2": "Nivîsên dirêjtir encamên analîzê yên çêtir didin",

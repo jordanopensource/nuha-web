@@ -83,21 +83,22 @@
     >
       <!-- Text Input Help -->
       <div v-if="selectedMethod === 0" class="space-y-4">
-        <h3 class="text-lg font-medium font-IBMPlexSansArabic">{{ $t('analyze.help.textInput.title') }}</h3>
+        <h3 class="text-lg font-IBMPlexSansArabic">{{ $t('analyze.help.textInput.title') }}</h3>
         <div class="space-y-3">
           <div>
-            <h4 class="font-medium mb-2">{{ $t('analyze.help.textInput.structure') }}</h4>
-            <div class="bg-colors-primary-light bg-opacity-10 p-4 rounded-lg text-sm font-mono">
-              <p>{{ $t('analyze.help.textInput.example') }}</p>
-              <br>
-              <p class="text-colors-neutral-foreground opacity-70">
-                "{{ $t('analyze.help.textInput.sampleText') }}"
-              </p>
-            </div>
+            <h4 class="mb-2">{{ $t('analyze.help.textInput.structure') }}</h4>
+            <div class="bg-colors-primary-light border bg-opacity-10 p-4 mx-2 mb-4 rounded-md text-sm">
+              <p
+              class="text-colors-neutral-foreground opacity-70 whitespace-pre-line font-IBMPlexMono"
+              >
+              {{ $t('analyze.help.textInput.sampleText') }}
+            </p>
+          </div>
+          <p>{{ $t('analyze.help.textInput.structure-subtitle') }}</p>
           </div>
           <div>
-            <h4 class="font-medium mb-2">{{ $t('analyze.help.textInput.tips') }}</h4>
-            <ul class="text-sm space-y-1 list-disc list-inside text-colors-neutral-foreground opacity-80">
+            <h4 class="mb-2">{{ $t('analyze.help.textInput.tips') }}</h4>
+            <ul class="space-y-1 list-disc list-inside text-colors-neutral-foreground opacity-80">
               <li>{{ $t('analyze.help.textInput.tip1') }}</li>
               <li>{{ $t('analyze.help.textInput.tip2') }}</li>
               <li>{{ $t('analyze.help.textInput.tip3') }}</li>
@@ -111,7 +112,7 @@
         <h3 class="text-lg font-medium font-IBMPlexSansArabic">{{ $t('analyze.help.fileUpload.title') }}</h3>
         <div class="space-y-3">
           <div>
-            <h4 class="font-medium mb-2">{{ $t('analyze.help.fileUpload.supportedTypes') }}</h4>
+            <h4 class="mb-2">{{ $t('analyze.help.fileUpload.supportedTypes') }}</h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
                 <Icon name="mdi:file-document" size="24" class="text-colors-primary" />
@@ -144,8 +145,8 @@
             </div>
           </div>
           <div>
-            <h4 class="font-medium mb-2">{{ $t('analyze.help.fileUpload.requirements') }}</h4>
-            <ul class="text-sm space-y-1 list-disc list-inside text-colors-neutral-foreground opacity-80">
+            <h4 class="mb-2">{{ $t('analyze.help.fileUpload.requirements') }}</h4>
+            <ul class="space-y-1 list-disc list-inside text-colors-neutral-foreground opacity-80">
               <li>{{ $t('analyze.help.fileUpload.maxSize') }}</li>
               <li>{{ $t('analyze.help.fileUpload.encoding') }}</li>
               <li>{{ $t('analyze.help.fileUpload.content') }}</li>

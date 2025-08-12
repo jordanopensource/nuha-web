@@ -51,8 +51,8 @@
       "textInput": {
         "title": "Text Input Format",
         "structure": "Text Structure:",
-        "example": "Enter your text directly in the field below:",
-        "sampleText": "This is a sample text that will be analyzed for linguistic patterns and dialectal features.",
+        "structure-subtitle": "Fields marked with * are mandatory.",
+        "sampleText": "comment*, platform, date\ncomment*, platform, date\n...",
         "tips": "Tips:",
         "tip1": "Use clear, natural language",
         "tip2": "Longer texts provide better analysis results",

@@ -51,8 +51,8 @@
       "textInput": {
         "title": "Format d'Entrée de Texte",
         "structure": "Structure du Texte:",
-        "example": "Entrez votre texte directement dans le champ ci-dessous:",
-        "sampleText": "Ceci est un texte d'exemple qui sera analysé pour les modèles linguistiques et les caractéristiques dialectales.",
+        "structure-subtitle": "Les champs marqués d'un * sont obligatoires.",
+        "sampleText": "commentaire*, plateforme, date\ncommentaire*, plateforme, date\n...",
         "tips": "Conseils:",
         "tip1": "Utilisez un langage clair et naturel",
         "tip2": "Les textes plus longs donnent de meilleurs résultats d'analyse",
