@@ -1,5 +1,5 @@
 <template>
-  <form class="max-w-3xl mx-auto" @submit.prevent>
+  <form class="w-full lg:max-w-3xl mx-auto" @submit.prevent>
     <div class="flex justify-center lg:justify-start">
       <ui-button
         variant="ghost"
@@ -34,7 +34,7 @@
             @click.prevent="showHelpModal = true"
           >
             <template #icon>
-              <Icon
+            <Icon
                 name="mdi:help-circle-outline"
                 class="text-colors-primary"
                 size="24"

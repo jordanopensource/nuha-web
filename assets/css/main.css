@@ -7,6 +7,9 @@
 .loader {
   animation: spin 1s linear infinite;
 }
+.page-container {
+  @apply flex flex-col gap-12;
+}
 
 @keyframes spin {
   0% {
