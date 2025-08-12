@@ -1,11 +1,12 @@
 <template>
-  <label class="block" :class="{'mb-4': showExpandButton}">
+  <label class="block" :class="{'mb-2': showExpandButton}">
     <div v-if="label" class="mb-2">{{ label }}</div>
     <textarea
       v-model="text"
-      class="block resize-none h-36"
+      class="block resize-none h-36 bg-colors-neutral-background bg-opacity-85"
       rows="3"
       name="text"
+      :required="required"
       :placeholder="placeholder"
       @change="updateData()"
     />
@@ -13,7 +14,7 @@
       v-if="showExpandButton"
       size="md"
       variant="ghost"
-      class="aspect-square block w-8 !p-0 ms-auto -mt-9 me-1"
+      class="aspect-square block w-8 !p-0 ms-auto -mt-10 me-2"
       :aria-label="$t('misc.expandText')"
       :title="$t('misc.expandText')"
       @click.prevent="showModal = true"
@@ -25,7 +26,7 @@
   <!-- Expand text field modal -->
   <UiModal 
     v-model="showModal"
-    :title="label"
+    :title="label || modalLabel"
     size="lg"
     :show-footer="false"
     @close="updateData"
@@ -53,11 +54,19 @@
     },
     label: {
       type: String,
-      default: null
+      default: null,
+    },
+    modalLabel: {
+      type: String,
+      default: null,
     },
     placeholder: {
       type: String,
       default: null,
+    },
+    required: {
+      type: Boolean,
+      default: false,
     },
   })
 
