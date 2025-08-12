@@ -11,6 +11,10 @@
     @apply font-LTZarid text-h3-m lg:text-h3;
   }
 
+  h4 {
+    @apply font-LTZarid text-h4-m lg:text-h4;
+  }
+
   body {
     @apply text-base font-normal font-IBMPlexSansArabic;
   }

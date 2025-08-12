@@ -38,6 +38,8 @@ export default {
         'h2-m': ['32px', { lineHeight: '1.2', fontWeight: '600' }],
         'h3': ['24px', { lineHeight: '1.16', fontWeight: '600' }],
         'h3-m': ['22px', { lineHeight: '1.16', fontWeight: '600' }],
+        'h4': ['20px', { lineHeight: '1.16', fontWeight: '600' }],
+        'h4-m': ['18px', { lineHeight: '1.16', fontWeight: '600' }],
         'base': ['18px', { lineHeight: '1.16' }],
         'subtext': ['14px', { lineHeight: '1.16' }], // small / supportive text
       },
