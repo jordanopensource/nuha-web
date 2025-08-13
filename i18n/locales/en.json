@@ -82,6 +82,13 @@
     "githubButton": "Continue with GitHub",
     "termsText": "By logging in you agree to our {termsLink} and {privacyLink}",
     "termsLink": "Terms of Service",
-    "privacyLink": "Privacy Policy"
+    "privacyLink": "Privacy Policy",
+    "messages": {
+      "emailSent": "Magic link sent to {email}! Please check your email to complete the login.",
+      "githubSuccess": "GitHub login successful! Redirecting...",
+      "invalidEmail": "Please enter a valid email address.",
+      "emailError": "Failed to send magic link. Please try again.",
+      "githubError": "Failed to login with GitHub. Please try again."
+    }
   }
 }

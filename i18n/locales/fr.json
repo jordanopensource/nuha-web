@@ -82,6 +82,13 @@
     "githubButton": "Continuer avec GitHub",
     "termsText": "En vous connectant, vous acceptez nos {termsLink} et notre {privacyLink}",
     "termsLink": "Conditions d'utilisation",
-    "privacyLink": "Politique de confidentialité"
+    "privacyLink": "Politique de confidentialité",
+    "messages": {
+      "emailSent": "Lien magique envoyé à {email} ! Veuillez vérifier votre e-mail pour terminer la connexion.",
+      "githubSuccess": "Connexion GitHub réussie ! Redirection en cours...",
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+      "emailError": "Échec de l'envoi du lien magique. Veuillez réessayer.",
+      "githubError": "Échec de la connexion avec GitHub. Veuillez réessayer."
+    }
   }
 }

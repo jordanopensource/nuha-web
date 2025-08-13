@@ -82,6 +82,13 @@
     "githubButton": "Bi GitHub Bidomîne",
     "termsText": "Bi têketina xwe tu razî dibi {termsLink} û {privacyLink} ên me",
     "termsLink": "Mercên Bikaranînê",
-    "privacyLink": "Politîkaya Taybetiyê"
+    "privacyLink": "Politîkaya Taybetiyê",
+    "messages": {
+      "emailSent": "Lînka sehrî hat şandin bo {email}! Ji kerema xwe emailê xwe kontrol bike da ku têketinê qedandî.",
+      "githubSuccess": "Têketina GitHub bi serkeftî qediya! Beralîkirin...",
+      "invalidEmail": "Ji kerema xwe navnîşaneka emailê ya derbasdar binivîse.",
+      "emailError": "Şandina lînka sehrî bi ser neket. Ji kerema xwe dîsa biceribîne.",
+      "githubError": "Têketina bi GitHub re bi ser neket. Ji kerema xwe dîsa biceribîne."
+    }
   }
 }
