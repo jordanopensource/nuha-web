@@ -11,6 +11,17 @@
   @apply flex flex-col gap-12;
 }
 
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+  @apply w-full border border-colors-neutral-placeholder rounded-md p-4;
+  @apply focus:!border-colors-primary focus:outline-none focus:border-2 focus:p-[15px];
+}
+input::placeholder {
+  @apply select-none;
+}
+
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
