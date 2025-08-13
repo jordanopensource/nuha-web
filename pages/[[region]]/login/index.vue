@@ -7,6 +7,20 @@
     />
 
     <div class="flex flex-col w-full max-w-2xl mx-auto gap-4 border border-colors-primary-light rounded-md p-4 lg:px-8 bg-white">
+      <!-- Messages -->
+      <UiMessage
+        v-if="messages.success.show && messages.success.text"
+        type="success"
+        :message="messages.success.text"
+      />
+      <UiMessage
+        v-if="messages.error.show && messages.error.text"
+        type="error"
+        :message="messages.error.text"
+        show-close-button
+        @close="messages.error.show = false"
+      />
+
       <!-- Email login -->
       <form class="flex flex-col gap-2" @submit.prevent="handleEmailLogin">
         <div class="flex flex-col gap-2">
@@ -21,8 +35,10 @@
             v-model="email"
             type="email"
             :placeholder="$t('login.emailPlaceholder')"
-            class="bg-colors-neutral-background bg-opacity-85"
+            class="bg-colors-neutral-background bg-opacity-85 placeholder:rtl:text-right"
             required
+            dir="ltr"
+            @input="clearMessages()"
           >
         </div>
         <ui-button
@@ -39,7 +55,7 @@
             />
           </template>
         </ui-button>
-        <small>
+        <small class="font-medium">
           {{ $t('login.emailDescription') }}
         </small>
       </form>
@@ -48,7 +64,7 @@
         <!-- TODO: make divider a separate component -->
       <div class="flex items-center gap-4 my-2">
         <hr class="flex-1 border-colors-neutral-placeholder opacity-30">
-        <small>{{ $t('misc.or', 'or') }}</small>
+        <small class="font-medium">{{ $t('misc.or', 'or') }}</small>
         <hr class="flex-1 border-colors-neutral-placeholder opacity-30">
       </div>
       
@@ -70,7 +86,7 @@
       </ui-button>
       
       <!-- Terms and Privacy -->
-      <p class="text-sm text-colors-neutral-foreground opacity-70">
+      <small class="font-medium">
         <i18n-t keypath="login.termsText" tag="span">
           <template #termsLink>
             <NuxtLink 
@@ -89,7 +105,7 @@
             </NuxtLink>
           </template>
         </i18n-t>
-      </p>
+      </small>
     </div>
   </div>
 </template>
@@ -97,9 +113,27 @@
 <script setup lang="ts">
 const { getLinksByGroup } = useLinks()
 const localePath = useLocalePath()
+const { t } = useI18n()
 
-// Email form state
 const email = ref('')
+
+const messages = reactive({
+  success: {
+    show: false,
+    text: '',
+  },
+  error: {
+    show: false,
+    text: '',
+  },
+})
+
+const clearMessages = () => {
+  messages.success.text = ''
+  messages.error.text = ''
+  messages.success.show = false
+  messages.error.show = false
+}
 
 // Email validation
 const isValidEmail = computed(() => {
@@ -133,32 +167,52 @@ const sampleGithubData = {
 
 // Handle email login
 const handleEmailLogin = () => {
+  clearMessages()
+  
   if (!email.value || !isValidEmail.value) {
+    messages.error.text = t('login.messages.invalidEmail')
+    messages.error.show = true
     return
   }
 
-  // TODO: Replace with auth logic for magic link
-  const emailLoginData = {
-    ...sampleUserData,
-    email: email.value
+  try {
+    // TODO: Replace with auth logic for magic link
+    const emailLoginData = {
+      ...sampleUserData,
+      email: email.value
+    }
+    console.log('Email login initiated - sample response:', emailLoginData)
+    
+    // Simulate successful login for now
+    setTimeout(() => {
+      messages.success.text = t('login.messages.emailSent', { email: email.value })
+      messages.success.show = true
+    }, 500)
+  } catch (error) {
+    messages.error.text = t('login.messages.emailError')
+    messages.error.show = true
+    console.error('Email login error:', error)
   }
-  console.log('Email login initiated - sample response:', emailLoginData)
-  
-  // Simulate successful login for now
-  setTimeout(() => {
-    alert(`Sample login successful!\nEmail: ${emailLoginData.email}\nProvider: ${emailLoginData.provider}\n\nMagic link would be sent to your email.`)
-  }, 500)
 }
 
 // Handle GitHub login
 const handleGithubLogin = () => {
-  // TODO: Replace with actual GitHub OAuth flow
-  console.log('GitHub login initiated - sample response:', sampleGithubData)
+  clearMessages()
   
-  // Simulate successful login for now
-  setTimeout(() => {
-    alert(`Sample login successful!\nUsername: ${sampleGithubData.username}\nProvider: ${sampleGithubData.provider}`)
-  }, 500)
+  try {
+    // TODO: Replace with actual GitHub OAuth flow
+    console.log('GitHub login initiated - sample response:', sampleGithubData)
+    
+    // Simulate successful login for now
+    setTimeout(() => {
+      messages.success.text = t('login.messages.githubSuccess')
+      messages.success.show = true
+    }, 500)
+  } catch (error) {
+    messages.error.text = t('login.messages.githubError')
+    messages.error.show = true
+    console.error('GitHub login error:', error)
+  }
 }
 </script>
 
