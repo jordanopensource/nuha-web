@@ -29,7 +29,8 @@
   "misc": {
     "cancel": "Betal bike",
     "close": "Bigire",
-    "expandText": "Berfireh bike"
+    "expandText": "Berfireh bike",
+    "or": "an"
   },
   "region": {
     "jordan": "Urdun",
@@ -71,5 +72,16 @@
         "content": "Pel divê nivîsa erebî ya xwendbar tê de hebe"
       }
     }
+  },
+  "login": {
+    "title": "Têketina Nuha",
+    "emailLabel": "Navnîşana Email",
+    "emailPlaceholder": "Navnîşana emailê xwe binivîse",
+    "emailButton": "Bi Emailê Bidomîne",
+    "emailDescription": "Em ê ji te re lînkek têketina sehrî bi email bişînin. Pêwîstî bi şîfreyê nîne.",
+    "githubButton": "Bi GitHub Bidomîne",
+    "termsText": "Bi têketina xwe tu razî dibi {termsLink} û {privacyLink} ên me",
+    "termsLink": "Mercên Bikaranînê",
+    "privacyLink": "Politîkaya Taybetiyê"
   }
 }

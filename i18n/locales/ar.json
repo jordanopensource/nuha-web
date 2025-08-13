@@ -29,7 +29,8 @@
   "misc": {
     "cancel": "إلغاء",
     "close": "إغلاق",
-    "expandText": "تكبير حقل النص"
+    "expandText": "تكبير حقل النص",
+    "or": "أو"
   },
   "region": {
     "jordan": "الأردن",
@@ -71,5 +72,16 @@
         "content": "يجب أن تحتوي الملفات على نص عربي قابل للقراءة"
       }
     }
+  },
+  "login": {
+    "title": "تسجيل الدخول إلى نهى",
+    "emailLabel": "عنوان البريد الإلكتروني",
+    "emailPlaceholder": "أدخل عنوان بريدك الإلكتروني",
+    "emailButton": "متابعة بالبريد الإلكتروني",
+    "emailDescription": "سنرسل لك رابط دخول سحري. لا حاجة لكلمة مرور.",
+    "githubButton": "متابعة بـ GitHub",
+    "termsText": "بتسجيل الدخول أنت توافق على {termsLink} و {privacyLink} الخاصة بنا",
+    "termsLink": "شروط الاستخدام",
+    "privacyLink": "سياسة الخصوصية"
   }
 }

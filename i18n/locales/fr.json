@@ -29,7 +29,8 @@
   "misc": {
     "cancel": "Annuler",
     "close": "Ferme",
-    "expandText": "Agrandir le champ de texte"
+    "expandText": "Agrandir le champ de texte",
+    "or": "ou"
   },
   "region": {
     "jordan": "Jordanie",
@@ -71,5 +72,16 @@
         "content": "Les fichiers doivent contenir du texte arabe lisible"
       }
     }
+  },
+  "login": {
+    "title": "Se connecter à Nuha",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "Entrez votre adresse e-mail",
+    "emailButton": "Continuer avec l'e-mail",
+    "emailDescription": "Nous vous enverrons un lien de connexion magique par e-mail. Aucun mot de passe nécessaire.",
+    "githubButton": "Continuer avec GitHub",
+    "termsText": "En vous connectant, vous acceptez nos {termsLink} et notre {privacyLink}",
+    "termsLink": "Conditions d'utilisation",
+    "privacyLink": "Politique de confidentialité"
   }
 }

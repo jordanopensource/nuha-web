@@ -29,7 +29,8 @@
   "misc": {
     "cancel": "Cancel",
     "close": "Close",
-    "expandText": "Expand Text Field"
+    "expandText": "Expand Text Field",
+    "or": "or"
   },
   "region": {
     "jordan": "Jordan",
@@ -71,5 +72,16 @@
         "content": "Files should contain readable Arabic text"
       }
     }
+  },
+  "login": {
+    "title": "Login to Nuha",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "Enter your email address",
+    "emailButton": "Continue with Email",
+    "emailDescription": "We'll email you a magic login link. No password needed.",
+    "githubButton": "Continue with GitHub",
+    "termsText": "By logging in you agree to our {termsLink} and {privacyLink}",
+    "termsLink": "Terms of Service",
+    "privacyLink": "Privacy Policy"
   }
 }
