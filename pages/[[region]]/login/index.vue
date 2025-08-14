@@ -55,7 +55,7 @@
             />
           </template>
         </ui-button>
-        <small class="font-medium">
+        <small>
           {{ $t('login.emailDescription') }}
         </small>
       </form>
@@ -86,7 +86,7 @@
       </ui-button>
       
       <!-- Terms and Privacy -->
-      <small class="font-medium">
+      <small>
         <i18n-t keypath="login.termsText" tag="span">
           <template #termsLink>
             <NuxtLink 

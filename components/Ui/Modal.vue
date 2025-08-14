@@ -9,12 +9,21 @@
   >
     <div
       v-if="isOpen"
+      ref="dialogElement"
       class="fixed inset-0 z-50 flex items-center justify-center p-4"
       tabindex="-1"
       aria-modal="true"
       role="dialog"
       @click="onBackdropClick"
     >
+    <!-- focusable element used to trap focus inside the modal -->
+    <button 
+      ref="firstFocusTrap" 
+      tabindex="0" 
+      class="opacity-0 absolute" 
+      @focus="onFirstFocusTrapFocus"
+    />
+
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-colors-neutral-background bg-opacity-20 backdrop-blur-lg" />
       
@@ -79,6 +88,14 @@
           </slot>
         </div>
       </div>
+
+      <!-- focusable element used to trap focus inside the modal -->
+      <button 
+        ref="lastFocusTrap" 
+        tabindex="0" 
+        class="opacity-0 absolute" 
+        @focus="onLastFocusTrapFocus"
+      />
     </div>
   </Transition>
 </template>
@@ -196,6 +213,67 @@ const handleKeydown = (event: KeyboardEvent) => {
     close()
   }
 }
+
+const dialogElement = ref<HTMLDialogElement | null>(null)
+const firstFocusTrap = ref<HTMLDivElement | null>(null)
+const lastFocusTrap = ref<HTMLDivElement | null>(null)
+
+// Focus management functions
+const getFocusableElements = (element: HTMLElement | null): HTMLElement[] => {
+  if (!element) return []
+
+  const focusableSelectors = [
+    'button:not([disabled])',
+    'input:not([disabled])',
+    'textarea:not([disabled])',
+    'select:not([disabled])',
+    'a[href]',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(', ')
+  
+  // Get all focusable elements excluding the trap elements
+  const allFocusable = Array.from(element.querySelectorAll(focusableSelectors)) as HTMLElement[]
+  return allFocusable.filter(el => 
+    el !== firstFocusTrap.value && 
+    el !== lastFocusTrap.value
+  )
+}
+
+const focusFirstDescendant = (element: HTMLElement | null) => {
+  const focusableElements = getFocusableElements(element)
+  if (focusableElements.length > 0) {
+    focusableElements[0].focus()
+  }
+}
+const focusLastDescendant = (element: HTMLElement | null) => {
+  const focusableElements = getFocusableElements(element)
+  if (focusableElements.length > 0) {
+    focusableElements[focusableElements.length - 1].focus()
+  }
+}
+
+// Focus trap handlers
+// When first trap receives focus (shift+tab from first element), focus last element (and vice-versa)
+const onFirstFocusTrapFocus = () => {
+  focusLastDescendant(dialogElement.value)
+}
+const onLastFocusTrapFocus = () => {
+  focusFirstDescendant(dialogElement.value)
+}
+
+// Auto-focus first element when modal opens
+watch(isOpen, (newValue) => {
+  if (newValue) {
+    document.body.style.overflow = 'hidden'
+    // Focus first focusable element when modal opens
+    nextTick(() => {
+      focusFirstDescendant(dialogElement.value)
+    })
+  } else {
+    document.body.style.overflow = ''
+  }
+})
+
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown)
 })
@@ -203,16 +281,6 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)
   document.body.style.overflow = ''
 })
-
-// Body scroll lock
-watch(isOpen, (newValue) => {
-  if (newValue) {
-    document.body.style.overflow = 'hidden'
-  } else {
-    document.body.style.overflow = ''
-  }
-})
-
 </script>
 
 <style lang="postcss" scoped></style>
