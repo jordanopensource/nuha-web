@@ -9,7 +9,7 @@
       :class="isOverDropZone ? '!bg-colors-primary !text-colors-primary-light scale-105' : '!bg-colors-primary-light'"
       @click="() => clickUpload()"
     >
-      <label for="file-upload" class="cursor-pointer" @click.prevent>
+      <label :for="id" class="cursor-pointer" @click.prevent>
         {{
           !file
             ? placeholder
@@ -23,7 +23,7 @@
   </div>
 
   <input
-    id="file-upload"
+    :id="id"
     hidden
     style="visibility: hidden"
     type="file"
@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
   import { useDropZone } from '@vueuse/core'
-  import type { PropType } from 'vue'
 
   const props = defineProps({
     label: {
@@ -59,6 +58,7 @@
 
   const emit = defineEmits(['update:data', 'error'])
   const file = ref<File | null>()
+  const id = useId()
 
   watch(file, () => {
     updateData()
@@ -95,7 +95,7 @@
     })
   }
   function clickUpload() {
-    const fileInput = document.getElementById('file-upload') as HTMLInputElement
+    const fileInput = document.getElementById(id) as HTMLInputElement
     fileInput.click()
   }
   
