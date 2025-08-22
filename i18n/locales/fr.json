@@ -39,6 +39,10 @@
     "iraq": "Irak"
   },
   "analyze": {
+    "page": {
+      "title": "Analyser les Commentaires",
+      "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+    },
     "form": {
       "textInput": "Saisie de Texte",
       "fileUpload": "Téléchargement de Fichier",
