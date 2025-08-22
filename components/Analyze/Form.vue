@@ -1,6 +1,6 @@
 <template>
   <form class="w-full lg:max-w-3xl mx-auto" @submit.prevent>
-    <div class="flex justify-center lg:justify-start">
+    <div class="flex justify-start">
       <ui-button
         variant="ghost"
         class="!rounded-none !rounded-t-md"
@@ -20,7 +20,7 @@
     </div>
     <div
       class="flex flex-col gap-2 border border-colors-primary-light rounded-md p-4 lg:px-8 bg-white"
-      :class="{'ltr:lg:rounded-tl-none rtl:lg:rounded-tr-none': selectedMethod === 0 }">
+      :class="{'ltr:rounded-tl-none rtl:rounded-tr-none': selectedMethod === 0 }">
        <div class="flex justify-between py-2">
           <ui-region-language-selector
             mode="region"
@@ -122,17 +122,17 @@
                 </div>
               </div>
               <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
-                <Icon name="mdi:file-word" size="24" class="text-colors-primary" />
+                <Icon name="mdi:file-excel" size="24" class="text-colors-primary" />
                 <div>
-                  <div dir="ltr" class="font-medium rtl:text-end">.docx</div>
-                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.wordFile') }}</div>
+                  <div dir="ltr" class="font-medium rtl:text-end">.xls / xlsx</div>
+                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.excelFile') }}</div>
                 </div>
               </div>
               <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
-                <Icon name="mdi:file-pdf-box" size="24" class="text-colors-primary" />
+                <Icon name="mdi:code-json" size="24" class="text-colors-primary" />
                 <div>
-                  <div dir="ltr" class="font-medium rtl:text-end">.pdf</div>
-                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.pdfFile') }}</div>
+                  <div dir="ltr" class="font-medium rtl:text-end">.json</div>
+                  <div class="text-sm opacity-70">{{ $t('analyze.help.fileUpload.jsonFile') }}</div>
                 </div>
               </div>
               <div class="flex items-center gap-3 p-3 rounded-lg bg-colors-primary-light bg-opacity-10">
@@ -169,6 +169,6 @@ const onFileError = (msg: string) => {
 </script>
 <style scoped lang="postcss">
 .selected-method-style {
-  @apply border border-colors-primary-light !border-b-4 border-b-colors-primary !bg-white;
+  @apply border border-b-0 border-colors-primary-light !rounded-t-md !bg-white scale-105 ms-[3px];
 }
 </style>
