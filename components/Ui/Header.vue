@@ -15,7 +15,7 @@
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
-          :to="link.path"
+          :to="link.path()"
           variant="ghost"
           size="lg"
           class="min-w-fit"
@@ -67,7 +67,7 @@
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
-          :to="link.path"
+          :to="link.path()"
           variant="ghost"
           size="lg"
           class="!font-medium"

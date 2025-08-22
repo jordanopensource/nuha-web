@@ -19,7 +19,7 @@
           v-for="(link, i) in projectLinks"
           :key="i"
           class="w-full max-md:min-w-max text-base md:text-center hover:underline"
-          :to="link.path"
+          :to="link.path()"
           :external="link.external"
           :target="link.external ? '_blank' : '_self'"
         >
@@ -33,7 +33,7 @@
             v-for="(link, i) in infoLinks"
             :key="i"
             class="max-md:min-w-max text-base hover:underline md:text-end"
-            :to="link.path"
+            :to="link.path()"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"
           >
@@ -45,7 +45,7 @@
             v-for="(link, i) in socialLinks"
             :key="i"
             class="hover:scale-105 transition-all hover:text-colors-primary-hover"
-            :to="link.path"
+            :to="link.path()"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"
             :aria-label="link.title()"

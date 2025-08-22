@@ -90,7 +90,7 @@
         <i18n-t keypath="login.termsText" tag="span">
           <template #termsLink>
             <NuxtLink 
-              :to="termsLink.path"
+              :to="termsLink.path()"
               class="text-colors-primary hover:underline"
             >
               {{ $t('login.termsLink') }}
@@ -98,7 +98,7 @@
           </template>
           <template #privacyLink>
             <NuxtLink 
-              :to="privacyLink.path"
+              :to="privacyLink.path()"
               class="text-colors-primary hover:underline"
             >
               {{ $t('login.privacyLink') }}
@@ -143,8 +143,8 @@ const isValidEmail = computed(() => {
 
 // Get terms and privacy links with fallbacks
 const infoLinks = getLinksByGroup('info')
-const termsLink = infoLinks.find(link => link.path.includes('/terms')) || { path: localePath('/terms') }
-const privacyLink = infoLinks.find(link => link.path.includes('/privacy')) || { path: localePath('/privacy') }
+const termsLink = infoLinks.find(link => link.path().includes('/terms')) || { path: () => localePath('/terms') }
+const privacyLink = infoLinks.find(link => link.path().includes('/privacy')) || { path: () => localePath('/privacy') }
 
 // Sample data for placeholder responses
 // TODO: replace with auth logic
