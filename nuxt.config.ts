@@ -28,10 +28,18 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
+    '@nuxtjs/strapi',
   ],
   css: [
     '@/assets/css/main.css',
     '@/assets/css/fonts/ibm-plex.css',
     '@/assets/css/fonts/29lt-zarid-text.css',
   ],
+
+  strapi: {
+    url: process.env.STRAPI_URL || 'http://localhost:1337',
+    token: process.env.STRAPI_TOKEN,
+    prefix: '/api',
+    version: 'v5',
+  },
 })
