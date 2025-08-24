@@ -1,5 +1,6 @@
 <template>
   <form class="w-full lg:max-w-3xl mx-auto" @submit.prevent>
+    <!-- Form header -->
     <div class="flex justify-start">
       <ui-button
         variant="ghost"
@@ -43,17 +44,23 @@
           </ui-button>
        </div>
       <div>
-        <ui-text-area
-          v-if="selectedMethod === 0"
-          :modal-label="$t('analyze.form.textInput')"
-          :placeholder="$t('analyze.form.textPlaceholder')"
-          :required="true"
-        />
-        <ui-file-input
-          v-else
-          :placeholder="$t('analyze.form.filePlaceholder')"
-          @error="(message) => onFileError(message)"
-        />
+        <UiXTransition :direction-value="selectedMethod">
+          <div v-if="selectedMethod === 0">
+            <ui-text-area
+              key="text-input"
+              :modal-label="$t('analyze.form.textInput')"
+              :placeholder="$t('analyze.form.textPlaceholder')"
+              :required="true"
+            />
+          </div>
+          <div v-else>
+            <ui-file-input
+              key="file-input"
+              :placeholder="$t('analyze.form.filePlaceholder')"
+              @error="(message) => onFileError(message)"
+            />
+          </div>
+        </UiXTransition>
       </div>
       <ui-button
         size="lg"
@@ -108,7 +115,8 @@ const onFileError = (msg: string) => {
   console.error("Error: ", msg)
 }
 </script>
-<style scoped lang="postcss">
+
+<style lang="postcss" scoped>
 .selected-method-style {
   @apply border border-b-0 border-colors-primary-light !rounded-t-md !bg-white scale-105 ms-[3px];
 }

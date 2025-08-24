@@ -12,8 +12,14 @@
           <Icon name="mdi:help-circle-outline" class="text-colors-primary" size="24" />
           <h2 class="text-lg font-IBMPlexSansArabic">{{ $t('analyze.help.title') }}</h2>
         </div>
-        <analyze-text-input-help v-if="currentMethod === 0" />
-        <analyze-file-upload-help v-else />
+        <UiXTransition :direction-value="currentMethod">
+          <div v-if="currentMethod === 0">
+            <analyze-text-input-help />
+          </div>
+          <div v-else>
+            <analyze-file-upload-help />
+          </div>
+        </UiXTransition>
       </div>
     </div>
   </div>
