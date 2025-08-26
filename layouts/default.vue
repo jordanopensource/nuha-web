@@ -5,11 +5,13 @@
   >
     <Body>
       <NuxtRouteAnnouncer />
-      <UiHeader />
-      <main id="main_app_container">
-        <NuxtPage class="container py-8" />
-      </main>
-      <UiFooter />
+      <div class="flex flex-col min-h-screen">
+        <UiHeader />
+        <main class="flex-1">
+          <NuxtPage class="container py-8" />
+        </main>
+        <UiFooter/>
+      </div>
     </Body>
   </Html>
 </template>
@@ -24,16 +26,7 @@
 </script>
 
 <style lang="postcss">
-body, #__nuxt, #main_app_container {
-  @apply h-screen bg-colors-neutral-background text-colors-neutral-foreground;
-}
-#main_app_container {
-  @apply h-full flex flex-col;
-}
-
-#__nuxt {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+body, #__nuxt {
+  @apply min-h-screen bg-colors-neutral-background text-colors-neutral-foreground;
 }
 </style>
