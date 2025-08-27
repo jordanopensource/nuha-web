@@ -30,6 +30,7 @@
           <Icon name="mdi:close" size="16" />
         </template>
       </UiButton>
+      <slot name="actions"/>
     </div>
   </div>
 </template>

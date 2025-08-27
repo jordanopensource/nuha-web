@@ -56,7 +56,7 @@
       </div>
       <div class="flex flex-col gap-4 col-span-1 md:hidden">
         <NuxtLink :to="$nuxt.$localePath('/')">
-          <img width="75" height="75" src="/logo.png" alt="Nuha logo" />
+          <img width="75" height="75" src="/logo.png" alt="Nuha logo">
         </NuxtLink>
         <div> 
           <h3 class="!font-normal">Nuha نهى</h3>

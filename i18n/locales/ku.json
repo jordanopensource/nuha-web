@@ -30,7 +30,9 @@
     "cancel": "Betal bike",
     "close": "Bigire",
     "expandText": "Berfireh bike",
-    "or": "an"
+    "or": "an",
+    "loading": "Tê barkirin...",
+    "retry": "Dîsa biceribîne"
   },
   "region": {
     "jordan": "Urdun",
@@ -94,5 +96,17 @@
       "emailError": "Şandina lînka sehrî bi ser neket. Ji kerema xwe dîsa biceribîne.",
       "githubError": "Têketina bi GitHub re bi ser neket. Ji kerema xwe dîsa biceribîne."
     }
+  },
+  "publications": {
+    "page": {
+      "title": "Weşan",
+      "subtitle": "Lêkolîn, razan û gotar ên nûtirîn ên me li ser ziman, teknolojî û bandora civakî bibînin."
+    },
+    "sections": {
+      "featured": "Taybetî",
+      "allPublications": "Hemû Weşan"
+    },
+    "noPublications": "Niha tu weşan amade nîne.",
+    "fetchError": "Weşan anîn nehat."
   }
 }

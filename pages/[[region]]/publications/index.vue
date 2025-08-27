@@ -16,13 +16,15 @@
     </div>
 
     <!-- Error State -->
-    <!-- TODO: i18n -->
-    <!-- TODO: use UiMessage component -->
     <div v-else-if="error" class="py-12">
-      <p class="text-red-600 mb-4">
-        Error: Failed to fetch publications. Please check if the API server is running.
-      </p>
-      <UiButton @click="refresh">{{ $t('misc.retry', 'Try Again') }}</UiButton>
+      <UiMessage
+        :message="$t('publications.fetchError')"
+        type="error"
+      >
+        <template #actions>
+          <UiButton size="sm" @click="refresh">{{ $t('misc.retry') }}</UiButton>
+        </template>
+      </UiMessage>
     </div>
 
     <!-- Content -->
@@ -32,6 +34,9 @@
         v-if="featuredPublications.length > 0"
         class="border-b border-colors-neutral-placeholder border-opacity-20 pb-8"
       >
+        <UiPageHeading
+          :title="$t('publications.sections.featured')"
+        />
         <div class="grid grid-cols-1 gap-6">
           <PublicationCard
             v-for="publication in featuredPublications"
@@ -48,6 +53,9 @@
 
       <!-- Regular Publications Grid -->
       <section v-if="regularPublications.length > 0" class="publications-grid">
+        <UiPageHeading
+          :title="$t('publications.sections.allPublications')"
+        />
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <PublicationCard
             v-for="publication in regularPublications"

@@ -30,7 +30,9 @@
     "cancel": "Cancel",
     "close": "Close",
     "expandText": "Expand Text Field",
-    "or": "or"
+    "or": "or",
+    "loading": "Loading...",
+    "retry": "Try Again"
   },
   "region": {
     "jordan": "Jordan",
@@ -94,5 +96,17 @@
       "emailError": "Failed to send magic link. Please try again.",
       "githubError": "Failed to login with GitHub. Please try again."
     }
+  },
+  "publications": {
+    "page": {
+      "title": "Publications",
+      "subtitle": "Explore our latest research, insights, and articles on language, technology, and social impact."
+    },
+    "sections": {
+      "featured": "Featured",
+      "allPublications": "All Publications"
+    },
+    "noPublications": "No publications available at the moment.",
+    "fetchError": "Failed to fetch publications."
   }
 }

@@ -30,7 +30,9 @@
     "cancel": "Annuler",
     "close": "Ferme",
     "expandText": "Agrandir le champ de texte",
-    "or": "ou"
+    "or": "ou",
+    "loading": "Chargement...",
+    "retry": "Réessayer"
   },
   "region": {
     "jordan": "Jordanie",
@@ -94,5 +96,17 @@
       "emailError": "Échec de l'envoi du lien magique. Veuillez réessayer.",
       "githubError": "Échec de la connexion avec GitHub. Veuillez réessayer."
     }
+  },
+  "publications": {
+    "page": {
+      "title": "Publications",
+      "subtitle": "Explorez nos dernières recherches, aperçus et articles sur la langue, la technologie et l'impact social."
+    },
+    "sections": {
+      "featured": "À la Une",
+      "allPublications": "Toutes les Publications"
+    },
+    "noPublications": "Aucune publication disponible pour le moment.",
+    "fetchError": "Échec de la récupération des publications."
   }
 }
