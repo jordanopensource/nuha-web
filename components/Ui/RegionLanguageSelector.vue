@@ -151,14 +151,14 @@ const currentSelectionText = computed(() => {
     currentLocale?.code === 'en' ?
       region.value.countryCode?.toLocaleUpperCase() :
       t(`region.${region.value.country?.toLowerCase()}`) :
-    'Unknown'
+    null
   
   if (props.mode === 'language') {
     return languageName
   } else if (props.mode === 'region') {
     return regionName
   } else {
-    return `${languageName} • ${regionName}`
+    return `${languageName}${regionName ? ' • ' + regionName : ''}`
   }
 })
 
