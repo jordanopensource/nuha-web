@@ -6,7 +6,7 @@
   >
     <div
       class="flex flex-col max-md:!flex"
-      :class="{ 'md:grid grid-cols-2 md:gap-4 items-start': featured }"
+      :class="{ 'md:grid grid-cols-2 xl:grid-cols-3 md:gap-4 items-start': featured }"
     >
       <div
         v-if="coverUrl"
@@ -20,8 +20,11 @@
         >
       </div>
       <div
-        class="p-4 flex flex-col gap-3"
-        :class="{'md:grid grid-cols-2 !w-full col-span-full': featured && !coverUrl}"
+        class="py-4 px-2 flex flex-col gap-3"
+        :class="{
+          'md:grid grid-cols-2 !w-full col-span-full': featured && !coverUrl,
+          'md:h-full': featured
+        }"
       >
         <h3 class="font-LTZarid font-semibold line-clamp-2">
           {{ title }}
@@ -29,13 +32,14 @@
         <p
           v-if="excerpt"
           class="font-LTZarid text-base text-colors-neutral-foreground line-clamp-3"
-          :class="{ 'line-clamp-5': featured }"
+          :class="{ 'line-clamp-6': featured }"
         >
           {{ excerpt }}
         </p>
         <span
           v-if="category"
           class="category transition-colors duration-200 w-max inline-block px-3 py-1 bg-colors-primary-light text-colors-neutral-foreground rounded-xl text-sm font-IBMPlexSansArabic self-start"
+          :class="{ 'md:mt-auto': featured }"
         >
           {{ category }}
         </span>
@@ -90,8 +94,8 @@ const coverUrl = computed(() => {
 
 <style lang="postcss" scoped>
 .publication-card {
-  @apply block bg-colors-neutral-background;
-  @apply rounded-md border border-colors-neutral-placeholder border-opacity-25;
+  @apply block bg-colors-neutral-background rounded-md;
+  @apply border border-colors-neutral-placeholder border-opacity-5;
   @apply hover:shadow-md transition-shadow duration-200;
   @apply hover:bg-colors-primary-light hover:text-colors-neutral-foreground transition-colors duration-200 hover:bg-opacity-50;
   @apply overflow-hidden;
