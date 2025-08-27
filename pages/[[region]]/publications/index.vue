@@ -73,55 +73,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { StrapiLocale } from '@nuxtjs/strapi';
-
-// Response types
-// TODO: move to a separate types file
-interface Publication {
-  id: number
-  documentId: string
-  title: string
-  createdAt: string
-  updatedAt: string
-  publishedAt: string
-  locale: string
-  slug: string
-  abstract: string | null
-  featured: boolean
-  body?: string
-  cover?: {
-    url: string
-    alt?: string
-    id: number
-    documentId: string
-    name: string
-    alternativeText: string | null
-    caption: string | null
-    width: number
-    height: number
-    formats: { thumbnail: object, small: object, medium: object }
-    hash: string
-    ext: string
-    mime: string
-    size: number
-    previewUrl: string | null
-    provider: string
-    createdAt: Date
-    updatedAt: Date
-    publishedAt: Date
-  }
-  category?: {
-    id: number
-    name: string
-    documentId: number
-    slug: string
-    description: string | null
-    locale: StrapiLocale
-    updatedAt: Date
-    publishedAt: Date
-  }
-  // TODO: region?
-}
+import type { StrapiLocale } from '@nuxtjs/strapi'
+import type { Publication } from '~/types/strapi'
 
 const { locale } = useI18n()
 const { find } = useStrapi()
@@ -141,8 +94,8 @@ const { data, pending, refresh, error } = useAsyncData(
     fields: ['title', 'abstract', 'slug', 'featured', 'createdAt', 'publishedAt'],
     sort: ['featured:desc', 'publishedAt:desc'],
     filters: {
-      // @ts-expect-error it just works!
       regions: {
+      // @ts-expect-error it just works!
         code: {
           $eq: region.value?.countryCode?.toLowerCase()
         }
