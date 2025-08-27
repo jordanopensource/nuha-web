@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="publicationLink"
+    :to="$localePath(publicationLink)"
     class="publication-card"
     :class="{ 'featured-card': featured }"
   >
@@ -66,12 +66,13 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const route = useRoute()
+const { region } = useGeolocation()
 
 const publicationLink = computed(() => {
   // Build the link using the current route's region parameter
-  const region = route.params.region as string
-  if (region) {
-    return `/${region}/publications/${props.slug}`
+  const pubRegion = route.params.region as string || region.value?.countryCode
+  if (pubRegion) {
+    return `/${pubRegion.toLowerCase()}/publications/${props.slug}`
   }
   return `/publications/${props.slug}`
 })
