@@ -102,7 +102,7 @@ const coverUrl = computed(() => {
 }
 
 .publication-card:hover {
-  @apply border-colors-primary border-opacity-25;
+  @apply border-colors-primary border-opacity-20;
   .category {
     @apply bg-colors-primary bg-opacity-10;
   }
