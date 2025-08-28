@@ -5,7 +5,7 @@
     :class="{ 'featured-card': featured }"
   >
     <div
-      class="flex flex-col max-md:!flex"
+      class="flex flex-col max-md:!flex h-full"
       :class="{ 'md:grid grid-cols-2 xl:grid-cols-3 md:gap-4 items-start': featured }"
     >
       <div
@@ -20,7 +20,7 @@
         >
       </div>
       <div
-        class="py-4 px-2 flex flex-col gap-3"
+        class="py-4 px-2 flex flex-col gap-3 my-auto"
         :class="{
           'md:grid grid-cols-2 !w-full col-span-full': featured && !coverUrl,
           'md:h-full': featured
