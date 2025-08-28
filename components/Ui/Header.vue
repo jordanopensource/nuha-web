@@ -7,7 +7,7 @@
         aria-label="home"
         @click="showMobileMenu = false"
       >
-        <img class="select-none" width="70" height="70" src="/logo.png" alt="Nuha logo">
+        <img class="select-none max-sm:w-14" width="70" height="70" src="/logo.png" alt="Nuha logo">
       </NuxtLink>
 
       <!-- Desktop list -->
@@ -63,7 +63,6 @@
         class="w-full flex flex-col transition-all gap-y-2.5 p-5 lg:!hidden"
         :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"
       >
-        <!-- FIXME: hide mobile menu when any button/link inside it is clicked -->
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
@@ -71,6 +70,7 @@
           variant="ghost"
           size="lg"
           class="!font-medium"
+          @click="showMobileMenu = false"
         >
           {{ link.title() }}
         </UiButton>
@@ -79,6 +79,7 @@
           :to="localePath('/login')"
           variant="primary"
           size="lg"
+          @click="showMobileMenu = false"
         >
           {{ $t('links.general.login') }}
         </UiButton>
