@@ -15,16 +15,13 @@
     </UiButton>
 
     <!-- Modal -->
-     <!-- TODO: make it instantly switch language once selected -->
     <UiModal
       v-model="showModal"
       :title="title || $t('settings.regionLanguage.title')"
       :action-button-text="$t('settings.regionLanguage.apply')"
       :cancel-button-text="$t('misc.cancel')"
       size="lg"
-      @action="applyChanges"
-      @close="resetSelections"
-      @cancel="resetSelections"
+      :show-footer="false"
     >
       <div class="space-y-6">
         <!-- Language Selection -->
@@ -40,10 +37,10 @@
               size="lg"
               class="border"
               :class="{
-                'border-colors-primary bg-colors-primary-light bg-opacity-20': selectedLanguage === l.code,
-                'border-colors-neutral-foreground border-opacity-20': selectedLanguage !== l.code
+                'border-colors-primary bg-colors-primary-light bg-opacity-20': locale === l.code,
+                'border-colors-neutral-foreground border-opacity-20': locale !== l.code
               }"
-              @click="selectedLanguage = l.code"
+              @click="updateLang(l.code)"
             >
               <div :class="l.dir === 'rtl' ? 'text-right' : 'text-left'">
                 <div class="font-medium font-IBMPlexSansArabic">{{ l.nativeName }}</div>
@@ -61,21 +58,21 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2">
             <UiButton
               v-for="r in supportedRegions"
-              :key="r.code"
+              :key="r.countryCode"
               variant="ghost"
               size="lg"
               class="!grid border region-btn"
               :class="{
-                'border-colors-primary bg-colors-primary-light bg-opacity-20': selectedRegion === r.code,
-                'border-colors-neutral-foreground border-opacity-20': selectedRegion !== r.code
+              'border-colors-primary bg-colors-primary-light bg-opacity-20': region?.countryCode === r.countryCode,
+              'border-colors-neutral-foreground border-opacity-20': region?.countryCode !== r.countryCode
               }"
-              @click="selectedRegion = r.code"
+              @click="updateRegion(r.countryCode)"
             >
               <template #icon>
-                <Icon class="col-start-1 row-start-1" :name="`flag:${r.code}-4x3`" size="20" />
+                <Icon class="col-start-1 row-start-1" :name="`flag:${r.countryCode}-4x3`" size="20" />
               </template>
               <div class="text-left col-start-2">
-                <div class="font-medium font-IBMPlexSansArabic">{{ $t(`region.${r.name?.toLowerCase()}`) }}</div>
+                <div class="font-medium font-IBMPlexSansArabic">{{ $t(`region.${r.countryCode?.toLowerCase()}`) }}</div>
               </div>
             </UiButton>
           </div>
@@ -102,6 +99,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Locale } from 'vue-i18n'
+
 interface Props {
   size?: 'sm' | 'md' | 'lg'
   /**
@@ -122,16 +121,10 @@ const props = withDefaults(defineProps<Props>(), {
   title: undefined
 })
 
-// Composables
 const { locale, locales, setLocale, t } = useI18n()
 const { region, supportedRegions, setRegion } = useGeolocation()
 
-// Modal state
 const showModal = ref(false)
-
-// Selection state
-const selectedLanguage = ref(locale.value)
-const selectedRegion = ref(region.value?.countryCode?.toLowerCase() || '')
 
 // Available locales with metadata
 const availableLocales = computed(() => {
@@ -143,66 +136,63 @@ const availableLocales = computed(() => {
   })).filter(Boolean)
 })
 
-// Current selection text for button
-const currentSelectionText = computed(() => {
-  const currentLocale = availableLocales.value.find(l => l.code === locale.value)
-  const languageName = currentLocale?.name || locale.value.toUpperCase()
-  const regionName = region.value?.country ?
-    currentLocale?.code === 'en' ?
-      region.value.countryCode?.toLocaleUpperCase() :
-      t(`region.${region.value.country?.toLowerCase()}`) :
-    null
-  
-  if (props.mode === 'language') {
-    return languageName
-  } else if (props.mode === 'region') {
-    return regionName
+const languageName = ref<string>('')
+const regionName = ref<string>('')
+
+// Watch for changes in language or region and update button name accordingly
+watch([locale, region], () => {
+  console.info("triggered!!!")
+  if (region.value?.countryCode) {
+    regionName.value = t(`region.${region.value.countryCode.toLowerCase()}`)
   } else {
-    return `${languageName}${regionName ? ' • ' + regionName : ''}`
+    regionName.value = ''
+  }
+  if (locale.value) {
+    languageName.value = availableLocales.value.find(l => l.code === locale.value)?.name || locale.value.toUpperCase()
+  } else {
+    languageName.value = ''
+  }
+}, { immediate: true })
+
+
+
+// Current selection text for button text
+const currentSelectionText = computed(() => {
+  if (props.mode === 'language') {
+    return languageName.value
+  } else if (props.mode === 'region') {
+    return regionName.value
+  } else {
+    return `${languageName.value}${regionName.value ? ' • ' + regionName.value : ''}`
   }
 })
 
-// Methods
-const applyChanges = async () => {
+const updateLang = async (lang: Locale) => {
   try {
-    // Update language
-    if (selectedLanguage.value !== locale.value) {
-      await setLocale(selectedLanguage.value)
+    if (lang && lang !== locale.value) {
+      await setLocale(lang)
     }
-    
-    // Update region
-    if (selectedRegion.value && selectedRegion.value !== region.value?.countryCode?.toLowerCase()) {
-      const newRegion = supportedRegions.find(r => r.code === selectedRegion.value)
+  } catch (err) {
+    console.error("Error applying language: ", err)
+  }
+  if (props.mode !== 'both')
+    showModal.value = false
+}
+
+const updateRegion = async (reg: string) => {
+  try {
+    if (reg && reg !== region.value?.countryCode?.toLowerCase()) {
+      const newRegion = supportedRegions.find(r => r.countryCode === reg)
       if (newRegion) {
-        setRegion({
-          status: 'success',
-          countryCode: newRegion.code.toUpperCase(),
-          country: newRegion.name
-        })
+        setRegion(newRegion)
       }
     }
-    
-    showModal.value = false
-  } catch (error) {
-    console.error('Error applying region/language changes:', error)
+  } catch (err) {
+    console.error("Error applying region: ", err)
   }
+  if (props.mode !== 'both')
+    showModal.value = false
 }
-
-const resetSelections = () => {
-  selectedLanguage.value = locale.value
-  selectedRegion.value = region.value?.countryCode?.toLowerCase() || ''
-}
-
-// Watch for external changes
-watch([locale, region], () => {
-  selectedLanguage.value = locale.value
-  selectedRegion.value = region.value?.countryCode?.toLowerCase() || ''
-})
-
-// Initialize selections
-onMounted(() => {
-  resetSelections()
-})
 </script>
 
 <style lang="postcss" scoped>

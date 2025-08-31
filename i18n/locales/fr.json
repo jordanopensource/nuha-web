@@ -35,10 +35,10 @@
     "retry": "Réessayer"
   },
   "region": {
-    "jordan": "Jordanie",
-    "egypt": "Égypte",
-    "tunisia": "Tunisie",
-    "iraq": "Irak"
+    "jo": "Jordanie",
+    "eg": "Égypte",
+    "tn": "Tunisie",
+    "iq": "Irak"
   },
   "analyze": {
     "page": {
@@ -107,6 +107,17 @@
       "allPublications": "Toutes les Publications"
     },
     "noPublications": "Aucune publication disponible pour le moment.",
-    "fetchError": "Échec de la récupération des publications."
+    "fetchError": "Échec de la récupération des publications.",
+    "single": {
+      "authors": "Auteurs :",
+      "tableOfContent": "Table des Matières",
+      "share": {
+        "copyUrl": "Copier le Lien",
+        "whatsapp": "Partager sur WhatsApp",
+        "twitter": "Partager sur Twitter"
+      },
+      "notFound": "Publication non trouvée.",
+      "backToPublications": "Retour aux Publications"
+    }
   }
 }

@@ -35,10 +35,10 @@
     "retry": "Try Again"
   },
   "region": {
-    "jordan": "Jordan",
-    "egypt": "Egypt", 
-    "tunisia": "Tunisia",
-    "iraq": "Iraq"
+    "jo": "Jordan",
+    "eg": "Egypt", 
+    "tn": "Tunisia",
+    "iq": "Iraq"
   },
   "analyze": {
     "page": {
@@ -107,6 +107,17 @@
       "allPublications": "All Publications"
     },
     "noPublications": "No publications available at the moment.",
-    "fetchError": "Failed to fetch publications."
+    "fetchError": "Failed to fetch publications.",
+    "single": {
+      "authors": "Authors:",
+      "tableOfContent": "Table of Content",
+      "share": {
+        "copyUrl": "Copy Link",
+        "whatsapp": "Share on WhatsApp",
+        "twitter": "Share on Twitter"
+      },
+      "notFound": "Publication not found.",
+      "backToPublications": "Back to Publications"
+    }
   }
 }

@@ -25,7 +25,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     // url param exists and is valid
     isRegionSet = setRegion({
       countryCode,
-      country: supportedRegions.find(r => r.code === countryCode)?.name
+      country: supportedRegions.find(r => r.countryCode === countryCode)?.country
     }).value?.countryCode === countryCode
 
     // region is set using the url param

@@ -35,10 +35,10 @@
     "retry": "Dîsa biceribîne"
   },
   "region": {
-    "jordan": "Urdun",
-    "egypt": "Misir", 
-    "tunisia": "Tûnis",
-    "iraq": "Iraq"
+    "jo": "Urdun",
+    "eg": "Misir", 
+    "tn": "Tûnis",
+    "iq": "Iraq"
   },
   "analyze": {
     "page": {
@@ -107,6 +107,17 @@
       "allPublications": "Hemû Weşan"
     },
     "noPublications": "Niha tu weşan amade nîne.",
-    "fetchError": "Weşan anîn nehat."
+    "fetchError": "Weşan anîn nehat.",
+    "single": {
+      "authors": "Nivîskar:",
+      "tableOfContent": "Tabloya Naverok",
+      "share": {
+        "copyUrl": "Lînkê Kopî Bike",
+        "whatsapp": "Li WhatsApp Parve Bike",
+        "twitter": "Li Twitter Parve Bike"
+      },
+      "notFound": "Weşan nehate dîtin.",
+      "backToPublications": "Vegere Weşanan"
+    }
   }
 }
