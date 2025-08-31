@@ -42,4 +42,9 @@ export default defineNuxtConfig({
     prefix: '/api',
     version: 'v5',
   },
+  icon: {
+    serverBundle: {
+      collections: ['mdi', 'flag']
+    }
+  }
 })
