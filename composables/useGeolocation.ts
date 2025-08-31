@@ -1,24 +1,26 @@
 // Based on this IP Lookup Service: https://ip-api.com/docs/api:json
 
 // TODO: only keep the important properties
-interface RegionData {
+export interface RegionData {
   status?: "success" | "fail"
   country?: string
-  countryCode?: string
+  countryCode: string
   region?: string
   regionName?: string
   city?: string
-  timezone?: string
+  timezone?: string,
+  language?: string,
+  aiModel?: string
 }
 
 export const useGeolocation = () => {
-  const supportedRegions = [
-    { code: 'jo', name: 'Jordan', language: 'ar', aiModel: 'nuha-jo' },
-    { code: 'eg', name: 'Egypt', language: 'ar', aiModel: 'nuha-eg' },
-    { code: 'tn', name: 'Tunisia', language: 'ar', aiModel: 'nuha-tn' },
-    { code: 'iq', name: 'Iraq', language: 'ar', aiModel: 'nuha-iq' },
+  const supportedRegions: RegionData[] = [
+    { countryCode: 'jo', country: 'Jordan', language: 'ar', aiModel: 'nuha-jo' },
+    { countryCode: 'eg', country: 'Egypt', language: 'ar', aiModel: 'nuha-eg' },
+    { countryCode: 'tn', country: 'Tunisia', language: 'ar', aiModel: 'nuha-tn' },
+    { countryCode: 'iq', country: 'Iraq', language: 'ar', aiModel: 'nuha-iq' },
   ];
-  const isRegionSupported = (code: string) => supportedRegions.some(r => r.code === code?.toLowerCase())
+  const isRegionSupported = (code: string) => supportedRegions.some(r => r.countryCode === code?.toLowerCase())
 
   const region = useState<RegionData | null>('userRegion', () => null)
 
@@ -47,7 +49,7 @@ export const useGeolocation = () => {
     if (regionExists) {
         region.value = {
         countryCode,
-        country: supportedRegions.find(r => r.code === countryCode)?.name
+        country: supportedRegions.find(r => r.countryCode === countryCode)?.country
       }
     } else {
       regionCookie.value = null // make sure to reset the cookie
