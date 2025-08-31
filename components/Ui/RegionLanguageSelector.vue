@@ -2,8 +2,8 @@
   <div>
     <!-- Trigger Button -->
     <UiButton
-      variant="ghost"
-      class="max-lg:w-full"
+      :variant="buttonVariant"
+      class="lang-btn max-lg:w-full"
       :class="$attrs.class"
       :size="size"
       @click="showModal = true"
@@ -113,12 +113,15 @@ interface Props {
    * Controls the modal title
    */
   title?: string
+  buttonVariant?: 'primary' | 'outline' | 'ghost'
+  // TODO: add prop to control whether to show flag in the button title or not
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'md',
   mode: 'both',
-  title: undefined
+  title: undefined,
+  buttonVariant: 'outline'
 })
 
 const { locale, locales, setLocale, t } = useI18n()

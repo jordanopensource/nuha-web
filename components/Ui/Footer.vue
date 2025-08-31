@@ -25,7 +25,7 @@
         >
           {{ link.title() }}
         </NuxtLink>
-        <UiRegionLanguageSelector size="md" class="!px-0 hover:underline" />
+        <UiRegionLanguageSelector size="md" class="!px-0 hover:underline" button-variant="ghost" />
       </nav>
       <div class="flex flex-col gap-4 max-md:gap-8 col-span-1">
         <nav class="flex flex-col gap-4 md:items-end">

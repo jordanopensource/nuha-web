@@ -26,6 +26,7 @@
           <ui-region-language-selector
             mode="region"
             :title="$t('analyze.form.regionTitle')"
+            button-variant="ghost"
           />
           <ui-button
             variant="ghost"
