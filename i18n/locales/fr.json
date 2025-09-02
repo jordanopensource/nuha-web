@@ -34,12 +34,6 @@
     "loading": "Chargement...",
     "retry": "Réessayer"
   },
-  "region": {
-    "jo": "Jordanie",
-    "eg": "Égypte",
-    "tn": "Tunisie",
-    "iq": "Irak"
-  },
   "analyze": {
     "page": {
       "title": "Analyser les Commentaires",

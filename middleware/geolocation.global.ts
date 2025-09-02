@@ -1,3 +1,5 @@
+import type { StrapiLocale } from "@nuxtjs/strapi";
+
 export default defineNuxtRouteMiddleware(async (to) => {
   // if (import.meta.client) return
   
@@ -10,6 +12,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     region,
   } = useGeolocation()
 
+  // region code in URL param has the priority over auto-detection
   const countryCode = (to.params.region as string)?.toLowerCase();
   let isRegionSet = false
   const regionSupported = isRegionSupported(countryCode)
@@ -23,21 +26,25 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
 
     // url param exists and is valid
-    isRegionSet = setRegion({
+    const dialectName = supportedRegions.value.find(
+      r => r.countryCode === countryCode
+    )?.dialectName as Record<StrapiLocale, string>
+
+    isRegionSet = (await setRegion({
       countryCode,
-      country: supportedRegions.find(r => r.countryCode === countryCode)?.country
-    }).value?.countryCode === countryCode
+      dialectName,
+    })).value?.countryCode === countryCode
 
     // region is set using the url param
     if (isRegionSet) return
   }
 
     // region is set using cookie
-    if (isRegionDetected.value && region.value?.countryCode) {
+    if (await isRegionDetected.value && region.value?.countryCode) {
       return
   }
 
-  // if no param and no stored region, auto-detect it
+  // if no param and no stored region, try to auto-detect it
   try {
     fetchRegion()
   } catch (error) {

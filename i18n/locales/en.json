@@ -34,12 +34,6 @@
     "loading": "Loading...",
     "retry": "Try Again"
   },
-  "region": {
-    "jo": "Jordan",
-    "eg": "Egypt", 
-    "tn": "Tunisia",
-    "iq": "Iraq"
-  },
   "analyze": {
     "page": {
       "title": "Analyze Comments",

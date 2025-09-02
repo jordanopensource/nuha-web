@@ -12,10 +12,10 @@ export default defineNuxtConfig({
       alwaysRedirect: true,
     },
     locales: [
-      { code: 'en', file: 'en.json', name: 'English', language: 'en' },
-      { code: 'ar', file: 'ar.json', name: 'العربية', dir: 'rtl', language: 'ar' },
-      { code: 'fr', file: 'fr.json', name: 'Français', language: 'fr' },
-      { code: 'ckb', file: 'ckb.json', name: 'کوردیی ناوەندی', language: 'ckb', dir: 'rtl' }
+      { code: 'en',  file: 'en.json',  name: 'English', language: 'en', nativeName: 'English' },
+      { code: 'ar',  file: 'ar.json',  name: 'Arabic', language: 'ar', dir: 'rtl', nativeName: 'العربية' },
+      { code: 'fr',  file: 'fr.json',  name: 'French', language: 'fr', nativeName: 'Français' },
+      { code: 'ckb', file: 'ckb.json', name: 'Central Kurdish', language: 'ckb', dir: 'rtl', nativeName: 'کوردیی ناوەندی' }
     ],
     defaultLocale: 'en',
     defaultDirection: "ltr",
@@ -44,7 +44,7 @@ export default defineNuxtConfig({
   },
   icon: {
     serverBundle: {
-      collections: ['mdi', 'flag']
+      collections: ['mdi', 'circle-flags']
     }
   }
 })

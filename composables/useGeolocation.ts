@@ -1,34 +1,95 @@
 // Based on this IP Lookup Service: https://ip-api.com/docs/api:json
 
+import type { StrapiLocale } from "@nuxtjs/strapi"
+import type { PublicationRegion } from "~/types/strapi"
+import countries from "i18n-iso-countries";
+
 // TODO: only keep the important properties
 export interface RegionData {
-  status?: "success" | "fail"
-  country?: string
+  /**
+   * Object where each key is a language code (ISO 639-1), and its value is
+   * the dialect name in that language
+   */
+  dialectName?: Record<StrapiLocale, string>
+  /**
+   * 3-letter country code (ISO 3166-1 alpha-3, e.g., EGY for Egypt).
+   */
   countryCode: string
-  region?: string
   regionName?: string
   city?: string
   timezone?: string,
-  language?: string,
-  aiModel?: string
+  aiModel?: string,
+  /**
+   * Name of the flag icon from https://icones.js.org/.
+   */
+  flagIcon?: string,
 }
 
 export const useGeolocation = () => {
-  const supportedRegions: RegionData[] = [
-    { countryCode: 'jo', country: 'Jordan', language: 'ar', aiModel: 'nuha-jo' },
-    { countryCode: 'eg', country: 'Egypt', language: 'ar', aiModel: 'nuha-eg' },
-    { countryCode: 'tn', country: 'Tunisia', language: 'ar', aiModel: 'nuha-tn' },
-    { countryCode: 'iq', country: 'Iraq', language: 'ar', aiModel: 'nuha-iq' },
-  ];
-  const isRegionSupported = (code: string) => supportedRegions.some(r => r.countryCode === code?.toLowerCase())
+  const supportedRegions = useState<RegionData[]>('supportedRegions', () => [])
+  const detectedRegion = useState<RegionData | null>('autoDetectedRegion', () => null )
+
+  const fetchSupportedRegions = async () => {
+    if (supportedRegions.value.length > 0) return supportedRegions.value
+
+    try {
+      // FIXME: handle paginations if the # of regions is more than 25
+      const { find } = useStrapi()
+      const response = await find<PublicationRegion>('regions', {
+        // @ts-expect-error this works!
+        locale: '*'
+      })
+      
+      // Group regions by documentId to collect all localized versions
+      const regionMap = new Map<string, PublicationRegion[]>()
+      response.data.forEach(region => {
+        if (!regionMap.has(region.documentId)) {
+          regionMap.set(region.documentId, [])
+        }
+        regionMap.get(region.documentId)!.push(region)
+      })
+
+      // Transform to RegionData format
+      supportedRegions.value = Array.from(regionMap.values()).map(regionLocales => {
+        const dialectName = {} as Record<StrapiLocale, string>
+        let countryCode = ''
+        let flagIcon = ''
+
+        regionLocales.forEach(region => {
+          dialectName[region.locale] = region.name
+          countryCode = region.code.toLowerCase()
+          if (region.flag_icon) flagIcon = region.flag_icon
+        })
+
+        return {
+          countryCode,
+          dialectName,
+          flagIcon
+        }
+      })
+
+      return supportedRegions.value
+    } catch (error) {
+      console.error('Failed to fetch supported regions:', error)
+      return []
+    }
+  }
+
+  const isRegionSupported = async (code: string) => {
+    await fetchSupportedRegions()
+    return supportedRegions.value.some(r => r.countryCode === code?.toLowerCase())
+  }
 
   const region = useState<RegionData | null>('userRegion', () => null)
 
   // 30 days cookie for country code
   const regionCookie = useCookie<string | null>('nuha_region', { maxAge: 60 * 60 * 24 * 30 })
 
-  const setRegion = (newRegion: RegionData | null) => {
-    if (newRegion?.countryCode && isRegionSupported(newRegion.countryCode)) {
+  const setRegion = async (newRegion: RegionData | null) => {
+    if (newRegion?.countryCode && await isRegionSupported(newRegion.countryCode)) {
+      if (!newRegion.dialectName) {
+        newRegion.dialectName = supportedRegions.value.find(r => r.countryCode === newRegion.countryCode)?.dialectName
+      }
       regionCookie.value = newRegion.countryCode.toLowerCase()
       region.value = newRegion
     } else {
@@ -40,16 +101,17 @@ export const useGeolocation = () => {
     return region
   }
 
-  const isRegionDetected = computed(() => {
+  const isRegionDetected = computed(async () => {
     // check whether a region is stored in a cookie or state and is valid
     const countryCode = (region.value?.countryCode || regionCookie?.value)?.toString()
-    const regionExists = countryCode && isRegionSupported(countryCode)
+    const regionExists = countryCode && await isRegionSupported(countryCode)
 
     // update the state if the region was found in a cookie after refresh
     if (regionExists) {
-        region.value = {
-        countryCode,
-        country: supportedRegions.find(r => r.countryCode === countryCode)?.country
+      await fetchSupportedRegions()
+      const foundRegion = supportedRegions.value.find(r => r.countryCode === countryCode)
+      if (foundRegion) {
+        region.value = foundRegion
       }
     } else {
       regionCookie.value = null // make sure to reset the cookie
@@ -58,14 +120,23 @@ export const useGeolocation = () => {
   })
   
   const fetchRegion = async () => {
-    if (isRegionDetected.value) return region.value
+    // if (await isRegionDetected.value) return region.value
 
     try {
       const res = await useFetch<RegionData>('/api/geolocation')
-      setRegion(res.data.value)
+      const detectedCountryCode = res.data.value?.countryCode
+      if (detectedCountryCode && countries.isValid(detectedCountryCode)) {
+        // convert from alpha2 code to alpha3 code
+        const countryCode = countries.alpha2ToAlpha3(detectedCountryCode) as string
+        detectedRegion.value = (await setRegion({
+          ...res.data.value,
+          countryCode,
+        })).value
+      }
     } catch (error) {
       console.error('Failed to fetch geo-location:', error)
-      setRegion(null)
+      await setRegion(null)
+      // detectedRegion.value = null
     }
     return region.value
   }
@@ -73,9 +144,11 @@ export const useGeolocation = () => {
   return {
     isRegionSupported,
     fetchRegion,
+    fetchSupportedRegions,
     setRegion,
     region: readonly(region),
     supportedRegions: readonly(supportedRegions),
     isRegionDetected,
+    detectedRegion,
   }
 }

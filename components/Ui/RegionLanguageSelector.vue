@@ -43,7 +43,9 @@
               @click="updateLang(l.code)"
             >
               <div :class="l.dir === 'rtl' ? 'text-right' : 'text-left'">
-                <div class="font-medium font-IBMPlexSansArabic">{{ l.nativeName }}</div>
+                <div class="font-medium font-IBMPlexSansArabic">
+                    {{ l.nativeName }}
+                </div>
                 <small>{{ l.name }}</small>
               </div>
             </UiButton>
@@ -56,25 +58,31 @@
             {{ $t('settings.regionLanguage.region') }}
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2">
-            <UiButton
+            <template
               v-for="r in supportedRegions"
               :key="r.countryCode"
-              variant="ghost"
-              size="lg"
-              class="!grid border region-btn"
-              :class="{
-              'border-colors-primary bg-colors-primary-light bg-opacity-20': region?.countryCode === r.countryCode,
-              'border-colors-neutral-foreground border-opacity-20': region?.countryCode !== r.countryCode
-              }"
-              @click="updateRegion(r.countryCode)"
             >
-              <template #icon>
-                <Icon class="col-start-1 row-start-1" :name="`flag:${r.countryCode}-4x3`" size="20" />
-              </template>
-              <div class="text-left col-start-2">
-                <div class="font-medium font-IBMPlexSansArabic">{{ $t(`region.${r.countryCode?.toLowerCase()}`) }}</div>
-              </div>
-            </UiButton>
+              <UiButton
+                v-if="r.dialectName && r.dialectName[locale]"
+                variant="ghost"
+                size="lg"
+                class="!grid border region-btn"
+                :class="{
+                'border-colors-primary bg-colors-primary-light bg-opacity-20': region?.countryCode === r.countryCode,
+                'border-colors-neutral-foreground border-opacity-20': region?.countryCode !== r.countryCode
+                }"
+                @click="updateRegion(r.countryCode)"
+              >
+                <template v-if="r.flagIcon" #icon>
+                  <Icon class="col-start-1 row-start-1" :name="r.flagIcon" size="20" />
+                </template>
+                <div class="text-left col-start-2">
+                  <div class="font-medium font-IBMPlexSansArabic">
+                    {{ r.dialectName[locale] }}
+                  </div>
+                </div>
+              </UiButton>
+            </template>
           </div>
         </div>
 
@@ -82,7 +90,7 @@
          <!-- FIXME: make it actually make a call to detect the language
                      rather than getting it from the cached value -->
         <div
-          v-if="region?.country && (mode === 'region' || mode === 'both')"
+          v-if="detectedRegion?.countryCode && (mode === 'region' || mode === 'both')"
           class="p-4 rounded-lg bg-colors-primary-light bg-opacity-10"
         >
           <div class="flex items-center gap-2 mb-2">
@@ -90,7 +98,7 @@
             <span class="text-sm font-medium">{{ $t('settings.regionLanguage.detectedLocation') }}</span>
           </div>
           <small class="ms-6">
-            {{ region.city ? `${region.city}, ` : ''}}{{ region.country }}
+            {{ detectedRegion.city ? `${detectedRegion.city}, ` : ''}}{{ detectedRegion?.countryCode }}
           </small>
         </div>
       </div>
@@ -124,19 +132,21 @@ const props = withDefaults(defineProps<Props>(), {
   buttonVariant: 'outline'
 })
 
-const { locale, locales, setLocale, t } = useI18n()
-const { region, supportedRegions, setRegion } = useGeolocation()
+const { locale, locales, setLocale } = useI18n()
+const { region, supportedRegions, setRegion, detectedRegion } = useGeolocation()
 
 const showModal = ref(false)
 
 // Available locales with metadata
 const availableLocales = computed(() => {
-  return (locales.value || []).map(l => ({
-    code: l.code,
-    name: l.name,
-    nativeName: l.name,
-    dir: l.dir
-  })).filter(Boolean)
+  return (locales.value || []).map(l => {
+    return {
+      code: l.code,
+      name: l.name,
+      dir: l.dir,
+      nativeName: l.nativeName // Native name from i18n custom config
+    }
+  }).filter(Boolean)
 })
 
 const languageName = ref<string>('')
@@ -145,13 +155,15 @@ const regionName = ref<string>('')
 // Watch for changes in language or region and update button name accordingly
 watch([locale, region], () => {
   console.info("triggered!!!")
-  if (region.value?.countryCode) {
-    regionName.value = t(`region.${region.value.countryCode.toLowerCase()}`)
+  if (region.value?.countryCode && region.value.dialectName) {
+    regionName.value = region.value.dialectName[locale.value]
   } else {
     regionName.value = ''
   }
   if (locale.value) {
-    languageName.value = availableLocales.value.find(l => l.code === locale.value)?.name || locale.value.toUpperCase()
+    languageName.value =
+      availableLocales.value.find(l => l.code === locale.value)?.nativeName as string
+      || locale.value.toUpperCase()
   } else {
     languageName.value = ''
   }
@@ -185,7 +197,7 @@ const updateLang = async (lang: Locale) => {
 const updateRegion = async (reg: string) => {
   try {
     if (reg && reg !== region.value?.countryCode?.toLowerCase()) {
-      const newRegion = supportedRegions.find(r => r.countryCode === reg)
+      const newRegion = supportedRegions.value.find(r => r.countryCode === reg)
       if (newRegion) {
         setRegion(newRegion)
       }
