@@ -15,7 +15,7 @@ export default defineNuxtConfig({
       { code: 'en', file: 'en.json', name: 'English', language: 'en' },
       { code: 'ar', file: 'ar.json', name: 'العربية', dir: 'rtl', language: 'ar' },
       { code: 'fr', file: 'fr.json', name: 'Français', language: 'fr' },
-      { code: 'ku', file: 'ku.json', name: 'Kurdî', language: 'ku' }
+      { code: 'ckb', file: 'ckb.json', name: 'کوردیی ناوەندی', language: 'ckb', dir: 'rtl' }
     ],
     defaultLocale: 'en',
     defaultDirection: "ltr",

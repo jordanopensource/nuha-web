@@ -1,0 +1,123 @@
+{
+  "links": {
+    "general": {
+      "login": "چوونەژوورەوە",
+      "publications": "بڵاوکراوەکان",
+      "analyze": "شیکردنەوە",
+      "about": "دەربارەی ئێمە"
+    },
+    "footer": {
+      "privacy": "سیاسەتی تایبەتێتی",
+      "terms": "مەرجەکانی بەکارهێنان",
+      "copyright": "کۆمەڵەی سەرچاوە کراوەی ئوردون (JOSA) © 2021—2025"
+    },
+    "social": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn", 
+      "instagram": "Instagram"
+    }
+  },
+  "settings": {
+    "regionLanguage": {
+      "title": "هەرێم و زمان",
+      "language": "زمان",
+      "region": "هەرێم",
+      "detectedLocation": "شوێنی دەستنیشانکراو",
+      "apply": "جێبەجێکردنی گۆڕانکارییەکان"
+    }
+  },
+  "misc": {
+    "cancel": "هەڵوەشاندنەوە",
+    "close": "داخستن",
+    "expandText": "فراوانکردن",
+    "or": "یان",
+    "loading": "بارکردن...",
+    "retry": "دووبارە هەوڵدانەوە"
+  },
+  "region": {
+    "jor": "ئوردون",
+    "egy": "میسر", 
+    "tun": "تونس",
+    "irq": "عێراق"
+  },
+  "analyze": {
+    "page": {
+      "title": "شیکردنەوەی بۆچوونەکان",
+      "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+    },
+    "form": {
+      "textInput": "تێخستنی دەق",
+      "fileUpload": "بارکردنی فایل",
+      "regionTitle": "هەرێم بۆ مۆدێلی AI",
+      "help": "یارمەتی",
+      "textPlaceholder": "دەق زیادبکە",
+      "filePlaceholder": "فایل باربکە یان ڕایکێشە"
+    },
+    "help": {
+      "title": "یارمەتی فۆرمی تێخستن",
+      "textInput": {
+        "title": "فۆرمی تێخستنی دەق",
+        "structure": "پێکهاتەی دەق:",
+        "structure-subtitle": "خانەکانی نیشانکراو بە * پێویستن.",
+        "sampleText": "بۆچوون*, پلاتفۆرم، بەروار\nبۆچوون*, پلاتفۆرم، بەروار\n...",
+        "tips": "ئامۆژگارییەکان:",
+        "tip1": "زمانێکی ڕوون و سروشتی بەکاربهێنە",
+        "tip2": "دەقی درێژتر ئەنجامی باشتری شیکردنەوە دەدات",
+        "tip3": "شێوەزارە جیاوازەکان لە هەمان دەقدا دەکرێت کاریگەری لە وردی بکات"
+      },
+      "fileUpload": {
+        "title": "مەرجەکانی بارکردنی فایل",
+        "supportedTypes": "جۆرەکانی فایلی پشتگیریکراو:",
+        "textFile": "فایلەکانی دەقی ساکار",
+        "excelFile": "فایلەکانی MS Excel",
+        "jsonFile": "JSON",
+        "csvFile": "نرخەکانی جیاکراوە بە کۆما",
+        "requirements": "مەرجەکانی فایل:",
+        "maxSize": "گەورەترین قەبارەی فایل: 10MB",
+        "encoding": "کۆدکردنی دەق: UTF-8 باشترە",
+        "content": "فایل دەبێت دەقی عەرەبی خوێندراوی تێدابێت"
+      }
+    }
+  },
+  "login": {
+    "title": "چوونەژوورەوەی Nuha",
+    "emailLabel": "ناونیشانی ئیمەیل",
+    "emailPlaceholder": "ناونیشانی ئیمەیلت بنووسە",
+    "emailButton": "بە ئیمەیل بەردەوامبوون",
+    "emailDescription": "ئێمە بەستەرێکی چوونەژوورەوەی جادووگەرانە بۆت بە ئیمەیل دەنێرین. پێویستی بە تێپەڕوشە نییە.",
+    "githubButton": "بە GitHub بەردەوامبوون",
+    "termsText": "بە چوونەژوورەوەت ڕازی دەبیت بە {termsLink} و {privacyLink} ی ئێمە",
+    "termsLink": "مەرجەکانی بەکارهێنان",
+    "privacyLink": "سیاسەتی تایبەتێتی",
+    "messages": {
+      "emailSent": "بەستەری جادووگەرانە نێردرا بۆ {email}! تکایە ئیمەیلەکەت بپشکنە بۆ تەواوکردنی چوونەژوورەوە.",
+      "githubSuccess": "چوونەژوورەوەی GitHub بە سەرکەوتوویی تەواوبوو! ئاراستەکردن...",
+      "invalidEmail": "تکایە ناونیشانی ئیمەیلێکی دروست بنووسە.",
+      "emailError": "ناردنی بەستەری جادووگەرانە سەرکەوتوو نەبوو. تکایە دووبارە هەوڵبدەوە.",
+      "githubError": "چوونەژوورەوە بە GitHub سەرکەوتوو نەبوو. تکایە دووبارە هەوڵبدەوە."
+    }
+  },
+  "publications": {
+    "page": {
+      "title": "بڵاوکراوەکان",
+      "subtitle": "نوێترین توێژینەوە، وتار و بابەتەکانمان لەسەر زمان، تەکنەلۆژیا و کاریگەری کۆمەڵایەتی ببینە."
+    },
+    "sections": {
+      "featured": "تایبەت",
+      "allPublications": "هەموو بڵاوکراوەکان"
+    },
+    "noPublications": "ئێستا هیچ بڵاوکراوەیەک ئامادە نییە.",
+    "fetchError": "هێنانی بڵاوکراوەکان سەرکەوتوو نەبوو.",
+    "single": {
+      "authors": "نووسەرەکان:",
+      "tableOfContent": "خشتەی ناوەڕۆک",
+      "share": {
+        "copyUrl": "بەستەر کۆپی بکە",
+        "whatsapp": "لە WhatsApp دابەش بکە",
+        "twitter": "لە Twitter دابەش بکە"
+      },
+      "notFound": "بڵاوکراوە نەدۆزرایەوە.",
+      "backToPublications": "گەڕانەوە بۆ بڵاوکراوەکان"
+    }
+  }
+}
