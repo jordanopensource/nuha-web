@@ -8,10 +8,11 @@
       :size="size"
       @click="showModal = true"
     >
-      <template #icon>
-        <Icon name="mdi:earth" size="20" />
+      <template v-if="buttonContent !== 'text'" #icon>
+        <Icon v-if="showFlagInButton && currentRegionFlag" :name="currentRegionFlag" size="20" />
+        <Icon v-else name="mdi:earth" size="20" />
       </template>
-      {{ currentSelectionText }}
+      <span v-if="buttonContent !== 'icon'">{{ currentSelectionText }}</span>
     </UiButton>
 
     <!-- Modal -->
@@ -66,10 +67,9 @@
                 v-if="r.dialectName && r.dialectName[locale]"
                 variant="ghost"
                 size="lg"
-                class="!grid border region-btn"
+                class="!grid border region-btn border-colors-neutral-foreground border-opacity-20"
                 :class="{
-                'border-colors-primary bg-colors-primary-light bg-opacity-20': region?.countryCode === r.countryCode,
-                'border-colors-neutral-foreground border-opacity-20': region?.countryCode !== r.countryCode
+                '!border-colors-primary !bg-colors-primary-light !bg-opacity-20': region?.countryCode === r.countryCode || detectedRegion?.countryCode === r.countryCode,
                 }"
                 @click="updateRegion(r.countryCode)"
               >
@@ -85,10 +85,7 @@
             </template>
           </div>
         </div>
-
-        <!-- Current Detection Info -->
-         <!-- FIXME: make it actually make a call to detect the language
-                     rather than getting it from the cached value -->
+        <!-- Detected region -->
         <div
           v-if="detectedRegion?.countryCode && (mode === 'region' || mode === 'both')"
           class="p-4 rounded-lg bg-colors-primary-light bg-opacity-10"
@@ -122,14 +119,27 @@ interface Props {
    */
   title?: string
   buttonVariant?: 'primary' | 'outline' | 'ghost'
-  // TODO: add prop to control whether to show flag in the button title or not
+  
+  /**
+   * Controls whether to show flag in the button title instead of region name
+   * @default false
+   */
+  showFlagInButton?: boolean
+  
+  /**
+   * Controls what to show in the button
+   * @default 'both'
+   */
+  buttonContent?: 'icon' | 'text' | 'both'
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'md',
   mode: 'both',
   title: undefined,
-  buttonVariant: 'outline'
+  buttonVariant: 'outline',
+  showFlagInButton: false,
+  buttonContent: 'both'
 })
 
 const { locale, locales, setLocale } = useI18n()
@@ -153,8 +163,7 @@ const languageName = ref<string>('')
 const regionName = ref<string>('')
 
 // Watch for changes in language or region and update button name accordingly
-watch([locale, region], () => {
-  console.info("triggered!!!")
+watch([locale, region, detectedRegion], () => {
   if (region.value?.countryCode && region.value.dialectName) {
     regionName.value = region.value.dialectName[locale.value]
   } else {
@@ -169,16 +178,20 @@ watch([locale, region], () => {
   }
 }, { immediate: true })
 
-
+// Current region flag for button
+const currentRegionFlag = computed(() => region.value?.flagIcon || null)
 
 // Current selection text for button text
 const currentSelectionText = computed(() => {
   if (props.mode === 'language') {
     return languageName.value
   } else if (props.mode === 'region') {
-    return regionName.value
+    // If showFlagInButton is true and we have a flag, don't show region name as it's shown as icon
+    return props.showFlagInButton && currentRegionFlag.value ? '' : regionName.value
   } else {
-    return `${languageName.value}${regionName.value ? ' • ' + regionName.value : ''}`
+    const langText = languageName.value
+    const regText = props.showFlagInButton && currentRegionFlag.value ? '' : regionName.value
+    return regText ? `${langText} • ${regText}` : langText
   }
 })
 

@@ -4,7 +4,6 @@ import type { StrapiLocale } from "@nuxtjs/strapi"
 import type { PublicationRegion } from "~/types/strapi"
 import countries from "i18n-iso-countries";
 
-// TODO: only keep the important properties
 export interface RegionData {
   /**
    * Object where each key is a language code (ISO 639-1), and its value is
@@ -132,6 +131,7 @@ export const useGeolocation = () => {
           ...res.data.value,
           countryCode,
         })).value
+        await setRegion(detectedRegion.value)
       }
     } catch (error) {
       console.error('Failed to fetch geo-location:', error)

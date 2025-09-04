@@ -44,11 +44,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
       return
   }
 
-  // if no param and no stored region, try to auto-detect it
-  try {
-    fetchRegion()
-  } catch (error) {
-    console.error('Failed to fetch geo-location data:', error)
+  // if no param and no stored region, try to auto-detect it (client-side only, non-blocking)
+  if (import.meta.client) {
+    setTimeout(() => {
+      fetchRegion()
+    }, 100)
   }
   // TODO: show region selector pop-up if auto-detection fails
 
