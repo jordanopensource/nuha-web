@@ -23,116 +23,200 @@
     </div>
 
     <!-- Publication Content -->
-    <article v-else-if="publication" class="w-full space-y-6">
-      <!-- Category and Region Row -->
-      <div class="flex justify-start max-w-lg mx-auto">
-        <div class="flex gap-2 flex-wrap">
-          <span v-if="publication.category" class="chip">
-            {{ publication.category.name }}
-          </span>
-          <template
-            v-if="publication.regions && publication.regions.length > 0"
-          >
-          <!-- TODO: improve styling of the region chip -->
-            <span
-              v-for="r in publication.regions"
-              :key="r.code"
-              class="chip !bg-colors-neutral-placeholder !bg-opacity-20"
+    <article v-else-if="publication" class="w-full grid gap-8 grid-cols-4 max-md:grid-cols-1">
+      <!-- Side bar on large screen -->
+      <div class="max-md:hidden">
+        <div class="sticky top-0 flex flex-col gap-8 py-2">
+          <!-- Category and Region Row -->
+          <div class="flex justify-start items-center">
+            <div class="flex gap-2 flex-wrap">
+              <span v-if="publication.category" class="chip">
+                {{ publication.category.name }}
+              </span>
+              <template
+                v-if="publication.regions && publication.regions.length > 0"
+              >
+              <!-- TODO: improve styling of the region chip -->
+                <span
+                  v-for="r in publication.regions"
+                  :key="r.code"
+                  class="chip !bg-colors-neutral-placeholder !bg-opacity-10"
+                >
+                {{ r.name }}
+              </span>
+              </template>
+            </div>
+          </div>
+          <!-- Side Table of Content -->
+          <PublicationToC
+            class="border border-colors-neutral-placeholder border-opacity-20 rounded-md p-4"
+            :body="processedBody"
+          />
+  
+          <!-- Authors and Meta Row -->
+          <div class="authors-meta-row !flex-col !items-start">
+            <small
+              v-if="publication.authors && publication.authors.length > 0"
+              class="font-IBMPlexSansArabic text-colors-neutral-foreground flex-1"
             >
-              {{ r.name }}
-            </span>
-          </template>
-        </div>
-      </div>
-
-      <!-- Title -->
-      <h1 class="max-w-lg mx-auto font-LTZarid">
-        {{ publication.title }}
-      </h1>
-
-      <!-- Abstract -->
-      <div
-        v-if="publication.abstract"
-        class="publication-abstract font-LTZarid text-lg text-colors-neutral-foreground leading-relaxed max-w-lg mx-auto"
-      >
-        <p>{{ publication.abstract }}</p>
-      </div>
-
-      <!-- Cover Image -->
-      <div v-if="coverUrl" class="w-full mx-auto">
-        <img 
-          :src="coverUrl" 
-          :alt="publication.cover?.alternativeText || publication.title"
-          class="w-full max-w-2xl mx-auto h-auto max-h-[30rem] rounded-md shadow-sm object-cover"
-        >
-      </div>
-
-      <!-- Authors and Meta Row -->
-      <div class="authors-meta-row max-w-lg mx-auto">
-        <div class="flex-1">
-          <small
-            v-if="publication.authors && publication.authors.length > 0"
-            class="font-IBMPlexSansArabic text-colors-neutral-foreground"
-          >
-            {{ $t('publications.single.authors') }} 
-            {{ publication.authors.map(author => author.name).join(', ') }}
-          </small>
-        </div>
-        
-        <div class="flex gap-2 items-center">
-          <!-- TODO: 18n -->
-          <small title="Last Updated">
-            {{ formatDate(publication.updatedAt) }}
-          </small>
-          <div class="flex gap-1">
-            <!-- TODO: show a success/fail message/icon once copied -->
-            <UiButton
-              variant="ghost"
-              size="sm"
-              :title="$t('publications.single.share.copyUrl')"
-              :aria-label="$t('publications.single.share.copyUrl')"
-              class="!px-1 aspect-square"
-              @click="copyUrl"
-            >
-              <Icon name="mdi:link" size="24"  />
-            </UiButton>
-            <UiButton
-              variant="ghost"
-              size="sm"
-              :title="$t('publications.single.share.whatsapp')"
-              :aria-label="$t('publications.single.share.whatsapp')"
-              class="!px-1 aspect-square"
-              @click="shareOnWhatsApp"
-            >
-              <Icon name="mdi:whatsapp" size="24"  />
-            </UiButton>
-            <UiButton
-              variant="ghost"
-              size="sm"
-              :title="$t('publications.single.share.twitter')"
-              :aria-label="$t('publications.single.share.twitter')"
-              class="!px-1 aspect-square"
-              @click="shareOnTwitter"
-            >
-              <Icon name="mdi:twitter" size="24"  />
-            </UiButton>
+              {{ $t('publications.single.authors') }} 
+              {{ publication.authors.map(author => author.name).join(', ') }}
+            </small>
+            
+            <div class="flex flex-wrap gap-2 items-center">
+              <!-- TODO: 18n -->
+              <small title="Last Updated">
+                {{ formatDate(publication.updatedAt) }}
+              </small>
+              <div class="flex gap-1">
+                <!-- TODO: show a success/fail message/icon once copied -->
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  :title="$t('publications.single.share.copyUrl')"
+                  :aria-label="$t('publications.single.share.copyUrl')"
+                  class="!px-1 aspect-square"
+                  @click="copyUrl"
+                >
+                  <Icon name="mdi:link" size="24"  />
+                </UiButton>
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  :title="$t('publications.single.share.whatsapp')"
+                  :aria-label="$t('publications.single.share.whatsapp')"
+                  class="!px-1 aspect-square"
+                  @click="shareOnWhatsApp"
+                >
+                  <Icon name="mdi:whatsapp" size="24"  />
+                </UiButton>
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  :title="$t('publications.single.share.twitter')"
+                  :aria-label="$t('publications.single.share.twitter')"
+                  class="!px-1 aspect-square"
+                  @click="shareOnTwitter"
+                >
+                  <Icon name="mdi:twitter" size="24"  />
+                </UiButton>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Table of Content -->
-      <div class="border-b border-colors-neutral-placeholder border-opacity-20 px-2 pb-4 max-w-lg mx-auto">
-        <h4 class="font-semibold mb-2">{{ $t('publications.single.tableOfContent') }}</h4>
-        <!-- TODO: Table of Content parsing logic — a separate component -->
-      </div>
+      <div class="col-start-2 col-span-3">
+        <!-- Category and Region Row -->
+        <div class="flex justify-start max-w-lg mx-auto md:hidden">
+          <div class="flex gap-2 flex-wrap">
+            <span v-if="publication.category" class="chip">
+              {{ publication.category.name }}
+            </span>
+            <template
+              v-if="publication.regions && publication.regions.length > 0"
+            >
+            <!-- TODO: improve styling of the region chip -->
+              <span
+                v-for="r in publication.regions"
+                :key="r.code"
+                class="chip !bg-colors-neutral-placeholder !bg-opacity-10"
+              >
+                {{ r.name }}
+              </span>
+            </template>
+          </div>
+        </div>
+  
+        <!-- Title -->
+        <h1 class="max-w-lg mx-auto font-LTZarid">
+          {{ publication.title }}
+        </h1>
+  
+        <!-- Abstract -->
+        <div
+          v-if="publication.abstract"
+          class="publication-abstract font-LTZarid text-lg text-colors-neutral-foreground leading-relaxed max-w-lg mx-auto"
+        >
+          <p>{{ publication.abstract }}</p>
+        </div>
 
-      <!-- Publication Body -->
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <p
-        v-if="publication.body"
-        class="publication-body font-LTZarid text-base text-pretty text-colors-neutral-foreground leading-relaxed max-w-lg mx-auto"
-        v-html="publication.body"
-      />
+        <!-- Cover Image -->
+        <div v-if="coverUrl" class="w-full mx-auto">
+          <img 
+            :src="coverUrl" 
+            :alt="publication.cover?.alternativeText || publication.title"
+            class="w-full max-w-2xl mx-auto h-auto max-h-[30rem] rounded-md shadow-sm object-cover"
+          >
+        </div>
+  
+        <!-- Authors and Meta Row -->
+        <div class="authors-meta-row max-w-lg mx-auto md:!hidden">
+          <small
+            v-if="publication.authors && publication.authors.length > 0"
+            class="font-IBMPlexSansArabic text-colors-neutral-foreground flex-1"
+          >
+            {{ $t('publications.single.authors') }} 
+            {{ publication.authors.map(author => author.name).join(', ') }}
+          </small>
+          
+          <div class="flex gap-2 items-center">
+            <!-- TODO: i18n -->
+            <small title="Last Updated">
+              {{ formatDate(publication.updatedAt) }}
+            </small>
+            <div class="flex gap-1">
+              <!-- TODO: show a success/fail message/icon once copied -->
+              <UiButton
+                variant="ghost"
+                size="sm"
+                :title="$t('publications.single.share.copyUrl')"
+                :aria-label="$t('publications.single.share.copyUrl')"
+                class="!px-1 aspect-square"
+                @click="copyUrl"
+              >
+                <Icon name="mdi:link" size="24"  />
+              </UiButton>
+              <UiButton
+                variant="ghost"
+                size="sm"
+                :title="$t('publications.single.share.whatsapp')"
+                :aria-label="$t('publications.single.share.whatsapp')"
+                class="!px-1 aspect-square"
+                @click="shareOnWhatsApp"
+              >
+                <Icon name="mdi:whatsapp" size="24"  />
+              </UiButton>
+              <UiButton
+                variant="ghost"
+                size="sm"
+                :title="$t('publications.single.share.twitter')"
+                :aria-label="$t('publications.single.share.twitter')"
+                class="!px-1 aspect-square"
+                @click="shareOnTwitter"
+              >
+                <Icon name="mdi:twitter" size="24"  />
+              </UiButton>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Table of Content -->
+        <div class="md:hidden px-2 max-w-lg mx-auto">
+          <PublicationToC
+            class="border border-colors-neutral-placeholder border-opacity-20 rounded-md p-4"
+            :body="processedBody"
+          />
+        </div>
+  
+        <!-- Publication Body -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <p
+          v-if="publication.body"
+          class="publication-body font-LTZarid text-base text-pretty text-colors-neutral-foreground leading-relaxed max-w-lg mx-auto"
+          v-html="processedBody"
+        />
+      </div>
     </article>
   </div>
 </template>
@@ -141,6 +225,7 @@
 import type { StrapiLocale } from '@nuxtjs/strapi'
 import type { Publication } from '~/types/strapi'
 
+const { addHeadingIds } = usePublications()
 const { locale } = useI18n()
 const { find } = useStrapi()
 const route = useRoute()
@@ -179,6 +264,7 @@ const { data, pending, error } = useAsyncData(
 )
 
 const publication = computed(() => data.value?.data?.[0])
+const processedBody = computed(() => addHeadingIds(publication.value?.body))
 
 // URL for back to publications
 // TODO: add back button
@@ -285,8 +371,7 @@ useHead(() => ({
 
 /* Authors and Meta Row */
 .authors-meta-row {
-  @apply flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4;
-  @apply border-b border-colors-neutral-placeholder border-opacity-20 pb-4;
+  @apply flex flex-col flex-wrap lg:flex-row lg:justify-between lg:items-center gap-4 my-4;
 }
 
 .authors {
