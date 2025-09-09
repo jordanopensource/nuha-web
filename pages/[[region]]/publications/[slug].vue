@@ -26,10 +26,11 @@
     <article v-else-if="publication" class="w-full grid gap-8 grid-cols-4 max-md:grid-cols-1">
       <!-- Side bar on large screen -->
       <div class="max-md:hidden">
-        <div class="sticky top-0 flex flex-col gap-8 py-2">
+        <div class="sticky top-0 flex flex-col gap-4 py-2">
           <PublicationCategoriesRow
             :category="publication.category"
             :regions="publication.regions"
+            class="mt-1"
           />
           
           <!-- Side Table of Content -->
@@ -283,19 +284,6 @@ useHead(() => ({
 @media (max-width: 768px) {
   .publication-title {
     @apply text-h1-m;
-  }
-}
-
-.loader {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
 </style>

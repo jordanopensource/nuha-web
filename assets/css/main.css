@@ -4,6 +4,13 @@
 @tailwind utilities;
 
 
+::selection {
+  @apply bg-colors-primary-light text-colors-primary-active;
+}
+html, div {
+  scroll-behavior: smooth;
+}
+
 .loader {
   animation: spin 1s linear infinite;
 }
