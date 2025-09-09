@@ -105,6 +105,7 @@
     "single": {
       "authors": "Authors:",
       "tableOfContent": "Table of Content",
+      "lastUpdated": "Last Updated",
       "share": {
         "copyUrl": "Copy Link",
         "whatsapp": "Share on WhatsApp",

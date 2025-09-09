@@ -105,6 +105,7 @@
     "single": {
       "authors": "Auteurs :",
       "tableOfContent": "Table des Matières",
+      "lastUpdated": "Dernière mise à jour",
       "share": {
         "copyUrl": "Copier le Lien",
         "whatsapp": "Partager sur WhatsApp",
