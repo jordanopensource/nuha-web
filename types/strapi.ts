@@ -15,6 +15,7 @@ export interface Publication {
   cover?: PublicationCover
   category?: PublicationCategory
   regions?: PublicationRegion[]
+  authors?: PublicationAuthor[]
 }
 
 export interface PublicationCover {
@@ -60,6 +61,19 @@ export interface PublicationRegion {
   code: string
   name: string
   flag_icon: string | null
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  locale: StrapiLocale
+}
+
+export interface PublicationAuthor {
+  id: number
+  documentId: string
+  name: string
+  email?: string
+  bio?: string | null
+  avatar?: PublicationCover
   createdAt: string
   updatedAt: string
   publishedAt: string

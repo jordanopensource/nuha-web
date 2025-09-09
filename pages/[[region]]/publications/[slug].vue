@@ -27,26 +27,11 @@
       <!-- Side bar on large screen -->
       <div class="max-md:hidden">
         <div class="sticky top-0 flex flex-col gap-8 py-2">
-          <!-- Category and Region Row -->
-          <div class="flex justify-start items-center">
-            <div class="flex gap-2 flex-wrap">
-              <span v-if="publication.category" class="chip">
-                {{ publication.category.name }}
-              </span>
-              <template
-                v-if="publication.regions && publication.regions.length > 0"
-              >
-              <!-- TODO: improve styling of the region chip -->
-                <span
-                  v-for="r in publication.regions"
-                  :key="r.code"
-                  class="chip !bg-colors-neutral-placeholder !bg-opacity-10"
-                >
-                {{ r.name }}
-              </span>
-              </template>
-            </div>
-          </div>
+          <PublicationCategoriesRow
+            :category="publication.category"
+            :regions="publication.regions"
+          />
+          
           <!-- Side Table of Content -->
           <PublicationToC
             class="border border-colors-neutral-placeholder border-opacity-20 rounded-md p-4"
@@ -54,79 +39,22 @@
           />
   
           <!-- Authors and Meta Row -->
-          <div class="authors-meta-row !flex-col !items-start">
-            <small
-              v-if="publication.authors && publication.authors.length > 0"
-              class="font-IBMPlexSansArabic text-colors-neutral-foreground flex-1"
-            >
-              {{ $t('publications.single.authors') }} 
-              {{ publication.authors.map(author => author.name).join(', ') }}
-            </small>
-            
-            <div class="flex flex-wrap gap-2 items-center">
-              <!-- TODO: 18n -->
-              <small title="Last Updated">
-                {{ formatDate(publication.updatedAt) }}
-              </small>
-              <div class="flex gap-1">
-                <!-- TODO: show a success/fail message/icon once copied -->
-                <UiButton
-                  variant="ghost"
-                  size="sm"
-                  :title="$t('publications.single.share.copyUrl')"
-                  :aria-label="$t('publications.single.share.copyUrl')"
-                  class="!px-1 aspect-square"
-                  @click="copyUrl"
-                >
-                  <Icon name="mdi:link" size="24"  />
-                </UiButton>
-                <UiButton
-                  variant="ghost"
-                  size="sm"
-                  :title="$t('publications.single.share.whatsapp')"
-                  :aria-label="$t('publications.single.share.whatsapp')"
-                  class="!px-1 aspect-square"
-                  @click="shareOnWhatsApp"
-                >
-                  <Icon name="mdi:whatsapp" size="24"  />
-                </UiButton>
-                <UiButton
-                  variant="ghost"
-                  size="sm"
-                  :title="$t('publications.single.share.twitter')"
-                  :aria-label="$t('publications.single.share.twitter')"
-                  class="!px-1 aspect-square"
-                  @click="shareOnTwitter"
-                >
-                  <Icon name="mdi:twitter" size="24"  />
-                </UiButton>
-              </div>
-            </div>
-          </div>
+          <PublicationMetaRow
+            class="!flex-col !items-start"
+            :authors="publication.authors"
+            :updated-at="publication.updatedAt"
+            :url="currentUrl"
+            :title="publication.title"
+          />
         </div>
       </div>
 
       <div class="col-start-2 col-span-3">
-        <!-- Category and Region Row -->
-        <div class="flex justify-start max-w-lg mx-auto md:hidden">
-          <div class="flex gap-2 flex-wrap">
-            <span v-if="publication.category" class="chip">
-              {{ publication.category.name }}
-            </span>
-            <template
-              v-if="publication.regions && publication.regions.length > 0"
-            >
-            <!-- TODO: improve styling of the region chip -->
-              <span
-                v-for="r in publication.regions"
-                :key="r.code"
-                class="chip !bg-colors-neutral-placeholder !bg-opacity-10"
-              >
-                {{ r.name }}
-              </span>
-            </template>
-          </div>
-        </div>
+        <PublicationCategoriesRow
+          :category="publication.category"
+          :regions="publication.regions"
+          class="max-w-lg mx-auto mb-4 md:hidden"
+        />
   
         <!-- Title -->
         <h1 class="max-w-lg mx-auto font-LTZarid">
@@ -142,7 +70,7 @@
         </div>
 
         <!-- Cover Image -->
-        <div v-if="coverUrl" class="w-full mx-auto">
+        <div v-if="coverUrl" class="w-full mx-auto my-4">
           <img 
             :src="coverUrl" 
             :alt="publication.cover?.alternativeText || publication.title"
@@ -151,54 +79,13 @@
         </div>
   
         <!-- Authors and Meta Row -->
-        <div class="authors-meta-row max-w-lg mx-auto md:!hidden">
-          <small
-            v-if="publication.authors && publication.authors.length > 0"
-            class="font-IBMPlexSansArabic text-colors-neutral-foreground flex-1"
-          >
-            {{ $t('publications.single.authors') }} 
-            {{ publication.authors.map(author => author.name).join(', ') }}
-          </small>
-          
-          <div class="flex gap-2 items-center">
-            <!-- TODO: i18n -->
-            <small title="Last Updated">
-              {{ formatDate(publication.updatedAt) }}
-            </small>
-            <div class="flex gap-1">
-              <!-- TODO: show a success/fail message/icon once copied -->
-              <UiButton
-                variant="ghost"
-                size="sm"
-                :title="$t('publications.single.share.copyUrl')"
-                :aria-label="$t('publications.single.share.copyUrl')"
-                class="!px-1 aspect-square"
-                @click="copyUrl"
-              >
-                <Icon name="mdi:link" size="24"  />
-              </UiButton>
-              <UiButton
-                variant="ghost"
-                size="sm"
-                :title="$t('publications.single.share.whatsapp')"
-                :aria-label="$t('publications.single.share.whatsapp')"
-                class="!px-1 aspect-square"
-                @click="shareOnWhatsApp"
-              >
-                <Icon name="mdi:whatsapp" size="24"  />
-              </UiButton>
-              <UiButton
-                variant="ghost"
-                size="sm"
-                :title="$t('publications.single.share.twitter')"
-                :aria-label="$t('publications.single.share.twitter')"
-                class="!px-1 aspect-square"
-                @click="shareOnTwitter"
-              >
-                <Icon name="mdi:twitter" size="24"  />
-              </UiButton>
-            </div>
-          </div>
+        <div class="max-w-lg mx-auto md:!hidden">
+          <PublicationMetaRow
+            :authors="publication.authors"
+            :updated-at="publication.updatedAt"
+            :url="currentUrl"
+            :title="publication.title"
+          />
         </div>
   
         <!-- Table of Content -->
@@ -276,15 +163,6 @@ const publicationsUrl = computed(() => {
   return '/publications'
 })
 
-// Date formatting
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString(locale.value, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
-
 // Current page URL for sharing
 const currentUrl = computed(() => {
   if (import.meta.client) {
@@ -307,33 +185,6 @@ const coverUrl = computed(() => {
   // FIXME
   return `http://localhost:1337${publication.value?.cover?.url.startsWith('/') ? '' : '/'}${publication.value?.cover?.url}`
 })
-
-// Social sharing functions
-const copyUrl = async () => {
-  if (import.meta.client && navigator.clipboard) {
-    try {
-      // TODO: could add a toast notification here for success / fail states
-      // TODO: use VueUse for the copy logic?
-      await navigator.clipboard.writeText(currentUrl.value)
-    } catch (err) {
-      console.error('Failed to copy URL:', err)
-    }
-  }
-}
-const shareOnWhatsApp = () => {
-  if (import.meta.client && publication.value) {
-    const text = encodeURIComponent(`${publication.value.title}\n${currentUrl.value}`)
-    window.open(`https://wa.me/?text=${text}`, '_blank')
-  }
-}
-
-const shareOnTwitter = () => {
-  if (import.meta.client && publication.value) {
-    const text = encodeURIComponent(publication.value.title)
-    const url = encodeURIComponent(currentUrl.value)
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
-  }
-}
 
 // SEO Meta
 useHead(() => ({
@@ -360,22 +211,8 @@ useHead(() => ({
 </script>
 
 <style lang="postcss" scoped>
-.chip {
-  @apply inline-block px-3 py-1 rounded-xl text-sm font-IBMPlexSansArabic bg-colors-primary-light text-colors-neutral-foreground;
-}
-
-
 .publication-abstract p {
   @apply mb-0;
-}
-
-/* Authors and Meta Row */
-.authors-meta-row {
-  @apply flex flex-col flex-wrap lg:flex-row lg:justify-between lg:items-center gap-4 my-4;
-}
-
-.authors {
-  @apply font-IBMPlexSansArabic text-base text-colors-neutral-foreground;
 }
 
 /* Publication Body */
@@ -446,10 +283,6 @@ useHead(() => ({
 @media (max-width: 768px) {
   .publication-title {
     @apply text-h1-m;
-  }
-  
-  .authors-meta-row {
-    @apply flex-col gap-3;
   }
 }
 

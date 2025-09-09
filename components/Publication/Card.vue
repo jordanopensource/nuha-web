@@ -36,13 +36,12 @@
         >
           {{ excerpt }}
         </p>
-        <span
+        <UiChip
           v-if="category"
-          class="category transition-colors duration-200 w-max inline-block px-3 py-1 bg-colors-primary-light text-colors-neutral-foreground rounded-xl text-sm font-IBMPlexSansArabic self-start"
+          :text="category"
+          class="category transition-colors duration-200 w-max"
           :class="{ 'md:mt-auto': featured }"
-        >
-          {{ category }}
-        </span>
+        />
       </div>
     </div>
   </NuxtLink>

@@ -35,7 +35,7 @@ watchEffect(() => {
         :key="item.id"
         :class="`toc-level-${item.level}`"
       >
-        <a class="hover:underline" :href="`#${item.id}`">{{ item.text }}</a>
+        <NuxtLink class="hover:underline" :href="`#${item.id}`">{{ item.text }}</NuxtLink>
       </li>
     </ul>
   </nav>
