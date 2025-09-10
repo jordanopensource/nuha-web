@@ -25,12 +25,12 @@
       </nav>
       <!-- TODO: replace this with a user menu when logged-in -->
       <div class="list hidden lg:flex items-center gap-2 ms-auto">
-        <UiRegionLanguageSelector size="lg" mode="language" />
+        <UiRegionLanguageSelector size="md" mode="language" />
 
         <UiButton
           :to="localePath('/login')"
           variant="primary"
-          size="lg"
+          size="md"
         >
           {{ $t('links.general.login') }}
         </UiButton>
@@ -74,7 +74,9 @@
         >
           {{ link.title() }}
         </UiButton>
-        
+
+        <UiRegionLanguageSelector size="lg" mode="language" />
+
         <UiButton
           :to="localePath('/login')"
           variant="primary"
@@ -83,8 +85,6 @@
         >
           {{ $t('links.general.login') }}
         </UiButton>
-
-        <UiRegionLanguageSelector size="lg" mode="language" />
       </nav>
     </div>
   </header>
