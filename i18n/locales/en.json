@@ -100,6 +100,11 @@
       "featured": "Featured",
       "allPublications": "All Publications"
     },
+    "categories": {
+      "filter": "Filter by Category",
+      "all": "All Categories",
+      "fetchError": "Failed to fetch categories."
+    },
     "noPublications": "No publications available at the moment.",
     "fetchError": "Failed to fetch publications.",
     "single": {

@@ -7,16 +7,8 @@
       use-h1
     />
 
-    <!-- Loading State -->
-    <div v-if="pending" class="flex justify-center py-12">
-      <div class="text-center">
-        <Icon name="mdi:loading" class="loader !h-8 !w-8 mb-4" />
-        <p class="text-colors-neutral-foreground">{{ $t('misc.loading', 'Loading...') }}</p>
-      </div>
-    </div>
-
     <!-- Error State -->
-    <div v-else-if="error" class="py-12">
+    <div v-if="error" class="py-12">
       <UiMessage
         :message="$t('publications.fetchError')"
         type="error"
@@ -28,10 +20,10 @@
     </div>
 
     <!-- Content -->
-    <div v-else-if="data" class="space-y-8">
-      <!-- Featured Publications -->
+    <div class="space-y-8">
+      <!-- Featured Publications - only show when no category is selected -->
       <section
-        v-if="featuredPublications.length > 0"
+        v-if="data && featuredPublications.length > 0"
         class="border-b border-colors-neutral-placeholder border-opacity-20 pb-8"
       >
         <UiPageHeading
@@ -51,11 +43,56 @@
         </div>
       </section>
 
+      <!-- Loading State -->
+      <div v-if="pending" class="flex justify-center py-12">
+        <div class="text-center">
+          <Icon name="mdi:loading" class="loader !h-8 !w-8 mb-4" />
+          <p class="text-colors-neutral-foreground">{{ $t('misc.loading', 'Loading...') }}</p>
+        </div>
+      </div>
       <!-- Regular Publications Grid -->
-      <section v-if="regularPublications.length > 0" class="publications-grid">
+      <section v-else-if="data && regularPublications.length > 0" class="publications-grid">
         <UiPageHeading
-          :title="$t('publications.sections.allPublications')"
+          :title="selectedCategoryId === null 
+            ? $t('publications.sections.allPublications')
+            : getCurrentCategoryName"
         />
+
+        <!-- Category Filter Buttons -->
+        <div v-if="categoriesData && !categoriesError" class="mb-4">
+          <div class="mt-2 mb-1">
+            <small class="text-colors-neutral-foreground text-opacity-80">{{ $t('publications.categories.filter') }}</small>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <UiButton 
+              size="sm"
+              :variant="selectedCategoryId === null ? 'primary' : 'ghost'"
+              @click="selectedCategoryId = null"
+            >
+              {{ $t('publications.categories.all') }}
+            </UiButton>
+            <UiButton
+              v-for="category in categoriesData"
+              :key="category.id"
+              size="sm"
+              :variant="selectedCategoryId === category.id ? 'primary' : 'ghost'"
+              @click="selectedCategoryId = category.id"
+            >
+              {{ category.name }}
+            </UiButton>
+
+            <!-- TODO: change region selector title -->
+            <UiRegionLanguageSelector
+              size="sm"
+              class="ms-auto"
+              button-variant="ghost"
+              show-flag-in-button
+              button-content="both"
+              mode="region"
+            />
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <PublicationCard
             v-for="publication in regularPublications"
@@ -71,10 +108,27 @@
       </section>
 
       <!-- No Publications -->
-      <div v-if="publications.length === 0" class="text-center py-12">
+      <div v-if="data && publications.length === 0" class="py-12 flex flex-col gap-4 justify-center items-center">
         <p class="text-colors-neutral-foreground text-lg">
-          {{ $t('publications.noPublications', 'No publications available at the moment.') }}
+          {{ 
+            selectedCategoryId !== null 
+              ? $t('publications.noPublications', 'No publications available for this category.') 
+              : $t('publications.noPublications', 'No publications available at the moment.') 
+          }}
         </p>
+        <div v-if="selectedCategoryId !== null" class="mt-4">
+          <UiButton size="sm" @click="selectedCategoryId = null">
+            {{ $t('publications.categories.all') }}
+          </UiButton>
+        </div>
+        <!-- TODO: change title -->
+        <UiRegionLanguageSelector
+          size="sm"
+          button-variant="ghost"
+          show-flag-in-button
+          button-content="both"
+          mode="region"
+        />
       </div>
     </div>
   </div>
@@ -82,11 +136,29 @@
 
 <script lang="ts" setup>
 import type { StrapiLocale } from '@nuxtjs/strapi'
-import type { Publication } from '~/types/strapi'
+import type { Publication, PublicationCategory } from '~/types/strapi'
 
 const { locale } = useI18n()
 const { find } = useStrapi()
 const { region } = useGeolocation()
+
+// track the selected category
+const selectedCategoryId = ref<number | null>(null)
+
+// fetch all categories
+const { data: categoriesData, error: categoriesError } = useAsyncData(
+  'publication-categories',
+  () => find<PublicationCategory>('categories', {
+    locale: locale.value as StrapiLocale,
+    fields: ['name', 'slug', 'id'],
+    sort: ['name:asc']
+  }),
+  {
+    server: false,
+    watch: [region],
+    transform: (res) => res.data
+  }
+)
 
 // Fetch publications
 const { data, pending, refresh, error } = useAsyncData(
@@ -103,16 +175,23 @@ const { data, pending, refresh, error } = useAsyncData(
     sort: ['featured:desc', 'publishedAt:desc'],
     filters: {
       regions: {
-      // @ts-expect-error it just works!
+        // @ts-expect-error it just works!
         code: {
           $eq: region.value?.countryCode?.toLowerCase()
         }
-      }
+      },
+      ...(selectedCategoryId.value !== null && {
+        category: {
+          id: {
+            $eq: selectedCategoryId.value
+          }
+        }
+      })
     }
   }),
   {
     server: false,
-    watch: [region]
+    watch: [region, selectedCategoryId]
   }
 )
 
@@ -128,4 +207,15 @@ const featuredPublications = computed(() =>
 const regularPublications = computed(() => 
   publications.value.filter(pub => !pub.featured)
 )
+
+// get the name of the currently selected category
+const getCurrentCategoryName = computed(() => {
+  if (selectedCategoryId.value === null) {
+    return $t('publications.sections.allPublications')
+  }
+  
+  const selectedCategory = categoriesData.value?.find(cat => cat.id === selectedCategoryId.value)
+  return selectedCategory?.name || $t('publications.sections.allPublications')
+})
 </script>
+

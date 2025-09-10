@@ -100,6 +100,11 @@
       "featured": "À la Une",
       "allPublications": "Toutes les Publications"
     },
+    "categories": {
+      "filter": "Filtrer par Catégorie",
+      "all": "Toutes les Catégories",
+      "fetchError": "Échec de la récupération des catégories."
+    },
     "noPublications": "Aucune publication disponible pour le moment.",
     "fetchError": "Échec de la récupération des publications.",
     "single": {

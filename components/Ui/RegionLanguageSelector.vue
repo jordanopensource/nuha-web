@@ -187,7 +187,7 @@ const currentSelectionText = computed(() => {
     return languageName.value
   } else if (props.mode === 'region') {
     // If showFlagInButton is true and we have a flag, don't show region name as it's shown as icon
-    return props.showFlagInButton && currentRegionFlag.value ? '' : regionName.value
+    return props.showFlagInButton && currentRegionFlag.value && props.buttonContent == 'icon' ? '' : regionName.value
   } else {
     const langText = languageName.value
     const regText = props.showFlagInButton && currentRegionFlag.value ? '' : regionName.value
