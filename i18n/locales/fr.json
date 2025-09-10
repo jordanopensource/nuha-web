@@ -32,7 +32,13 @@
     "expandText": "Agrandir le champ de texte",
     "or": "ou",
     "loading": "Chargement...",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {page}",
+      "of": "sur {total}"
+    }
   },
   "analyze": {
     "page": {
@@ -106,6 +112,7 @@
       "fetchError": "Échec de la récupération des catégories."
     },
     "noPublications": "Aucune publication disponible pour le moment.",
+    "backToFirstPage": "Retour à la Première Page",
     "fetchError": "Échec de la récupération des publications.",
     "single": {
       "authors": "Auteurs :",

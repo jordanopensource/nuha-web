@@ -32,7 +32,13 @@
     "expandText": "تكبير حقل النص",
     "or": "أو",
     "loading": "جاري التحميل...",
-    "retry": "حاول مرة أخرى"
+    "retry": "حاول مرة أخرى",
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {page}",
+      "of": "من {total}"
+    }
   },
   "analyze": {
     "page": {
@@ -106,6 +112,7 @@
       "fetchError": "حدث خطأ أثناء جلب الفئات."
     },
     "noPublications": "لا توجد منشورات متاحة في الوقت الحالي.",
+    "backToFirstPage": "العودة إلى الصفحة الأولى",
     "fetchError": "حدث خطأ أثناء جلب المنشورات.",
     "single": {
       "authors": "المؤلفون:",

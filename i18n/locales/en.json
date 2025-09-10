@@ -32,7 +32,13 @@
     "expandText": "Expand Text Field",
     "or": "or",
     "loading": "Loading...",
-    "retry": "Try Again"
+    "retry": "Try Again",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page}",
+      "of": "of {total}"
+    }
   },
   "analyze": {
     "page": {
@@ -106,6 +112,7 @@
       "fetchError": "Failed to fetch categories."
     },
     "noPublications": "No publications available at the moment.",
+    "backToFirstPage": "Back to First Page",
     "fetchError": "Failed to fetch publications.",
     "single": {
       "authors": "Authors:",

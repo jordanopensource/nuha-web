@@ -107,17 +107,32 @@
         </div>
       </section>
 
+      <!-- Pagination -->
+      <UiPagination 
+        v-if="pagination?.pageCount > 1"
+        v-model="currentPage"
+        :page-count="pagination.pageCount" 
+        :page-size="pagination.pageSize"
+        :total-items="pagination.total"
+        @page-changed="onPageChange"
+      />
+
       <!-- No Publications -->
       <div v-if="data && publications.length === 0" class="py-12 flex flex-col gap-4 justify-center items-center">
         <p class="text-colors-neutral-foreground text-lg">
           {{ 
-            selectedCategoryId !== null 
-              ? $t('publications.noPublications', 'No publications available for this category.') 
-              : $t('publications.noPublications', 'No publications available at the moment.') 
+            currentPage > 1 
+              ? $t('publications.noPublications', 'No more publications available.') 
+              : selectedCategoryId !== null 
+                ? $t('publications.noPublications', 'No publications available for this category.') 
+                : $t('publications.noPublications', 'No publications available at the moment.') 
           }}
         </p>
-        <div v-if="selectedCategoryId !== null" class="mt-4">
-          <UiButton size="sm" @click="selectedCategoryId = null">
+        <div class="flex gap-3 mt-4">
+          <UiButton v-if="currentPage > 1" size="sm" @click="currentPage = 1">
+            {{ $t('publications.backToFirstPage', 'Back to First Page') }}
+          </UiButton>
+          <UiButton v-if="selectedCategoryId !== null" size="sm" @click="selectedCategoryId = null">
             {{ $t('publications.categories.all') }}
           </UiButton>
         </div>
@@ -135,15 +150,20 @@
 </template>
 
 <script lang="ts" setup>
-import type { StrapiLocale } from '@nuxtjs/strapi'
+import type { MetaResponsePaginationByPage, StrapiLocale } from '@nuxtjs/strapi'
 import type { Publication, PublicationCategory } from '~/types/strapi'
 
 const { locale } = useI18n()
 const { find } = useStrapi()
 const { region } = useGeolocation()
+const route = useRoute()
 
 // track the selected category
 const selectedCategoryId = ref<number | null>(null)
+
+// track current page for pagination
+const currentPage = ref<number>(parseInt(route.query.page as string, 10) || 1)
+const pageSize = ref<number>(25) // Number of publications to show per page
 
 // fetch all categories
 const { data: categoriesData, error: categoriesError } = useAsyncData(
@@ -173,6 +193,10 @@ const { data, pending, refresh, error } = useAsyncData(
     },
     fields: ['title', 'abstract', 'slug', 'featured', 'createdAt', 'publishedAt'],
     sort: ['featured:desc', 'publishedAt:desc'],
+    pagination: {
+      page: currentPage.value,
+      pageSize: pageSize.value,
+    },
     filters: {
       regions: {
         // @ts-expect-error it just works!
@@ -191,9 +215,14 @@ const { data, pending, refresh, error } = useAsyncData(
   }),
   {
     server: false,
-    watch: [region, selectedCategoryId]
+    watch: [region, selectedCategoryId, currentPage]
   }
 )
+
+// reset to page 1 when category changes
+watch(selectedCategoryId, () => {
+  currentPage.value = 1
+})
 
 // for organizing publications
 const publications = computed(() => data.value?.data ?? [])
@@ -217,5 +246,16 @@ const getCurrentCategoryName = computed(() => {
   const selectedCategory = categoriesData.value?.find(cat => cat.id === selectedCategoryId.value)
   return selectedCategory?.name || $t('publications.sections.allPublications')
 })
+
+// extract pagination info from Strapi response
+const pagination = computed(() => {
+  return data.value?.meta?.pagination as MetaResponsePaginationByPage || null
+})
+
+const onPageChange = (page: number) => {
+  currentPage.value = page
+  // scroll to top when page changes
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 </script>
 
