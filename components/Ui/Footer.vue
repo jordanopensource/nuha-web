@@ -25,7 +25,12 @@
         >
           {{ link.title() }}
         </NuxtLink>
-        <UiRegionLanguageSelector size="md" class="!px-0 hover:underline" button-variant="ghost" />
+        <UiRegionLanguageSelector
+          size="md"
+          class="!px-0 hover:underline"
+          button-variant="ghost"
+          show-flag-in-button
+        />
       </nav>
       <div class="flex flex-col gap-4 max-md:gap-8 col-span-1">
         <nav class="flex flex-col gap-4 md:items-end">
@@ -41,17 +46,18 @@
           </NuxtLink>
         </nav>
         <nav class="flex flex-row gap-4 md:justify-end">
-          <NuxtLink
+          <UiButton
             v-for="(link, i) in socialLinks"
             :key="i"
-            class="hover:scale-105 transition-all hover:text-colors-primary-hover"
+            class="!p-1 hover:scale-105 transition-all"
             :to="link.path()"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"
             :aria-label="link.title()"
+            variant="ghost"
           >
             <Icon v-if="link.icon" :name="link.icon" size="32" />
-          </NuxtLink>
+          </UiButton>
         </nav>
       </div>
       <div class="flex flex-col gap-4 col-span-1 md:hidden">
