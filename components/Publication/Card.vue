@@ -17,6 +17,7 @@
           :alt="title"
           class="w-full max-h-72 object-cover"
           :class="{ 'md:max-h-full md:pe-1': featured }"
+          loading="lazy"
         >
       </div>
       <div

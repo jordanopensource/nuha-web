@@ -1,4 +1,14 @@
 {
+  "homepage": {
+    "nuha": "Nuha",
+    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "login": "Connexion",
+    "howItWorks": "Comment ça marche?",
+    "howItWorksSubtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "learnMore": "En Savoir Plus",
+    "ourPublications": "Nos Publications",
+    "readMore": "Lire Plus"
+  },
   "links": {
     "general": {
       "login": "Connexion",

@@ -1,4 +1,14 @@
 {
+  "homepage": {
+    "nuha": "نهى",
+    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "login": "چوونەژوورەوە",
+    "howItWorks": "چۆن کار دەکات؟",
+    "howItWorksSubtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "learnMore": "زیاتر فێربە",
+    "ourPublications": "بڵاوکراوەکانمان",
+    "readMore": "زیاتر بخوێنەوە"
+  },
   "links": {
     "general": {
       "login": "چوونەژوورەوە",
