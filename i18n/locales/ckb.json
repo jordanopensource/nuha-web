@@ -45,6 +45,7 @@
     "loading": "بارکردن...",
     "retry": "دووبارە هەوڵدانەوە",
     "welcomeUser": "بەخێرهاتن، {name}!",
+    "userMenu": "مێنوی بەکارهێنەر",
     "pagination": {
       "previous": "پێشوو",
       "next": "داهاتوو",
@@ -102,6 +103,10 @@
     "termsText": "بە چوونەژوورەوەت ڕازی دەبیت بە {termsLink} و {privacyLink} ی ئێمە",
     "termsLink": "مەرجەکانی بەکارهێنان",
     "privacyLink": "سیاسەتی تایبەتێتی",
+    "provider": {
+      "email": "ئیمەیل",
+      "github": "GitHub"
+    },
     "messages": {
       "emailSent": "بەستەری جادووگەرانە نێردرا بۆ {email}! تکایە ئیمەیلەکەت بپشکنە بۆ تەواوکردنی چوونەژوورەوە.",
       "githubSuccess": "چوونەژوورەوەی GitHub بە سەرکەوتوویی تەواوبوو! ئاراستەکردن...",

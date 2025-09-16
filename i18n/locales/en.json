@@ -7,7 +7,8 @@
     "howItWorksSubtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "learnMore": "Learn More",
     "ourPublications": "Our Publications",
-    "readMore": "Read More"
+    "readMore": "Read More",
+    "getStarted": "Get Started"
   },
   "links": {
     "general": {
@@ -45,6 +46,7 @@
     "loading": "Loading...",
     "retry": "Try Again",
     "welcomeUser": "Welcome, {name}!",
+    "userMenu": "User Menu",
     "pagination": {
       "previous": "Previous",
       "next": "Next",
@@ -102,6 +104,10 @@
     "termsText": "By logging in you agree to our {termsLink} and {privacyLink}",
     "termsLink": "Terms of Service",
     "privacyLink": "Privacy Policy",
+    "provider": {
+      "email": "Email",
+      "github": "GitHub"
+    },
     "messages": {
       "emailSent": "Magic link sent to {email}! Please check your email to complete the login.",
       "githubSuccess": "GitHub login successful! Redirecting...",

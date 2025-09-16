@@ -45,6 +45,7 @@
     "loading": "Chargement...",
     "retry": "Réessayer",
     "welcomeUser": "Bienvenue, {name} !",
+    "userMenu": "Menu Utilisateur",
     "pagination": {
       "previous": "Précédent",
       "next": "Suivant",
@@ -102,6 +103,10 @@
     "termsText": "En vous connectant, vous acceptez nos {termsLink} et notre {privacyLink}",
     "termsLink": "Conditions d'utilisation",
     "privacyLink": "Politique de confidentialité",
+    "provider": {
+      "email": "E-mail",
+      "github": "GitHub"
+    },
     "messages": {
       "emailSent": "Lien magique envoyé à {email} ! Veuillez vérifier votre e-mail pour terminer la connexion.",
       "githubSuccess": "Connexion GitHub réussie ! Redirection en cours...",

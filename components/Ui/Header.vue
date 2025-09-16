@@ -2,7 +2,7 @@
   <header class="container py-4">
     <div class="flex lg:grid grid-cols-3">
       <NuxtLink
-        class="z-40"
+        class="z-40 me-auto"
         :to="localePath('/')"
         aria-label="home"
         @click="showMobileMenu = false"
@@ -26,30 +26,13 @@
       
       <!-- Desktop auth section -->
       <div class="list hidden lg:flex items-center gap-2 ms-auto">
-        <UiRegionLanguageSelector size="md" mode="language" />
-
         <AuthState>
-          <template #default="{ loggedIn, user, clear }">
-            <!-- TODO: replace with user menu -->
+          <template #default="{ loggedIn, user }">
             <template v-if="loggedIn">
-              <div class="flex items-center gap-2">
-                <!-- user info and avatar -->
-                <span class="text-sm text-colors-neutral-foreground">
-                  {{ user?.name || user?.email }}
-                </span>
-                <img v-if="user?.avatar" :src="user?.avatar" class="h-6 aspect-square rounded-full" />
-                <!-- logout button -->
-                <UiButton
-                  variant="ghost"
-                  size="md"
-                  @click="handleLogout(clear)"
-                >
-                  {{ $t('links.general.logout') }}
-                </UiButton>
-              </div>
+              <UiUserMenu :user="user" size="md" />
             </template>
-
             <template v-else>
+              <UiRegionLanguageSelector size="md" mode="language" />
               <UiButton
                 :to="localePath('/login')"
                 variant="primary"
@@ -72,8 +55,15 @@
       </div>
 
       <!-- Mobile menu control -->
+      <AuthState>
+        <template #default="{ loggedIn, user }">
+          <template v-if="loggedIn">
+            <UiUserMenu class="lg:!hidden my-auto" :user="user" size="sm" />
+          </template>
+        </template>
+      </AuthState>
       <UiButton
-        class="lg:!hidden z-40 ms-auto justify-end !px-1 aspect-square"
+        class="lg:!hidden z-40 justify-end !px-1 aspect-square"
         aria-label="navigation menu"
         variant="ghost"
         @click="showMobileMenu = !showMobileMenu"
@@ -113,22 +103,8 @@
         <UiRegionLanguageSelector size="lg" mode="language" />
 
         <AuthState>
-          <template #default="{ loggedIn, user, clear }">
-            <template v-if="loggedIn">
-              <div class="flex flex-col gap-2 w-full">
-                <div class="text-sm text-colors-neutral-foreground px-4">
-                  {{ $t('misc.welcomeUser', { name: user?.name || user?.email }) }}
-                </div>
-                <UiButton
-                  variant="ghost"
-                  size="lg"
-                  @click="handleLogout(clear)"
-                >
-                  {{ $t('links.general.logout') }}
-                </UiButton>
-              </div>
-            </template>
-            <template v-else>
+          <template #default="{ loggedIn }">
+            <template v-if="!loggedIn">
               <UiButton
                 :to="localePath('/login')"
                 variant="primary"
@@ -158,17 +134,6 @@
   const localePath = useLocalePath()
   const { getLinksByGroup } = useLinks()
   const showMobileMenu = ref(false)
-
-  const handleLogout = async (clearSession: () => Promise<void>) => {
-    try {
-      await clearSession()
-      showMobileMenu.value = false
-      await navigateTo(localePath('/'))
-    } catch (error) {
-      console.error('Logout error:', error)
-      await navigateTo(localePath('/'))
-    }
-  }
 </script>
 
 <style lang="postcss" scoped></style>

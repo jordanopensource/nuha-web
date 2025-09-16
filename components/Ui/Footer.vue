@@ -8,7 +8,7 @@
           <img width="86" src="/logo.png" alt="Nuha logo">
         </NuxtLink>
         <div>
-          <h3 class="!font-normal">Nuha نهى</h3>
+          <h3 class="!font-bold">Nuha نهى</h3>
           <small>
             {{ $t('links.footer.copyright') }}
           </small>
@@ -65,7 +65,7 @@
           <img width="75" height="75" src="/logo.png" alt="Nuha logo">
         </NuxtLink>
         <div> 
-          <h3 class="!font-normal">Nuha نهى</h3>
+          <h3 class="!font-bold">Nuha نهى</h3>
           <small>
             {{ $t('links.footer.copyright') }}
           </small>

@@ -7,14 +7,20 @@
           <p class="font-LTZarid text-2xl">
             {{ $t('homepage.subtitle') }}
           </p>
-          <div class="flex gap-4 flex-wrap mt-auto">
+          <div class="flex gap-4 flex-wrap mt-auto max-sm:justify-center">
             <LazyUiRegionLanguageSelector size="lg" mode="region" show-flag-in-button />
-            <UiButton size="lg"> {{ $t('homepage.login') }} </UiButton>
+            <!-- TODO: change the text of this button -->
+            <UiButton
+              size="lg"
+              :to="$localePath('/analyze')"
+            >
+              {{ $t('homepage.getStarted') }}
+            </UiButton>
           </div>
         </div>
       </template>
       <template #second-col>
-        <img src="~/assets/images/loving_doodle.svg" loading="lazy" alt="doodle" width="480" class="mx-auto md:ms-auto">
+        <img src="~/assets/images/loving_doodle.svg" loading="lazy" alt="doodle" width="480" class="ms-auto max-lg:mx-auto">
       </template>
     </UiPageHeading>
 
@@ -28,7 +34,7 @@
         </div>
       </template>
       <template #second-col>
-        <UiButton size="md" variant="outline" class="w-max ms-auto my-auto">{{ $t('homepage.learnMore') }}</UiButton>
+        <UiButton size="md" variant="outline" class="w-max md:ms-auto my-auto">{{ $t('homepage.learnMore') }}</UiButton>
       </template>
     </UiPageHeading>
 

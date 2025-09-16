@@ -45,6 +45,7 @@
     "loading": "جاري التحميل...",
     "retry": "حاول مرة أخرى",
     "welcomeUser": "أهلاً بك، {name}!",
+    "userMenu": "قائمة المستخدم",
     "pagination": {
       "previous": "السابق",
       "next": "التالي",
@@ -102,6 +103,10 @@
     "termsText": "بتسجيل الدخول أنت توافق على {termsLink} و {privacyLink} الخاصة بنا",
     "termsLink": "شروط الاستخدام",
     "privacyLink": "سياسة الخصوصية",
+    "provider": {
+      "email": "البريد الإلكتروني",
+      "github": "جيت‌هب"
+    },
     "messages": {
       "emailSent": "تم إرسال الرابط السحري إلى {email}! يرجى التحقق من بريدك الإلكتروني لإكمال تسجيل الدخول.",
       "githubSuccess": "تم تسجيل الدخول بـ GitHub بنجاح! جاري التوجيه...",
