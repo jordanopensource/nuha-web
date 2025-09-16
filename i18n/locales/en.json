@@ -12,6 +12,7 @@
   "links": {
     "general": {
       "login": "Login",
+      "logout": "Logout",
       "publications": "Publications",
       "analyze": "Analyze",
       "about": "About Us"
@@ -43,6 +44,7 @@
     "or": "or",
     "loading": "Loading...",
     "retry": "Try Again",
+    "welcomeUser": "Welcome, {name}!",
     "pagination": {
       "previous": "Previous",
       "next": "Next",
@@ -94,6 +96,7 @@
     "emailLabel": "Email Address",
     "emailPlaceholder": "Enter your email address",
     "emailButton": "Continue with Email",
+    "sending": "Sending...",
     "emailDescription": "We'll email you a magic login link. No password needed.",
     "githubButton": "Continue with GitHub",
     "termsText": "By logging in you agree to our {termsLink} and {privacyLink}",
@@ -104,7 +107,10 @@
       "githubSuccess": "GitHub login successful! Redirecting...",
       "invalidEmail": "Please enter a valid email address.",
       "emailError": "Failed to send magic link. Please try again.",
-      "githubError": "Failed to login with GitHub. Please try again."
+      "githubError": "Failed to login with GitHub. Please try again.",
+      "authError": "Authentication failed. Please try again.",
+      "expiredMagicLink": "This magic link has expired or is invalid. Please request a new one.",
+      "genericError": "An error occurred. Please try again."
     }
   },
   "publications": {

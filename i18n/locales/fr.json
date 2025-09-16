@@ -12,6 +12,7 @@
   "links": {
     "general": {
       "login": "Connexion",
+      "logout": "Déconnexion",
       "publications": "Publications",
       "analyze": "Analyser",
       "about": "À propos"
@@ -43,6 +44,7 @@
     "or": "ou",
     "loading": "Chargement...",
     "retry": "Réessayer",
+    "welcomeUser": "Bienvenue, {name} !",
     "pagination": {
       "previous": "Précédent",
       "next": "Suivant",
@@ -94,6 +96,7 @@
     "emailLabel": "Adresse e-mail",
     "emailPlaceholder": "Entrez votre adresse e-mail",
     "emailButton": "Continuer avec l'e-mail",
+    "sending": "Envoi en cours...",
     "emailDescription": "Nous vous enverrons un lien de connexion magique par e-mail. Aucun mot de passe nécessaire.",
     "githubButton": "Continuer avec GitHub",
     "termsText": "En vous connectant, vous acceptez nos {termsLink} et notre {privacyLink}",
@@ -104,7 +107,10 @@
       "githubSuccess": "Connexion GitHub réussie ! Redirection en cours...",
       "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
       "emailError": "Échec de l'envoi du lien magique. Veuillez réessayer.",
-      "githubError": "Échec de la connexion avec GitHub. Veuillez réessayer."
+      "githubError": "Échec de la connexion avec GitHub. Veuillez réessayer.",
+      "authError": "Échec de l'authentification. Veuillez réessayer.",
+      "expiredMagicLink": "Ce lien magique a expiré ou n'est pas valide. Veuillez en demander un nouveau.",
+      "genericError": "Une erreur s'est produite. Veuillez réessayer."
     }
   },
   "publications": {
