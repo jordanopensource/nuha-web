@@ -29,6 +29,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
     '@nuxtjs/strapi',
+    'nuxt-auth-utils',
   ],
   css: [
     '@/assets/css/main.css',
@@ -46,5 +47,41 @@ export default defineNuxtConfig({
     serverBundle: {
       collections: ['mdi', 'circle-flags']
     }
+  },
+  
+  runtimeConfig: {
+    // Session configuration
+    session: {
+      name: 'nuxt-auth-session',
+      cookie: {
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true
+      },
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      // TODO
+      password: '',
+    },
+    // OAuth configuration
+    oauth: {
+      github: {
+        clientId: '',
+        clientSecret: '',
+      }
+    },
+    // Magic link configuration
+    magicLinkSecret: '', // TODO
+    listmonk: {
+      url: '',
+      user: '',
+      token: '',
+      enTemplateId: '',
+      arTemplateId: '',
+      frTemplateId: '',
+      ckbTemplateId: '',
+    },
+    public: {
+      baseUrl: 'http://localhost:3000',
+    },
   }
 })

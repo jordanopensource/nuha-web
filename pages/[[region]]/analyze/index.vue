@@ -25,6 +25,10 @@
   </div>
 </template>
 <script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+})
+
 const currentMethod = ref(0) // 0 for text, 1 for file
 
 const handleMethodChanged = (method: number) => {

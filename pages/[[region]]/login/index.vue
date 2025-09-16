@@ -46,13 +46,13 @@
           variant="primary"
           class="w-full"
           type="submit"
+          :disabled="isLoading"
         >
-          {{ $t('login.emailButton') }}
-          <template #icon>
-            <Icon
-              name="mdi:email-outline"
-              size="24"
-            />
+          <template v-if="isLoading">
+            {{ $t('login.sending') }}
+          </template>
+          <template v-else>
+            {{ $t('login.emailButton') }}
           </template>
         </ui-button>
         <small>
@@ -113,9 +113,29 @@
 <script setup lang="ts">
 const { getLinksByGroup } = useLinks()
 const localePath = useLocalePath()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const route = useRoute()
+const { loggedIn } = useUserSession()
 
 const email = ref('')
+const isLoading = ref(false)
+
+// Redirect if already logged in
+// TODO: replace this with a middleware to prevent rendering the login page altogether when already logged in
+watch(loggedIn, (newLoggedIn) => {
+  if (newLoggedIn) {
+    const returnTo = route.query.returnTo as string || '/analyze'
+    navigateTo(returnTo)
+  }
+})
+
+// Check for initial login state
+onMounted(() => {
+  if (loggedIn.value) {
+    const returnTo = route.query.returnTo as string || '/analyze'
+    navigateTo(returnTo)
+  }
+})
 
 const messages = reactive({
   success: {
@@ -127,6 +147,28 @@ const messages = reactive({
     text: '',
   },
 })
+
+// Check for URL error parameters
+onMounted(() => {
+  const error = route.query.error as string
+  if (error) {
+    messages.error.text = getErrorMessage(error)
+    messages.error.show = true
+  }
+})
+
+const getErrorMessage = (errorCode: string): string => {
+  switch (errorCode) {
+    case 'github_oauth_failed':
+      return t('login.messages.githubError')
+    case 'authentication_failed':
+      return t('login.messages.authError')
+    case 'Invalid or expired magic link':
+      return t('login.messages.expiredMagicLink')
+    default:
+      return t('login.messages.genericError')
+  }
+}
 
 const clearMessages = () => {
   messages.success.text = ''
@@ -146,27 +188,7 @@ const infoLinks = getLinksByGroup('info')
 const termsLink = infoLinks.find(link => link.path().includes('/terms')) || { path: () => localePath('/terms') }
 const privacyLink = infoLinks.find(link => link.path().includes('/privacy')) || { path: () => localePath('/privacy') }
 
-// Sample data for placeholder responses
-// TODO: replace with auth logic
-const sampleUserData = {
-  id: '12345',
-  email: 'user@example.com',
-  name: 'John Doe',
-  avatar: 'https://github.com/github.png',
-  provider: 'email'
-}
-
-const sampleGithubData = {
-  id: '67890',
-  email: 'user@github.com',
-  name: 'GitHub User',
-  username: 'githubuser',
-  avatar: 'https://github.com/githubuser.png',
-  provider: 'github'
-}
-
-// Handle email login
-const handleEmailLogin = () => {
+const handleEmailLogin = async () => {
   clearMessages()
   
   if (!email.value || !isValidEmail.value) {
@@ -175,39 +197,43 @@ const handleEmailLogin = () => {
     return
   }
 
+  isLoading.value = true
+
   try {
-    // TODO: Replace with auth logic for magic link
-    const emailLoginData = {
-      ...sampleUserData,
-      email: email.value
-    }
-    console.log('Email login initiated - sample response:', emailLoginData)
+    const response = await $fetch('/api/auth/magic-link/send', {
+      method: 'POST',
+      body: {
+        email: email.value,
+        locale: locale.value
+      }
+    })
     
-    // Simulate successful login for now
-    setTimeout(() => {
+    if (response.success) {
       messages.success.text = t('login.messages.emailSent', { email: email.value })
       messages.success.show = true
-    }, 500)
+      email.value = '' // Clear the email field
+    }
   } catch (error) {
+    console.error('Email login error:', error)
     messages.error.text = t('login.messages.emailError')
     messages.error.show = true
-    console.error('Email login error:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
-// Handle GitHub login
 const handleGithubLogin = () => {
   clearMessages()
   
   try {
-    // TODO: Replace with actual GitHub OAuth flow
-    console.log('GitHub login initiated - sample response:', sampleGithubData)
+    // Store return URL in sessionStorage before redirecting
+    const returnTo = route.query.returnTo as string || '/analyze'
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('auth_return_to', returnTo)
+    }
     
-    // Simulate successful login for now
-    setTimeout(() => {
-      messages.success.text = t('login.messages.githubSuccess')
-      messages.success.show = true
-    }, 500)
+    // Redirect to GitHub OAuth
+    navigateTo('/auth/github', { external: true })
   } catch (error) {
     messages.error.text = t('login.messages.githubError')
     messages.error.show = true

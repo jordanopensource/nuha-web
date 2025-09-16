@@ -23,17 +23,52 @@
           {{ link.title() }}
         </UiButton>
       </nav>
-      <!-- TODO: replace this with a user menu when logged-in -->
+      
+      <!-- Desktop auth section -->
       <div class="list hidden lg:flex items-center gap-2 ms-auto">
         <UiRegionLanguageSelector size="md" mode="language" />
 
-        <UiButton
-          :to="localePath('/login')"
-          variant="primary"
-          size="md"
-        >
-          {{ $t('links.general.login') }}
-        </UiButton>
+        <AuthState>
+          <template #default="{ loggedIn, user, clear }">
+            <!-- TODO: replace with user menu -->
+            <template v-if="loggedIn">
+              <div class="flex items-center gap-2">
+                <!-- user info and avatar -->
+                <span class="text-sm text-colors-neutral-foreground">
+                  {{ user?.name || user?.email }}
+                </span>
+                <img v-if="user?.avatar" :src="user?.avatar" class="h-6 aspect-square rounded-full" />
+                <!-- logout button -->
+                <UiButton
+                  variant="ghost"
+                  size="md"
+                  @click="handleLogout(clear)"
+                >
+                  {{ $t('links.general.logout') }}
+                </UiButton>
+              </div>
+            </template>
+
+            <template v-else>
+              <UiButton
+                :to="localePath('/login')"
+                variant="primary"
+                size="md"
+              >
+                {{ $t('links.general.login') }}
+              </UiButton>
+            </template>
+          </template>
+          <template #placeholder>
+            <UiButton
+              variant="outline"
+              size="md"
+              disabled
+            >
+              {{ $t('misc.loading') }}
+            </UiButton>
+          </template>
+        </AuthState>
       </div>
 
       <!-- Mobile menu control -->
@@ -77,14 +112,43 @@
 
         <UiRegionLanguageSelector size="lg" mode="language" />
 
-        <UiButton
-          :to="localePath('/login')"
-          variant="primary"
-          size="lg"
-          @click="showMobileMenu = false"
-        >
-          {{ $t('links.general.login') }}
-        </UiButton>
+        <AuthState>
+          <template #default="{ loggedIn, user, clear }">
+            <template v-if="loggedIn">
+              <div class="flex flex-col gap-2 w-full">
+                <div class="text-sm text-colors-neutral-foreground px-4">
+                  {{ $t('misc.welcomeUser', { name: user?.name || user?.email }) }}
+                </div>
+                <UiButton
+                  variant="ghost"
+                  size="lg"
+                  @click="handleLogout(clear)"
+                >
+                  {{ $t('links.general.logout') }}
+                </UiButton>
+              </div>
+            </template>
+            <template v-else>
+              <UiButton
+                :to="localePath('/login')"
+                variant="primary"
+                size="lg"
+                @click="showMobileMenu = false"
+              >
+                {{ $t('links.general.login') }}
+              </UiButton>
+            </template>
+          </template>
+          <template #placeholder>
+            <UiButton
+              variant="outline"
+              size="lg"
+              disabled
+            >
+              {{ $t('misc.loading') }}
+            </UiButton>
+          </template>
+        </AuthState>
       </nav>
     </div>
   </header>
@@ -93,8 +157,18 @@
 <script setup lang="ts">
   const localePath = useLocalePath()
   const { getLinksByGroup } = useLinks()
-
   const showMobileMenu = ref(false)
+
+  const handleLogout = async (clearSession: () => Promise<void>) => {
+    try {
+      await clearSession()
+      showMobileMenu.value = false
+      await navigateTo(localePath('/'))
+    } catch (error) {
+      console.error('Logout error:', error)
+      await navigateTo(localePath('/'))
+    }
+  }
 </script>
 
 <style lang="postcss" scoped></style>
