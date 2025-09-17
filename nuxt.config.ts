@@ -69,8 +69,6 @@ export default defineNuxtConfig({
         clientSecret: '',
       }
     },
-    // Magic link configuration
-    magicLinkSecret: '', // TODO
     listmonk: {
       url: '',
       user: '',

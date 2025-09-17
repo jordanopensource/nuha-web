@@ -19,12 +19,12 @@ const tokenStore = new Map<string, MagicLinkToken>()
 
 export function generateMagicLinkToken(email: string): { token: string; expiresAt: Date } {
   const config = useRuntimeConfig()
-  const secret = config.magicLinkSecret
+  const secret = config.session.password
   
   if (!secret) {
     throw createError({
       statusCode: 500,
-      statusMessage: 'Magic link secret not configured'
+      statusMessage: 'Session password not configured'
     })
   }
 
@@ -43,12 +43,12 @@ export function generateMagicLinkToken(email: string): { token: string; expiresA
 
 export function verifyMagicLinkToken(token: string): { email: string } | null {
   const config = useRuntimeConfig()
-  const secret = config.magicLinkSecret
+  const secret = config.session.password
   
   if (!secret) {
     throw createError({
       statusCode: 500,
-      statusMessage: 'Magic link secret not configured'
+      statusMessage: 'Session password not configured'
     })
   }
 
