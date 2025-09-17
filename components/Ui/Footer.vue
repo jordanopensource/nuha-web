@@ -7,7 +7,7 @@
         <NuxtLink :to="$nuxt.$localePath('/')">
           <img width="86" src="/logo.png" alt="Nuha logo">
         </NuxtLink>
-        <div>
+        <div class="mt-auto">
           <h3 class="!font-bold">Nuha نهى</h3>
           <small>
             {{ $t('links.footer.copyright') }}
@@ -27,7 +27,7 @@
         </NuxtLink>
         <UiRegionLanguageSelector
           size="md"
-          class="!px-0 hover:underline"
+          class="[&_button.lang-btn]:!px-0 [&_button.lang-btn]:max-md:!justify-start hover:underline"
           button-variant="ghost"
           show-flag-in-button
         />

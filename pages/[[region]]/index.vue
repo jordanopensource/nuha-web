@@ -15,6 +15,9 @@
               :to="$localePath('/analyze')"
             >
               {{ $t('homepage.getStarted') }}
+              <template #icon>
+                <Icon name="mdi:arrow-right" class="rtl:rotate-180" size="24" />
+              </template>
             </UiButton>
           </div>
         </div>
@@ -34,7 +37,14 @@
         </div>
       </template>
       <template #second-col>
-        <UiButton size="md" variant="outline" class="w-max md:ms-auto my-auto">{{ $t('homepage.learnMore') }}</UiButton>
+        <UiButton
+          size="md"
+          variant="outline"
+          class="w-max md:ms-auto my-auto"
+          :to="$localePath('/about')"
+        >
+          {{ $t('homepage.learnMore') }}
+        </UiButton>
       </template>
     </UiPageHeading>
 
@@ -44,7 +54,10 @@
     >
       <UiPageHeading :title="$t('homepage.ourPublications')" />
   
-      <div v-if="!pending" class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 lg:gap-x-28 gap-y-6">
+      <div
+        v-if="!pending"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 lg:gap-x-28 gap-y-6"
+      >
         <PublicationCard
           v-for="publication in publications?.data"
           :key="publication.documentId"
@@ -57,7 +70,14 @@
         />
       </div>
       <Icon v-else name="mdi:loading" class="loader !h-8 !w-8 mb-4" />
-      <UiButton size="md" variant="outline" class="w-max ms-auto">{{ $t('homepage.readMore') }}</UiButton>
+      <UiButton
+        size="md"
+        variant="outline"
+        class="w-max ms-auto"
+        :to="$localePath('/publications')"
+      >
+        {{ $t('homepage.readMore') }}
+      </UiButton>
     </div>
 
 

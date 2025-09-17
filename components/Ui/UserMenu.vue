@@ -66,7 +66,11 @@
 
         <!-- Actions section -->
         <div class="flex flex-col gap-2">
-          <UiRegionLanguageSelector class="w-full" size="md" mode="language" />  
+          <UiRegionLanguageSelector
+            class="w-full"
+            size="md"
+            mode="language"
+          />
           <UiButton
             variant="ghost"
             size="lg"
