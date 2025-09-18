@@ -112,8 +112,8 @@ const handleLogout = async () => {
     await navigateTo(localePath('/'))
   } catch (error) {
     console.error('Logout error:', error)
-    // redirect even if logout fails
-    await navigateTo(localePath('/'))
+    await $fetch('/api/auth/logout', { method: 'POST' }).catch(() => {})
+    reloadNuxtApp()
   }
 }
 </script>
