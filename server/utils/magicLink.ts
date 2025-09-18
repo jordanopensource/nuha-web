@@ -1,11 +1,5 @@
-// Utility functions for the magic link login method
 import jwt from 'jsonwebtoken'
-
-interface MagicLinkToken {
-  email: string
-  token: string
-  expiresAt: Date
-}
+import Redis from 'ioredis'
 
 interface MagicLinkPayload {
   email: string
@@ -13,11 +7,119 @@ interface MagicLinkPayload {
   iat: number
 }
 
-// In-memory store for tokens — WIP
-// TODO!!!!!!! use Redis or database
-const tokenStore = new Map<string, MagicLinkToken>()
+let redisClient: Redis | null = null
+let redisInitialized = false
 
-export function generateMagicLinkToken(email: string): { token: string; expiresAt: Date } {
+// fallback in-memory storage for magic link tokens
+const magicLinkTokens = new Map<string, { email: string; expires: Date }>()
+
+// initialize Redis client
+function initRedis(): Redis | null {
+  if (redisInitialized) {
+    return redisClient
+  }
+
+  try {
+    const config = useRuntimeConfig()
+
+    if (!config.redis.host) {
+      console.warn('Redis not configured, using in-memory token storage.')
+      return null
+    }
+
+    redisClient = new Redis({
+      host: config.redis.host,
+      port: parseInt(config.redis.port || '6379'),
+      password: config.redis.password || undefined,
+      db: parseInt(config.redis.db || '0'),
+      maxRetriesPerRequest: 3,
+      lazyConnect: true
+    })
+
+    // Test connection
+    redisClient.ping()
+      .then(() => {
+        console.log('Redis connection successful.')
+      })
+      .catch((error) => {
+        console.warn('Redis connection failed, falling back to in-memory storage:', error.message)
+        redisClient?.disconnect()
+        redisClient = null
+      })
+
+    redisInitialized = true
+    return redisClient
+  } catch (error) {
+    console.warn('Redis connection failed, falling back to in-memory storage:', error)
+    redisClient = null
+    return null
+  }
+}
+
+// Store token with expiration
+async function storeToken(token: string, email: string, expires: Date): Promise<void> {
+  const redis = initRedis()
+  
+  if (redis) {
+    try {
+      const config = useRuntimeConfig()
+      const keyPrefix = config.redis.keyPrefix || 'nuha_auth:'
+      const key = `${keyPrefix}magic_link:${token}`
+      const expirationSeconds = Math.floor((expires.getTime() - Date.now()) / 1000)
+
+      await redis.setex(key, expirationSeconds, JSON.stringify({ email, expires: expires.toISOString() }))
+      return
+    } catch (error) {
+      console.warn('Redis store failed, falling back to in-memory:', error)
+    }
+  }
+  
+  // Fallback
+  magicLinkTokens.set(token, { email, expires })
+}
+
+// Retrieve and remove token
+async function retrieveAndRemoveToken(token: string): Promise<{ email: string; expires: Date } | null> {
+  const redis = initRedis()
+  
+  if (redis) {
+    try {
+      const config = useRuntimeConfig()
+      const keyPrefix = config.redis.keyPrefix || 'nuha_auth:'
+      const key = `${keyPrefix}magic_link:${token}`
+      
+      const data = await redis.get(key)
+      if (data) {
+        await redis.del(key) // remove after retrieval
+        const parsed = JSON.parse(data)
+        return { email: parsed.email, expires: new Date(parsed.expires) }
+      }
+      return null
+    } catch (error) {
+      console.warn('Redis retrieve failed, falling back to in-memory:', error)
+    }
+  }
+
+  // Fallback
+  const tokenData = magicLinkTokens.get(token)
+  if (tokenData) {
+    magicLinkTokens.delete(token)
+    return tokenData
+  }
+  return null
+}
+
+// Cleanup expired in-memory tokens every 60
+setInterval(() => {
+  const now = new Date()
+  for (const [token, data] of magicLinkTokens.entries()) {
+    if (data.expires < now) {
+      magicLinkTokens.delete(token)
+    }
+  }
+}, 60 * 60 * 1000)
+
+export async function generateMagicLinkToken(email: string): Promise<string> {
   const config = useRuntimeConfig()
   const secret = config.session.password
   
@@ -36,12 +138,12 @@ export function generateMagicLinkToken(email: string): { token: string; expiresA
   )
 
   // Store token temporarily
-  tokenStore.set(token, { email, token, expiresAt })
+  await storeToken(token, email, expiresAt)
 
-  return { token, expiresAt }
+  return token
 }
 
-export function verifyMagicLinkToken(token: string): { email: string } | null {
+export async function verifyMagicLinkToken(token: string): Promise<{ email: string } | null> {
   const config = useRuntimeConfig()
   const secret = config.session.password
   
@@ -53,17 +155,19 @@ export function verifyMagicLinkToken(token: string): { email: string } | null {
   }
 
   try {
-    // Check if token exists in store
-    const storedToken = tokenStore.get(token)
+    // check if token is stored
+    const storedToken = await retrieveAndRemoveToken(token)
     if (!storedToken) {
       return null
     }
 
-    // Verify JWT
+    // check if token expired
+    if (storedToken.expires < new Date()) {
+      return null
+    }
+
+    // verify JWT
     const payload = jwt.verify(token, secret) as MagicLinkPayload
-    
-    // Remove token from store (single use)
-    tokenStore.delete(token)
     
     return { email: payload.email }
   } catch (error) {

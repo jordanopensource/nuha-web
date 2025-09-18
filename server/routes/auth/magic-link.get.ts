@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       })
     }
     // verify the magic link token
-    const result = verifyMagicLinkToken(token)
+    const result = await verifyMagicLinkToken(token)
 
     if (!result) {
       throw createError({

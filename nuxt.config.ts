@@ -62,6 +62,14 @@ export default defineNuxtConfig({
       // TODO
       password: '',
     },
+    // Redis configs
+    redis: {
+      host: '',
+      port: '',
+      password: '',
+      db: '',
+      keyPrefix: '',
+    },
     // OAuth configuration
     oauth: {
       github: {

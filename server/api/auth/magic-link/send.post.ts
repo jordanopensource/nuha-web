@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     const selectedLocale = typeof locale === 'string' && supportedLocales.includes(locale) ? locale : 'en'
 
     // generate token and magic link
-    const { token } = generateMagicLinkToken(email)
+    const token = await generateMagicLinkToken(email)
 
     const config = useRuntimeConfig()
     const baseUrl = config.public.baseUrl
