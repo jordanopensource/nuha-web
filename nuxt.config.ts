@@ -89,5 +89,10 @@ export default defineNuxtConfig({
     public: {
       baseUrl: 'http://localhost:3000',
     },
-  }
+  },
+  nitro: {
+    devProxy: {
+      host: 'localhost',
+    },
+  },
 })
