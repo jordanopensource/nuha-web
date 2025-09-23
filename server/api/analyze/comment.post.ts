@@ -32,10 +32,13 @@ export default defineEventHandler(async (event) => {
       })
     }
     
+    // Get region
+    const region = body.region || 'egy'
+    
     // Prepare data for AI analysis
     const analysisRequest: AIAnalysisRequest = {
       comments,
-      model_dialect: 'egy' // FIXME: get region from req
+      model_dialect: region
     }
     
     // Check if AI analysis URL is configured
@@ -57,13 +60,11 @@ export default defineEventHandler(async (event) => {
       } catch (error) {
         console.error('AI Analysis API Error:', error)
         // DEV: fallback to mock data if AI API fails
-        // FIXME: get region from req
-        analysisResponse = generateMockAIResponse(comments, 'egy')
+        analysisResponse = generateMockAIResponse(comments, region)
       }
     } else {
-      // DEV: fallback to mock data if AI API fails
-      // FIXME: get region from req
-      analysisResponse = generateMockAIResponse(comments, 'egy')
+      // DEV: use mock data when AI URL is not configured
+      analysisResponse = generateMockAIResponse(comments, region)
     }
     
     return {

@@ -12,7 +12,7 @@ export interface CommentData {
 
 export interface AIAnalysisRequest {
   comments: CommentData[]
-  model_dialect: 'egy' | 'jor' | 'kur' | 'irq' | 'tun'
+  model_dialect: string
 }
 
 export interface AIAnalysisResponse {
@@ -24,7 +24,7 @@ export interface AIAnalysisResponse {
     non_hate_speech_count: number
     non_hate_speech_confidence_score: number
     model_version: string
-    model_dialect: 'egy' | 'jor' | 'kur' | 'irq' | 'tun'
+    model_dialect: string
   }
   comments_details: Array<{
     originalComment: string
@@ -213,7 +213,7 @@ export const parseFile = async (file: File): Promise<CommentData[]> => {
 // DEV: Mock AI response generator
 export const generateMockAIResponse = (
     comments: CommentData[],
-    dialect: 'egy' | 'jor' | 'kur' | 'irq' | 'tun'
+    dialect: string
   ): AIAnalysisResponse => {
   const totalComments = comments.length
   const hateSpeechCount = Math.floor(Math.random() * totalComments * 0.3) // Random 0-30%

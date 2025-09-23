@@ -117,6 +117,7 @@ const selectedMethod = ref(0) // 0 for text, 1 for file
 const showHelpModal = ref(false)
 const isLoading = ref(false)
 const errorMessage = ref('')
+const { region } = useGeolocation()
 
 // Form data
 const textInput = ref('')
@@ -193,7 +194,8 @@ const handleSubmit = async () => {
       const response = await $fetch<AnalysisResponse>('/api/analyze/comment', {
         method: 'POST',
         body: {
-          text: textInput.value
+          text: textInput.value,
+          region: region.value?.countryCode
         }
       })
       
@@ -208,6 +210,8 @@ const handleSubmit = async () => {
       // submit file input
       const formData = new FormData()
       formData.append('file', selectedFile.value!)
+      if (region.value)
+        formData.append('region', region.value.countryCode)
       
       const response = await $fetch<AnalysisResponse>('/api/analyze/file', {
         method: 'POST',

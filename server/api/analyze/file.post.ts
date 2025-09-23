@@ -47,10 +47,14 @@ export default defineEventHandler(async (event) => {
       })
     }
     
+    // Get region from form data and map to dialect
+    const regionEntry = formData.find(entry => entry.name === 'region')
+    const region = regionEntry?.data ? new TextDecoder().decode(regionEntry.data) : 'egy'
+    
     // prepare data for AI analysis
     const analysisRequest: AIAnalysisRequest = {
       comments,
-      model_dialect: 'egy' // FIXME: get region from req
+      model_dialect: region
     }
     
     const config = useRuntimeConfig()
@@ -72,13 +76,11 @@ export default defineEventHandler(async (event) => {
       } catch (error) {
         console.error('AI Analysis API Error:', error)
         // DEV: fallback to mock data if AI API fails
-        // FIXME: get region from req
-        analysisResponse = generateMockAIResponse(comments, 'egy')
+        analysisResponse = generateMockAIResponse(comments, region)
       }
     } else {
       // DEV: use mock data when AI URL is not configured
-      // FIXME: get region from req
-      analysisResponse = generateMockAIResponse(comments, 'egy')
+      analysisResponse = generateMockAIResponse(comments, region)
     }
     
     return {
