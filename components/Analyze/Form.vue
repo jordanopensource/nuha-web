@@ -112,6 +112,7 @@
 </template>
 <script setup lang="ts">
 import { MAX_FILE_SIZE_BYTES, ACCEPTED_MIME_TYPES, bytesToMB } from '~/utils/file-config'
+import type { AIAnalysisResponse } from '~/types/analyze'
 
 const emit = defineEmits(['method-changed'])
 
@@ -178,10 +179,9 @@ const validateForm = (): boolean => {
   return true
 }
 
-// TODO: define types in ~/types
 interface AnalysisResponse {
   success: boolean
-  data: unknown
+  data: AIAnalysisResponse
 }
 
 const handleSubmit = async () => {
@@ -237,7 +237,6 @@ const handleSubmit = async () => {
     const e = (error as NuxtErrorShape).data as NuxtErrorShape
     const key = e?.data?.message || e?.message
     const params = e?.data?.params
-    console.log("ERROR PARAMS: ", params, "ERROR DATA: ", e.data)
 
     if (key && key.startsWith('analyze.')) {
       errorMessage.value = $t(key, params || {})

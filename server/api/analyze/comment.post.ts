@@ -1,5 +1,5 @@
 import { parseTextInput, generateMockAIResponse, ERROR_KEYS } from '~/server/utils/input-parser'
-import type { AIAnalysisRequest, AIAnalysisResponse } from '~/server/utils/input-parser'
+import type { AIAnalysisRequest, AIAnalysisResponse } from '~/types/analyze'
 
 export default defineEventHandler(async (event) => {
   try {

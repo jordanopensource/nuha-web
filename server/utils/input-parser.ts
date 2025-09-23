@@ -1,39 +1,9 @@
 import type { EventHandler, EventHandlerRequest } from 'h3'
 import * as XLSX from 'xlsx'
 import { ACCEPTED_MIME_TYPES, MAX_FILE_SIZE_BYTES, bytesToMB } from '~/utils/file-config'
+import type { CommentData, AIAnalysisResponse } from '~/types/analyze'
 
-// Data structure definitions
-// TODO: move to types dir
-export interface CommentData {
-  comment: string
-  platform?: string
-  date?: string
-}
-
-export interface AIAnalysisRequest {
-  comments: CommentData[]
-  model_dialect: string
-}
-
-export interface AIAnalysisResponse {
-  general_analysis: {
-    hate_speech_percentage: number
-    hate_speech_count: number
-    hate_speech_confidence_score: number
-    non_hate_speech_percentage: number
-    non_hate_speech_count: number
-    non_hate_speech_confidence_score: number
-    model_version: string
-    model_dialect: string
-  }
-  comments_details: Array<{
-    originalComment: string
-    platform?: string
-    date?: string
-    label: 'hate-speech' | 'non-hate-speech' | 'neutral'
-    score: number
-  }>
-}
+// Data structure definitions moved to ~/types/analyze
 
 // Custom error class for translation
 export class TranslatableError extends Error {
