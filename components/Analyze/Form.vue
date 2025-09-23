@@ -1,5 +1,5 @@
 <template>
-  <form class="w-full lg:max-w-3xl mx-auto" @submit.prevent>
+  <form class="w-full lg:max-w-3xl mx-auto" @submit.prevent="handleSubmit">
     <!-- Form header -->
     <div class="flex justify-start">
       <ui-button
@@ -24,9 +24,10 @@
       :class="{'ltr:rounded-tl-none rtl:rounded-tr-none': selectedMethod === 0 }">
        <div class="flex justify-between py-2">
           <ui-region-language-selector
-            mode="region"
             :title="$t('analyze.form.regionTitle')"
+            mode="region"
             button-variant="ghost"
+            show-flag-in-button
           />
           <ui-button
             variant="ghost"
@@ -44,11 +45,23 @@
             </template>
           </ui-button>
        </div>
+       
+       <!-- Error Message -->
+       <div v-if="errorMessage" class="mb-4">
+         <ui-message 
+           type="error" 
+           :message="errorMessage"
+           show-close-button
+           @close="clearError"
+         />
+       </div>
+       
       <div>
         <UiXTransition :direction-value="selectedMethod">
           <div v-if="selectedMethod === 0">
             <ui-text-area
               key="text-input"
+              v-model="textInput"
               :modal-label="$t('analyze.form.textInput')"
               :placeholder="$t('analyze.form.textPlaceholder')"
               :required="true"
@@ -59,6 +72,7 @@
               key="file-input"
               :placeholder="$t('analyze.form.filePlaceholder')"
               @error="(message) => onFileError(message)"
+              @update:file="(file) => selectedFile = file.data"
             />
           </div>
         </UiXTransition>
@@ -67,8 +81,9 @@
         size="lg"
         class="mx-auto mt-4"
         type="submit"
+        :loading="isLoading"
       >
-        {{ $t('links.general.analyze') }}
+        {{ isLoading ? $t('misc.loading') : $t('links.general.analyze') }}
         <template #icon>
           <Icon
             name="mdi:arrow-right"
@@ -100,10 +115,17 @@ const emit = defineEmits(['method-changed'])
 
 const selectedMethod = ref(0) // 0 for text, 1 for file
 const showHelpModal = ref(false)
+const isLoading = ref(false)
+const errorMessage = ref('')
+
+// Form data
+const textInput = ref('')
+const selectedFile = ref<File | null>(null)
 
 const selectMethod = (method: number) => {
   selectedMethod.value = method
   emit('method-changed', method)
+  clearError()
 }
 
 // default method
@@ -111,9 +133,113 @@ onMounted(() => {
   emit('method-changed', selectedMethod.value)
 })
 
-// TODO: error handling and error messages
-const onFileError = (msg: string) => {
-  console.error("Error: ", msg)
+const clearError = () => {
+  errorMessage.value = ''
+}
+
+const validateForm = (): boolean => {
+  clearError()
+  
+  if (selectedMethod.value === 0) {
+    // text input validation
+    if (!textInput.value.trim()) {
+      errorMessage.value = 'Text input is required'
+      return false
+    }
+    
+    // at least one line with content
+    const lines = textInput.value.trim().split('\n').filter(line => line.trim())
+    if (lines.length === 0) {
+      errorMessage.value = 'Please enter at least one comment' // TODO: i18n
+      return false
+    }
+  } else {
+    // file input validation
+    if (!selectedFile.value) {
+      errorMessage.value = 'Please select a file to upload'
+      return false
+    }
+    
+    // check file size (10MB limit)
+    // TODO: define size in configs or a unified place
+    const maxSize = 10 * 1024 * 1024 // 10MB in bytes
+    if (selectedFile.value.size > maxSize) {
+      errorMessage.value = 'File size exceeds 10MB limit' // TODO: i18n
+      return false
+    }
+  }
+  
+  return true
+}
+
+// TODO: define types in ~/types
+interface AnalysisResponse {
+  success: boolean
+  data: unknown
+}
+
+const handleSubmit = async () => {
+  if (!validateForm()) {
+    return
+  }
+  
+  isLoading.value = true
+  clearError()
+  
+  try {
+    const localePath = useLocalePath()
+    if (selectedMethod.value === 0) {
+      // submit text input
+      const response = await $fetch<AnalysisResponse>('/api/analyze/comment', {
+        method: 'POST',
+        body: {
+          text: textInput.value
+        }
+      })
+      
+      if (response.success) {
+        // go to results with data
+        await navigateTo({
+          path: localePath('/analyze/results'),
+          query: { data: JSON.stringify(response.data) }
+        })
+      }
+    } else {
+      // submit file input
+      const formData = new FormData()
+      formData.append('file', selectedFile.value!)
+      
+      const response = await $fetch<AnalysisResponse>('/api/analyze/file', {
+        method: 'POST',
+        body: formData
+      })
+      
+      if (response.success) {
+        await navigateTo({
+          path: localePath('/analyze/results'),
+          query: { data: JSON.stringify(response.data) }
+        })
+      }
+    }
+  } catch (error: unknown) {
+    console.error('Submission error:', error)
+    
+    // Handle API errors
+    // TODO: i18n for error messages
+    if (error && typeof error === 'object' && 'data' in error && error.data && typeof error.data === 'object' && 'message' in error.data) {
+      errorMessage.value = String(error.data.message)
+    } else if (error && typeof error === 'object' && 'message' in error) {
+      errorMessage.value = String(error.message)
+    } else {
+      errorMessage.value = 'An error occurred while processing your request'
+    }
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const onFileError = (errorData: { message: string; file?: File }) => {
+  errorMessage.value = errorData.message
 }
 </script>
 

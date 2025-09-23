@@ -7,7 +7,7 @@
     :enter-from-class="`input-method-enter-from ${directionValue === 0 ? 'method-0' : 'method-1'}`"
     :leave-to-class="`input-method-leave-to ${directionValue === 0 ? 'method-0' : 'method-1'}`"
   >
-  <slot />
+    <slot />
   </Transition>
 </template>
 

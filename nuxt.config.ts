@@ -86,6 +86,10 @@ export default defineNuxtConfig({
       frTemplateId: '',
       ckbTemplateId: '',
     },
+    // AI Analysis configuration
+    aiModel: {
+      url: '',
+    },
     public: {
       baseUrl: 'http://localhost:3000',
     },

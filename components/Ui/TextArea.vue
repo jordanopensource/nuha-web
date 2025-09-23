@@ -8,7 +8,6 @@
       name="text"
       :required="required"
       :placeholder="placeholder"
-      @change="updateData()"
     />
     <UiButton
       v-if="showExpandButton"
@@ -29,7 +28,6 @@
     :title="label || modalLabel"
     size="lg"
     :show-footer="false"
-    @close="updateData"
   >
     <template #default>
       <div class="p-2 flex-grow overflow-auto">
@@ -37,7 +35,6 @@
           v-model="text"
           class="h-[50vh] resize-y bg-colors-neutral-background bg-opacity-85"
           :placeholder="placeholder"
-          @change="updateData()"
         />
       </div>
     </template>
@@ -45,9 +42,7 @@
 </template>
 
 <script setup lang="ts">
-  const emit = defineEmits(['update:text'])
-
-  defineProps({
+defineProps({
     showExpandButton: {
       type: Boolean,
       default: true,
@@ -71,16 +66,7 @@
   })
 
   const showModal = ref(false)
-  const text = ref('')
-
-  function updateData() {
-    emit('update:text', {
-      type: 'text',
-      data: {
-        text,
-      },
-    })
-  }
+  const text = defineModel<string>()
 </script>
 
 <style lang="postcss" scoped>

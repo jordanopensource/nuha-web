@@ -56,7 +56,7 @@
     }
   })
 
-  const emit = defineEmits(['update:data', 'error'])
+  const emit = defineEmits(['update:file', 'error'])
   const file = ref<File | null>()
   const id = useId()
 
@@ -77,6 +77,7 @@
     const selectedFile = files[0]
     
     // TODO: i18n for error message
+    // TODO: show only accepted file types name not their mime-types
     if (!isValidFileType(selectedFile)) {
       emit('error', {
         message: `Invalid file type. Accepted types: ${props.acceptedTypes.join(', ')}`,
@@ -90,7 +91,7 @@
   }
 
   function updateData() {
-    emit('update:data', {
+    emit('update:file', {
       data: file.value,
     })
   }
@@ -103,8 +104,8 @@
   const dropzone = ref<HTMLButtonElement>()
   
   async function onDrop (files : File[] | null) {
-    file.value = files? files[0] : null
-    console.log("Dropped file:", file.value?.name, `${file.value?.size}B`, await file.value?.text(), file.value?.type)
+    file.value = files ? files[0] : null
+    updateData()
   }
 
   const { isOverDropZone } = useDropZone(dropzone, {
