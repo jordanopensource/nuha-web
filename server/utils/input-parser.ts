@@ -1,5 +1,6 @@
 import type { EventHandler, EventHandlerRequest } from 'h3'
 import * as XLSX from 'xlsx'
+import { ACCEPTED_MIME_TYPES, MAX_FILE_SIZE_BYTES, bytesToMB } from '~/utils/file-config'
 
 // Data structure definitions
 // TODO: move to types dir
@@ -72,27 +73,19 @@ export const ERROR_KEYS = {
 }
 
 // File validation utilities
-export const validateFile = (file: File, maxSizeBytes: number = 10 * 1024 * 1024) => {
+export const validateFile = (file: File, maxSizeBytes: number = MAX_FILE_SIZE_BYTES) => {
   const errors: { key: string, params?: Record<string, string | number> }[] = []
   
   // Check file size
   if (file.size > maxSizeBytes) {
     errors.push({ 
       key: ERROR_KEYS.FILE_SIZE_EXCEEDED, 
-      params: { size: Math.round(maxSizeBytes / 1024 / 1024) }
+      params: { size: bytesToMB(maxSizeBytes) }
     })
   }
   
   // Check MIME type
-  const allowedTypes = [
-    'text/plain',
-    'text/csv',
-    'application/json',
-    'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  ]
-  
-  if (!allowedTypes.includes(file.type)) {
+  if (!ACCEPTED_MIME_TYPES.includes(file.type)) {
     errors.push({ key: ERROR_KEYS.INVALID_FILE_TYPE })
   }
   

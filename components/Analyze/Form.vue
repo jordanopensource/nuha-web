@@ -111,6 +111,8 @@
   </form>
 </template>
 <script setup lang="ts">
+import { MAX_FILE_SIZE_BYTES, ACCEPTED_MIME_TYPES, bytesToMB } from '~/utils/file-config'
+
 const emit = defineEmits(['method-changed'])
 
 const selectedMethod = ref(0) // 0 for text, 1 for file
@@ -161,11 +163,14 @@ const validateForm = (): boolean => {
       return false
     }
     
-    // check file size (10MB limit)
-    // TODO: define size in configs or a unified place
-    const maxSize = 10 * 1024 * 1024 // 10MB in bytes
-    if (selectedFile.value.size > maxSize) {
-      errorMessage.value = $t('analyze.validation.fileSizeLimit')
+    // check file size (config limit)
+    if (selectedFile.value.size > MAX_FILE_SIZE_BYTES) {
+      errorMessage.value = $t('analyze.errors.fileSizeExceeded', { size: bytesToMB(MAX_FILE_SIZE_BYTES) })
+      return false
+    }
+    // check type
+    if (!ACCEPTED_MIME_TYPES.includes(selectedFile.value.type)) {
+      errorMessage.value = $t('analyze.errors.invalidFileType')
       return false
     }
   }

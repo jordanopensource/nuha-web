@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
   import { useDropZone } from '@vueuse/core'
+  import { ACCEPTED_MIME_TYPES } from '~/utils/file-config'
 
   const props = defineProps({
     label: {
@@ -45,13 +46,7 @@
     },
     acceptedTypes: {
       type: Array as PropType<string[]>,
-      default: () => [
-        'text/plain',
-        'text/csv',
-        'application/json',
-        'application/vnd.ms-excel', // .xls
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
-      ]
+      default: () => ACCEPTED_MIME_TYPES
     }
   })
 
