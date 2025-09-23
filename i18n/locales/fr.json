@@ -64,7 +64,8 @@
       "regionTitle": "Région pour le Dialecte du Modèle IA",
       "help": "Aide",
       "textPlaceholder": "Ajouter du texte",
-      "filePlaceholder": "Télécharger ou Déposer le Fichier"
+      "filePlaceholder": "Télécharger ou Déposer le Fichier",
+      "selectedFile": "Fichier sélectionné: {filename}"
     },
     "help": {
       "title": "Aide Format d'Entrée",
@@ -90,6 +91,42 @@
         "encoding": "Encodage du texte: UTF-8 préféré",
         "content": "Les fichiers doivent contenir du texte arabe lisible"
       }
+    },
+    "results": {
+      "title": "Résultats d'Analyse",
+      "subtitle": "Voici les résultats de l'analyse de vos commentaires."
+    },
+    "validation": {
+      "textRequired": "La saisie de texte est requise",
+      "textEmpty": "La saisie de texte ne peut pas être vide",
+      "oneCommentRequired": "Veuillez entrer au moins un commentaire",
+      "fileRequired": "Veuillez sélectionner un fichier à télécharger",
+      "fileSizeLimit": "La taille du fichier dépasse la limite de 10MB",
+      "invalidFileType": "Type de fichier invalide. Types acceptés: {types}",
+      "processingError": "Une erreur s'est produite lors du traitement de votre demande"
+    },
+    "errors": {
+      "fileSizeExceeded": "La taille du fichier dépasse la limite maximale de {size}MB",
+      "invalidFileType": "Type de fichier invalide. Veuillez télécharger un fichier texte, CSV, JSON ou Excel",
+      "textInputEmpty": "La saisie de texte est vide",
+      "csvFileEmpty": "Le fichier CSV est vide",
+      "csvNoData": "Le fichier CSV ne contient aucune donnée",
+      "csvRowError": "Ligne {row}: Le commentaire est requis",
+      "jsonArrayRequired": "Le fichier JSON doit contenir un tableau d'objets",
+      "jsonItemError": "Élément {item}: Le commentaire est requis",
+      "jsonInvalidFormat": "Format JSON invalide",
+      "excelNoSheets": "Le fichier Excel ne contient aucune feuille",
+      "excelEmpty": "Le fichier Excel est vide",
+      "excelNoData": "Le fichier Excel ne contient aucune donnée",
+      "excelRowError": "Ligne {row}: Le commentaire est requis",
+      "excelParseError": "Échec de l'analyse du fichier Excel",
+      "unsupportedFileType": "Type de fichier non supporté",
+      "noFileUploaded": "Aucun fichier téléchargé",
+      "fileIsRequired": "Le fichier est requis",
+      "parseFileError": "Échec de l'analyse du fichier",
+      "noValidComments": "Aucun commentaire valide trouvé dans le fichier",
+      "parseTextError": "Échec de l'analyse de la saisie de texte",
+      "internalServerError": "Erreur interne du serveur"
     }
   },
   "login": {

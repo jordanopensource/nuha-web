@@ -64,7 +64,8 @@
       "regionTitle": "المنطقة للهجة نموذج الذكاء الاصطناعي",
       "help": "مساعدة",
       "textPlaceholder": "أضف النص",
-      "filePlaceholder": "ارفع أو اسقط الملف"
+      "filePlaceholder": "ارفع أو اسقط الملف",
+      "selectedFile": "الملف المختار: {filename}"
     },
     "help": {
       "title": "مساعدة تنسيق الإدخال",
@@ -90,6 +91,42 @@
         "encoding": "ترميز النص: UTF-8 مفضل",
         "content": "يجب أن تحتوي الملفات على نص عربي قابل للقراءة"
       }
+    },
+    "results": {
+      "title": "نتائج التحليل",
+      "subtitle": "إليك نتائج تحليل تعليقاتك."
+    },
+    "validation": {
+      "textRequired": "إدخال النص مطلوب",
+      "textEmpty": "لا يمكن أن يكون إدخال النص فارغاً",
+      "oneCommentRequired": "يرجى إدخال تعليق واحد على الأقل",
+      "fileRequired": "يرجى اختيار ملف لرفعه",
+      "fileSizeLimit": "حجم الملف يتجاوز حد ١٠ ميجابايت",
+      "invalidFileType": "نوع ملف غير صحيح. الأنواع المقبولة: {types}",
+      "processingError": "حدث خطأ أثناء معالجة طلبك"
+    },
+    "errors": {
+      "fileSizeExceeded": "حجم الملف يتجاوز الحد الأقصى {size} ميجابايت",
+      "invalidFileType": "نوع ملف غير صحيح. يرجى رفع ملف نص أو CSV أو JSON أو Excel",
+      "textInputEmpty": "إدخال النص فارغ",
+      "csvFileEmpty": "ملف CSV فارغ",
+      "csvNoData": "ملف CSV لا يحتوي على بيانات",
+      "csvRowError": "الصف {row}: التعليق مطلوب",
+      "jsonArrayRequired": "ملف JSON يجب أن يحتوي على مصفوفة من الكائنات",
+      "jsonItemError": "العنصر {item}: التعليق مطلوب",
+      "jsonInvalidFormat": "تنسيق JSON غير صحيح",
+      "excelNoSheets": "ملف Excel لا يحتوي على أوراق عمل",
+      "excelEmpty": "ملف Excel فارغ",
+      "excelNoData": "ملف Excel لا يحتوي على بيانات",
+      "excelRowError": "الصف {row}: التعليق مطلوب",
+      "excelParseError": "فشل في تحليل ملف Excel",
+      "unsupportedFileType": "نوع ملف غير مدعوم",
+      "noFileUploaded": "لم يتم رفع أي ملف",
+      "fileIsRequired": "الملف مطلوب",
+      "parseFileError": "فشل في تحليل الملف",
+      "noValidComments": "لم يتم العثور على تعليقات صحيحة في الملف",
+      "parseTextError": "فشل في تحليل إدخال النص",
+      "internalServerError": "خطأ خادم داخلي"
     }
   },
   "login": {

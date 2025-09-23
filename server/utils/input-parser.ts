@@ -1,7 +1,6 @@
 import type { EventHandler, EventHandlerRequest } from 'h3'
 import * as XLSX from 'xlsx'
 
-// TODO: Translate all errors
 // Data structure definitions
 // TODO: move to types dir
 export interface CommentData {
@@ -35,13 +34,53 @@ export interface AIAnalysisResponse {
   }>
 }
 
+// Custom error class for translation
+export class TranslatableError extends Error {
+  public params?: Record<string, string | number>
+  public key: string
+
+  constructor(key: string, params?: Record<string, string | number>) {
+    super(key)
+    this.key = key
+    this.params = params
+    this.name = 'TranslatableError'
+  }
+}
+export const ERROR_KEYS = {
+  FILE_SIZE_EXCEEDED: 'analyze.errors.fileSizeExceeded',
+  INVALID_FILE_TYPE: 'analyze.errors.invalidFileType',
+  TEXT_INPUT_REQUIRED: 'analyze.validation.textRequired',
+  TEXT_INPUT_EMPTY: 'analyze.errors.textInputEmpty',
+  CSV_FILE_EMPTY: 'analyze.errors.csvFileEmpty',
+  CSV_NO_DATA: 'analyze.errors.csvNoData',
+  CSV_ROW_ERROR: 'analyze.errors.csvRowError',
+  JSON_ARRAY_REQUIRED: 'analyze.errors.jsonArrayRequired',
+  JSON_ITEM_ERROR: 'analyze.errors.jsonItemError',
+  JSON_INVALID_FORMAT: 'analyze.errors.jsonInvalidFormat',
+  EXCEL_NO_SHEETS: 'analyze.errors.excelNoSheets',
+  EXCEL_EMPTY: 'analyze.errors.excelEmpty',
+  EXCEL_NO_DATA: 'analyze.errors.excelNoData',
+  EXCEL_ROW_ERROR: 'analyze.errors.excelRowError',
+  EXCEL_PARSE_ERROR: 'analyze.errors.excelParseError',
+  UNSUPPORTED_FILE_TYPE: 'analyze.errors.unsupportedFileType',
+  NO_FILE_UPLOADED: 'analyze.errors.noFileUploaded',
+  FILE_IS_REQUIRED: 'analyze.errors.fileIsRequired',
+  PARSE_FILE_ERROR: 'analyze.errors.parseFileError',
+  NO_VALID_COMMENTS: 'analyze.errors.noValidComments',
+  PARSE_TEXT_ERROR: 'analyze.errors.parseTextError',
+  INTERNAL_SERVER_ERROR: 'analyze.errors.internalServerError'
+}
+
 // File validation utilities
 export const validateFile = (file: File, maxSizeBytes: number = 10 * 1024 * 1024) => {
-  const errors: string[] = []
+  const errors: { key: string, params?: Record<string, string | number> }[] = []
   
   // Check file size
   if (file.size > maxSizeBytes) {
-    errors.push(`File size exceeds maximum limit of ${Math.round(maxSizeBytes / 1024 / 1024)}MB`)
+    errors.push({ 
+      key: ERROR_KEYS.FILE_SIZE_EXCEEDED, 
+      params: { size: Math.round(maxSizeBytes / 1024 / 1024) }
+    })
   }
   
   // Check MIME type
@@ -54,7 +93,7 @@ export const validateFile = (file: File, maxSizeBytes: number = 10 * 1024 * 1024
   ]
   
   if (!allowedTypes.includes(file.type)) {
-    errors.push('Invalid file type. Please upload a text, CSV, JSON, or Excel file')
+    errors.push({ key: ERROR_KEYS.INVALID_FILE_TYPE })
   }
   
   return {
@@ -67,7 +106,7 @@ export const parseTextInput = (text: string): CommentData[] => {
   const lines = text.trim().split('\n').filter(line => line.trim() !== '')
   
   if (lines.length === 0) {
-    throw new Error('Text input is empty')
+    throw new Error(ERROR_KEYS.TEXT_INPUT_EMPTY)
   }
   
   return lines.map((line) => {
@@ -83,7 +122,7 @@ export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
   const lines = text.trim().split('\n')
   
   if (lines.length === 0) {
-    throw new Error('CSV file is empty')
+    throw new Error(ERROR_KEYS.CSV_FILE_EMPTY)
   }
   
   // Skip header if it looks like one
@@ -91,14 +130,14 @@ export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
   const dataLines = lines.slice(startIndex)
   
   if (dataLines.length === 0) {
-    throw new Error('CSV file contains no data')
+    throw new Error(ERROR_KEYS.CSV_NO_DATA)
   }
   
   return dataLines.map((line, index) => {
     const parts = line.split(',').map(part => part.trim().replace(/^"|"$/g, ''))
     
     if (!parts[0]) {
-      throw new Error(`Row ${startIndex + index + 1}: Comment is required`)
+      throw new TranslatableError(ERROR_KEYS.CSV_ROW_ERROR, { row: startIndex + index + 1 })
     }
     
     return {
@@ -118,12 +157,12 @@ export const parseJsonFile = async (file: File): Promise<CommentData[]> => {
     const data: CommentData[] = JSON.parse(text)
     
     if (!Array.isArray(data)) {
-      throw new Error('JSON file must contain an array of objects')
+      throw new Error(ERROR_KEYS.JSON_ARRAY_REQUIRED)
     }
     
     return data.map((item, index) => {
       if (typeof item !== 'object' || !item.comment) {
-        throw new Error(`Item ${index + 1}: Comment is required`)
+        throw new TranslatableError(ERROR_KEYS.JSON_ITEM_ERROR, { item: index + 1 })
       }
       
       return {
@@ -134,7 +173,7 @@ export const parseJsonFile = async (file: File): Promise<CommentData[]> => {
     })
   } catch (error) {
     if (error instanceof SyntaxError) {
-      throw new Error('Invalid JSON format')
+      throw new Error(ERROR_KEYS.JSON_INVALID_FORMAT)
     }
     throw error
   }
@@ -149,14 +188,14 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     const sheetName = workbook.SheetNames[0]
     
     if (!sheetName) {
-      throw new Error('Excel file contains no sheets')
+      throw new Error(ERROR_KEYS.EXCEL_NO_SHEETS)
     }
     
     const worksheet = workbook.Sheets[sheetName]
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as string[][]
     
     if (jsonData.length === 0) {
-      throw new Error('Excel file is empty')
+      throw new Error(ERROR_KEYS.EXCEL_EMPTY)
     }
     
     // Skip header row if it exists
@@ -166,13 +205,13 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     const dataRows = jsonData.slice(startIndex)
     
     if (dataRows.length === 0) {
-      throw new Error('Excel file contains no data')
+      throw new Error(ERROR_KEYS.EXCEL_NO_DATA)
     }    
     return dataRows
     .filter(row => row.length !== 0)
     .map((row, index) => {
       if (!row[0]) {
-        throw new Error(`Row ${startIndex + index + 1}: Comment is required`)
+        throw new TranslatableError(ERROR_KEYS.EXCEL_ROW_ERROR, { row: startIndex + index + 1 })
       }
       
       return {
@@ -182,10 +221,10 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
       }
     })
   } catch (error) {
-    if (error instanceof Error && error.message.includes('Row')) {
+    if (error instanceof TranslatableError) {
       throw error
     }
-    throw new Error('Failed to parse Excel file')
+    throw new Error(ERROR_KEYS.EXCEL_PARSE_ERROR)
   }
 }
 
@@ -193,7 +232,8 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
 export const parseFile = async (file: File): Promise<CommentData[]> => {
   const validation = validateFile(file)
   if (!validation.isValid) {
-    throw new Error(validation.errors.join('; '))
+    const first = validation.errors[0]
+    throw new TranslatableError(first.key, first.params)
   }
   
   switch (file.type) {
@@ -206,7 +246,7 @@ export const parseFile = async (file: File): Promise<CommentData[]> => {
     case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
       return await parseExcelFile(file)
     default:
-      throw new Error('Unsupported file type')
+      throw new TranslatableError(ERROR_KEYS.UNSUPPORTED_FILE_TYPE)
   }
 }
 

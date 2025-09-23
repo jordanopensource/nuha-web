@@ -1,15 +1,14 @@
-import { parseTextInput, generateMockAIResponse } from '~/server/utils/input-parser'
+import { parseTextInput, generateMockAIResponse, ERROR_KEYS } from '~/server/utils/input-parser'
 import type { AIAnalysisRequest, AIAnalysisResponse } from '~/server/utils/input-parser'
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
     
-    // TODO: translate user errors
     if (!body || !body.text) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Text input is required'
+        statusMessage: ERROR_KEYS.TEXT_INPUT_REQUIRED
       })
     }
 
@@ -17,7 +16,7 @@ export default defineEventHandler(async (event) => {
     if (!text) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Text input cannot be empty'
+        statusMessage: ERROR_KEYS.TEXT_INPUT_EMPTY
       })
     }
     
@@ -26,9 +25,10 @@ export default defineEventHandler(async (event) => {
     try {
       comments = parseTextInput(text)
     } catch (error) {
+      const msg = error instanceof Error ? error.message : ERROR_KEYS.PARSE_TEXT_ERROR
       throw createError({
         statusCode: 400,
-        statusMessage: error instanceof Error ? error.message : 'Failed to parse text input'
+        statusMessage: msg
       })
     }
     
@@ -79,7 +79,7 @@ export default defineEventHandler(async (event) => {
     
     throw createError({
       statusCode: 500,
-      statusMessage: 'Internal server error'
+      statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR
     })
   }
 })

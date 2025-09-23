@@ -1,25 +1,23 @@
-import { parseFile, generateMockAIResponse } from '~/server/utils/input-parser'
+import { parseFile, generateMockAIResponse, ERROR_KEYS, TranslatableError } from '~/server/utils/input-parser'
 import type { AIAnalysisRequest, AIAnalysisResponse } from '~/server/utils/input-parser'
 
 export default defineEventHandler(async (event) => {
   try {
     const formData = await readMultipartFormData(event)
     
-    // TODO: translate user errors
     if (!formData || formData.length === 0) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'No file uploaded'
+        statusMessage: ERROR_KEYS.NO_FILE_UPLOADED
       })
     }
     
-    // TODO: translate errors
     // find the file in form data
     const fileEntry = formData.find(entry => entry.name === 'file')
     if (!fileEntry || !fileEntry.data || !fileEntry.filename) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'File is required'
+        statusMessage: ERROR_KEYS.FILE_IS_REQUIRED
       })
     }
     
@@ -33,9 +31,17 @@ export default defineEventHandler(async (event) => {
     try {
       comments = await parseFile(file)
     } catch (error) {
+      if (error instanceof TranslatableError) {
+        const err = createError({
+          statusCode: 400,
+          statusMessage: error.key,
+          data: { params: error.params }
+        })
+        throw err
+      }
       throw createError({
         statusCode: 400,
-        statusMessage: error instanceof Error ? error.message : 'Failed to parse file'
+        statusMessage: ERROR_KEYS.PARSE_FILE_ERROR
       })
     }
     
@@ -43,7 +49,7 @@ export default defineEventHandler(async (event) => {
     if (!comments || comments.length === 0) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'No valid comments found in file'
+        statusMessage: ERROR_KEYS.NO_VALID_COMMENTS
       })
     }
     
@@ -95,7 +101,7 @@ export default defineEventHandler(async (event) => {
     
     throw createError({
       statusCode: 500,
-      statusMessage: 'Internal server error'
+      statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR
     })
   }
 })

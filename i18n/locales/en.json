@@ -65,7 +65,8 @@
       "regionTitle": "Region for the AI Model Dialect",
       "help": "Help",
       "textPlaceholder": "Add text",
-      "filePlaceholder": "Upload or Drop File"
+      "filePlaceholder": "Upload or Drop File",
+      "selectedFile": "Selected file: {filename}"
     },
     "help": {
       "title": "Input Format Help",
@@ -91,6 +92,42 @@
         "encoding": "Text encoding: UTF-8 preferred",
         "content": "Files should contain readable Arabic text"
       }
+    },
+    "results": {
+      "title": "Analysis Results",
+      "subtitle": "Here are the results of your comment analysis."
+    },
+    "validation": {
+      "textRequired": "Text input is required",
+      "textEmpty": "Text input cannot be empty",
+      "oneCommentRequired": "Please enter at least one comment",
+      "fileRequired": "Please select a file to upload",
+      "fileSizeLimit": "File size exceeds 10MB limit",
+      "invalidFileType": "Invalid file type. Accepted types: {types}",
+      "processingError": "An error occurred while processing your request"
+    },
+    "errors": {
+      "fileSizeExceeded": "File size exceeds maximum limit of {size}MB",
+      "invalidFileType": "Invalid file type. Please upload a text, CSV, JSON, or Excel file",
+      "textInputEmpty": "Text input is empty",
+      "csvFileEmpty": "CSV file is empty",
+      "csvNoData": "CSV file contains no data",
+      "csvRowError": "Row {row}: Comment is required",
+      "jsonArrayRequired": "JSON file must contain an array of objects",
+      "jsonItemError": "Item {item}: Comment is required",
+      "jsonInvalidFormat": "Invalid JSON format",
+      "excelNoSheets": "Excel file contains no sheets",
+      "excelEmpty": "Excel file is empty",
+      "excelNoData": "Excel file contains no data",
+      "excelRowError": "Row {row}: Comment is required",
+      "excelParseError": "Failed to parse Excel file",
+      "unsupportedFileType": "Unsupported file type",
+      "noFileUploaded": "No file uploaded",
+      "fileIsRequired": "File is required",
+      "parseFileError": "Failed to parse file",
+      "noValidComments": "No valid comments found in file",
+      "parseTextError": "Failed to parse text input",
+      "internalServerError": "Internal server error"
     }
   },
   "login": {

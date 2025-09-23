@@ -1,4 +1,3 @@
-<!-- TODO: i18n -->
 <template>
   <div class="w-full">
     <div v-if="label" class="mb-2">{{ label }}</div>
@@ -13,7 +12,7 @@
         {{
           !file
             ? placeholder
-            : `Selected file: ${file.name}`
+            : $t('analyze.form.selectedFile', { filename: file.name })
         }}
       </label>
       <template #icon>
@@ -76,11 +75,9 @@
     
     const selectedFile = files[0]
     
-    // TODO: i18n for error message
-    // TODO: show only accepted file types name not their mime-types
     if (!isValidFileType(selectedFile)) {
       emit('error', {
-        message: `Invalid file type. Accepted types: ${props.acceptedTypes.join(', ')}`,
+        message: $t('analyze.errors.invalidFileType'),
         file: selectedFile
       })
       return

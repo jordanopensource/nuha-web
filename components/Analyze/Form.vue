@@ -144,20 +144,20 @@ const validateForm = (): boolean => {
   if (selectedMethod.value === 0) {
     // text input validation
     if (!textInput.value.trim()) {
-      errorMessage.value = 'Text input is required'
+      errorMessage.value = $t('analyze.validation.textRequired')
       return false
     }
     
     // at least one line with content
     const lines = textInput.value.trim().split('\n').filter(line => line.trim())
     if (lines.length === 0) {
-      errorMessage.value = 'Please enter at least one comment' // TODO: i18n
+      errorMessage.value = $t('analyze.validation.oneCommentRequired')
       return false
     }
   } else {
     // file input validation
     if (!selectedFile.value) {
-      errorMessage.value = 'Please select a file to upload'
+      errorMessage.value = $t('analyze.validation.fileRequired')
       return false
     }
     
@@ -165,7 +165,7 @@ const validateForm = (): boolean => {
     // TODO: define size in configs or a unified place
     const maxSize = 10 * 1024 * 1024 // 10MB in bytes
     if (selectedFile.value.size > maxSize) {
-      errorMessage.value = 'File size exceeds 10MB limit' // TODO: i18n
+      errorMessage.value = $t('analyze.validation.fileSizeLimit')
       return false
     }
   }
@@ -227,15 +227,19 @@ const handleSubmit = async () => {
     }
   } catch (error: unknown) {
     console.error('Submission error:', error)
-    
-    // Handle API errors
-    // TODO: i18n for error messages
-    if (error && typeof error === 'object' && 'data' in error && error.data && typeof error.data === 'object' && 'message' in error.data) {
-      errorMessage.value = String(error.data.message)
-    } else if (error && typeof error === 'object' && 'message' in error) {
-      errorMessage.value = String(error.message)
+
+    type NuxtErrorShape = { data?: { message?: string; params?: Record<string, string | number> } ; message?: string }
+    const e = (error as NuxtErrorShape).data as NuxtErrorShape
+    const key = e?.data?.message || e?.message
+    const params = e?.data?.params
+    console.log("ERROR PARAMS: ", params, "ERROR DATA: ", e.data)
+
+    if (key && key.startsWith('analyze.')) {
+      errorMessage.value = $t(key, params || {})
+    } else if (key) {
+      errorMessage.value = key
     } else {
-      errorMessage.value = 'An error occurred while processing your request'
+      errorMessage.value = $t('analyze.validation.processingError')
     }
   } finally {
     isLoading.value = false
