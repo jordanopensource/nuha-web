@@ -59,7 +59,6 @@ export default defineNuxtConfig({
         httpOnly: true
       },
       maxAge: 60 * 60 * 24 * 7, // 1 week
-      // TODO
       password: '',
     },
     // Redis configs
@@ -97,6 +96,18 @@ export default defineNuxtConfig({
   nitro: {
     devProxy: {
       host: 'localhost',
+    },
+    externals: {
+      inline: ['xlsx']
+    },
+    moduleSideEffects: ['xlsx'],
+  },
+  vite: {
+    ssr: {
+      noExternal: ['xlsx']
+    },
+    optimizeDeps: {
+      include: ['xlsx'],
     },
   },
 })
