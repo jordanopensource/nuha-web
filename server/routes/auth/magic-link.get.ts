@@ -56,7 +56,6 @@ export default defineEventHandler(async (event) => {
 // FIXME
 // generate a consistent user ID from email
 function generateUserId(email: string): string {
-  // TODO: create user in db
   let hash = 0
   for (let i = 0; i < email.length; i++) {
     const char = email.charCodeAt(i)

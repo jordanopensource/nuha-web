@@ -4,15 +4,84 @@
     <UiPageHeading 
       :title="$t('analyze.results.title')"
       use-h1
-      :subtitle="$t('analyze.results.subtitle')" 
-    />
+    >
+      <template #second-col>
+        <div class="flex flex-wrap">
+          <div class="flex flex-col gap-2 md:ms-auto max-md:mt-4 max-md:mx-auto print:hidden">
+            <UiButton
+              class="w-52 ms-auto"
+            >
+              <!-- TODO: i18n -->
+              <!-- TODO: on click, open a UiModal with download options (PDF, JSON, CSV, ...) -->
+              Download Results
+              <template #icon>
+                <Icon name="mdi:download" />
+              </template>
+            </UiButton>
+            <UiButton
+              class="w-52 ms-auto"
+              variant="outline"
+            >
+              <!-- TODO: i18n -->
+              Print
+              <template #icon>
+                <Icon name="mdi:printer" />
+              </template>
+            </UiButton>
+            <UiButton
+              class="w-52 ms-auto md:!hidden"
+              variant="ghost"
+              to="#results-overview"
+            >
+              <!-- TODO: i18n -->
+              Jump to results
+              <template #icon>
+                <Icon name="mdi:arrow-down" />
+              </template>
+            </UiButton>
+          </div>
+        </div>
+      </template>
+    </UiPageHeading>
+
     
-    <div v-if="analysisData" class="mt-8">
+    <div v-if="analysisData">
+      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6">
+        <UiPageHeading
+          v-if="analysisData"
+          id="results-overview"
+          title="Overview"
+          class="[&_h2]:font-normal"
+        >
+        <template #second-col>
+          <UiButton
+            variant="ghost"
+            class="w-52 md:ms-auto max-md:me-auto print:!hidden"
+          >
+            <!-- TODO: i18n -->
+            <!-- TODO: on click, open a UiModal with customization and charts options -->
+            Customize Charts
+            <template #icon>
+              <Icon name="mdi:pencil" />
+            </template>
+          </UiButton>
+        </template>
+        </UiPageHeading>
+        <!-- Charts -->
+        <ClientOnly>
+          <div class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 mb-6 py-12">
+            <ChartDoughnut class="!w-3/4 m-auto" :chart-data="pieChartData" :options="pieOptions" />
+            <ChartBar class="!w-full m-auto" :chart-data="barChartData" :options="barOptions" />
+            <!-- <ChartPie class="!w-3/4 my-auto" :chart-data="pieChartData" :options="pieOptions" /> -->
+          </div>
+        </ClientOnly>
+      </div>
+
       <!-- General Analysis Summary -->
       <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6">
-        <h2 class="text-xl font-semibold mb-4 text-colors-primary">Analysis Summary</h2>
+        <h2 class="font-normal mb-4">Analysis Summary</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-6">
           <div class="text-center p-4 bg-red-50 rounded-lg border border-red-200">
             <div class="text-2xl font-bold text-red-600">
               {{ analysisData.general_analysis.hate_speech_percentage }}%
@@ -21,41 +90,69 @@
             <div class="text-xs text-gray-600">
               {{ analysisData.general_analysis.hate_speech_count }} comments
             </div>
+            <small class="flex gap-1 justify-center mt-2">
+              <div>Confidence Score:</div>
+              <div>
+                {{ (analysisData.general_analysis.hate_speech_confidence_score * 100).toFixed(1) }}%
+              </div>
+            </small>
           </div>
           
+          <!-- TODO: for not-hate speech, use the same color for its chart color -->
           <div class="text-center p-4 bg-green-50 rounded-lg border border-green-200">
             <div class="text-2xl font-bold text-green-600">
               {{ analysisData.general_analysis.non_hate_speech_percentage }}%
             </div>
-            <div class="text-sm text-green-700">Non-Hate Speech</div>
+            <div class="text-sm text-green-700">Not-Hate Speech</div>
             <div class="text-xs text-gray-600">
               {{ analysisData.general_analysis.non_hate_speech_count }} comments
             </div>
+            <small class="flex gap-1 justify-center mt-2">
+              <div>Confidence Score:</div>
+              <div>
+                {{ (analysisData.general_analysis.non_hate_speech_confidence_score * 100).toFixed(1) }}%
+              </div>
+            </small>
           </div>
-          
           <div class="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
             <div class="text-2xl font-bold text-blue-600">
-              {{ (analysisData.general_analysis.hate_speech_confidence_score * 100).toFixed(1) }}%
+              {{ analysisData.general_analysis.neutral_percentage }}%
             </div>
-            <div class="text-sm text-blue-700">Hate Speech Confidence</div>
-          </div>
-          
-          <div class="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <div class="text-2xl font-bold text-blue-600">
-              {{ (analysisData.general_analysis.non_hate_speech_confidence_score * 100).toFixed(1) }}%
+            <div class="text-sm text-blue-700">Neutral Comments</div>
+            <div class="text-xs text-gray-600">
+              {{ analysisData.general_analysis.neutral_count }} comments
             </div>
-            <div class="text-sm text-blue-700">Non-Hate Speech Confidence</div>
+            <small class="flex gap-1 justify-center mt-2">
+              <div>Confidence Score:</div>
+              <div>
+                {{ (analysisData.general_analysis.neutral_confidence_score * 100).toFixed(1) }}%
+              </div>
+            </small>
           </div>
         </div>
         
-        <div class="text-sm text-gray-600">
-          <strong>Model Version:</strong> {{ analysisData.general_analysis.model_version }}
+        <div class="flex flex-wrap print:justify-center gap-4 items-center">
+          <!-- TODO: i18n -->
+          <small v-if="analysisData?.general_analysis" class="flex items-center gap-1">
+            <Icon name="mdi:info-outline" class="text-colors-neutral-placeholder text-base" />
+            <strong>Total:</strong>
+              {{ analysisData.general_analysis.neutral_count + analysisData.general_analysis.hate_speech_count + analysisData.general_analysis.non_hate_speech_count }}
+              Comments
+          </small>
+          <small>
+            <strong>Dialect:</strong> {{
+              supportedRegions.find(r => r.countryCode === analysisData.general_analysis.model_dialect)?.dialectName[locale]
+            }}
+          </small>
+          <small>
+            <strong>Model Version:</strong> {{ analysisData.general_analysis.model_version }}
+          </small>
         </div>
       </div>
       
       <!-- Comments Details -->
       <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6">
-        <h2 class="text-xl font-semibold mb-4 text-colors-primary">Comments Analysis Details</h2>
+        <h2 class="font-normal mb-4">Comments Analysis Details</h2>
         
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
@@ -115,7 +212,7 @@
         </div>
       </div>
       
-      <!-- Raw JSON Data (for development) -->
+      <!-- DEV: Raw JSON Data (for development) -->
       <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mt-6">
         <h2 class="text-xl font-semibold mb-4 text-gray-700">Raw Analysis Data (Development)</h2>
         <pre class="text-xs text-gray-600 overflow-auto max-h-96 whitespace-pre-wrap">{{ JSON.stringify(analysisData, null, 2) }}</pre>
@@ -134,52 +231,37 @@
     <div v-else class="mt-8 mx-auto text-center">
       <p class="text-gray-600">No analysis data available.</p>
     </div>
-      <UiButton 
-        class="mt-4 mx-auto w-fit flex-row-reverse"
-        :to="$localePath('/analyze')"
-      >
-        Back to Analyze
-        <template #icon>
-          <Icon
-            name="mdi:arrow-left"
-            size="24"
-            class="rtl:rotate-180"
-          />
-        </template>
-      </UiButton>
+    <UiButton 
+      class="mt-4 mx-auto w-fit flex-row-reverse print:!hidden"
+      :to="$localePath('/analyze')"
+    >
+      <!-- TODO: i18n -->
+      Back to Analyze
+      <template #icon>
+        <Icon
+          name="mdi:arrow-left"
+          size="24"
+          class="rtl:rotate-180"
+        />
+      </template>
+    </UiButton>
   </div>
 </template>
 
 <script lang="ts" setup>
-interface GeneralAnalysis {
-  hate_speech_percentage: number
-  hate_speech_count: number
-  non_hate_speech_percentage: number
-  non_hate_speech_count: number
-  hate_speech_confidence_score: number
-  non_hate_speech_confidence_score: number
-  model_version: string
-}
+import { UiButton } from '#components'
+import type { ChartData, ChartOptions } from 'chart.js'
+import type { AIAnalysisResponse } from '~/types/analyze'
 
-interface CommentDetail {
-  originalComment: string
-  platform: string
-  date: string
-  label: 'hate-speech' | 'non-hate-speech' | 'neutral'
-  score: number
-}
-
-interface AnalysisData {
-  general_analysis: GeneralAnalysis
-  comments_details: CommentDetail[]
-}
+const { supportedRegions } = useGeolocation()
+const { locale } = useI18n()
 
 definePageMeta({
   middleware: 'auth'
 })
 
 const route = useRoute()
-const analysisData = ref<AnalysisData | null>(null)
+const analysisData = ref<AIAnalysisResponse | null>(null)
 const error = ref('')
 
 onMounted(() => {
@@ -187,13 +269,101 @@ onMounted(() => {
   if (route.query.data) {
     try {
       const data = JSON.parse(String(route.query.data))
-      analysisData.value = data as AnalysisData
+      analysisData.value = data as AIAnalysisResponse
     } catch (err) {
       console.error('Error parsing analysis data:', err)
       error.value = 'Invalid analysis data received'
     }
   } else {
     error.value = 'No analysis data available'
+  }
+})
+
+// TODO: i18n for the charts' labels
+const barChartData = computed<ChartData<'bar'>>(() => ({
+  labels: ['Comments'],
+  datasets: [
+    {
+      label: "Hate Speech",
+      data: [
+        analysisData.value?.general_analysis.hate_speech_count ?? 0,
+        // analysisData.value?.general_analysis.non_hate_speech_count ?? 0
+      ],
+      // TODO: get the chart colors from a unified config
+      backgroundColor: '#EF5675',
+      barThickness: 64,
+      borderRadius: 6,
+      borderWidth: 2,
+      borderColor: '#0000'
+    },
+    {
+      label: "Not Hate Speech",
+      data: [
+        analysisData.value?.general_analysis.non_hate_speech_count ?? 0
+      ],
+      backgroundColor: '#374C80',
+      barThickness: 64,
+      borderRadius: 6,
+      borderWidth: 2,
+      borderColor: '#0000'
+    },
+    ...(analysisData.value && analysisData.value.general_analysis.neutral_count > 0 ? [{
+      label: "Neutral",
+      data: [
+        analysisData.value.general_analysis.neutral_count
+      ],
+      backgroundColor: '#003F5C',
+      barThickness: 64,
+      borderRadius: 6,
+      borderWidth: 2,
+      borderColor: '#0000'
+    }] : [])
+  ],
+}))
+
+const pieChartData = computed<ChartData<'pie'>>(() => ({
+  labels: ['Hate', 'Not-Hate', 'Neutral'],
+  datasets: [
+    {
+      data: [
+        analysisData.value?.general_analysis.hate_speech_count ?? 0,
+        analysisData.value?.general_analysis.non_hate_speech_count ?? 0,
+        analysisData.value?.general_analysis.neutral_count ?? 0,
+      ],
+      backgroundColor: ['#EF5675', '#374C80', '#003F5C'],
+      label: "# of comments",
+    },
+  ],
+}))
+
+const barOptions = reactive<ChartOptions<'bar'>>({
+  responsive: false,
+  maintainAspectRatio: true,
+  indexAxis: 'y',
+  plugins: {
+    title: {
+      display: true,
+      text: 'Horizontal Bar Chart', // TODO: i18n with a proper and descriptive text
+      position: 'bottom',
+    },
+    legend: {
+      align: 'center',
+    },
+  },
+})
+// Options for both pie and douhgnut charts
+const pieOptions = reactive<ChartOptions<'doughnut'>>({
+  responsive: false,
+  maintainAspectRatio: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Pie Chart", // TODO: i18n with a proper and descriptive text
+      position: 'bottom'
+    },
+    legend: {
+      align: 'center',
+    },
   }
 })
 </script>
