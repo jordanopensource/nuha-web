@@ -17,6 +17,9 @@ export interface AIAnalysisResponse {
     non_hate_speech_percentage: number
     non_hate_speech_count: number
     non_hate_speech_confidence_score: number
+    neutral_percentage: number
+    neutral_count: number
+    neutral_confidence_score: number
     model_version: string
     model_dialect: string
   }

@@ -220,16 +220,20 @@ export const generateMockAIResponse = (
   ): AIAnalysisResponse => {
   const totalComments = comments.length
   const hateSpeechCount = Math.floor(Math.random() * totalComments * 0.3) // Random 0-30%
-  const nonHateSpeechCount = totalComments - hateSpeechCount
+  const neutralCount = Math.floor(Math.random() * totalComments * 0.2)
+  const nonHateSpeechCount = totalComments - (hateSpeechCount + neutralCount)
   
   return {
     general_analysis: {
       hate_speech_percentage: Math.round((hateSpeechCount / totalComments) * 100),
       hate_speech_count: hateSpeechCount,
+      hate_speech_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100, // 0.7-1.0
       non_hate_speech_percentage: Math.round((nonHateSpeechCount / totalComments) * 100),
       non_hate_speech_count: nonHateSpeechCount,
-      hate_speech_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100, // 0.7-1.0
       non_hate_speech_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100, // 0.7-1.0
+      neutral_percentage: Math.round((neutralCount / totalComments) * 100),
+      neutral_count: neutralCount,
+      neutral_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100,
       model_version: 'mock-v1.0.0',
       model_dialect: dialect
     },
