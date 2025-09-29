@@ -1,6 +1,15 @@
+import twColors from 'tailwindcss/colors'
+
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
+  content: [
+    './components/**/*.{vue,js,ts}',
+    './layouts/**/*.vue',
+    './pages/**/*.vue',
+    './composables/**/*.{js,ts}',
+    './plugins/**/*.{js,ts}',
+    './app.vue'
+  ],
   theme: {
     container: {
       center: true,
@@ -25,6 +34,33 @@ export default {
             hover: '#8B0A39',   // hover state
             active: '#72082F',  // active / pressed
             light: '#fdeaed',   // light pink for secondary. OLD COLOR: #FCF0F7
+          },
+          // Semantic analysis colors used across charts & UI
+          analysis: {
+            hate: {
+              50: twColors.rose[50],
+              100: twColors.rose[100],
+              200: twColors.rose[200],
+              500: twColors.rose[500],
+              600: twColors.rose[600],
+              800: twColors.rose[800],
+            },
+            nonhate: {
+              50: twColors.indigo[50],
+              100: twColors.indigo[100],
+              200: twColors.indigo[200],
+              500: twColors.indigo[500],
+              600: twColors.indigo[600],
+              800: twColors.indigo[800],
+            },
+            neutral: {
+              50: twColors.slate[50],
+              100: twColors.slate[100],
+              200: twColors.slate[200],
+              500: twColors.slate[500],
+              600: twColors.slate[600],
+              800: twColors.slate[800],
+            },
           },
         },
       },

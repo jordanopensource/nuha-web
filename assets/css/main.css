@@ -4,6 +4,18 @@
 @tailwind utilities;
 
 
+/* Expose Tailwind theme colors as CSS variables for JS consumption in Chart.js */
+:root {
+  /* Semantic analysis colors */
+  --color-analysis-hate: theme('colors.colors.analysis.hate.500');
+  --color-analysis-hate-100: theme('colors.colors.analysis.hate.100');
+  --color-analysis-nonhate: theme('colors.colors.analysis.nonhate.500');
+  --color-analysis-nonhate-100: theme('colors.colors.analysis.nonhate.100');
+  --color-analysis-neutral: theme('colors.colors.analysis.neutral.500');
+  --color-analysis-neutral-100: theme('colors.colors.analysis.neutral.100');
+}
+
+
 ::selection {
   @apply bg-colors-primary-light text-colors-primary-active;
 }

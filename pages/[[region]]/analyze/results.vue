@@ -84,11 +84,11 @@
         <h2 class="font-normal mb-4">Analysis Summary</h2>
         
         <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-6">
-          <div class="text-center p-4 bg-red-50 rounded-lg border border-red-200">
-            <div class="text-2xl font-bold text-red-600">
+            <div class="text-center p-4 bg-colors-analysis-hate-100 rounded-lg border border-colors-analysis-hate-200">
+              <div class="text-2xl font-bold text-colors-analysis-hate-600">
               {{ analysisData.general_analysis.hate_speech_percentage }}%
             </div>
-            <div class="text-sm text-red-700">Hate Speech</div>
+              <div class="text-sm text-colors-analysis-hate-600">Hate Speech</div>
             <div class="text-xs text-gray-600">
               {{ analysisData.general_analysis.hate_speech_count }} comments
             </div>
@@ -101,11 +101,11 @@
           </div>
           
           <!-- TODO: for not-hate speech, use the same color for its chart color -->
-          <div class="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-            <div class="text-2xl font-bold text-green-600">
+          <div class="text-center p-4 bg-colors-analysis-nonhate-100 rounded-lg border border-colors-analysis-nonhate-200">
+            <div class="text-2xl font-bold text-colors-analysis-nonhate-600">
               {{ analysisData.general_analysis.non_hate_speech_percentage }}%
             </div>
-            <div class="text-sm text-green-700">Not-Hate Speech</div>
+            <div class="text-sm text-colors-analysis-nonhate-600">Not-Hate Speech</div>
             <div class="text-xs text-gray-600">
               {{ analysisData.general_analysis.non_hate_speech_count }} comments
             </div>
@@ -116,11 +116,11 @@
               </div>
             </small>
           </div>
-          <div class="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <div class="text-2xl font-bold text-blue-600">
+          <div class="text-center p-4 bg-colors-analysis-neutral-100 rounded-lg border border-colors-analysis-neutral-200">
+            <div class="text-2xl font-bold text-colors-analysis-neutral-600">
               {{ analysisData.general_analysis.neutral_percentage }}%
             </div>
-            <div class="text-sm text-blue-700">Neutral Comments</div>
+            <div class="text-sm text-colors-analysis-neutral-600">Neutral Comments</div>
             <div class="text-xs text-gray-600">
               {{ analysisData.general_analysis.neutral_count }} comments
             </div>
@@ -142,9 +142,7 @@
               Comments
           </small>
           <small>
-            <strong>Dialect:</strong> {{
-              supportedRegions.find(r => r.countryCode === analysisData.general_analysis.model_dialect)?.dialectName[locale]
-            }}
+            <strong>Dialect:</strong> {{ dialectDisplay }}
           </small>
           <small>
             <strong>Model Version:</strong> {{ analysisData.general_analysis.model_version }}
@@ -184,9 +182,9 @@
                   <span 
                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                     :class="{
-                      'bg-red-100 text-red-800': comment.label === 'hate-speech',
-                      'bg-green-100 text-green-800': comment.label === 'non-hate-speech',
-                      'bg-gray-100 text-gray-800': comment.label === 'neutral'
+                      'bg-colors-analysis-hate-100 text-colors-analysis-hate-800': comment.label === 'hate-speech',
+                      'bg-colors-analysis-nonhate-100 text-colors-analysis-nonhate-800': comment.label === 'non-hate-speech',
+                      'bg-colors-analysis-neutral-100 text-colors-analysis-neutral-800': comment.label === 'neutral'
                     }"
                   >
                     {{ comment.label }}
@@ -199,9 +197,9 @@
                       <div 
                         class="h-2 rounded-full"
                         :class="{
-                          'bg-red-500': comment.label === 'hate-speech',
-                          'bg-green-500': comment.label === 'non-hate-speech',
-                          'bg-gray-500': comment.label === 'neutral'
+                          'bg-colors-analysis-hate-600': comment.label === 'hate-speech',
+                          'bg-colors-analysis-nonhate-600': comment.label === 'non-hate-speech',
+                          'bg-colors-analysis-neutral-600': comment.label === 'neutral'
                         }"
                         :style="{ width: `${comment.score * 100}%` }"
                       />
@@ -251,9 +249,9 @@
 </template>
 
 <script lang="ts" setup>
-import { UiButton } from '#components'
 import type { ChartData, ChartOptions } from 'chart.js'
 import type { AIAnalysisResponse } from '~/types/analyze'
+import { analysisColors } from '~/utils/colors'
 
 const { supportedRegions } = useGeolocation()
 const { locale } = useI18n()
@@ -282,6 +280,14 @@ onMounted(() => {
 })
 
 // TODO: i18n for the charts' labels
+const dialectDisplay = computed(() => {
+  const data = analysisData.value
+  if (!data?.general_analysis?.model_dialect) return '—'
+  const code = data.general_analysis.model_dialect
+  const match = supportedRegions.value.find(r => r.countryCode === code)
+  // @ts-expect-error i18n locale type may be string | any
+  return match?.dialectName?.[locale] || code
+})
 const barChartData = computed<ChartData<'bar'>>(() => ({
   labels: ['Comments'],
   datasets: [
@@ -292,7 +298,7 @@ const barChartData = computed<ChartData<'bar'>>(() => ({
         // analysisData.value?.general_analysis.non_hate_speech_count ?? 0
       ],
       // TODO: get the chart colors from a unified config
-      backgroundColor: '#EF5675',
+  backgroundColor: analysisColors.hate,
       barThickness: 64,
       borderRadius: 6,
       borderWidth: 2,
@@ -303,7 +309,7 @@ const barChartData = computed<ChartData<'bar'>>(() => ({
       data: [
         analysisData.value?.general_analysis.non_hate_speech_count ?? 0
       ],
-      backgroundColor: '#374C80',
+  backgroundColor: analysisColors.nonhate,
       barThickness: 64,
       borderRadius: 6,
       borderWidth: 2,
@@ -314,7 +320,7 @@ const barChartData = computed<ChartData<'bar'>>(() => ({
       data: [
         analysisData.value.general_analysis.neutral_count
       ],
-      backgroundColor: '#003F5C',
+  backgroundColor: analysisColors.neutral,
       barThickness: 64,
       borderRadius: 6,
       borderWidth: 2,
@@ -332,7 +338,7 @@ const pieChartData = computed<ChartData<'doughnut'>>(() => ({
         analysisData.value?.general_analysis.non_hate_speech_count ?? 0,
         analysisData.value?.general_analysis.neutral_count ?? 0,
       ],
-      backgroundColor: ['#EF5675', '#374C80', '#003F5C'],
+  backgroundColor: [analysisColors.hate, analysisColors.nonhate, analysisColors.neutral],
       label: "# of comments",
     },
   ],
@@ -389,9 +395,9 @@ const platformStackedData = computed<ChartData<'bar'>>(() => {
   return {
     labels,
     datasets: [
-      { label: 'Hate', data: labels.map(l => base[l].hate), backgroundColor: '#EF5675' },
-      { label: 'Not-Hate', data: labels.map(l => base[l].non), backgroundColor: '#374C80' },
-      { label: 'Neutral', data: labels.map(l => base[l].neutral), backgroundColor: '#003F5C' }
+  { label: 'Hate', data: labels.map(l => base[l].hate), backgroundColor: analysisColors.hate },
+  { label: 'Not-Hate', data: labels.map(l => base[l].non), backgroundColor: analysisColors.nonhate },
+  { label: 'Neutral', data: labels.map(l => base[l].neutral), backgroundColor: analysisColors.neutral }
     ],
   }
 })
@@ -429,9 +435,9 @@ const histogramData = computed<ChartData<'bar'>>(() => {
   return {
     labels,
     datasets: [
-      { label: 'Hate', data: counts.hate, backgroundColor: '#EF5675' },
-      { label: 'Not-Hate', data: counts.non, backgroundColor: '#374C80' },
-      { label: 'Neutral', data: counts.neutral, backgroundColor: '#003F5C' }
+  { label: 'Hate', data: counts.hate, backgroundColor: analysisColors.hate },
+  { label: 'Not-Hate', data: counts.non, backgroundColor: analysisColors.nonhate },
+  { label: 'Neutral', data: counts.neutral, backgroundColor: analysisColors.neutral }
     ]
   }
 })
