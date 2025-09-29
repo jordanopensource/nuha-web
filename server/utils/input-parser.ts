@@ -225,10 +225,10 @@ export const generateMockAIResponse = (
   
   return {
     general_analysis: {
-      hate_speech_percentage: Math.round((hateSpeechCount / totalComments) * 100),
+      hate_speech_percentage: Math.floor((hateSpeechCount / totalComments) * 100),
       hate_speech_count: hateSpeechCount,
       hate_speech_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100, // 0.7-1.0
-      non_hate_speech_percentage: Math.round((nonHateSpeechCount / totalComments) * 100),
+      non_hate_speech_percentage: Math.ceil((nonHateSpeechCount / totalComments) * 100),
       non_hate_speech_count: nonHateSpeechCount,
       non_hate_speech_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100, // 0.7-1.0
       neutral_percentage: Math.round((neutralCount / totalComments) * 100),

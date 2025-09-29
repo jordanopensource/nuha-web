@@ -72,6 +72,8 @@
           <div class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 mb-6 py-12">
             <ChartDoughnut class="!w-3/4 m-auto" :chart-data="pieChartData" :options="pieOptions" />
             <ChartBar class="!w-full m-auto" :chart-data="barChartData" :options="barOptions" />
+            <ChartBar class="!w-full m-auto" :chart-data="platformStackedData" :options="platformsBarOptions" />
+            <ChartBar class="!w-full m-auto" :chart-data="histogramData" :options="histogramOptions" />
             <!-- <ChartPie class="!w-3/4 my-auto" :chart-data="pieChartData" :options="pieOptions" /> -->
           </div>
         </ClientOnly>
@@ -321,7 +323,7 @@ const barChartData = computed<ChartData<'bar'>>(() => ({
   ],
 }))
 
-const pieChartData = computed<ChartData<'pie'>>(() => ({
+const pieChartData = computed<ChartData<'doughnut'>>(() => ({
   labels: ['Hate', 'Not-Hate', 'Neutral'],
   datasets: [
     {
@@ -343,7 +345,7 @@ const barOptions = reactive<ChartOptions<'bar'>>({
   plugins: {
     title: {
       display: true,
-      text: 'Horizontal Bar Chart', // TODO: i18n with a proper and descriptive text
+      text: 'Total Comments by Classification (Count)', // TODO: i18n
       position: 'bottom',
     },
     legend: {
@@ -358,12 +360,94 @@ const pieOptions = reactive<ChartOptions<'doughnut'>>({
   plugins: {
     title: {
       display: true,
-      text: "Pie Chart", // TODO: i18n with a proper and descriptive text
+      text: "Distribution of Comments by Classification (%)", // TODO: i18n
       position: 'bottom'
     },
     legend: {
       align: 'center',
     },
   }
+})
+
+// Stacked bar: labels per platform
+const platforms = computed(() => {
+  const set = new Set<string>()
+  for (const c of analysisData.value?.comments_details ?? []) {
+    set.add(c.platform || 'Unknown')
+  }
+  return Array.from(set)
+})
+const platformStackedData = computed<ChartData<'bar'>>(() => {
+  const base = Object.fromEntries(platforms.value.map(p => [p, { hate: 0, non: 0, neutral: 0 }]))
+  for (const c of analysisData.value?.comments_details ?? []) {
+    const p = c.platform || 'Unknown'
+    if (c.label === 'hate-speech') base[p].hate++
+    else if (c.label === 'non-hate-speech') base[p].non++
+    else base[p].neutral++
+  }
+  const labels = platforms.value
+  return {
+    labels,
+    datasets: [
+      { label: 'Hate', data: labels.map(l => base[l].hate), backgroundColor: '#EF5675' },
+      { label: 'Not-Hate', data: labels.map(l => base[l].non), backgroundColor: '#374C80' },
+      { label: 'Neutral', data: labels.map(l => base[l].neutral), backgroundColor: '#003F5C' }
+    ],
+  }
+})
+const platformsBarOptions = reactive<ChartOptions<'bar'>>({
+  responsive: false,
+  maintainAspectRatio: true,
+  indexAxis: 'y',
+  plugins: {
+    title: {
+      display: true,
+      text: 'Comments by Platform and Classification (Stacked)', // TODO: i18n
+      position: 'bottom',
+    },
+    legend: {
+      align: 'center',
+    },
+  },
+})
+
+// Score histogram (0..1 in 10 bins), stacked by label
+const histogramData = computed<ChartData<'bar'>>(() => {
+  const bins = Array.from({ length: 10 }, (_, i) => i / 10)
+  const labels = bins.map(b => `${(b * 100).toFixed(0)}–${((b + 0.1) * 100).toFixed(0)}%`)
+  const counts = {
+    hate: Array(10).fill(0),
+    non: Array(10).fill(0),
+    neutral: Array(10).fill(0)
+  }
+  for (const c of analysisData.value?.comments_details ?? []) {
+    const idx = Math.min(9, Math.floor(c.score * 10))
+    if (c.label === 'hate-speech') counts.hate[idx]++
+    else if (c.label === 'non-hate-speech') counts.non[idx]++
+    else counts.neutral[idx]++
+  }
+  return {
+    labels,
+    datasets: [
+      { label: 'Hate', data: counts.hate, backgroundColor: '#EF5675' },
+      { label: 'Not-Hate', data: counts.non, backgroundColor: '#374C80' },
+      { label: 'Neutral', data: counts.neutral, backgroundColor: '#003F5C' }
+    ]
+  }
+})
+const histogramOptions = reactive<ChartOptions<'bar'>>({
+  responsive: false,
+  maintainAspectRatio: true,
+  indexAxis: 'x',
+  plugins: {
+    title: {
+      display: true,
+      text: 'Confidence Score Distribution by Classification (0-100%)', // TODO: i18n
+      position: 'bottom',
+    },
+    legend: {
+      align: 'center',
+    },
+  },
 })
 </script>
