@@ -112,24 +112,24 @@
           :show-action-button="false"
           @close="showCustomize = false"
         >
-          <div class="space-y-4 [&_input[type=checkbox]]:accent-colors-primary [&_input[type=checkbox]]:scale-125">
-            <label class="flex items-center gap-2 hover:bg-colors-primary-light p-2">
+          <div class="space-y-4">
+            <label class="checkbox-label">
               <input v-model="chartsVisible.distribution" type="checkbox">
               <span>{{ $t('analyze.results.charts.distribution') }}</span>
             </label>
-            <label class="flex items-center gap-2 hover:bg-colors-primary-light p-2">
+            <label class="checkbox-label">
               <input v-model="chartsVisible.totals" type="checkbox">
               <span>{{ $t('analyze.results.charts.totals') }}</span>
             </label>
             <label
-              class="flex items-center gap-2 hover:bg-colors-primary-light p-2"
+              class="checkbox-label"
               :class="{ 'opacity-50 pointer-events-none': !hasPlatforms }"
               :title="!hasPlatforms ? $t('analyze.results.noChartSelected') : ''"
             >
               <input v-model="chartsVisible.platform" type="checkbox" :disabled="!hasPlatforms">
               <span>{{ $t('analyze.results.charts.platformStacked') }}</span>
             </label>
-            <label class="flex items-center gap-2 hover:bg-colors-primary-light p-2">
+            <label class="checkbox-label">
               <input v-model="chartsVisible.histogram" type="checkbox">
               <span>{{ $t('analyze.results.charts.histogram') }}</span>
             </label>
@@ -552,3 +552,12 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
 // whether there are platforms available
 const hasPlatforms = computed(() => platforms.value.length > 0)
 </script>
+<style scoped lang="postcss">
+input[type=checkbox] {
+  @apply accent-colors-primary scale-125; 
+}
+.checkbox-label {
+  @apply flex items-center gap-2 p-2 rounded-md;
+  @apply hover:bg-colors-primary-light transition-colors duration-200;
+}
+</style>
