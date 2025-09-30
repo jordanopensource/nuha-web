@@ -9,16 +9,8 @@ when:
       exclude: [main]
 
 variables:
-  - &docker_repo 'josaorg/nuha-web'
-  - &slack_channel 'builds'
-  # Docker build arguments template
-  - &build_args_template
-    - CI_COMMIT_SHA=${CI_COMMIT_SHA}
-    - CI_BUILD_NUMBER=${CI_BUILD_NUMBER}
-    - CI_BUILD_LINK=${CI_BUILD_LINK}
-    - CI_COMMIT_LINK=${CI_COMMIT_LINK}
-    - CI_REPO_LINK=${CI_REPO_LINK}
-    - CI_BUILD_FINISHED=${CI_BUILD_FINISHED}
+  - &docker_repo "josaorg/nuha-web"
+  - &slack_channel "builds"
   # Success message template
   - &success_message >
     ✅ *SUCCESS* - Stable Build #{{ build.number }}
@@ -43,16 +35,18 @@ variables:
     • <{{ build.link }}|View Build>
 
 steps:
-  # Security check - scan for secrets/credentials
-  - name: check-for-leaks
-    image: zricethezav/gitleaks:v8.18.4
-    commands:
-      - gitleaks detect --source . --verbose
+  - name: run-pre-commit-hooks
+    image: josaorg/pre-commit-runner
+    settings:
+      args: "--all-files"
+      skip: "end-of-file-fixer, yamllint"
 
   # Build stable image (main branch only)
   - name: build-stable-image
     image: woodpeckerci/plugin-docker-buildx
     settings:
+      buildkit_debug: true
+      dry-run: true
       repo: *docker_repo
       dockerfile: ./Dockerfile
       tags:
@@ -62,9 +56,17 @@ steps:
         from_secret: DOCKER_HUB_USERNAME
       password:
         from_secret: DOCKER_HUB_PASSWORD
-      build_args: *build_args_template
+      build_args:
+        CI_REPO: "${CI_REPO}"
+        CI_REPO_NAME: "${CI_REPO_NAME}"
+        CI_REPO_URL: "${CI_REPO_URL}"
+        CI_COMMIT_SHA: "${CI_COMMIT_SHA}"
+        CI_COMMIT_REF: "${CI_COMMIT_REF}"
+        CI_PIPELINE_URL: "${CI_PIPELINE_URL}"
+        CI_PIPELINE_CREATED: "${CI_PIPELINE_CREATED}"
+        CI_PREV_PIPELINE_URL: "${CI_PREV_PIPELINE_URL}"
     depends_on:
-      - check-for-leaks
+      - run-pre-commit-hooks
 
   # Slack notification for stable build success
   - name: notify-slack-stable-success
@@ -77,7 +79,7 @@ steps:
     when:
       - status: success
     depends_on:
-      - check-for-leaks
+      - run-pre-commit-hooks
       - build-stable-image
 
   # Slack notification for stable build failure
@@ -91,5 +93,5 @@ steps:
     when:
       - status: failure
     depends_on:
-      - check-for-leaks
+      - run-pre-commit-hooks
       - build-stable-image
