@@ -94,39 +94,54 @@
     },
     "results": {
       "title": "ئەنجامەکانی شیکردنەوە",
-      "subtitle": "ئەمانە ئەنجامەکانی شیکردنەوەی بۆچوونەکانتن."
-    },
-    "validation": {
-      "textRequired": "تێخستنی دەق پێویستە",
-      "textEmpty": "تێخستنی دەق ناتوانێت بەتاڵ بێت",
-      "oneCommentRequired": "تکایە لانیکەم یەک بۆچوون بنووسە",
-      "fileRequired": "تکایە فایلێک هەڵبژێرە بۆ بارکردن",
-      "fileSizeLimit": "قەبارەی فایل لە سنووری ١٠MB زیاترە",
-      "invalidFileType": "جۆری فایل هەڵەیە. جۆرەکانی قبوڵکراو: {types}",
-      "processingError": "هەڵەیەک لە کاتی پڕۆسێسکردنی داواکارییەکەت ڕوویدا"
-    },
-    "errors": {
-      "fileSizeExceeded": "قەبارەی فایل لە سنووری زۆرینەی {size}MB زیاترە",
-      "invalidFileType": "جۆری فایل هەڵەیە. تکایە فایلی دەق، CSV، JSON یان Excel باربکە",
-      "textInputEmpty": "تێخستنی دەق بەتاڵە",
-      "csvFileEmpty": "فایلی CSV بەتاڵە",
-      "csvNoData": "فایلی CSV هیچ زانیاریەکی تێدا نییە",
-      "csvRowError": "ڕیزی {row}: بۆچوون پێویستە",
-      "jsonArrayRequired": "فایلی JSON دەبێت ڕیزبەندێکی ئۆبجێکتەکانی تێدابێت",
-      "jsonItemError": "بەرگی {item}: بۆچوون پێویستە",
-      "jsonInvalidFormat": "فۆرماتی JSON هەڵەیە",
-      "excelNoSheets": "فایلی Excel هیچ پەڕەیەکی تێدا نییە",
-      "excelEmpty": "فایلی Excel بەتاڵە",
-      "excelNoData": "فایلی Excel هیچ زانیاریەکی تێدا نییە",
-      "excelRowError": "ڕیزی {row}: بۆچوون پێویستە",
-      "excelParseError": "شکستی شیکردنەوەی فایلی Excel",
-      "unsupportedFileType": "جۆری فایل پشتگیری نەکراوە",
-      "noFileUploaded": "هیچ فایلێک باری نەکراوە",
-      "fileIsRequired": "فایل پێویستە",
-      "parseFileError": "شکستی شیکردنەوەی فایل",
-      "noValidComments": "هیچ بۆچوونێکی دروست لە فایلدا نەدۆزرایەوە",
-      "parseTextError": "شکستی شیکردنەوەی تێخستنی دەق",
-      "internalServerError": "هەڵەی ناوخۆیی سێرڤەر"
+      "subtitle": "ئەمانە ئەنجامەکانی شیکردنەوەی بۆچوونەکانتن.",
+      "overview": "تێڕوانینی گشتی",
+      "actions": {
+        "download": "داگرتنی ئەنجامەکان",
+        "print": "چاپکردن",
+        "jumpToResults": "گواستنەوە بۆ ئەنجامەکان"
+      },
+      "customizeCharts": "ڕێکخستنی شێوەکان",
+      "noChartSelected": "هیچ شێوەیەک هەڵنەبژێردراوە",
+      "charts": {
+        "distribution": "دابەشبوون (دووناڵ)",
+        "totals": "کۆی گشتی بەپێی هاوپۆل",
+        "platformStacked": "بەپێی پلاتفۆرم (کۆکراو)",
+        "histogram": "دابەشبوونی نمرەی دڵنیایی",
+        "titles": {
+          "distribution": "دابەشبوونی لێدوان بەپێی هاوپۆل (%)",
+          "totals": "کۆی لێدوانەکان بەپێی هاوپۆل (ژمارە)",
+          "platformStacked": "لێدوانەکان بەپێی پلاتفۆرم و هاوپۆل (کۆکراو)",
+          "histogram": "دابەشبوونی نمرەی دڵنیایی بەپێی هاوپۆل (٠–١٠٠٪)"
+        },
+        "commentsCountLabel": "ژمارەی لێدوانەکان",
+        "commentsAxis": "لێدوانەکان"
+      },
+      "summary": {
+        "title": "پوختەی شیکردنەوە",
+        "hate": "قسەی ڕقی",
+        "nonhate": "نە-قسەی ڕقی",
+        "neutral": "لێدوانی ناڕەنگ",
+        "confidence": "نمرەی دڵنیایی:",
+        "commentsLabel": "لێدوان",
+        "totalLabel": "کۆی گشتی:",
+        "dialect": "شێوەزار:",
+        "modelVersion": "وەشانی مۆدێل:",
+        "commentsWord": "لێدوان"
+      },
+      "details": {
+        "title": "وردەکاریی شیکردنەوەی لێدوانەکان",
+        "headers": {
+          "comment": "لێدوان",
+          "platform": "پلاتفۆرم",
+          "date": "بەروار",
+          "classification": "هاوپۆل",
+          "score": "نمرە"
+        },
+        "na": "بوونی نییە"
+      },
+      "backToAnalyze": "گەڕانەوە بۆ شیکردنەوە",
+      "noDataAvailable": "هیچ داتایەکی શિકردنەوە بەردەست نییە."
     }
   },
   "login": {

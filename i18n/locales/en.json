@@ -95,7 +95,54 @@
     },
     "results": {
       "title": "Analysis Results",
-      "subtitle": "Here are the results of your comment analysis."
+      "subtitle": "Here are the results of your comment analysis.",
+      "overview": "Overview",
+      "actions": {
+        "download": "Download Results",
+        "print": "Print",
+        "jumpToResults": "Jump to results"
+      },
+      "customizeCharts": "Customize Charts",
+      "noChartSelected": "No chart selected",
+      "charts": {
+        "distribution": "Distribution (Doughnut)",
+        "totals": "Total by Classification",
+        "platformStacked": "By Platform (Stacked)",
+        "histogram": "Confidence Score Distribution",
+        "titles": {
+          "distribution": "Distribution of Comments by Classification (%)",
+          "totals": "Total Comments by Classification (Count)",
+          "platformStacked": "Comments by Platform and Classification (Stacked)",
+          "histogram": "Confidence Score Distribution by Classification (0–100%)"
+        },
+        "commentsCountLabel": "# of comments",
+        "commentsAxis": "Comments"
+      },
+      "summary": {
+        "title": "Analysis Summary",
+        "hate": "Hate Speech",
+        "nonhate": "Not-Hate Speech",
+        "neutral": "Neutral Comments",
+        "confidence": "Confidence Score:",
+        "commentsLabel": "comments",
+        "totalLabel": "Total:",
+        "dialect": "Dialect:",
+        "modelVersion": "Model Version:",
+        "commentsWord": "Comments"
+      },
+      "details": {
+        "title": "Comments Analysis Details",
+        "headers": {
+          "comment": "Comment",
+          "platform": "Platform",
+          "date": "Date",
+          "classification": "Classification",
+          "score": "Score"
+        },
+        "na": "N/A"
+      },
+      "backToAnalyze": "Back to Analyze",
+      "noDataAvailable": "No analysis data available."
     },
     "validation": {
       "textRequired": "Text input is required",

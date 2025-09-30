@@ -11,9 +11,8 @@
             <UiButton
               class="w-52 ms-auto"
             >
-              <!-- TODO: i18n -->
               <!-- TODO: on click, open a UiModal with download options (PDF, JSON, CSV, ...) -->
-              Download Results
+              {{ $t('analyze.results.actions.download') }}
               <template #icon>
                 <Icon name="mdi:download" />
               </template>
@@ -22,8 +21,7 @@
               class="w-52 ms-auto"
               variant="outline"
             >
-              <!-- TODO: i18n -->
-              Print
+              {{ $t('analyze.results.actions.print') }}
               <template #icon>
                 <Icon name="mdi:printer" />
               </template>
@@ -33,8 +31,7 @@
               variant="ghost"
               to="#results-overview"
             >
-              <!-- TODO: i18n -->
-              Jump to results
+              {{ $t('analyze.results.actions.jumpToResults') }}
               <template #icon>
                 <Icon name="mdi:arrow-down" />
               </template>
@@ -53,7 +50,7 @@
         <UiPageHeading
           v-if="analysisData"
           id="results-overview"
-          title="Overview"
+          :title="$t('analyze.results.overview')"
           class="[&_h2]:font-normal !my-0"
         >
         <template #second-col>
@@ -62,8 +59,7 @@
             class="w-52 md:ms-auto max-md:me-auto print:!hidden"
             @click="showCustomize = true"
           >
-            <!-- TODO: i18n -->
-            Customize Charts
+            {{ $t('analyze.results.customizeCharts') }}
             <template #icon>
               <Icon name="mdi:pencil" />
             </template>
@@ -74,7 +70,7 @@
         <ClientOnly>
           <div class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 py-12 max-sm:py-6 print:py-6">
             <div v-if="noChartVisible">
-              No chart selected
+              {{ $t('analyze.results.noChartSelected') }}
             </div>
             <!-- Show only Distribution and Platform (if available) by default; others controlled via modal -->
             <ChartDoughnut
@@ -108,35 +104,34 @@
         </ClientOnly>
 
         <!-- Customize Charts Modal -->
-        <!-- TODO: i18n -->
         <UiModal
           v-model="showCustomize"
-          title="Customize Charts"
+          :title="$t('analyze.results.customizeCharts')"
           size="md"
-          cancel-button-text="Done"
+          :cancel-button-text="$t('misc.close')"
           :show-action-button="false"
           @close="showCustomize = false"
         >
-          <div class="space-y-4 [&_input[type=checkbox]]:accent-colors-primary">
-            <label class="flex items-center gap-2">
+          <div class="space-y-4 [&_input[type=checkbox]]:accent-colors-primary [&_input[type=checkbox]]:scale-125">
+            <label class="flex items-center gap-2 hover:bg-colors-primary-light p-2">
               <input v-model="chartsVisible.distribution" type="checkbox">
-              <span>Distribution (Doughnut)</span>
+              <span>{{ $t('analyze.results.charts.distribution') }}</span>
             </label>
-            <label class="flex items-center gap-2">
+            <label class="flex items-center gap-2 hover:bg-colors-primary-light p-2">
               <input v-model="chartsVisible.totals" type="checkbox">
-              <span>Total by Classification</span>
+              <span>{{ $t('analyze.results.charts.totals') }}</span>
             </label>
             <label
-              class="flex items-center gap-2"
+              class="flex items-center gap-2 hover:bg-colors-primary-light p-2"
               :class="{ 'opacity-50 pointer-events-none': !hasPlatforms }"
-              :title="!hasPlatforms ? 'No platform data available' : ''"
+              :title="!hasPlatforms ? $t('analyze.results.noChartSelected') : ''"
             >
               <input v-model="chartsVisible.platform" type="checkbox" :disabled="!hasPlatforms">
-              <span>By Platform (Stacked)</span>
+              <span>{{ $t('analyze.results.charts.platformStacked') }}</span>
             </label>
-            <label class="flex items-center gap-2">
+            <label class="flex items-center gap-2 hover:bg-colors-primary-light p-2">
               <input v-model="chartsVisible.histogram" type="checkbox">
-              <span>Confidence Score Distribution</span>
+              <span>{{ $t('analyze.results.charts.histogram') }}</span>
             </label>
           </div>
         </UiModal>
@@ -144,36 +139,35 @@
 
       <!-- General Analysis Summary -->
       <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6 break-inside-avoid">
-        <h2 class="font-normal mb-4">Analysis Summary</h2>
+        <h2 class="font-normal mb-4">{{ $t('analyze.results.summary.title') }}</h2>
         
         <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-6">
             <div class="text-center p-4 bg-colors-analysis-hate-100 rounded-lg border border-colors-analysis-hate-200">
               <div class="text-2xl font-bold text-colors-analysis-hate-600">
               {{ analysisData.general_analysis.hate_speech_percentage }}%
             </div>
-              <div class="text-sm text-colors-analysis-hate-600">Hate Speech</div>
+              <div class="text-sm text-colors-analysis-hate-600">{{ $t('analyze.results.summary.hate') }}</div>
             <div class="text-xs text-gray-600">
-              {{ analysisData.general_analysis.hate_speech_count }} comments
+              {{ analysisData.general_analysis.hate_speech_count }} {{ $t('analyze.results.summary.commentsLabel') }}
             </div>
             <small class="flex gap-1 justify-center mt-2">
-              <div>Confidence Score:</div>
+              <div>{{ $t('analyze.results.summary.confidence') }}</div>
               <div>
                 {{ (analysisData.general_analysis.hate_speech_confidence_score * 100).toFixed(1) }}%
               </div>
             </small>
           </div>
           
-          <!-- TODO: for not-hate speech, use the same color for its chart color -->
           <div class="text-center p-4 bg-colors-analysis-nonhate-100 rounded-lg border border-colors-analysis-nonhate-200">
             <div class="text-2xl font-bold text-colors-analysis-nonhate-600">
               {{ analysisData.general_analysis.non_hate_speech_percentage }}%
             </div>
-            <div class="text-sm text-colors-analysis-nonhate-600">Not-Hate Speech</div>
+            <div class="text-sm text-colors-analysis-nonhate-600">{{ $t('analyze.results.summary.nonhate') }}</div>
             <div class="text-xs text-gray-600">
-              {{ analysisData.general_analysis.non_hate_speech_count }} comments
+              {{ analysisData.general_analysis.non_hate_speech_count }} {{ $t('analyze.results.summary.commentsLabel') }}
             </div>
             <small class="flex gap-1 justify-center mt-2">
-              <div>Confidence Score:</div>
+              <div>{{ $t('analyze.results.summary.confidence') }}</div>
               <div>
                 {{ (analysisData.general_analysis.non_hate_speech_confidence_score * 100).toFixed(1) }}%
               </div>
@@ -183,12 +177,12 @@
             <div class="text-2xl font-bold text-colors-analysis-neutral-600">
               {{ analysisData.general_analysis.neutral_percentage }}%
             </div>
-            <div class="text-sm text-colors-analysis-neutral-600">Neutral Comments</div>
+            <div class="text-sm text-colors-analysis-neutral-600">{{ $t('analyze.results.summary.neutral') }}</div>
             <div class="text-xs text-gray-600">
-              {{ analysisData.general_analysis.neutral_count }} comments
+              {{ analysisData.general_analysis.neutral_count }} {{ $t('analyze.results.summary.commentsLabel') }}
             </div>
             <small class="flex gap-1 justify-center mt-2">
-              <div>Confidence Score:</div>
+              <div>{{ $t('analyze.results.summary.confidence') }}</div>
               <div>
                 {{ (analysisData.general_analysis.neutral_confidence_score * 100).toFixed(1) }}%
               </div>
@@ -197,35 +191,34 @@
         </div>
         
         <div class="flex flex-wrap print:justify-center gap-4 items-center">
-          <!-- TODO: i18n -->
           <small v-if="analysisData?.general_analysis" class="flex items-center gap-1">
             <Icon name="mdi:info-outline" class="text-colors-neutral-placeholder text-base" />
-            <strong>Total:</strong>
+            <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
               {{ analysisData.general_analysis.neutral_count + analysisData.general_analysis.hate_speech_count + analysisData.general_analysis.non_hate_speech_count }}
-              Comments
+              {{ $t('analyze.results.summary.commentsWord') }}
           </small>
           <small>
-            <strong>Dialect:</strong> {{ dialectDisplay }}
+            <strong>{{ $t('analyze.results.summary.dialect') }}</strong> {{ dialectDisplay }}
           </small>
           <small>
-            <strong>Model Version:</strong> {{ analysisData.general_analysis.model_version }}
+            <strong>{{ $t('analyze.results.summary.modelVersion') }}</strong> {{ analysisData.general_analysis.model_version }}
           </small>
         </div>
       </div>
       
       <!-- Comments Details -->
       <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 break-inside-avoid">
-        <h2 class="font-normal mb-4">Comments Analysis Details</h2>
+        <h2 class="font-normal mb-4">{{ $t('analyze.results.details.title') }}</h2>
         
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <thead>
               <tr class="border-b border-gray-200">
-                <th class="text-left p-3 font-semibold">Comment</th>
-                <th class="text-left p-3 font-semibold">Platform</th>
-                <th class="text-left p-3 font-semibold">Date</th>
-                <th class="text-left p-3 font-semibold">Classification</th>
-                <th class="text-left p-3 font-semibold">Score</th>
+                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.comment') }}</th>
+                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.platform') }}</th>
+                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.date') }}</th>
+                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.classification') }}</th>
+                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.score') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -239,8 +232,8 @@
                     {{ comment.originalComment }}
                   </div>
                 </td>
-                <td class="p-3">{{ comment.platform || 'N/A' }}</td>
-                <td class="p-3">{{ comment.date || 'N/A' }}</td>
+                <td class="p-3">{{ comment.platform || $t('analyze.results.details.na') }}</td>
+                <td class="p-3">{{ comment.date || $t('analyze.results.details.na') }}</td>
                 <td class="p-3">
                   <span 
                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
@@ -286,14 +279,13 @@
     </div>
     
     <div v-else class="mt-8 mx-auto text-center">
-      <p class="text-gray-600">No analysis data available.</p>
+      <p class="text-gray-600">{{ $t('analyze.results.noDataAvailable') }}</p>
     </div>
     <UiButton 
       class="mt-4 mx-auto w-fit flex-row-reverse print:!hidden"
       :to="$localePath('/analyze')"
     >
-      <!-- TODO: i18n -->
-      Back to Analyze
+      {{ $t('analyze.results.backToAnalyze') }}
       <template #icon>
         <Icon
           name="mdi:arrow-left"
@@ -311,7 +303,7 @@ import type { AIAnalysisResponse } from '~/types/analyze'
 import { analysisColors } from '~/utils/colors'
 
 const { supportedRegions } = useGeolocation()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 
 definePageMeta({
   middleware: 'auth'
@@ -321,6 +313,7 @@ const route = useRoute()
 const analysisData = ref<AIAnalysisResponse | null>(null)
 const error = ref('')
 
+// TODO: STORE ANALYSIS DATA ELSEWHERE
 onMounted(() => {
   // Get analysis data from query parameters
   if (route.query.data) {
@@ -355,40 +348,39 @@ const dialectDisplay = computed(() => {
   const match = supportedRegions.value.find(r => r.countryCode === code)
   return match?.dialectName?.[locale.value] || code
 })
-  // TODO: i18n for the charts' labels
+
+// Datasets and options
 const barChartData = computed<ChartData<'bar'>>(() => ({
-  labels: ['Comments'],
+  labels: [t('analyze.results.charts.commentsAxis')],
   datasets: [
     {
-      label: "Hate Speech",
+      label: t('analyze.results.summary.hate'),
       data: [
         analysisData.value?.general_analysis.hate_speech_count ?? 0,
-        // analysisData.value?.general_analysis.non_hate_speech_count ?? 0
       ],
-      // TODO: get the chart colors from a unified config
-  backgroundColor: analysisColors.hate,
+      backgroundColor: analysisColors.hate,
       barThickness: 64,
       borderRadius: 6,
       borderWidth: 2,
       borderColor: '#0000'
     },
     {
-      label: "Not Hate Speech",
+      label: t('analyze.results.summary.nonhate'),
       data: [
         analysisData.value?.general_analysis.non_hate_speech_count ?? 0
       ],
-  backgroundColor: analysisColors.nonhate,
+      backgroundColor: analysisColors.nonhate,
       barThickness: 64,
       borderRadius: 6,
       borderWidth: 2,
       borderColor: '#0000'
     },
     ...(analysisData.value && analysisData.value.general_analysis.neutral_count > 0 ? [{
-      label: "Neutral",
+      label: t('analyze.results.summary.neutral'),
       data: [
         analysisData.value.general_analysis.neutral_count
       ],
-  backgroundColor: analysisColors.neutral,
+      backgroundColor: analysisColors.neutral,
       barThickness: 64,
       borderRadius: 6,
       borderWidth: 2,
@@ -398,7 +390,7 @@ const barChartData = computed<ChartData<'bar'>>(() => ({
 }))
 
 const pieChartData = computed<ChartData<'doughnut'>>(() => ({
-  labels: ['Hate', 'Not-Hate', 'Neutral'],
+  labels: [t('analyze.results.summary.hate'), t('analyze.results.summary.nonhate'), t('analyze.results.summary.neutral')],
   datasets: [
     {
       data: [
@@ -406,8 +398,8 @@ const pieChartData = computed<ChartData<'doughnut'>>(() => ({
         analysisData.value?.general_analysis.non_hate_speech_count ?? 0,
         analysisData.value?.general_analysis.neutral_count ?? 0,
       ],
-  backgroundColor: [analysisColors.hate, analysisColors.nonhate, analysisColors.neutral],
-      label: "# of comments",
+      backgroundColor: [analysisColors.hate, analysisColors.nonhate, analysisColors.neutral],
+      label: t('analyze.results.charts.commentsCountLabel'),
     },
   ],
 }))
@@ -419,26 +411,42 @@ const barOptions = reactive<ChartOptions<'bar'>>({
   plugins: {
     title: {
       display: true,
-      text: 'Total Comments by Classification (Count)', // TODO: i18n
+      text: t('analyze.results.charts.titles.totals'),
       position: 'bottom',
+      font: {
+        family: "IBM Plex Sans Arabic",
+      },
     },
     legend: {
       align: 'center',
+      labels: {
+        font: {
+          family: "IBM Plex Sans Arabic",
+        },
+      }
     },
   },
 })
-// Options for both pie and douhgnut charts
+
 const pieOptions = reactive<ChartOptions<'doughnut'>>({
   responsive: false,
   maintainAspectRatio: true,
   plugins: {
     title: {
       display: true,
-      text: "Distribution of Comments by Classification (%)", // TODO: i18n
-      position: 'bottom'
+      text: t('analyze.results.charts.titles.distribution'),
+      position: 'bottom',
+      font: {
+        family: "IBM Plex Sans Arabic",
+      },
     },
     legend: {
       align: 'center',
+      labels: {
+        font: {
+          family: "IBM Plex Sans Arabic",
+        },
+      }
     },
   }
 })
@@ -451,6 +459,7 @@ const platforms = computed(() => {
   }
   return Array.from(set)
 })
+
 const platformStackedData = computed<ChartData<'bar'>>(() => {
   const base = Object.fromEntries(platforms.value.map(p => [p, { hate: 0, non: 0, neutral: 0 }]))
   for (const c of analysisData.value?.comments_details ?? []) {
@@ -463,9 +472,9 @@ const platformStackedData = computed<ChartData<'bar'>>(() => {
   return {
     labels,
     datasets: [
-  { label: 'Hate', data: labels.map(l => base[l].hate), backgroundColor: analysisColors.hate },
-  { label: 'Not-Hate', data: labels.map(l => base[l].non), backgroundColor: analysisColors.nonhate },
-  { label: 'Neutral', data: labels.map(l => base[l].neutral), backgroundColor: analysisColors.neutral }
+      { label: t('analyze.results.summary.hate'), data: labels.map(l => base[l].hate), backgroundColor: analysisColors.hate },
+      { label: t('analyze.results.summary.nonhate'), data: labels.map(l => base[l].non), backgroundColor: analysisColors.nonhate },
+      { label: t('analyze.results.summary.neutral'), data: labels.map(l => base[l].neutral), backgroundColor: analysisColors.neutral }
     ],
   }
 })
@@ -476,16 +485,23 @@ const platformsBarOptions = reactive<ChartOptions<'bar'>>({
   plugins: {
     title: {
       display: true,
-      text: 'Comments by Platform and Classification (Stacked)', // TODO: i18n
+      text: t('analyze.results.charts.titles.platformStacked'),
       position: 'bottom',
+      font: {
+        family: "IBM Plex Sans Arabic",
+      },
     },
     legend: {
       align: 'center',
+      labels: {
+        font: {
+          family: "IBM Plex Sans Arabic",
+        },
+      }
     },
   },
 })
 
-// Score histogram (0..1 in 10 bins), stacked by label
 const histogramData = computed<ChartData<'bar'>>(() => {
   const bins = Array.from({ length: 10 }, (_, i) => i / 10)
   const labels = bins.map(b => `${(b * 100).toFixed(0)}–${((b + 0.1) * 100).toFixed(0)}%`)
@@ -503,9 +519,9 @@ const histogramData = computed<ChartData<'bar'>>(() => {
   return {
     labels,
     datasets: [
-  { label: 'Hate', data: counts.hate, backgroundColor: analysisColors.hate },
-  { label: 'Not-Hate', data: counts.non, backgroundColor: analysisColors.nonhate },
-  { label: 'Neutral', data: counts.neutral, backgroundColor: analysisColors.neutral }
+      { label: t('analyze.results.summary.hate'), data: counts.hate, backgroundColor: analysisColors.hate },
+      { label: t('analyze.results.summary.nonhate'), data: counts.non, backgroundColor: analysisColors.nonhate },
+      { label: t('analyze.results.summary.neutral'), data: counts.neutral, backgroundColor: analysisColors.neutral }
     ]
   }
 })
@@ -516,11 +532,19 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
   plugins: {
     title: {
       display: true,
-      text: 'Confidence Score Distribution by Classification (0-100%)', // TODO: i18n
+      text: t('analyze.results.charts.titles.histogram'),
       position: 'bottom',
+      font: {
+        family: "IBM Plex Sans Arabic",
+      },
     },
     legend: {
       align: 'center',
+      labels: {
+        font: {
+          family: "IBM Plex Sans Arabic",
+        },
+      }
     },
   },
 })

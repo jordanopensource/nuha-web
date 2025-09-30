@@ -94,39 +94,54 @@
     },
     "results": {
       "title": "Résultats d'Analyse",
-      "subtitle": "Voici les résultats de l'analyse de vos commentaires."
-    },
-    "validation": {
-      "textRequired": "La saisie de texte est requise",
-      "textEmpty": "La saisie de texte ne peut pas être vide",
-      "oneCommentRequired": "Veuillez entrer au moins un commentaire",
-      "fileRequired": "Veuillez sélectionner un fichier à télécharger",
-      "fileSizeLimit": "La taille du fichier dépasse la limite de 10MB",
-      "invalidFileType": "Type de fichier invalide. Types acceptés: {types}",
-      "processingError": "Une erreur s'est produite lors du traitement de votre demande"
-    },
-    "errors": {
-      "fileSizeExceeded": "La taille du fichier dépasse la limite maximale de {size}MB",
-      "invalidFileType": "Type de fichier invalide. Veuillez télécharger un fichier texte, CSV, JSON ou Excel",
-      "textInputEmpty": "La saisie de texte est vide",
-      "csvFileEmpty": "Le fichier CSV est vide",
-      "csvNoData": "Le fichier CSV ne contient aucune donnée",
-      "csvRowError": "Ligne {row}: Le commentaire est requis",
-      "jsonArrayRequired": "Le fichier JSON doit contenir un tableau d'objets",
-      "jsonItemError": "Élément {item}: Le commentaire est requis",
-      "jsonInvalidFormat": "Format JSON invalide",
-      "excelNoSheets": "Le fichier Excel ne contient aucune feuille",
-      "excelEmpty": "Le fichier Excel est vide",
-      "excelNoData": "Le fichier Excel ne contient aucune donnée",
-      "excelRowError": "Ligne {row}: Le commentaire est requis",
-      "excelParseError": "Échec de l'analyse du fichier Excel",
-      "unsupportedFileType": "Type de fichier non supporté",
-      "noFileUploaded": "Aucun fichier téléchargé",
-      "fileIsRequired": "Le fichier est requis",
-      "parseFileError": "Échec de l'analyse du fichier",
-      "noValidComments": "Aucun commentaire valide trouvé dans le fichier",
-      "parseTextError": "Échec de l'analyse de la saisie de texte",
-      "internalServerError": "Erreur interne du serveur"
+      "subtitle": "Voici les résultats de l'analyse de vos commentaires.",
+      "overview": "Vue d'ensemble",
+      "actions": {
+        "download": "Télécharger les résultats",
+        "print": "Imprimer",
+        "jumpToResults": "Aller aux résultats"
+      },
+      "customizeCharts": "Personnaliser les graphiques",
+      "noChartSelected": "Aucun graphique sélectionné",
+      "charts": {
+        "distribution": "Répartition (Diagramme en anneau)",
+        "totals": "Total par classification",
+        "platformStacked": "Par plateforme (empilé)",
+        "histogram": "Répartition des scores de confiance",
+        "titles": {
+          "distribution": "Répartition des commentaires par classification (%)",
+          "totals": "Nombre total de commentaires par classification",
+          "platformStacked": "Commentaires par plateforme et classification (empilé)",
+          "histogram": "Répartition des scores de confiance par classification (0–100 %)"
+        },
+        "commentsCountLabel": "Nombre de commentaires",
+        "commentsAxis": "Commentaires"
+      },
+      "summary": {
+        "title": "Récapitulatif de l'analyse",
+        "hate": "Discours de haine",
+        "nonhate": "Non-discours de haine",
+        "neutral": "Commentaires neutres",
+        "confidence": "Score de confiance :",
+        "commentsLabel": "commentaires",
+        "totalLabel": "Total :",
+        "dialect": "Dialecte :",
+        "modelVersion": "Version du modèle :",
+        "commentsWord": "Commentaires"
+      },
+      "details": {
+        "title": "Détails de l'analyse des commentaires",
+        "headers": {
+          "comment": "Commentaire",
+          "platform": "Plateforme",
+          "date": "Date",
+          "classification": "Classification",
+          "score": "Score"
+        },
+        "na": "N/A"
+      },
+      "backToAnalyze": "Retour à l'analyse",
+      "noDataAvailable": "Aucune donnée d'analyse disponible."
     }
   },
   "login": {
