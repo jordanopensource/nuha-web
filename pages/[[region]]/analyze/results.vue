@@ -77,7 +77,7 @@
               v-if="chartsVisible.distribution"
               class="!w-3/4 m-auto break-inside-avoid"
               :chart-data="pieChartData"
-              :options="pieOptions"
+              :options="doughnutOptions"
             />
 
             <ChartBar
@@ -303,7 +303,7 @@ import type { AIAnalysisResponse } from '~/types/analyze'
 import { analysisColors } from '~/utils/colors'
 
 const { supportedRegions } = useGeolocation()
-const { locale, t } = useI18n()
+const { locale, locales, t } = useI18n()
 
 definePageMeta({
   middleware: 'auth'
@@ -312,6 +312,7 @@ definePageMeta({
 const route = useRoute()
 const analysisData = ref<AIAnalysisResponse | null>(null)
 const error = ref('')
+const isRtl = computed(() => locales.value.find((l) => l.code === locale.value)?.dir === 'rtl')
 
 // TODO: STORE ANALYSIS DATA ELSEWHERE
 onMounted(() => {
@@ -423,12 +424,22 @@ const barOptions = reactive<ChartOptions<'bar'>>({
         font: {
           family: "IBM Plex Sans Arabic",
         },
-      }
+      },
+      rtl: isRtl.value,
+    },
+    tooltip: {
+      rtl: isRtl.value,
+      titleFont: {
+        family: "IBM Plex Sans Arabic"
+      },
+      bodyFont: {
+        family: "IBM Plex Sans Arabic"
+      },
     },
   },
 })
 
-const pieOptions = reactive<ChartOptions<'doughnut'>>({
+const doughnutOptions = reactive<ChartOptions<'doughnut'>>({
   responsive: false,
   maintainAspectRatio: true,
   plugins: {
@@ -446,8 +457,18 @@ const pieOptions = reactive<ChartOptions<'doughnut'>>({
         font: {
           family: "IBM Plex Sans Arabic",
         },
-      }
+      },
+      rtl: isRtl.value,
     },
+    tooltip: {
+      rtl: isRtl.value,
+      titleFont: {
+        family: "IBM Plex Sans Arabic"
+      },
+      bodyFont: {
+        family: "IBM Plex Sans Arabic"
+      },
+    }
   }
 })
 
@@ -497,7 +518,17 @@ const platformsBarOptions = reactive<ChartOptions<'bar'>>({
         font: {
           family: "IBM Plex Sans Arabic",
         },
-      }
+      },
+      rtl: isRtl.value,
+    },
+    tooltip: {
+      rtl: isRtl.value,
+      titleFont: {
+        family: "IBM Plex Sans Arabic"
+      },
+      bodyFont: {
+        family: "IBM Plex Sans Arabic"
+      },
     },
   },
 })
@@ -544,7 +575,17 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
         font: {
           family: "IBM Plex Sans Arabic",
         },
-      }
+      },
+      rtl: isRtl.value,
+    },
+    tooltip: {
+      rtl: isRtl.value,
+      titleFont: {
+        family: "IBM Plex Sans Arabic"
+      },
+      bodyFont: {
+        family: "IBM Plex Sans Arabic",
+      },
     },
   },
 })
