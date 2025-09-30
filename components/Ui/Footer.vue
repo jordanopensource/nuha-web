@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-colors-primary-light mt-auto">
+  <footer class="bg-colors-primary-light mt-auto print:hidden">
     <div
       class="container grid grid-cols-1 md:grid-cols-3 gap-8 pt-16 pb-24 max-md:px-8 max-md:flex flex-col"
     >

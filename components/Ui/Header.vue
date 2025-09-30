@@ -11,7 +11,7 @@
       </NuxtLink>
 
       <!-- Desktop list -->
-      <nav class="list hidden lg:flex gap-2 mx-auto">
+      <nav class="list hidden lg:flex gap-2 mx-auto print:hidden">
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
@@ -25,7 +25,7 @@
       </nav>
       
       <!-- Desktop auth section -->
-      <div class="list hidden lg:flex items-center gap-2 ms-auto">
+      <div class="list hidden lg:flex items-center gap-2 ms-auto print:hidden">
         <AuthState>
           <template #default="{ loggedIn, user }">
             <template v-if="loggedIn">
@@ -58,12 +58,12 @@
       <AuthState>
         <template #default="{ loggedIn, user }">
           <template v-if="loggedIn">
-            <UiUserMenu class="lg:!hidden my-auto" :user="user" size="sm" />
+            <UiUserMenu class="lg:!hidden my-auto print:hidden" :user="user" size="sm" />
           </template>
         </template>
       </AuthState>
       <UiButton
-        class="lg:!hidden z-40 justify-end !px-1 aspect-square"
+        class="lg:!hidden z-40 justify-end !px-1 aspect-square print:!hidden"
         aria-label="navigation menu"
         variant="ghost"
         @click="showMobileMenu = !showMobileMenu"
@@ -83,7 +83,7 @@
       class="w-full h-screen start-0 top-0 z-30 absolute bg-colors-neutral-background bg-opacity-20 backdrop-blur-lg border lg:hidden"
       @click="showMobileMenu = false"
     />
-    <div v-if="showMobileMenu" class="absolute container z-40 left-0 right-0 ">
+    <div v-if="showMobileMenu" class="absolute container z-40 left-0 right-0 print:hidden">
       <nav
         class="w-full flex flex-col transition-all gap-y-2.5 p-5 lg:!hidden"
         :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"

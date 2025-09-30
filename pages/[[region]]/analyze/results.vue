@@ -46,20 +46,23 @@
 
     
     <div v-if="analysisData">
-      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6">
+      <div
+        class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6"
+        :class="{'print:hidden': noChartVisible}"
+      >
         <UiPageHeading
           v-if="analysisData"
           id="results-overview"
           title="Overview"
-          class="[&_h2]:font-normal"
+          class="[&_h2]:font-normal !my-0"
         >
         <template #second-col>
           <UiButton
             variant="ghost"
             class="w-52 md:ms-auto max-md:me-auto print:!hidden"
+            @click="showCustomize = true"
           >
             <!-- TODO: i18n -->
-            <!-- TODO: on click, open a UiModal with customization and charts options -->
             Customize Charts
             <template #icon>
               <Icon name="mdi:pencil" />
@@ -69,18 +72,78 @@
         </UiPageHeading>
         <!-- Charts -->
         <ClientOnly>
-          <div class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 mb-6 py-12">
-            <ChartDoughnut class="!w-3/4 m-auto" :chart-data="pieChartData" :options="pieOptions" />
-            <ChartBar class="!w-full m-auto" :chart-data="barChartData" :options="barOptions" />
-            <ChartBar class="!w-full m-auto" :chart-data="platformStackedData" :options="platformsBarOptions" />
-            <ChartBar class="!w-full m-auto" :chart-data="histogramData" :options="histogramOptions" />
-            <!-- <ChartPie class="!w-3/4 my-auto" :chart-data="pieChartData" :options="pieOptions" /> -->
+          <div class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 py-12 max-sm:py-6 print:py-6">
+            <div v-if="noChartVisible">
+              No chart selected
+            </div>
+            <!-- Show only Distribution and Platform (if available) by default; others controlled via modal -->
+            <ChartDoughnut
+              v-if="chartsVisible.distribution"
+              class="!w-3/4 m-auto break-inside-avoid"
+              :chart-data="pieChartData"
+              :options="pieOptions"
+            />
+
+            <ChartBar
+              v-if="chartsVisible.platform && hasPlatforms"
+              class="!w-full m-auto break-inside-avoid"
+              :chart-data="platformStackedData"
+              :options="platformsBarOptions"
+            />
+
+            <ChartBar
+              v-if="chartsVisible.totals"
+              class="!w-full m-auto break-inside-avoid"
+              :chart-data="barChartData"
+              :options="barOptions"
+            />
+
+            <ChartBar
+              v-if="chartsVisible.histogram"
+              class="!w-full m-auto break-inside-avoid"
+              :chart-data="histogramData"
+              :options="histogramOptions"
+            />
           </div>
         </ClientOnly>
+
+        <!-- Customize Charts Modal -->
+        <!-- TODO: i18n -->
+        <UiModal
+          v-model="showCustomize"
+          title="Customize Charts"
+          size="md"
+          cancel-button-text="Done"
+          :show-action-button="false"
+          @close="showCustomize = false"
+        >
+          <div class="space-y-4 [&_input[type=checkbox]]:accent-colors-primary">
+            <label class="flex items-center gap-2">
+              <input v-model="chartsVisible.distribution" type="checkbox">
+              <span>Distribution (Doughnut)</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input v-model="chartsVisible.totals" type="checkbox">
+              <span>Total by Classification</span>
+            </label>
+            <label
+              class="flex items-center gap-2"
+              :class="{ 'opacity-50 pointer-events-none': !hasPlatforms }"
+              :title="!hasPlatforms ? 'No platform data available' : ''"
+            >
+              <input v-model="chartsVisible.platform" type="checkbox" :disabled="!hasPlatforms">
+              <span>By Platform (Stacked)</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input v-model="chartsVisible.histogram" type="checkbox">
+              <span>Confidence Score Distribution</span>
+            </label>
+          </div>
+        </UiModal>
       </div>
 
       <!-- General Analysis Summary -->
-      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6">
+      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6 break-inside-avoid">
         <h2 class="font-normal mb-4">Analysis Summary</h2>
         
         <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-6">
@@ -151,7 +214,7 @@
       </div>
       
       <!-- Comments Details -->
-      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6">
+      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 break-inside-avoid">
         <h2 class="font-normal mb-4">Comments Analysis Details</h2>
         
         <div class="overflow-x-auto">
@@ -210,12 +273,6 @@
             </tbody>
           </table>
         </div>
-      </div>
-      
-      <!-- DEV: Raw JSON Data (for development) -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mt-6">
-        <h2 class="text-xl font-semibold mb-4 text-gray-700">Raw Analysis Data (Development)</h2>
-        <pre class="text-xs text-gray-600 overflow-auto max-h-96 whitespace-pre-wrap">{{ JSON.stringify(analysisData, null, 2) }}</pre>
       </div>
     </div>
     
@@ -279,15 +336,26 @@ onMounted(() => {
   }
 })
 
-// TODO: i18n for the charts' labels
+// Charts visibility state + modal toggle
+const showCustomize = ref(false)
+const chartsVisible = reactive({
+  distribution: true, // doughnut chart
+  totals: false,      // totals horizontal bar
+  platform: true,     // stacked by platform
+  histogram: false    // score histogram
+})
+const noChartVisible = computed(
+  () => !(chartsVisible.distribution || chartsVisible.totals
+  || chartsVisible.platform || chartsVisible.histogram))
+
 const dialectDisplay = computed(() => {
   const data = analysisData.value
   if (!data?.general_analysis?.model_dialect) return '—'
   const code = data.general_analysis.model_dialect
   const match = supportedRegions.value.find(r => r.countryCode === code)
-  // @ts-expect-error i18n locale type may be string | any
-  return match?.dialectName?.[locale] || code
+  return match?.dialectName?.[locale.value] || code
 })
+  // TODO: i18n for the charts' labels
 const barChartData = computed<ChartData<'bar'>>(() => ({
   labels: ['Comments'],
   datasets: [
@@ -456,4 +524,7 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
     },
   },
 })
+
+// whether there are platforms available
+const hasPlatforms = computed(() => platforms.value.length > 0)
 </script>
