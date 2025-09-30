@@ -46,8 +46,6 @@ steps:
     image: woodpeckerci/plugin-docker-buildx
     settings:
       buildkit_debug: true
-      dry-run: true
-      repo: *docker_repo
       dockerfile: ./Dockerfile
       tags:
         - ${CI_COMMIT_SHA:-latest}
@@ -65,6 +63,8 @@ steps:
         CI_PIPELINE_URL: "${CI_PIPELINE_URL}"
         CI_PIPELINE_CREATED: "${CI_PIPELINE_CREATED}"
         CI_PREV_PIPELINE_URL: "${CI_PREV_PIPELINE_URL}"
+        CI_PIPELINE_NUMBER: "${CI_PIPELINE_NUMBER}"
+
     depends_on:
       - run-pre-commit-hooks
 
