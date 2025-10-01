@@ -20,6 +20,7 @@
             <UiButton
               class="w-52 ms-auto"
               variant="outline"
+              @click="handlePrint"
             >
               {{ $t('analyze.results.actions.print') }}
               <template #icon>
@@ -329,6 +330,10 @@ onMounted(() => {
     error.value = 'No analysis data available'
   }
 })
+
+const handlePrint = () => {
+  window.print()
+}
 
 // Charts visibility state + modal toggle
 const showCustomize = ref(false)
