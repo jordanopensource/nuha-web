@@ -138,7 +138,17 @@
           "classification": "التصنيف",
           "score": "الدرجة"
         },
-        "na": "غير متاح"
+        "na": "غير متاح",
+        "pagination": {
+          "showing": "عرض {first} إلى {last} من {total} تعليق",
+          "rowsPerPage": "صفوف لكل صفحة:",
+          "noData": "لم يتم العثور على بيانات"
+        },
+        "filters": {
+          "global": "البحث في جميع الأعمدة...",
+          "platform": "تصفية حسب المنصة",
+          "classification": "تصفية حسب التصنيف"
+        }
       },
       "backToAnalyze": "الرجوع إلى التحليل",
       "noDataAvailable": "لا توجد بيانات تحليل متاحة."

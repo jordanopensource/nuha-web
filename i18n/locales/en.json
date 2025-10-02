@@ -139,7 +139,17 @@
           "classification": "Classification",
           "score": "Score"
         },
-        "na": "N/A"
+        "na": "N/A",
+        "pagination": {
+          "showing": "Showing {first} to {last} of {total} entries",
+          "rowsPerPage": "Rows per page:",
+          "noData": "No data found"
+        },
+        "filters": {
+          "global": "Search all columns...",
+          "platform": "Filter by platform",
+          "classification": "Filter by classification"
+        }
       },
       "backToAnalyze": "Back to Analyze",
       "noDataAvailable": "No analysis data available."

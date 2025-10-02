@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
+import Lara from '@primeuix/themes/lara';
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
@@ -30,6 +32,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/strapi',
     'nuxt-auth-utils',
+    '@primevue/nuxt-module',
   ],
   css: [
     '@/assets/css/main.css',
@@ -108,6 +111,27 @@ export default defineNuxtConfig({
     },
     optimizeDeps: {
       include: ['xlsx'],
+    },
+  },
+  primevue: {
+    options: {
+      ripple: true,
+      inputVariant: 'filled',
+      theme: {
+        preset: Lara,
+        options: {
+          darkModeSelector: 'none',
+          cssLayer: false,
+        },
+      },
+  },
+    autoImport: false,
+    components: {
+      prefix: 'pv',
+      include: ['DataTable', 'Column', 'Select']
+    },
+    directives: {
+      prefix: 'pv'
     },
   },
 })

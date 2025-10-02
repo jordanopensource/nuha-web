@@ -211,62 +211,131 @@
       <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 break-inside-avoid">
         <h2 class="font-normal mb-4">{{ $t('analyze.results.details.title') }}</h2>
         
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="border-b border-gray-200">
-                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.comment') }}</th>
-                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.platform') }}</th>
-                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.date') }}</th>
-                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.classification') }}</th>
-                <th class="text-left p-3 font-semibold">{{ $t('analyze.results.details.headers.score') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr 
-                v-for="(comment, index) in analysisData.comments_details" 
-                :key="index"
-                class="border-b border-gray-100 hover:bg-gray-50"
+        <pv-DataTable
+          v-model:filters="filters"
+          :value="paginatedComments"
+          :rows="rowsPerPage"
+          :total-records="totalRecords"
+          :lazy="true"
+          :paginator="true"
+          :rows-per-page-options="[5, 10, 20, 50]"
+          :loading="loading"
+          :global-filter-fields="['originalComment', 'platform', 'date', 'label']"
+          filter-display="menu"
+          column-resize-mode="fit"
+          resizable-columns
+          paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+          :current-page-report-template="$t('analyze.results.details.pagination.showing', { first: '{first}', last: '{last}', total: '{totalRecords}' })"
+          class="py-8 px-4 rounded-md"
+          @page="onPage"
+          @sort="onSort"
+          @filter="onFilter"
+        >
+          <template #empty>
+            <div class="text-center py-8 text-gray-500">
+              {{ $t('analyze.results.details.pagination.noData') }}
+            </div>
+          </template>
+          
+          <template #loading>
+            <div class="text-center p-12 bg-colors-neutral-background rounded-md">
+              <Icon name="mdi:loading" class="animate-spin text-2xl text-colors-primary" />
+              <p class="mt-2 text-colors-neutral-placeholder">{{ $t('misc.loading') }}</p>
+            </div>
+          </template>
+
+          <pv-Column 
+            field="originalComment" 
+            :header="$t('analyze.results.details.headers.comment')"
+            :sortable="true"
+          >
+            <template #body="{ data }">
+              <div class="max-w-fit">
+                <div class="truncate" :title="data.originalComment">
+                  {{ data.originalComment }}
+                </div>
+              </div>
+            </template>
+            <!-- <template #filter="{ filterModel, filterCallback }">
+              <input
+                v-model="filterModel.value"
+                type="text"
+                class="w-full p-2 border border-gray-300 rounded text-sm"
+                :placeholder="$t('analyze.results.details.filters.global')"
+                @input="filterCallback()"
               >
-                <td class="p-3 max-w-md">
-                  <div class="truncate" :title="comment.originalComment">
-                    {{ comment.originalComment }}
-                  </div>
-                </td>
-                <td class="p-3">{{ comment.platform || $t('analyze.results.details.na') }}</td>
-                <td class="p-3">{{ comment.date || $t('analyze.results.details.na') }}</td>
-                <td class="p-3">
-                  <span 
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                    :class="{
-                      'bg-colors-analysis-hate-100 text-colors-analysis-hate-800': comment.label === 'hate-speech',
-                      'bg-colors-analysis-nonhate-100 text-colors-analysis-nonhate-800': comment.label === 'non-hate-speech',
-                      'bg-colors-analysis-neutral-100 text-colors-analysis-neutral-800': comment.label === 'neutral'
-                    }"
-                  >
-                    {{ comment.label }}
-                  </span>
-                </td>
-                <td class="p-3">
-                  <div class="flex items-center gap-2">
-                    <span class="text-sm font-mono">{{ (comment.score * 100).toFixed(1) }}%</span>
-                    <div class="w-12 bg-gray-200 rounded-full h-2">
-                      <div 
-                        class="h-2 rounded-full"
-                        :class="{
-                          'bg-colors-analysis-hate-600': comment.label === 'hate-speech',
-                          'bg-colors-analysis-nonhate-600': comment.label === 'non-hate-speech',
-                          'bg-colors-analysis-neutral-600': comment.label === 'neutral'
-                        }"
-                        :style="{ width: `${comment.score * 100}%` }"
-                      />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            </template> -->
+          </pv-Column>
+
+          <pv-Column 
+            field="platform" 
+            :header="$t('analyze.results.details.headers.platform')"
+            :sortable="true"
+          >
+            <template #body="{ data }">
+              {{ data.platform || $t('analyze.results.details.na') }}
+            </template>
+
+            <template #filter="{ filterModel, filterCallback }">
+              <pv-Select
+                v-model="filterModel.value"
+                option-label="name"
+                :options="[
+                  { key: '', name: $t('analyze.results.details.filters.platform') },
+                  ...(platforms.map((p: string) => ({ key: p, name: p })))
+                  ]"
+                @change="filterCallback()"
+              />
+                <!-- <option value="">{{ $t('analyze.results.details.filters.platform') }}</option>
+                <option v-for="platform in platforms" :key="platform" :value="platform">
+                  {{ platform }}
+                </option>
+              </pv-Select> -->
+            </template>
+          </pv-Column>
+
+          <pv-Column 
+            field="date" 
+            :header="$t('analyze.results.details.headers.date')"
+            :sortable="true"
+          >
+            <template #body="{ data }">
+              {{ data.date || $t('analyze.results.details.na') }}
+            </template>
+          </pv-Column>
+
+          <pv-Column 
+            field="label" 
+            :header="$t('analyze.results.details.headers.classification')"
+            :sortable="true"
+          >
+            <template #body="{ data }">
+              <ResultScoreLabel :label="data.label" />
+            </template>
+            <!-- <template #filter="{ filterModel, filterCallback }">
+              <select
+                v-model="filterModel.value"
+                class="w-full p-2 border border-gray-300 rounded text-sm"
+                @change="filterCallback()"
+              >
+                <option value="">{{ $t('analyze.results.details.filters.classification') }}</option>
+                <option value="hate-speech">hate-speech</option>
+                <option value="non-hate-speech">non-hate-speech</option>
+                <option value="neutral">neutral</option>
+              </select>
+            </template> -->
+          </pv-Column>
+
+          <pv-Column 
+            field="score" 
+            :header="$t('analyze.results.details.headers.score')"
+            :sortable="true"
+          >
+            <template #body="{ data }">
+              <ResultScoreBar :score="data.score" :label="data.label" />
+            </template>
+          </pv-Column>
+        </pv-DataTable>
       </div>
     </div>
     
@@ -302,6 +371,7 @@
 import type { ChartData, ChartOptions } from 'chart.js'
 import type { AIAnalysisResponse } from '~/types/analyze'
 import { analysisColors } from '~/utils/colors'
+import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
 
 const { supportedRegions } = useGeolocation()
 const { locale, locales, t } = useI18n()
@@ -597,6 +667,125 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
 
 // whether there are platforms available
 const hasPlatforms = computed(() => platforms.value.length > 0)
+
+// DataTable state and functionality
+const filters = ref({})
+// const showFilters = ref(false)
+const loading = ref(false)
+const first = ref(0)
+const rowsPerPage = ref(10)
+
+const initFilters = () => {
+    filters.value = {
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      originalComment: {
+        operator: FilterOperator.AND,
+        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+      },
+      platform: {
+        operator: FilterOperator.AND,
+        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+      },
+      date: {
+        operator: FilterOperator.AND,
+        constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }]
+      },
+      label: {
+        operator: FilterOperator.AND,
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
+      }
+      // balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      // status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      // activity: { value: [0, 100], matchMode: FilterMatchMode.BETWEEN },
+      // verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+  };
+};
+onMounted(() => {
+  initFilters()
+})
+
+// Paginated data for server-side simulation
+const paginatedComments = ref<Array<{
+  originalComment: string
+  platform?: string
+  date?: string
+  label: "hate-speech" | "non-hate-speech" | "neutral"
+  score: number
+}>>([])
+const totalRecords = computed(() => analysisData.value?.comments_details?.length ?? 0)
+
+// Server-side pagination simulation
+const fetchData = (page: number, rows: number, sortField?: string, sortOrder?: number, filters?: Record<string, { value: string }>) => {
+  loading.value = true
+  
+  // Simulate server delay
+  // TODO: replace with actual server pagination
+  setTimeout(() => {
+    let data = [...(analysisData.value?.comments_details ?? [])]
+    
+    // Apply filters
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        const filter = filters[key]
+        if (filter && filter.value && filter.value.key !== '') {
+          data = data.filter(item => {
+            const value = item[key as keyof typeof item]
+            if (typeof value === 'string') {
+              return value.toLowerCase().includes(filter.value.key.toLowerCase())
+            }
+            return String(value).toLowerCase().includes(filter.value.key.toLowerCase())
+          })
+        }
+      })
+    }
+    
+    // Apply sorting
+    if (sortField) {
+      data.sort((a, b) => {
+        const aVal = a[sortField as keyof typeof a]
+        const bVal = b[sortField as keyof typeof b]
+        
+        if (typeof aVal === 'string' && typeof bVal === 'string') {
+          return sortOrder === 1 ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
+        }
+        
+        if (typeof aVal === 'number' && typeof bVal === 'number') {
+          return sortOrder === 1 ? aVal - bVal : bVal - aVal
+        }
+        
+        return 0
+      })
+    }
+    
+    // Apply pagination
+    const start = page * rows
+    const end = start + rows
+    paginatedComments.value = data.slice(start, end)
+    
+    loading.value = false
+  }, 300)
+}
+
+// Event handlers
+const onPage = (event: { first: number; rows: number; page: number; sortField?: string; sortOrder?: number }) => {
+  first.value = event.first
+  rowsPerPage.value = event.rows
+  fetchData(event.page, event.rows, event.sortField, event.sortOrder, filters.value)
+}
+const onSort = (event: { sortField: string; sortOrder: number }) => {
+  fetchData(first.value / rowsPerPage.value, rowsPerPage.value, event.sortField, event.sortOrder, filters.value)
+}
+const onFilter = (event: { filters: Record<string, any> }) => {
+  filters.value = event.filters
+  fetchData(0, rowsPerPage.value, undefined, undefined, event.filters)
+}
+
+// Initialize data when analysisData changes
+watch(analysisData, () => {
+  if (analysisData.value) {
+    fetchData(0, rowsPerPage.value)
+  }
+}, { immediate: true })
 </script>
 <style scoped lang="postcss">
 input[type=checkbox] {
@@ -605,5 +794,27 @@ input[type=checkbox] {
 .checkbox-label {
   @apply flex items-center gap-2 p-2 rounded-md;
   @apply hover:bg-colors-primary-light transition-colors duration-200;
+}
+</style>
+<style lang="postcss">
+.p-datatable {
+  .p-datatable-mask {
+    @apply bg-colors-neutral-placeholder bg-opacity-50 rounded-md;
+  }
+  .p-datatable-tbody > tr {
+    @apply border-b border-colors-neutral-placeholder;
+    &:hover {
+      @apply bg-colors-analysis-neutral-50;
+    }
+  }
+}
+.p-select {
+  @apply focus:!border-colors-primary-active hover:!border-colors-primary-active active:!border-colors-primary-active  !shadow-none;
+}
+.p-select-option.p-select-option-selected {
+  @apply !bg-colors-analysis-neutral-500 hover:!bg-colors-analysis-neutral-600 !text-colors-neutral-background;
+}
+.p-paginator, .p-datatable-paginator-bottom {
+  @apply print:!hidden;
 }
 </style>

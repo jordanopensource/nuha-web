@@ -138,7 +138,17 @@
           "classification": "Classification",
           "score": "Score"
         },
-        "na": "N/A"
+        "na": "N/A",
+        "pagination": {
+          "showing": "Affichage de {first} à {last} sur {total} entrées",
+          "rowsPerPage": "Lignes par page :",
+          "noData": "Aucune donnée trouvée"
+        },
+        "filters": {
+          "global": "Rechercher dans toutes les colonnes...",
+          "platform": "Filtrer par plateforme",
+          "classification": "Filtrer par classification"
+        }
       },
       "backToAnalyze": "Retour à l'analyse",
       "noDataAvailable": "Aucune donnée d'analyse disponible."
