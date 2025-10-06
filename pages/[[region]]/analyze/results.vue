@@ -276,7 +276,7 @@
               {{ data.platform || $t('analyze.results.details.na') }}
             </template>
 
-            <template #filter="{ filterModel, filterCallback }">
+            <!-- <template #filter="{ filterModel, filterCallback }">
               <pv-Select
                 v-model="filterModel.value"
                 option-label="name"
@@ -286,12 +286,12 @@
                   ]"
                 @change="filterCallback()"
               />
-                <!-- <option value="">{{ $t('analyze.results.details.filters.platform') }}</option>
+                <option value="">{{ $t('analyze.results.details.filters.platform') }}</option>
                 <option v-for="platform in platforms" :key="platform" :value="platform">
                   {{ platform }}
                 </option>
-              </pv-Select> -->
-            </template>
+              </pv-Select>
+            </template> -->
           </pv-Column>
 
           <pv-Column 
