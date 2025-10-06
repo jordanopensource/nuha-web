@@ -68,39 +68,41 @@
         <hr class="flex-1 border-colors-neutral-placeholder opacity-30">
       </div>
       
-      <!-- GitHub login option -->
-      <ui-button
-        size="lg"
-        variant="outline"
-        class="w-full"
-        type="button"
-        @click="handleGithubLogin"
-      >
-        {{ $t('login.githubButton') }}
-        <template #icon>
-          <Icon
-            name="mdi:github"
-            size="24"
-          />
-        </template>
-      </ui-button>
-      
-      <!-- Google login option -->
-      <ui-button
-        size="lg"
-        variant="outline"
-        class="w-full"
-        type="button"
-        @click="handleGoogleLogin"
-      >
-        {{ $t('login.googleButton') }}
-        <template #icon>
-          <Icon
-            name="mdi:google"
-            size="24"
-          />
-        </template>
-      </ui-button>
+      <div class="flex gap-2 max-sm:flex-col">
+        <!-- Google login option -->
+        <ui-button
+          size="lg"
+          variant="outline"
+          class="w-full"
+          type="button"
+          @click="handleGoogleLogin"
+        >
+          {{ $t('login.googleButton') }}
+          <template #icon>
+            <Icon
+              name="mdi:google"
+              size="24"
+            />
+          </template>
+        </ui-button>
+
+        <!-- GitHub login option -->
+        <ui-button
+          size="lg"
+          variant="outline"
+          class="w-full"
+          type="button"
+          @click="handleGithubLogin"
+        >
+          {{ $t('login.githubButton') }}
+          <template #icon>
+            <Icon
+              name="mdi:github"
+              size="24"
+            />
+          </template>
+        </ui-button>
+      </div>
       
       <!-- Terms and Privacy -->
       <small>
