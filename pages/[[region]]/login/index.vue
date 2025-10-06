@@ -132,7 +132,7 @@
 <script setup lang="ts">
 const { getLinksByGroup } = useLinks()
 const localePath = useLocalePath()
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const route = useRoute()
 const { loggedIn } = useUserSession()
 
@@ -224,8 +224,7 @@ const handleEmailLogin = async () => {
     const response = await $fetch('/api/auth/magic-link/send', {
       method: 'POST',
       body: {
-        email: email.value,
-        locale: locale.value
+        email: email.value
       }
     })
     

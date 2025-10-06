@@ -1,3 +1,5 @@
+import { detectLocale, getLocalizedPath } from '~/server/utils/locale'
+
 export default defineOAuthGitHubEventHandler({
   config: {
     emailRequired: true
@@ -26,13 +28,17 @@ export default defineOAuthGitHubEventHandler({
       },
       loggedInAt: new Date()
     })
-    // FIXME: this always redirects to the english version
-    // TODO: redirect to correct locale
-    return sendRedirect(event, '/analyze')
+    
+    // Detect user's locale and redirect to locale-aware analyze page
+    const locale = detectLocale(event)
+    const localizedPath = getLocalizedPath('analyze', locale)
+    return sendRedirect(event, localizedPath)
   },
   onError(event, error) {
     console.error('GitHub OAuth error:', error)
-    // redirect to login with error
-    return sendRedirect(event, '/login?error=github_oauth_failed')
+    // Detect user's locale and redirect to locale-aware login page with error
+    const locale = detectLocale(event)
+    const localizedPath = getLocalizedPath('login?error=github_oauth_failed', locale)
+    return sendRedirect(event, localizedPath)
   }
 })

@@ -1,3 +1,5 @@
+import { detectLocale } from '~/server/utils/locale'
+
 export default defineEventHandler(async (event) => {
   if (event.method !== 'POST') {
     throw createError({
@@ -7,7 +9,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { email, locale = 'en' } = await readBody(event)
+    const { email } = await readBody(event)
 
     if (!email || typeof email !== 'string') {
       throw createError({
@@ -16,7 +18,7 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // validate email and locale
+    // validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       throw createError({
@@ -24,18 +26,19 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Invalid email format'
       })
     }
-    const supportedLocales = ['en', 'ar', 'fr', 'ckb']
-    const selectedLocale = typeof locale === 'string' && supportedLocales.includes(locale) ? locale : 'en'
+
+    // detect locale
+    const selectedLocale = detectLocale(event)
 
     // generate token and magic link
     const token = await generateMagicLinkToken(email)
 
     const config = useRuntimeConfig()
     const baseUrl = config.public.baseUrl
-        const magicLink = `${baseUrl}/auth/magic-link?token=${token}`
-        console.log("Magic link: ", magicLink)
+    const magicLink = `${baseUrl}/auth/magic-link?token=${token}`
+    console.log("Magic link: ", magicLink) // TODO: REMOVE
 
-    // send magic link email with locale
+    // send magic link email with detected locale
     await sendMagicLinkEmail(email, magicLink, selectedLocale)
 
     return {

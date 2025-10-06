@@ -1,3 +1,5 @@
+import { detectLocale, getLocalizedPath } from '~/server/utils/locale'
+
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const { token } = query
@@ -31,7 +33,10 @@ export default defineEventHandler(async (event) => {
       loggedInAt: new Date()
     })
 
-    return sendRedirect(event, '/analyze')
+    // Detect user's locale and redirect to locale-aware analyze page
+    const locale = detectLocale(event)
+    const localizedPath = getLocalizedPath('analyze', locale)
+    return sendRedirect(event, localizedPath)
 
   } catch (error) {
     console.error('Magic link verification error:', error)
@@ -43,13 +48,17 @@ export default defineEventHandler(async (event) => {
     
     if (error && typeof error === 'object' && 'statusCode' in error) {
       const nuxtError = error as NuxtError
-      // redirect to login with error
-      const errorMessage = encodeURIComponent(nuxtError.statusMessage || 'authentication_faile')
-      return sendRedirect(event, `/login?error=${errorMessage}`)
+      // Detect user's locale and redirect to locale-aware login page with error
+      const locale = detectLocale(event)
+      const errorMessage = encodeURIComponent(nuxtError.statusMessage || 'authentication_failed')
+      const localizedPath = getLocalizedPath(`login?error=${errorMessage}`, locale)
+      return sendRedirect(event, localizedPath)
     }
     
-    // Redirect with generic error for server errors
-    return sendRedirect(event, '/login?error=authentication_failed')
+    // Detect user's locale and redirect to locale-aware login page with generic error
+    const locale = detectLocale(event)
+    const localizedPath = getLocalizedPath('login?error=authentication_failed', locale)
+    return sendRedirect(event, localizedPath)
   }
 })
 

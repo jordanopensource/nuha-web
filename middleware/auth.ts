@@ -5,7 +5,11 @@ export default defineNuxtRouteMiddleware((to) => {
     // Store the intended URL to redirect after login
     const returnTo = to.fullPath
     
+    // Get locale-aware login path
+    const localePath = useLocalePath()
+    const loginPath = localePath('/login')
+    
     // Redirect to login page with return URL
-    return navigateTo(`/login?returnTo=${encodeURIComponent(returnTo)}`)
+    return navigateTo(`${loginPath}?returnTo=${encodeURIComponent(returnTo)}`)
   }
 })
