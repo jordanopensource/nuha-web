@@ -63,7 +63,7 @@
           :key="publication.documentId"
           :title="publication.title"
           :excerpt="publication.abstract"
-          :cover-image-url="publication.cover?.url"
+          :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
           :category="publication.category?.name"
           :featured="false"
           :slug="publication.slug"
@@ -90,6 +90,7 @@ import type { Publication } from '~/types/strapi'
 const { locale } = useI18n()
 const { find } = useStrapi()
 const { region } = useGeolocation()
+const { getPublicationCoverUrl } = usePublications()
 
 // Fetch publications
 const { data: publications, pending, error } = useAsyncData(

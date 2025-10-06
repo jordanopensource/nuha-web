@@ -117,6 +117,7 @@ const { addHeadingIds } = usePublications()
 const { locale } = useI18n()
 const { find } = useStrapi()
 const route = useRoute()
+const { getPublicationCoverUrl } = usePublications()
 // const { region } = useGeolocation()
 
 const slug = computed(() => route.params.slug as string)
@@ -172,19 +173,9 @@ const currentUrl = computed(() => {
   return ''
 })
 
-// NOTE: WIP
+// Get cover URL using the composable
 const coverUrl = computed(() => {
-  // FIXME: for some reason when there's no image it returns https://localhost:1337undefined
-  // FIXME: check the media provider, if it's "local" then append api url
-  if (!publication.value?.cover?.url || publication.value?.cover?.url.includes("undefined")) {
-    return null
-  }
-  if (publication.value?.cover?.url.startsWith('http')) {
-    return publication.value?.cover?.url
-  }
-  // Ensure only one slash between domain and path
-  // FIXME
-  return `http://localhost:1337${publication.value?.cover?.url.startsWith('/') ? '' : '/'}${publication.value?.cover?.url}`
+  return getPublicationCoverUrl(publication.value?.cover?.url)
 })
 
 // SEO Meta
@@ -205,7 +196,7 @@ useHead(() => ({
     },
     {
       property: 'og:image',
-      content: publication.value?.cover?.url || ''
+      content: coverUrl.value || ''
     }
   ]
 }))

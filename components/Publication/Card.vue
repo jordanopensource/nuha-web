@@ -9,11 +9,11 @@
       :class="{ 'md:grid grid-cols-2 xl:grid-cols-3 md:gap-4 items-start': featured }"
     >
       <div
-        v-if="coverUrl"
+        v-if="coverImageUrl"
         class="w-full overflow-hidden h-max"
       >
         <img
-          :src="coverUrl"
+          :src="coverImageUrl"
           :alt="title"
           class="w-full max-h-72 object-cover"
           :class="{ 'md:max-h-full md:pe-1': featured }"
@@ -23,7 +23,7 @@
       <div
         class="py-4 px-2 flex flex-col gap-3 my-auto"
         :class="{
-          'md:grid grid-cols-2 !w-full col-span-full': featured && !coverUrl,
+          'md:grid grid-cols-2 !w-full col-span-full': featured && !coverImageUrl,
           'md:h-full': featured
         }"
       >
@@ -76,21 +76,6 @@ const publicationLink = computed(() => {
   }
   return `/publications/${props.slug}`
 })
-
-const coverUrl = computed(() => {
-  console.info("Cover image: ", props.coverImageUrl)
-  // FIXME: for some reason when there's no image it returns https://localhost:1337undefined
-  // FIXME: check the media provider, if it's "local" then append api url
-  if (!props.coverImageUrl || props.coverImageUrl.includes("undefined")) {
-    return null
-  }
-  if (props.coverImageUrl.startsWith('http')) {
-    return props.coverImageUrl
-  }
-  // Ensure only one slash between domain and path
-  return `http://localhost:1337${props.coverImageUrl.startsWith('/') ? '' : '/'}${props.coverImageUrl}`
-})
-
 </script>
 
 <style lang="postcss" scoped>

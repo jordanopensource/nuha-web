@@ -35,7 +35,7 @@
             :key="publication.documentId"
             :title="publication.title"
             :excerpt="publication.abstract"
-            :cover-image-url="publication.cover?.url"
+            :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
             :category="publication.category?.name"
             :featured="true"
             :slug="publication.slug"
@@ -99,7 +99,7 @@
             :key="publication.documentId"
             :title="publication.title"
             :excerpt="publication.abstract"
-            :cover-image-url="publication.cover?.url"
+            :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
             :category="publication.category?.name"
             :featured="false"
             :slug="publication.slug"
@@ -157,6 +157,7 @@ const { locale } = useI18n()
 const { find } = useStrapi()
 const { region } = useGeolocation()
 const route = useRoute()
+const { getPublicationCoverUrl } = usePublications()
 
 // track the selected category
 const selectedCategoryId = ref<number | null>(null)
