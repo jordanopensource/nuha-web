@@ -11,10 +11,11 @@
     >
       <template #icon>
         <img 
-          v-if="user?.avatar" 
+          v-if="user?.avatar && !imgError" 
           :src="user.avatar" 
           :alt="user.name || user.email"
           class="h-full w-full rounded-full object-cover border-2 border-colors-primary-light"
+          @error="handleAvatarError"
         >
         <Icon
           v-else
@@ -36,10 +37,11 @@
         <div class="flex items-center gap-3 pb-3 border-b border-colors-neutral-border">
           <div class="h-12 w-12 flex-shrink-0">
             <img 
-              v-if="user?.avatar" 
+              v-if="user?.avatar && !imgError" 
               :src="user.avatar" 
               :alt="user?.name || user?.email"
               class="h-full w-full rounded-full object-cover"
+              @error="handleAvatarError"
             >
             <Icon 
               v-else
@@ -100,10 +102,15 @@ withDefaults(defineProps<Props>(), {
   size: 'md'
 })
 
+const imgError = ref(false)
 const { clear } = useUserSession()
 const localePath = useLocalePath()
 
 const isOpen = ref(false)
+
+const handleAvatarError = (event: Event) => {
+    imgError.value = true
+}
 
 const handleLogout = async () => {
   try {

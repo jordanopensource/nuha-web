@@ -77,6 +77,10 @@ export default defineNuxtConfig({
       github: {
         clientId: '',
         clientSecret: '',
+      },
+      google: {
+        clientId: '',
+        clientSecret: '',
       }
     },
     listmonk: {

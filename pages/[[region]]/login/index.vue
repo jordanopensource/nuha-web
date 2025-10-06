@@ -85,6 +85,23 @@
         </template>
       </ui-button>
       
+      <!-- Google login option -->
+      <ui-button
+        size="lg"
+        variant="outline"
+        class="w-full"
+        type="button"
+        @click="handleGoogleLogin"
+      >
+        {{ $t('login.googleButton') }}
+        <template #icon>
+          <Icon
+            name="mdi:google"
+            size="24"
+          />
+        </template>
+      </ui-button>
+      
       <!-- Terms and Privacy -->
       <small>
         <i18n-t keypath="login.termsText" tag="span">
@@ -161,6 +178,8 @@ const getErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
     case 'github_oauth_failed':
       return t('login.messages.githubError')
+    case 'google_oauth_failed':
+      return t('login.messages.googleError')
     case 'authentication_failed':
       return t('login.messages.authError')
     case 'Invalid or expired magic link':
@@ -238,6 +257,25 @@ const handleGithubLogin = () => {
     messages.error.text = t('login.messages.githubError')
     messages.error.show = true
     console.error('GitHub login error:', error)
+  }
+}
+
+const handleGoogleLogin = () => {
+  clearMessages()
+  
+  try {
+    // Store return URL in sessionStorage before redirecting
+    const returnTo = route.query.returnTo as string || '/analyze'
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('auth_return_to', returnTo)
+    }
+    
+    // Redirect to Google OAuth
+    navigateTo('/auth/google', { external: true })
+  } catch (error) {
+    messages.error.text = t('login.messages.googleError')
+    messages.error.show = true
+    console.error('Google login error:', error)
   }
 }
 </script>

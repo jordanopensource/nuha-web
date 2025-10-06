@@ -195,19 +195,23 @@
     "sending": "Sending...",
     "emailDescription": "We'll email you a magic login link. No password needed.",
     "githubButton": "Continue with GitHub",
+    "googleButton": "Continue with Google",
     "termsText": "By logging in you agree to our {termsLink} and {privacyLink}",
     "termsLink": "Terms of Service",
     "privacyLink": "Privacy Policy",
     "provider": {
       "email": "Email",
-      "github": "GitHub"
+      "github": "GitHub",
+      "google": "Google"
     },
     "messages": {
       "emailSent": "Magic link sent to {email}! Please check your email to complete the login.",
       "githubSuccess": "GitHub login successful! Redirecting...",
+      "googleSuccess": "Google login successful! Redirecting...",
       "invalidEmail": "Please enter a valid email address.",
       "emailError": "Failed to send magic link. Please try again.",
       "githubError": "Failed to login with GitHub. Please try again.",
+      "googleError": "Failed to login with Google. Please try again.",
       "authError": "Authentication failed. Please try again.",
       "expiredMagicLink": "This magic link has expired or is invalid. Please request a new one.",
       "genericError": "An error occurred. Please try again."
