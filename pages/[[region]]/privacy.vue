@@ -2,14 +2,14 @@
   <div class="page-container">
     <!-- Page Heading -->
     <UiPageHeading
-      :title="$t('about.page.title')"
+      :title="$t('privacy.page.title')"
       use-h1
     />
 
     <!-- Error State -->
     <div v-if="error" class="py-12">
       <UiMessage
-        :message="$t('about.page.error')"
+        :message="$t('privacy.page.error')"
         type="error"
       >
         <template #actions>
@@ -35,7 +35,7 @@
     <!-- Fallback for no content -->
     <div v-else class="py-12 text-center">
       <p class="text-colors-neutral-foreground text-lg">
-        {{ $t('about.page.error') }}
+        {{ $t('privacy.page.error') }}
       </p>
     </div>
   </div>
@@ -43,20 +43,20 @@
 
 <script setup lang="ts">
 import type { StrapiLocale } from '@nuxtjs/strapi'
-import type { AboutPage } from '~/types/strapi'
+import type { PrivacyPage } from '~/types/strapi'
 
 const { locale } = useI18n()
 const { find } = useStrapi()
 
 // Set page meta
 useHead({
-  title: () => `${$t('about.page.title')} — ${$t('homepage.nuha')}`
+  title: () => `${$t('privacy.page.title')} — ${$t('homepage.nuha')}`
 })
 
-// Fetch about page content from Strapi
+// Fetch privacy page content from Strapi
 const { data, pending, refresh, error } = useAsyncData(
-  'about-page',
-  () => find<AboutPage>('about-page', {
+  'privacy-page',
+  () => find<PrivacyPage>('privacy-policy', {
     locale: locale.value as StrapiLocale,
     fields: ['title', 'body']
   }),

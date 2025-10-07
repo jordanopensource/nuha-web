@@ -253,5 +253,17 @@
       "title": "About Us",
       "error": "Failed to load about page content."
     }
+  },
+  "terms": {
+    "page": {
+      "title": "Terms of Service",
+      "error": "Failed to load terms of service content."
+    }
+  },
+  "privacy": {
+    "page": {
+      "title": "Privacy Policy",
+      "error": "Failed to load privacy policy content."
+    }
   }
 }

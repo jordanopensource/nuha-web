@@ -221,5 +221,17 @@
       "title": "À Propos de Nous",
       "error": "Échec du chargement du contenu de la page À propos."
     }
+  },
+  "terms": {
+    "page": {
+      "title": "Conditions d'Utilisation",
+      "error": "Échec du chargement du contenu des conditions d'utilisation."
+    }
+  },
+  "privacy": {
+    "page": {
+      "title": "Politique de Confidentialité",
+      "error": "Échec du chargement du contenu de la politique de confidentialité."
+    }
   }
 }

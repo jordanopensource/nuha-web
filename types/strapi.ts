@@ -90,3 +90,25 @@ export interface AboutPage {
   publishedAt: string
   locale: StrapiLocale
 }
+
+export interface TermsPage {
+  id: number
+  documentId: string
+  title: string
+  body: string | null
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  locale: StrapiLocale
+}
+
+export interface PrivacyPage {
+  id: number
+  documentId: string
+  title: string
+  body: string | null
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  locale: StrapiLocale
+}
