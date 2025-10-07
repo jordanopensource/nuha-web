@@ -19,11 +19,7 @@ interface GeoLocationData {
 
 export default defineEventHandler(async (event) => {
   try {
-    // const clientIP = getRequestIP(event);
-    // TODO: remove the dev environment-specific logic
-    const isDev = process.env.NODE_ENV === "development"
-    const clientIP = isDev ? '149.200.184.187' : getHeader(event, 'x-forwarded-for')
-    console.info("CLIENT IP ADDRESS: ", clientIP)
+    const clientIP = getHeader(event, 'x-forwarded-for') || getRequestIP(event) || getHeader(event, 'x-real-ip')
     
     // Skip private/local IPs for development
     if (!clientIP || clientIP === '127.0.0.1' || clientIP === '::1' || clientIP?.startsWith('192.168.')) {

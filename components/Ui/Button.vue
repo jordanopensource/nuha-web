@@ -95,7 +95,6 @@ defineProps({
   }
 }
 
-/* FIXME: the colors of the outline button styles */
 .btn-outline {
   @apply bg-colors-primary-light border border-colors-neutral-foreground text-colors-neutral-foreground;
   @apply hover:bg-colors-neutral-foreground hover:bg-opacity-80;

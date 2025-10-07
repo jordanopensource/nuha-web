@@ -39,7 +39,7 @@ function initRedis(): Redis | null {
     // Test connection
     redisClient.ping()
       .then(() => {
-        console.log('Redis connection successful.')
+        console.info('Redis connection successful.')
       })
       .catch((error) => {
         console.warn('Redis connection failed, falling back to in-memory storage:', error.message)
@@ -199,7 +199,6 @@ export async function sendMagicLinkEmail(
     
     if (!templateId) {
       console.warn(`No template ID configured for locale ${locale}, logging magic link instead`)
-      console.log(`Magic link for ${email}: ${magicLink}`)
       return
     }
 
@@ -215,12 +214,8 @@ export async function sendMagicLinkEmail(
         content_type: 'html',
       })
     )
-
-    console.log(`Magic link email sent successfully to ${email}`)
-
   } catch (error) {
     console.error('Failed to send magic link email:', error)
-    console.log(`Magic link for ${email}: ${magicLink}`)
   }
 }
 

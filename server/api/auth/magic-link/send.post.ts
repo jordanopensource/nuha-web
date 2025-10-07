@@ -36,7 +36,6 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const baseUrl = config.public.baseUrl
     const magicLink = `${baseUrl}/auth/magic-link?token=${token}`
-    console.log("Magic link: ", magicLink) // TODO: REMOVE
 
     // send magic link email with detected locale
     await sendMagicLinkEmail(email, magicLink, selectedLocale)
