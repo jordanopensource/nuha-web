@@ -241,7 +241,8 @@
       "share": {
         "copyUrl": "Copy Link",
         "whatsapp": "Share on WhatsApp",
-        "twitter": "Share on Twitter"
+        "twitter": "Share on Twitter",
+        "urlCopied": "Link copied to clipboard!"
       },
       "notFound": "Publication not found.",
       "backToPublications": "Back to Publications"

@@ -209,7 +209,8 @@
       "share": {
         "copyUrl": "بەستەر کۆپی بکە",
         "whatsapp": "لە WhatsApp دابەش بکە",
-        "twitter": "لە Twitter دابەش بکە"
+        "twitter": "لە Twitter دابەش بکە",
+        "urlCopied": "بەستەر کۆپی کرا بۆ clipboard!"
       },
       "notFound": "بڵاوکراوە نەدۆزرایەوە.",
       "backToPublications": "گەڕانەوە بۆ بڵاوکراوەکان"

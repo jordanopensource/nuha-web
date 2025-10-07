@@ -209,7 +209,8 @@
       "share": {
         "copyUrl": "Copier le Lien",
         "whatsapp": "Partager sur WhatsApp",
-        "twitter": "Partager sur Twitter"
+        "twitter": "Partager sur Twitter",
+        "urlCopied": "Lien copié dans le presse-papiers !"
       },
       "notFound": "Publication non trouvée.",
       "backToPublications": "Retour aux Publications"

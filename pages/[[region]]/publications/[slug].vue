@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="page-container">
     <!-- Loading State -->
@@ -98,7 +99,6 @@
         </div>
   
         <!-- Publication Body -->
-        <!-- eslint-disable-next-line vue/no-v-html -->
         <p
           v-if="publication.body"
           class="publication-body font-LTZarid text-base text-pretty text-colors-neutral-foreground leading-relaxed max-w-lg mx-auto"
@@ -156,7 +156,6 @@ const publication = computed(() => data.value?.data?.[0])
 const processedBody = computed(() => addHeadingIds(publication.value?.body))
 
 // URL for back to publications
-// TODO: add back button
 const publicationsUrl = computed(() => {
   const regionParam = route.params.region as string
   if (regionParam) {

@@ -19,7 +19,7 @@
           :title="$t('publications.single.share.copyUrl')"
           :aria-label="$t('publications.single.share.copyUrl')"
           class="!px-1 aspect-square"
-          @click="copyUrl"
+          @click="handleCopyUrl"
         >
           <Icon name="mdi:link" size="24" />
         </UiButton>
@@ -45,6 +45,28 @@
         </UiButton>
       </div>
     </div>
+
+    <!-- Toast notification for copy success -->
+    <Transition
+      enter-active-class="transition-all duration-300 ease-out"
+      enter-from-class="transform translate-y-2 opacity-0"
+      enter-to-class="transform translate-y-0 opacity-100"
+      leave-active-class="transition-all duration-200 ease-in"
+      leave-from-class="transform translate-y-0 opacity-100"
+      leave-to-class="transform translate-y-2 opacity-0"
+    >
+      <div
+        v-if="showToast"
+        class="fixed top-4 end-4 z-50 sm:!static max-w-sm"
+      >
+        <UiMessage
+          type="success"
+          :message="$t('publications.single.share.urlCopied')"
+          show-close-button
+          @close="showToast = false"
+        />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -60,6 +82,12 @@ const props = defineProps<{
   title: string;
 }>();
 
+const { copy } = useClipboard({ legacy: true });
+
+// Toast state
+const showToast = ref(false);
+let toastTimeout: NodeJS.Timeout | null = null;
+
 // Format the date
 const formattedDate = computed(() => {
   return new Date(props.updatedAt).toLocaleDateString(locale.value, {
@@ -69,18 +97,34 @@ const formattedDate = computed(() => {
   });
 });
 
-// Social sharing functions
-const copyUrl = async () => {
-  if (import.meta.client && navigator.clipboard) {
-    try {
-      await navigator.clipboard.writeText(props.url);
-      // TODO: could add a toast notification here for success / fail states
-    } catch (err) {
-      console.error('Failed to copy URL:', err);
+// Copy URL function with toast notification
+const handleCopyUrl = async () => {
+  try {
+    await copy(props.url);
+    
+    // clear any existing timeout
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
     }
+    
+    // show toast and auto-hide
+    showToast.value = true;
+    toastTimeout = setTimeout(() => {
+      showToast.value = false;
+    }, 1500);
+  } catch (err) {
+    console.error('Failed to copy URL:', err);
   }
 };
 
+// clean up timeout
+onUnmounted(() => {
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
+  }
+});
+
+// Social sharing functions
 const shareOnWhatsApp = () => {
   if (import.meta.client && props.title) {
     const text = encodeURIComponent(`${props.title}\n${props.url}`);
