@@ -215,5 +215,11 @@
       "notFound": "Publication non trouvée.",
       "backToPublications": "Retour aux Publications"
     }
+  },
+  "about": {
+    "page": {
+      "title": "À Propos de Nous",
+      "error": "Échec du chargement du contenu de la page À propos."
+    }
   }
 }

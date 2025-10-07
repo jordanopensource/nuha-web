@@ -79,3 +79,14 @@ export interface PublicationAuthor {
   publishedAt: string
   locale: StrapiLocale
 }
+
+export interface AboutPage {
+  id: number
+  documentId: string
+  title: string
+  body: string | null
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  locale: StrapiLocale
+}

@@ -247,5 +247,11 @@
       "notFound": "Publication not found.",
       "backToPublications": "Back to Publications"
     }
+  },
+  "about": {
+    "page": {
+      "title": "About Us",
+      "error": "Failed to load about page content."
+    }
   }
 }

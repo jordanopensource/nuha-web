@@ -15,21 +15,6 @@ export const useLinks = () => {
 
   const allLinks: Link[] = [
     {
-      path: () => localePath('/about'),
-      title: () => t('links.general.about'),
-      groups: ['footer', "mobile-header", "desktop-header", "info"],
-    },
-    {
-      path: () => localePath('/terms'),
-      title: () => t('links.footer.terms'),
-      groups: ['footer', "info"],
-    },
-    {
-      path: () => localePath('/privacy'),
-      title: () => t('links.footer.privacy'),
-      groups: ['footer', "info"],
-    },
-    {
       path: () => 'https://github.com/jordanopensource/nuha-web',
       title: () => t('links.social.github'),
       external: true,
@@ -52,6 +37,21 @@ export const useLinks = () => {
       path: () => localePath('/publications'),
       title: () => t('links.general.publications'),
       groups: ['desktop-header', 'mobile-header', "footer"],
+    },
+    {
+      path: () => localePath('/about'),
+      title: () => t('links.general.about'),
+      groups: ['footer', "mobile-header", "desktop-header", "info"],
+    },
+    {
+      path: () => localePath('/terms'),
+      title: () => t('links.footer.terms'),
+      groups: ['footer', "info"],
+    },
+    {
+      path: () => localePath('/privacy'),
+      title: () => t('links.footer.privacy'),
+      groups: ['footer', "info"],
     },
   ]
 
