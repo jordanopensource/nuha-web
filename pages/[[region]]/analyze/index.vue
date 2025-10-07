@@ -29,6 +29,10 @@ definePageMeta({
   middleware: 'auth'
 })
 
+useHead({
+  title: () => `${$t('analyze.page.title')} — ${$t('homepage.nuha')}`
+})
+
 const currentMethod = ref(0) // 0 for text, 1 for file
 
 const handleMethodChanged = (method: number) => {

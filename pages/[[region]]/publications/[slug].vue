@@ -179,7 +179,8 @@ const coverUrl = computed(() => {
 
 // SEO Meta
 useHead(() => ({
-  title: publication.value ? publication.value.title : 'Publication',
+  title: publication.value ? `${publication.value.title} — ${$t('homepage.nuha')}`
+  : `${$t('publications.page.title')} — ${$t('homepage.nuha')}`,
   meta: [
     {
       name: 'description',

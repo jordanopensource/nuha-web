@@ -136,6 +136,11 @@ const { t } = useI18n()
 const route = useRoute()
 const { loggedIn } = useUserSession()
 
+useHead({
+  title: () => $t('login.title')
+})
+
+
 const email = ref('')
 const isLoading = ref(false)
 

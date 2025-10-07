@@ -380,6 +380,10 @@ definePageMeta({
   middleware: 'auth'
 })
 
+useHead({
+  title: () => `${$t('analyze.results.title')} — ${$t('homepage.nuha')}`
+})
+
 const route = useRoute()
 const analysisData = ref<AIAnalysisResponse | null>(null)
 const error = ref('')

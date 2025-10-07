@@ -159,6 +159,10 @@ const { region } = useGeolocation()
 const route = useRoute()
 const { getPublicationCoverUrl } = usePublications()
 
+useHead({
+  title: () => `${$t('publications.page.title')} — ${$t('homepage.nuha')}`
+})
+
 // track the selected category
 const selectedCategoryId = ref<number | null>(null)
 

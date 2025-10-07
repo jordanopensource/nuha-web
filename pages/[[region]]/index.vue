@@ -92,6 +92,10 @@ const { find } = useStrapi()
 const { region } = useGeolocation()
 const { getPublicationCoverUrl } = usePublications()
 
+useHead({
+  title: () => $t('homepage.nuha')
+})
+
 // Fetch publications
 const { data: publications, pending, error } = useAsyncData(
   'publications',
