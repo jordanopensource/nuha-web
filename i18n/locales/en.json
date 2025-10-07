@@ -265,5 +265,23 @@
       "title": "Privacy Policy",
       "error": "Failed to load privacy policy content."
     }
+  },
+  "error": {
+    "404": {
+      "title": "Page Not Found",
+      "heading": "Oops! Page not found",
+      "description": "The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.",
+      "backHome": "Back to Home",
+      "backPrevious": "Go Back",
+      "exploreNuha": "Explore Nuha",
+      "exploreNuhaText": "Discover our tools and resources for Arabic language analysis."
+    },
+    "general": {
+      "title": "Something went wrong",
+      "heading": "An error occurred",
+      "description": "We're sorry, but something went wrong. Please try again later.",
+      "tryAgain": "Try Again",
+      "backHome": "Back to Home"
+    }
   }
 }

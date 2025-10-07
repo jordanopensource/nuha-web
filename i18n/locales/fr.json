@@ -233,5 +233,23 @@
       "title": "Politique de Confidentialité",
       "error": "Échec du chargement du contenu de la politique de confidentialité."
     }
+  },
+  "error": {
+    "404": {
+      "title": "Page Introuvable",
+      "heading": "Oups ! Page introuvable",
+      "description": "La page que vous recherchez n'existe pas. Elle a peut-être été déplacée, supprimée, ou vous avez saisi une URL incorrecte.",
+      "backHome": "Retour à l'Accueil",
+      "backPrevious": "Retour",
+      "exploreNuha": "Explorer Nuha",
+      "exploreNuhaText": "Découvrez nos outils et ressources pour l'analyse de la langue arabe."
+    },
+    "general": {
+      "title": "Quelque chose s'est mal passé",
+      "heading": "Une erreur s'est produite",
+      "description": "Nous sommes désolés, mais quelque chose s'est mal passé. Veuillez réessayer plus tard.",
+      "tryAgain": "Réessayer",
+      "backHome": "Retour à l'Accueil"
+    }
   }
 }
