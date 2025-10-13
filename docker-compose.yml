@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # Redis service
+  redis:
+    image: redis:8-alpine
+    container_name: nuha-redis
+    restart: unless-stopped
+    ports:
+      - "${NUXT_REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    command: >
+      sh -c "
+        if [ -n '${NUXT_REDIS_PASSWORD}' ]; then
+          redis-server --requirepass ${NUXT_REDIS_PASSWORD}
+        else
+          redis-server
+        fi
+      "
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - nuha-network
+
+  # Nuxt app (development)
+  nuha-web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: nuha-web-dev
+    restart: unless-stopped
+    ports:
+      - "${NUXT_PORT:-3000}:3000"
+    volumes:
+      # auto-reload code
+      - .:/app
+      - /app/node_modules
+      - /app/.nuxt
+    env_file:
+      - .env
+    environment:
+      - NUXT_REDIS_HOST=redis
+      - NODE_ENV=development
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - nuha-network
+    profiles:
+      - dev
+
+  # Nuxt app (production)
+  nuha-web-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nuha-web-prod
+    restart: unless-stopped
+    ports:
+      - "${NUXT_PORT:-3000}:3000"
+    env_file:
+      - .env
+    environment:
+      # Override specific Docker environment variables
+      - NUXT_REDIS_HOST=redis
+      - NODE_ENV=production
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - nuha-network
+    profiles:
+      - prod
+
+networks:
+  nuha-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+    driver: local
