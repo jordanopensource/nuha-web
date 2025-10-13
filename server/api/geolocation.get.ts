@@ -1,4 +1,5 @@
 // import { getRequestIP } from 'h3'
+// TODO: rename this endpoint to region/dialect
 interface GeoLocationData {
   query: string
   status: "success" | "fail"
@@ -19,14 +20,26 @@ interface GeoLocationData {
 
 export default defineEventHandler(async (event) => {
   try {
-    const clientIP = getHeader(event, 'x-forwarded-for') || getRequestIP(event) || getHeader(event, 'x-real-ip')
+    // Get client IP with proper Docker support
+    const clientIP = 
+      getHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim() ||
+      getHeader(event, 'x-real-ip') ||
+      getHeader(event, 'cf-connecting-ip') ||
+      getRequestIP(event)
     
     // Skip private/local IPs for development
-    if (!clientIP || clientIP === '127.0.0.1' || clientIP === '::1' || clientIP?.startsWith('192.168.')) {
+    if (!clientIP || 
+        clientIP === '127.0.0.1' || 
+        clientIP === '::1' || 
+        clientIP?.startsWith('192.168.') ||
+        clientIP?.startsWith('10.') ||
+        clientIP?.startsWith('172.') ||
+        clientIP?.includes('::1')) {
+      
       return {
         query: clientIP,
-        status: 'fail',
-        message: 'Local IP address'
+        status: 'fail' as const,
+        message: 'Local IP address - development mode'
       }
     }
 

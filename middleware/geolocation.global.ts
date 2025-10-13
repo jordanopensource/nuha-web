@@ -1,7 +1,7 @@
 import type { StrapiLocale } from "@nuxtjs/strapi";
 
 export default defineNuxtRouteMiddleware(async (to) => {
-  // if (import.meta.client) return
+  if (import.meta.server) return
   
   const {
     fetchRegion,
@@ -45,11 +45,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   // if no param and no stored region, try to auto-detect it (client-side only, non-blocking)
-  if (import.meta.client) {
-    setTimeout(() => {
-      fetchRegion()
-    }, 100)
-  }
+  fetchRegion()
   // TODO: show region selector pop-up if auto-detection fails
 
 });

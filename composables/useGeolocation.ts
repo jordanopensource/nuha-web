@@ -36,7 +36,7 @@ export const useGeolocation = () => {
       const { find } = useStrapi()
       const response = await find<PublicationRegion>('regions', {
         // @ts-expect-error this works!
-        locale: '*'
+        locale: '*',
       })
       
       // Group regions by documentId to collect all localized versions
@@ -75,7 +75,9 @@ export const useGeolocation = () => {
   }
 
   const isRegionSupported = async (code: string) => {
-    await fetchSupportedRegions()
+    if (supportedRegions.value.length === 0) {
+      await fetchSupportedRegions()
+    }
     return supportedRegions.value.some(r => r.countryCode === code?.toLowerCase())
   }
 
@@ -107,7 +109,6 @@ export const useGeolocation = () => {
 
     // update the state if the region was found in a cookie after refresh
     if (regionExists) {
-      await fetchSupportedRegions()
       const foundRegion = supportedRegions.value.find(r => r.countryCode === countryCode)
       if (foundRegion) {
         region.value = foundRegion
@@ -119,7 +120,7 @@ export const useGeolocation = () => {
   })
   
   const fetchRegion = async () => {
-    // if (await isRegionDetected.value) return region.value
+    if (await isRegionDetected.value) return region.value
 
     try {
       const res = await useFetch<RegionData>('/api/geolocation')
