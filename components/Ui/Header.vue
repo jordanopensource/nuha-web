@@ -54,11 +54,11 @@
         </AuthState>
       </div>
 
-      <!-- Mobile menu control -->
+      <!-- Mobile menu control & user menu -->
       <AuthState>
         <template #default="{ loggedIn, user }">
           <template v-if="loggedIn">
-            <UiUserMenu class="lg:!hidden my-auto print:hidden" :user="user" size="sm" />
+            <UiUserMenu class="lg:!hidden z-40 my-auto print:hidden" :user="user" size="sm" />
           </template>
         </template>
       </AuthState>
@@ -78,55 +78,59 @@
       </UiButton>
     </div>
     <!-- Mobile menu & backdrop -->
-    <div
+    <Transition name="menu-dropdown">
+      <div
       v-if="showMobileMenu"
-      class="w-full h-screen start-0 top-0 z-30 absolute bg-colors-neutral-background bg-opacity-20 backdrop-blur-lg border lg:hidden"
+      class="w-full h-screen start-0 top-0 z-30 absolute bg-colors-neutral-background bg-opacity-20 backdrop-blur-xl border lg:hidden"
       @click="showMobileMenu = false"
-    />
-    <div v-if="showMobileMenu" class="absolute container z-40 left-0 right-0 print:hidden">
-      <nav
-        class="w-full flex flex-col transition-all gap-y-2.5 p-5 lg:!hidden"
-        :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"
-      >
-        <UiButton
-          v-for="link, i in getLinksByGroup('desktop-header')"
-          :key="i"
-          :to="link.path()"
-          variant="ghost"
-          size="lg"
-          class="!font-medium"
-          @click="showMobileMenu = false"
+      />
+    </Transition>
+    <Transition name="menu-items-dropdown">
+      <div v-if="showMobileMenu" class="absolute container z-40 left-0 right-0 print:hidden">
+        <nav
+          class="w-full flex flex-col transition-all gap-y-2.5 p-5 lg:!hidden"
+          :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"
         >
-          {{ link.title() }}
-        </UiButton>
-
-        <UiRegionLanguageSelector size="lg" mode="language" />
-
-        <AuthState>
-          <template #default="{ loggedIn }">
-            <template v-if="!loggedIn">
+          <UiButton
+            v-for="link, i in getLinksByGroup('desktop-header')"
+            :key="i"
+            :to="link.path()"
+            variant="ghost"
+            size="lg"
+            class="!font-medium border  border-colors-neutral-placeholder border-opacity-0 hover:border-opacity-20"
+            @click="showMobileMenu = false"
+          >
+            {{ link.title() }}
+          </UiButton>
+  
+          <UiRegionLanguageSelector size="lg" mode="language" />
+  
+          <AuthState>
+            <template #default="{ loggedIn }">
+              <template v-if="!loggedIn">
+                <UiButton
+                  :to="localePath('/login')"
+                  variant="primary"
+                  size="lg"
+                  @click="showMobileMenu = false"
+                >
+                  {{ $t('links.general.login') }}
+                </UiButton>
+              </template>
+            </template>
+            <template #placeholder>
               <UiButton
-                :to="localePath('/login')"
-                variant="primary"
+                variant="outline"
                 size="lg"
-                @click="showMobileMenu = false"
+                disabled
               >
-                {{ $t('links.general.login') }}
+                {{ $t('misc.loading') }}
               </UiButton>
             </template>
-          </template>
-          <template #placeholder>
-            <UiButton
-              variant="outline"
-              size="lg"
-              disabled
-            >
-              {{ $t('misc.loading') }}
-            </UiButton>
-          </template>
-        </AuthState>
-      </nav>
-    </div>
+          </AuthState>
+        </nav>
+      </div>
+    </Transition>
   </header>
 </template>
 
@@ -136,4 +140,35 @@
   const showMobileMenu = ref(false)
 </script>
 
-<style lang="postcss" scoped></style>
+<style>
+.menu-dropdown-enter-active,
+.menu-items-dropdown-enter-active {
+  transition: all 200ms ease-out;
+}
+.menu-dropdown-leave-active,
+.menu-items-dropdown-leave-active {
+  transition: all 200ms ease-in;
+}
+
+.menu-dropdown-enter-from,
+.menu-items-dropdown-enter-from {
+  transform: translateY(-100%);
+}
+.menu-dropdown-enter-to {
+  transform: translateY(0px);
+}
+.menu-dropdown-leave-from {
+  transform: translateY(0px);
+}
+.menu-dropdown-leave-to,
+.menu-items-dropdown-leave-to {
+  transform: translateY(-100%);
+}
+
+.menu-items-dropdown-enter-to {
+  transform: translateY(2px);
+}
+.menu-items-dropdown-leave-from {
+  transform: translateY(2px);
+}
+</style>
