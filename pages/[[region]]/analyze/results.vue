@@ -57,7 +57,7 @@
         <template #second-col>
           <UiButton
             variant="ghost"
-            class="w-52 md:ms-auto max-md:me-auto print:!hidden"
+            class="w-52 md:ms-auto max-md:mx-auto print:!hidden"
             @click="showCustomize = true"
           >
             {{ $t('analyze.results.customizeCharts') }}
@@ -69,37 +69,48 @@
         </UiPageHeading>
         <!-- Charts -->
         <ClientOnly>
-          <div class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 py-12 max-sm:py-6 print:py-6">
+          <div
+            ref="chartsContainer"
+            class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 py-12 max-sm:py-6 print:py-6"
+          >
             <div v-if="noChartVisible">
               {{ $t('analyze.results.noChartSelected') }}
             </div>
             <!-- Show only Distribution and Platform (if available) by default; others controlled via modal -->
             <ChartDoughnut
               v-if="chartsVisible.distribution"
-              class="!w-3/4 m-auto break-inside-avoid"
+              :key="`doughnut-${chartRerenderKey}`"
+              class="w-3/4 max-sm:!w-full print:!w-full m-auto break-inside-avoid"
               :chart-data="pieChartData"
               :options="doughnutOptions"
+              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 * 0.75 : 300}px`"
             />
 
             <ChartBar
               v-if="chartsVisible.platform && hasPlatforms"
-              class="!w-full m-auto break-inside-avoid"
+              :key="`platform-${chartRerenderKey}`"
+              class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
               :chart-data="platformStackedData"
               :options="platformsBarOptions"
+              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 : 300}px`"
             />
 
             <ChartBar
               v-if="chartsVisible.totals"
-              class="!w-full m-auto break-inside-avoid"
+              :key="`totals-${chartRerenderKey}`"
+              class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
               :chart-data="barChartData"
               :options="barOptions"
+              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 : 300}px`"
             />
 
             <ChartBar
               v-if="chartsVisible.histogram"
-              class="!w-full m-auto break-inside-avoid"
+              :key="`histogram-${chartRerenderKey}`"
+              class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
               :chart-data="histogramData"
               :options="histogramOptions"
+              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 : 300}px`"
             />
           </div>
         </ClientOnly>
@@ -353,6 +364,7 @@
     </div>
     <UiButton 
       class="mt-4 mx-auto w-fit flex-row-reverse print:!hidden"
+      size="lg"
       :to="$localePath('/analyze')"
     >
       {{ $t('analyze.results.backToAnalyze') }}
@@ -372,9 +384,11 @@ import type { ChartData, ChartOptions } from 'chart.js'
 import type { AIAnalysisResponse } from '~/types/analyze'
 import { analysisColors } from '~/utils/colors'
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
+import { useWindowSize } from '@vueuse/core'
 
 const { supportedRegions } = useGeolocation()
 const { locale, locales, t } = useI18n()
+const { width } = useWindowSize()
 
 definePageMeta({
   middleware: 'auth'
@@ -388,9 +402,24 @@ const route = useRoute()
 const analysisData = ref<AIAnalysisResponse | null>(null)
 const error = ref('')
 const isRtl = computed(() => locales.value.find((l) => l.code === locale.value)?.dir === 'rtl')
+const chartsContainer = ref<HTMLDivElement>()
 
-// TODO: STORE ANALYSIS DATA ELSEWHERE
+// Chart re-rendering key to force updates
+const chartRerenderKey = ref(0)
+const forceChartRerender = () => {
+  console.log("RE-RENDERED: ", chartRerenderKey.value)
+  chartRerenderKey.value++
+}
+
+// watch for window resize to re-render charts
+watch(width, () => {
+  forceChartRerender()
+}, { immediate: false })
+
 onMounted(() => {
+  window.addEventListener('beforeprint', forceChartRerender)
+
+  // TODO: STORE ANALYSIS DATA ELSEWHERE
   // Get analysis data from query parameters
   if (route.query.data) {
     try {
@@ -403,6 +432,10 @@ onMounted(() => {
   } else {
     error.value = 'No analysis data available'
   }
+})
+
+onUnmounted(() => {
+  window.removeEventListener('beforeprint', forceChartRerender)
 })
 
 const handlePrint = () => {
