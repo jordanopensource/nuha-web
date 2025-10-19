@@ -154,52 +154,27 @@
         <h2 class="font-normal mb-4">{{ $t('analyze.results.summary.title') }}</h2>
         
         <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-6">
-            <div class="text-center p-4 bg-colors-analysis-hate-100 rounded-lg border border-colors-analysis-hate-200">
-              <div class="text-2xl font-bold text-colors-analysis-hate-600">
-              {{ analysisData.general_analysis.hate_speech_percentage }}%
-            </div>
-              <div class="text-sm text-colors-analysis-hate-600">{{ $t('analyze.results.summary.hate') }}</div>
-            <div class="text-xs text-gray-600">
-              {{ analysisData.general_analysis.hate_speech_count }} {{ $t('analyze.results.summary.commentsLabel') }}
-            </div>
-            <small class="flex gap-1 justify-center mt-2">
-              <div>{{ $t('analyze.results.summary.confidence') }}</div>
-              <div>
-                {{ (analysisData.general_analysis.hate_speech_confidence_score * 100).toFixed(1) }}%
-              </div>
-            </small>
-          </div>
-          
-          <div class="text-center p-4 bg-colors-analysis-nonhate-100 rounded-lg border border-colors-analysis-nonhate-200">
-            <div class="text-2xl font-bold text-colors-analysis-nonhate-600">
-              {{ analysisData.general_analysis.non_hate_speech_percentage }}%
-            </div>
-            <div class="text-sm text-colors-analysis-nonhate-600">{{ $t('analyze.results.summary.nonhate') }}</div>
-            <div class="text-xs text-gray-600">
-              {{ analysisData.general_analysis.non_hate_speech_count }} {{ $t('analyze.results.summary.commentsLabel') }}
-            </div>
-            <small class="flex gap-1 justify-center mt-2">
-              <div>{{ $t('analyze.results.summary.confidence') }}</div>
-              <div>
-                {{ (analysisData.general_analysis.non_hate_speech_confidence_score * 100).toFixed(1) }}%
-              </div>
-            </small>
-          </div>
-          <div class="text-center p-4 bg-colors-analysis-neutral-100 rounded-lg border border-colors-analysis-neutral-200">
-            <div class="text-2xl font-bold text-colors-analysis-neutral-600">
-              {{ analysisData.general_analysis.neutral_percentage }}%
-            </div>
-            <div class="text-sm text-colors-analysis-neutral-600">{{ $t('analyze.results.summary.neutral') }}</div>
-            <div class="text-xs text-gray-600">
-              {{ analysisData.general_analysis.neutral_count }} {{ $t('analyze.results.summary.commentsLabel') }}
-            </div>
-            <small class="flex gap-1 justify-center mt-2">
-              <div>{{ $t('analyze.results.summary.confidence') }}</div>
-              <div>
-                {{ (analysisData.general_analysis.neutral_confidence_score * 100).toFixed(1) }}%
-              </div>
-            </small>
-          </div>
+            <ResultAnalysisSummaryChip
+              class="bg-colors-analysis-hate-100 border-colors-analysis-hate-200 text-colors-analysis-hate-600"
+              :title="$t('analyze.results.summary.hate')"
+              :value="analysisData.general_analysis.hate_speech_percentage + '%'"
+              :number-of-comments="analysisData.general_analysis.hate_speech_count"
+              :confidence="(analysisData.general_analysis.hate_speech_confidence_score * 100).toFixed(1)"
+            />
+            <ResultAnalysisSummaryChip
+              class="bg-colors-analysis-nonhate-100 border-colors-analysis-nonhate-200 text-colors-analysis-nonhate-600"
+              :title="$t('analyze.results.summary.nonhate')"
+              :value="analysisData.general_analysis.non_hate_speech_percentage + '%'"
+              :number-of-comments="analysisData.general_analysis.non_hate_speech_count"
+              :confidence="(analysisData.general_analysis.non_hate_speech_confidence_score * 100).toFixed(1)"
+            />
+            <ResultAnalysisSummaryChip
+              class="bg-colors-analysis-neutral-100 border-colors-analysis-neutral-200 text-colors-analysis-neutral-600"
+              :title="$t('analyze.results.summary.nonhate')"
+              :value="analysisData.general_analysis.neutral_percentage + '%'"
+              :number-of-comments="analysisData.general_analysis.neutral_count"
+              :confidence="(analysisData.general_analysis.neutral_confidence_score * 100).toFixed(1)"
+            />
         </div>
         
         <div class="flex flex-wrap print:justify-center gap-4 items-center">
@@ -210,10 +185,12 @@
               {{ $t('analyze.results.summary.commentsWord') }}
           </small>
           <small>
-            <strong>{{ $t('analyze.results.summary.dialect') }}</strong> {{ dialectDisplay }}
+            <strong>{{ $t('analyze.results.summary.dialect') }}</strong>
+            {{ dialectDisplay }}
           </small>
           <small>
-            <strong>{{ $t('analyze.results.summary.modelVersion') }}</strong> {{ analysisData.general_analysis.model_version }}
+            <strong>{{ $t('analyze.results.summary.modelVersion') }}</strong>
+            {{ analysisData.general_analysis.model_version }}
           </small>
         </div>
       </div>
