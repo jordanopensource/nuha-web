@@ -143,6 +143,10 @@ const clearError = () => {
 
 const validateForm = (): boolean => {
   clearError()
+  if (!region.value) {
+    errorMessage.value = "You should select a dialect for the AI model to analyze" // TODO: i18n
+    return false
+  }
   
   if (selectedMethod.value === 0) {
     // text input validation
@@ -194,6 +198,8 @@ const handleSubmit = async () => {
   
   try {
     const localePath = useLocalePath()
+    const { setAnalysisResults } = useAnalysisResults()
+    
     if (selectedMethod.value === 0) {
       // submit text input
       const response = await $fetch<AnalysisResponse>('/api/analyze/comment', {
@@ -205,11 +211,9 @@ const handleSubmit = async () => {
       })
       
       if (response.success) {
-        // go to results with data
-        await navigateTo({
-          path: localePath('/analyze/results'),
-          query: { data: JSON.stringify(response.data) }
-        })
+        // Store results in state and go to results page
+        setAnalysisResults(response.data)
+        await navigateTo(localePath('/analyze/results'))
       }
     } else {
       // submit file input
@@ -224,10 +228,9 @@ const handleSubmit = async () => {
       })
       
       if (response.success) {
-        await navigateTo({
-          path: localePath('/analyze/results'),
-          query: { data: JSON.stringify(response.data) }
-        })
+        // Store results in state and go to results page
+        setAnalysisResults(response.data)
+        await navigateTo(localePath('/analyze/results'))
       }
     }
   } catch (error: unknown) {

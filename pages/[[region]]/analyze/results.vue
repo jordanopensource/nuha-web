@@ -83,7 +83,7 @@
               class="w-3/4 max-sm:!w-full print:!w-full m-auto break-inside-avoid"
               :chart-data="pieChartData"
               :options="doughnutOptions"
-              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 * 0.75 : 300}px`"
+              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2 * 0.75}px` : ''"
             />
 
             <ChartBar
@@ -92,7 +92,7 @@
               class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
               :chart-data="platformStackedData"
               :options="platformsBarOptions"
-              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 : 300}px`"
+              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
             />
 
             <ChartBar
@@ -101,7 +101,7 @@
               class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
               :chart-data="barChartData"
               :options="barOptions"
-              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 : 300}px`"
+              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
             />
 
             <ChartBar
@@ -110,7 +110,7 @@
               class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
               :chart-data="histogramData"
               :options="histogramOptions"
-              :style="`width: ${chartsContainer?.offsetWidth ? chartsContainer.offsetWidth / 2 : 300}px`"
+              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
             />
           </div>
         </ClientOnly>
@@ -359,13 +359,17 @@
       />
     </div>
     
-    <div v-else class="mt-8 mx-auto text-center">
+    <div v-else-if="!analysisData && !analysisLoading" class="mt-8 mx-auto text-center">
       <p class="text-gray-600">{{ $t('analyze.results.noDataAvailable') }}</p>
+    </div>
+    <div v-else-if="analysisLoading" class="mt-8 mx-auto text-center">
+      <Icon name="mdi:loading" class="loader !h-6 !w-6" />
     </div>
     <UiButton 
       class="mt-4 mx-auto w-fit flex-row-reverse print:!hidden"
       size="lg"
       :to="$localePath('/analyze')"
+      @click="clearAnalysisResults"
     >
       {{ $t('analyze.results.backToAnalyze') }}
       <template #icon>
@@ -391,7 +395,7 @@ const { locale, locales, t } = useI18n()
 const { width } = useWindowSize()
 
 definePageMeta({
-  middleware: 'auth'
+  middleware: ['auth']
 })
 
 useHead({
@@ -399,7 +403,9 @@ useHead({
 })
 
 const route = useRoute()
+const { getAnalysisResults, clearAnalysisResults } = useAnalysisResults()
 const analysisData = ref<AIAnalysisResponse | null>(null)
+const analysisLoading = ref(true)
 const error = ref('')
 const isRtl = computed(() => locales.value.find((l) => l.code === locale.value)?.dir === 'rtl')
 const chartsContainer = ref<HTMLDivElement>()
@@ -407,7 +413,6 @@ const chartsContainer = ref<HTMLDivElement>()
 // Chart re-rendering key to force updates
 const chartRerenderKey = ref(0)
 const forceChartRerender = () => {
-  console.log("RE-RENDERED: ", chartRerenderKey.value)
   chartRerenderKey.value++
 }
 
@@ -419,18 +424,31 @@ watch(width, () => {
 onMounted(() => {
   window.addEventListener('beforeprint', forceChartRerender)
 
-  // TODO: STORE ANALYSIS DATA ELSEWHERE
-  // Get analysis data from query parameters
-  if (route.query.data) {
-    try {
-      const data = JSON.parse(String(route.query.data))
-      analysisData.value = data as AIAnalysisResponse
-    } catch (err) {
-      console.error('Error parsing analysis data:', err)
-      error.value = 'Invalid analysis data received'
-    }
+  // Get analysis data from state instead of URL query parameters
+  const storedData = getAnalysisResults()
+  if (storedData) {
+    analysisData.value = storedData
+    analysisLoading.value = false
   } else {
-    error.value = 'No analysis data available'
+    // Fallback: try to get from URL query
+    // (for backward compatibility, SAFE TO REMOVE AFTER LAUNCHING)
+    if (route.query.data) {
+      try {
+        const data = JSON.parse(String(route.query.data))
+        analysisData.value = data as AIAnalysisResponse
+        analysisLoading.value = false
+        // Store in state for future use
+        const { setAnalysisResults } = useAnalysisResults()
+        setAnalysisResults(data)
+      } catch (err) {
+        console.error('Error parsing analysis data:', err)
+        error.value = 'Invalid analysis data received'
+        analysisLoading.value = false
+      }
+    } else {
+      error.value = 'No analysis data available. Please run an analysis first.' // TODO: i18n
+      analysisLoading.value = false
+    }
   }
 })
 
