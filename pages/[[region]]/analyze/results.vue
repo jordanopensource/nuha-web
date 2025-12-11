@@ -709,14 +709,14 @@ const rowsPerPage = ref(10)
 
 const initFilters = () => {
     filters.value = {
-      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      // global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       originalComment: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
       },
       platform: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+        // operator: FilterOperator.AND,
+        constraints: [{ value: FilterMatchMode.EQUALS, matchMode: FilterMatchMode.EQUALS }]
       },
       date: {
         operator: FilterOperator.AND,
@@ -807,7 +807,7 @@ const onPage = (event: { first: number; rows: number; page: number; sortField?: 
 const onSort = (event: { sortField: string; sortOrder: number }) => {
   fetchData(first.value / rowsPerPage.value, rowsPerPage.value, event.sortField, event.sortOrder, filters.value)
 }
-const onFilter = (event: { filters: Record<string, any> }) => {
+const onFilter = (event: { filters: Record<string, unknown> }) => {
   filters.value = event.filters
   fetchData(0, rowsPerPage.value, undefined, undefined, event.filters)
 }

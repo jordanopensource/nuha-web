@@ -12,7 +12,9 @@
         <Icon v-if="showFlagInButton && currentRegionFlag" :name="currentRegionFlag" size="20" />
         <Icon v-else name="mdi:earth" size="20" />
       </template>
-      <span v-if="buttonContent !== 'icon'">{{ currentSelectionText || detectedRegion?.countryCode }}</span>
+      <span v-if="buttonContent !== 'icon'">
+        {{ currentSelectionText }}
+      </span>
     </UiButton>
 
     <!-- Modal -->

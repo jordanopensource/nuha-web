@@ -139,7 +139,7 @@
         <!-- TODO: change title -->
         <UiRegionLanguageSelector
           size="sm"
-          button-variant="ghost"
+          button-variant="outline"
           show-flag-in-button
           button-content="both"
           mode="region"

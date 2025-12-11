@@ -1,6 +1,6 @@
 <template>
   <header class="container py-4">
-    <div class="flex lg:grid grid-cols-3">
+    <div class="flex">
       <NuxtLink
         class="z-40 me-auto"
         :to="localePath('/')"
@@ -11,7 +11,7 @@
       </NuxtLink>
 
       <!-- Desktop list -->
-      <nav class="list hidden lg:flex gap-2 mx-auto print:hidden">
+      <nav class="list hidden lg:flex gap-2 ms-auto print:hidden">
         <UiButton
           v-for="link, i in getLinksByGroup('desktop-header')"
           :key="i"
@@ -25,7 +25,7 @@
       </nav>
       
       <!-- Desktop auth section -->
-      <div class="list hidden lg:flex items-center gap-2 ms-auto print:hidden">
+      <div class="list hidden lg:flex items-center gap-2 print:hidden">
         <AuthState>
           <template #default="{ loggedIn, user }">
             <template v-if="loggedIn">

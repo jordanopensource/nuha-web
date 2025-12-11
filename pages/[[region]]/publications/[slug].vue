@@ -99,7 +99,7 @@
         </div>
   
         <!-- Publication Body -->
-        <p
+        <div
           v-if="publication.body"
           class="publication-body font-LTZarid text-base text-pretty text-colors-neutral-foreground leading-relaxed max-w-lg mx-auto"
           v-html="processedBody"
