@@ -218,6 +218,7 @@ docker compose down                 # Stop all services
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components**: [PrimeVue](https://primevue.org/datatable) (for the DataTable Component)
 - **Authentication**: [nuxt-auth-utils](https://github.com/atinux/nuxt-auth-utils/)
+- **Caching**: [Redis](https://hub.docker.com/_/redis/)
 - **Internationalization**: [@nuxtjs/i18n](https://i18n.nuxtjs.org/)
 - **Charts**: [Chart.js](https://www.chartjs.org/) + [vue-chartjs](https://vue-chartjs.org/)
 - **File Processing**: [xlsx](https://git.sheetjs.com/sheetjs/sheetjs)
