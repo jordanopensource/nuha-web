@@ -31,9 +31,9 @@
   },
   "settings": {
     "regionLanguage": {
-      "title": "المنطقة واللغة",
+      "title": "اللهجة واللغة",
       "language": "اللغة",
-      "region": "المنطقة",
+      "region": "اللهجة",
       "detectedLocation": "الموقع المكتشف",
       "apply": "تطبيق التغييرات"
     }
@@ -62,7 +62,7 @@
     "form": {
       "textInput": "إدخال النص",
       "fileUpload": "رفع الملف",
-      "regionTitle": "المنطقة للهجة نموذج الذكاء الاصطناعي",
+      "regionTitle": "لهجة نموذج الذكاء الاصطناعي",
       "help": "مساعدة",
       "textPlaceholder": "أضف النص",
       "filePlaceholder": "ارفع أو اسقط الملف",
