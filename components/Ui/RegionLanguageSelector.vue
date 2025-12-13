@@ -1,3 +1,4 @@
+<!-- FIXME: region not set on first load -->
 <template>
   <div>
     <!-- Trigger Button -->
@@ -56,6 +57,7 @@
         </div>
 
         <!-- Region Selection -->
+        <!-- TODO: add a note explaining what region is used for -->
         <div v-if="mode === 'both' || mode === 'region'">
           <h3 class="text-lg font-medium text-colors-neutral-foreground font-IBMPlexSansArabic mb-4">
             {{ $t('settings.regionLanguage.region') }}
@@ -71,8 +73,10 @@
                 size="lg"
                 class="!grid border region-btn border-colors-neutral-foreground border-opacity-20"
                 :class="{
-                '!border-colors-primary !bg-colors-primary-light !bg-opacity-20': region?.countryCode === r.countryCode || detectedRegion?.countryCode === r.countryCode,
+                '!border-colors-primary !bg-colors-primary-light !bg-opacity-80': region?.countryCode === r.countryCode || detectedRegion?.countryCode === r.countryCode,
+                '!bg-colors-primary-light !bg-opacity-10 !border-opacity-10 opacity-60': !r.isAvailable,
                 }"
+                :disabled="!r.isAvailable"
                 @click="updateRegion(r.countryCode)"
               >
                 <template v-if="r.flagIcon" #icon>
@@ -189,7 +193,8 @@ const currentSelectionText = computed(() => {
     return languageName.value
   } else if (props.mode === 'region') {
     // If showFlagInButton is true and we have a flag, don't show region name as it's shown as icon
-    return props.showFlagInButton && currentRegionFlag.value && props.buttonContent == 'icon' ? '' : regionName.value
+    return props.showFlagInButton && currentRegionFlag.value && props.buttonContent === 'icon' ? ''
+      : regionName.value || detectedRegion?.value?.countryCode || "Select AI dialect" // TODO: i18n
   } else {
     const langText = languageName.value
     const regText = props.showFlagInButton && currentRegionFlag.value ? '' : regionName.value

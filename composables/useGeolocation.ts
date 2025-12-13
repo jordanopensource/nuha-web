@@ -22,6 +22,7 @@ export interface RegionData {
    * Name of the flag icon from https://icones.js.org/.
    */
   flagIcon?: string,
+  isAvailable?: boolean,
 }
 
 export const useGeolocation = () => {
@@ -53,17 +54,20 @@ export const useGeolocation = () => {
         const dialectName = {} as Record<StrapiLocale, string>
         let countryCode = ''
         let flagIcon = ''
+        let isAvailable: boolean | null = false
 
         regionLocales.forEach(region => {
           dialectName[region.locale] = region.name
           countryCode = region.code.toLowerCase()
           if (region.flag_icon) flagIcon = region.flag_icon
+          isAvailable = region.is_available
         })
 
         return {
           countryCode,
           dialectName,
-          flagIcon
+          flagIcon,
+          isAvailable
         }
       })
 

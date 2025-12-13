@@ -61,6 +61,7 @@ export interface PublicationRegion {
   code: string
   name: string
   flag_icon: string | null
+  is_available: boolean | null
   createdAt: string
   updatedAt: string
   publishedAt: string
