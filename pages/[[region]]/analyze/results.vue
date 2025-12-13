@@ -153,44 +153,29 @@
       <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6 break-inside-avoid">
         <h2 class="font-normal mb-4">{{ $t('analyze.results.summary.title') }}</h2>
         
-        <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 mb-6">
-            <ResultAnalysisSummaryChip
-              class="bg-colors-analysis-hate-100 border-colors-analysis-hate-200 text-colors-analysis-hate-600"
-              :title="$t('analyze.results.summary.hate')"
-              :value="analysisData.general_analysis.hate_speech_percentage + '%'"
-              :number-of-comments="analysisData.general_analysis.hate_speech_count"
-              :confidence="(analysisData.general_analysis.hate_speech_confidence_score * 100).toFixed(1)"
-            />
-            <ResultAnalysisSummaryChip
-              class="bg-colors-analysis-nonhate-100 border-colors-analysis-nonhate-200 text-colors-analysis-nonhate-600"
-              :title="$t('analyze.results.summary.nonhate')"
-              :value="analysisData.general_analysis.non_hate_speech_percentage + '%'"
-              :number-of-comments="analysisData.general_analysis.non_hate_speech_count"
-              :confidence="(analysisData.general_analysis.non_hate_speech_confidence_score * 100).toFixed(1)"
-            />
-            <ResultAnalysisSummaryChip
-              class="bg-colors-analysis-neutral-100 border-colors-analysis-neutral-200 text-colors-analysis-neutral-600"
-              :title="$t('analyze.results.summary.nonhate')"
-              :value="analysisData.general_analysis.neutral_percentage + '%'"
-              :number-of-comments="analysisData.general_analysis.neutral_count"
-              :confidence="(analysisData.general_analysis.neutral_confidence_score * 100).toFixed(1)"
-            />
+        <!-- TODO: replace tailwind dynamic classes with plain css -->
+        <div class="grid gap-4 mb-6" :class="`grid-cols-${Math.min(mainClasses.length, 3)} max-sm:grid-cols-1`">
+          <ResultAnalysisSummaryChip
+            v-for="(classData, index) in mainClasses"
+            :key="classData.name"
+            :class="getClassChipStyles(index)"
+            :title="classData.name"
+            :value="classData.percentage + '%'"
+            :number-of-comments="classData.count"
+            :confidence="classData.avgConfidence.toFixed(1)"
+          />
         </div>
-        
+
         <div class="flex flex-wrap print:justify-center gap-4 items-center">
-          <small v-if="analysisData?.general_analysis" class="flex items-center gap-1">
+          <small class="flex items-center gap-1">
             <Icon name="mdi:info-outline" class="text-colors-neutral-placeholder text-base" />
             <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
-              {{ analysisData.general_analysis.neutral_count + analysisData.general_analysis.hate_speech_count + analysisData.general_analysis.non_hate_speech_count }}
+              {{ totalValidComments }}
               {{ $t('analyze.results.summary.commentsWord') }}
           </small>
           <small>
             <strong>{{ $t('analyze.results.summary.dialect') }}</strong>
             {{ dialectDisplay }}
-          </small>
-          <small>
-            <strong>{{ $t('analyze.results.summary.modelVersion') }}</strong>
-            {{ analysisData.general_analysis.model_version }}
           </small>
         </div>
       </div>
@@ -203,17 +188,17 @@
           v-model:filters="filters"
           :value="paginatedComments"
           :rows="rowsPerPage"
-          :total-records="totalRecords"
+          :total-records="totalComments"
           :lazy="true"
           :paginator="true"
           :rows-per-page-options="[5, 10, 20, 50]"
           :loading="loading"
-          :global-filter-fields="['originalComment', 'platform', 'date', 'label']"
+          :global-filter-fields="['originalComment', 'platform', 'date', 'main_class']"
           filter-display="menu"
           column-resize-mode="fit"
           resizable-columns
           paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          :current-page-report-template="$t('analyze.results.details.pagination.showing', { first: '{first}', last: '{last}', total: '{totalRecords}' })"
+          :current-page-report-template="$t('analyze.results.details.pagination.showing', { first: '{first}', last: '{last}', total: '{totalValidComments}' })"
           class="py-8 px-4 rounded-md"
           @page="onPage"
           @sort="onSort"
@@ -298,7 +283,10 @@
             :sortable="true"
           >
             <template #body="{ data }">
-              <ResultScoreLabel :label="data.label" />
+              <div class="flex flex-col gap-1">
+                <span class="font-medium">{{ data.main_class }}</span>
+                <span class="text-sm text-gray-500">{{ data.sub_class }}</span>
+              </div>
             </template>
             <!-- <template #filter="{ filterModel, filterCallback }">
               <select
@@ -319,8 +307,23 @@
             :header="$t('analyze.results.details.headers.score')"
             :sortable="true"
           >
+            <!-- TODO: add filter? -->
             <template #body="{ data }">
-              <ResultScoreBar :score="data.score" :label="data.label" />
+              <div class="flex flex-col gap-1">
+                <div class="flex items-center gap-2">
+                  <div class="w-16 bg-gray-200 rounded-full h-2">
+                    <!-- TODO: unify colors -->
+                    <div 
+                      class="h-2 rounded-full"
+                      :class="data.confidence > 0.8 ? 'bg-green-500' : data.confidence > 0.6 ? 'bg-yellow-500' : 'bg-red-500'"
+                      :style="{ width: `${data.confidence * 100}%` }"
+                    ></div>
+                  </div>
+                  <span class="text-sm">{{ (data.confidence * 100).toFixed(1) }}%</span>
+                </div>
+                <!-- TODO: i18n -->
+                <small class="text-gray-500">{{ data.is_valid ? 'Valid' : 'Invalid' }}</small>
+              </div>
             </template>
           </pv-Column>
         </pv-DataTable>
@@ -377,12 +380,12 @@
 
 <script lang="ts" setup>
 import type { ChartData, ChartOptions } from 'chart.js'
-import type { AIAnalysisResponse } from '~/types/analyze'
+import type { AIAnalysisResponse, SingleResult } from '~/types/analyze'
 import { analysisColors } from '~/utils/colors'
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
 import { useWindowSize } from '@vueuse/core'
 
-const { supportedRegions } = useGeolocation()
+const { supportedRegions, region } = useGeolocation()
 const { locale, locales, t } = useI18n()
 const { width } = useWindowSize()
 
@@ -394,13 +397,14 @@ useHead({
   title: () => `${$t('analyze.results.title')} — ${$t('homepage.nuha')}`
 })
 
-const route = useRoute()
 const { getAnalysisResults, clearAnalysisResults } = useAnalysisResults()
 const analysisData = ref<AIAnalysisResponse | null>(null)
-const analysisLoading = ref(true)
+const validComments = ref<SingleResult[]>()
+const analysisLoading = ref({})
 const error = ref('')
 const isRtl = computed(() => locales.value.find((l) => l.code === locale.value)?.dir === 'rtl')
 const chartsContainer = ref<HTMLDivElement>()
+
 
 // Chart re-rendering key to force updates
 const chartRerenderKey = ref(0)
@@ -420,27 +424,11 @@ onMounted(() => {
   const storedData = getAnalysisResults()
   if (storedData) {
     analysisData.value = storedData
+    validComments.value  = analysisData.value.results.filter(r => r.is_valid)
     analysisLoading.value = false
   } else {
-    // Fallback: try to get from URL query
-    // (for backward compatibility, SAFE TO REMOVE AFTER LAUNCHING)
-    if (route.query.data) {
-      try {
-        const data = JSON.parse(String(route.query.data))
-        analysisData.value = data as AIAnalysisResponse
-        analysisLoading.value = false
-        // Store in state for future use
-        const { setAnalysisResults } = useAnalysisResults()
-        setAnalysisResults(data)
-      } catch (err) {
-        console.error('Error parsing analysis data:', err)
-        error.value = 'Invalid analysis data received'
-        analysisLoading.value = false
-      }
-    } else {
-      error.value = 'No analysis data available. Please run an analysis first.' // TODO: i18n
-      analysisLoading.value = false
-    }
+    error.value = 'No analysis data available. Please run an analysis first.' // TODO: i18n
+    analysisLoading.value = false
   }
 })
 
@@ -452,7 +440,7 @@ const handlePrint = () => {
   window.print()
 }
 
-// Charts visibility state + modal toggle
+// charts visibility state + modal toggle
 const showCustomize = ref(false)
 const chartsVisible = reactive({
   distribution: true, // doughnut chart
@@ -460,72 +448,109 @@ const chartsVisible = reactive({
   platform: true,     // stacked by platform
   histogram: false    // score histogram
 })
+
+// checks if no chart is selected to be visible
 const noChartVisible = computed(
   () => !(chartsVisible.distribution || chartsVisible.totals
   || chartsVisible.platform || chartsVisible.histogram))
 
 const dialectDisplay = computed(() => {
-  const data = analysisData.value
-  if (!data?.general_analysis?.model_dialect) return '—'
-  const code = data.general_analysis.model_dialect
+  const code = region.value?.countryCode
   const match = supportedRegions.value.find(r => r.countryCode === code)
   return match?.dialectName?.[locale.value] || code
 })
 
+const totalComments = computed(() => {
+  return analysisData.value?.results?.length ?? 0
+})
+const totalValidComments = computed(() => {
+  return validComments.value?.length ?? 0
+})
+
+
+// Compute main classes from results
+// TODO: refactor to its own composable
+// TODO: add another util to get sub_classes
+const mainClasses = computed(() => {
+  if (!(analysisData.value?.results && validComments.value)) return []
+  
+  const classMap = new Map<string, { count: number, totalConfidence: number }>()
+  // TODO: handle a single analyzed item
+  validComments.value.forEach(result => {
+    const className = result.main_class
+    if (!classMap.has(className)) {
+      classMap.set(className, { count: 0, totalConfidence: 0 })
+    }
+    
+    const existing = classMap.get(className)!
+    existing.count++
+    existing.totalConfidence += result.confidence
+  })
+  
+  return Array.from(classMap.entries()).map(([name, data]) => ({
+    name,
+    count: data.count,
+    percentage: Math.round((data.count / totalValidComments.value) * 100),
+    avgConfidence: data.totalConfidence / data.count
+  }))
+})
+
+// Generate colors for main classes
+// TODO refactor
+const getClassChipStyles = (index: number) => {
+  const colors = [
+    'bg-colors-analysis-hate-100 border-colors-analysis-hate-200 text-colors-analysis-hate-600',
+    'bg-colors-analysis-nonhate-100 border-colors-analysis-nonhate-200 text-colors-analysis-nonhate-600',
+    'bg-colors-analysis-neutral-100 border-colors-analysis-neutral-200 text-colors-analysis-neutral-600',
+    'bg-blue-100 border-blue-200 text-blue-600',
+    'bg-green-100 border-green-200 text-green-600',
+    'bg-purple-100 border-purple-200 text-purple-600'
+  ]
+  return colors[index % colors.length]
+}
+
 // Datasets and options
-const barChartData = computed<ChartData<'bar'>>(() => ({
-  labels: [t('analyze.results.charts.commentsAxis')],
-  datasets: [
-    {
-      label: t('analyze.results.summary.hate'),
-      data: [
-        analysisData.value?.general_analysis.hate_speech_count ?? 0,
-      ],
-      backgroundColor: analysisColors.hate,
-      barThickness: 64,
-      borderRadius: 6,
-      borderWidth: 2,
-      borderColor: '#0000'
-    },
-    {
-      label: t('analyze.results.summary.nonhate'),
-      data: [
-        analysisData.value?.general_analysis.non_hate_speech_count ?? 0
-      ],
-      backgroundColor: analysisColors.nonhate,
-      barThickness: 64,
-      borderRadius: 6,
-      borderWidth: 2,
-      borderColor: '#0000'
-    },
-    ...(analysisData.value && analysisData.value.general_analysis.neutral_count > 0 ? [{
-      label: t('analyze.results.summary.neutral'),
-      data: [
-        analysisData.value.general_analysis.neutral_count
-      ],
-      backgroundColor: analysisColors.neutral,
-      barThickness: 64,
-      borderRadius: 6,
-      borderWidth: 2,
-      borderColor: '#0000'
-    }] : [])
-  ],
-}))
+const barChartData = computed<ChartData<'bar'>>(() => {
+  const datasets = mainClasses.value.map((classData, index) => ({
+    label: classData.name,
+    data: [classData.count],
+    backgroundColor: getChartColor(index),
+    barThickness: 64,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: '#0000'
+  }))
+
+  return {
+    labels: [t('analyze.results.charts.commentsAxis')],
+    datasets
+  }
+})
 
 const pieChartData = computed<ChartData<'doughnut'>>(() => ({
-  labels: [t('analyze.results.summary.hate'), t('analyze.results.summary.nonhate'), t('analyze.results.summary.neutral')],
+  labels: mainClasses.value.map(c => c.name),
   datasets: [
     {
-      data: [
-        analysisData.value?.general_analysis.hate_speech_count ?? 0,
-        analysisData.value?.general_analysis.non_hate_speech_count ?? 0,
-        analysisData.value?.general_analysis.neutral_count ?? 0,
-      ],
-      backgroundColor: [analysisColors.hate, analysisColors.nonhate, analysisColors.neutral],
+      data: mainClasses.value.map(c => c.count),
+      backgroundColor: mainClasses.value.map((_, index) => getChartColor(index)),
       label: t('analyze.results.charts.commentsCountLabel'),
     },
   ],
 }))
+
+// get chart colors dynamically
+// TODO: refactor
+const getChartColor = (index: number) => {
+  const colors = [
+    analysisColors.hate,
+    analysisColors.nonhate,  
+    analysisColors.neutral,
+    '#3B82F6',
+    '#10B981',
+    '#8B5CF6',
+  ]
+  return colors[index % colors.length]
+}
 
 const barOptions = reactive<ChartOptions<'bar'>>({
   responsive: false,
@@ -597,28 +622,33 @@ const doughnutOptions = reactive<ChartOptions<'doughnut'>>({
 // Stacked bar: labels per platform
 const platforms = computed(() => {
   const set = new Set<string>()
-  for (const c of analysisData.value?.comments_details ?? []) {
-    set.add(c.platform || 'Unknown')
+  for (const result of validComments.value ?? []) {
+    // TODO: check if it's a url and shorten it
+    set.add(result.platform || 'Unknown')
   }
   return Array.from(set)
 })
 
 const platformStackedData = computed<ChartData<'bar'>>(() => {
-  const base = Object.fromEntries(platforms.value.map(p => [p, { hate: 0, non: 0, neutral: 0 }]))
-  for (const c of analysisData.value?.comments_details ?? []) {
-    const p = c.platform || 'Unknown'
-    if (c.label === 'hate-speech') base[p].hate++
-    else if (c.label === 'non-hate-speech') base[p].non++
-    else base[p].neutral++
+  const classNames = mainClasses.value.map(c => c.name)
+  const base = Object.fromEntries(platforms.value.map(p => [p, Object.fromEntries(classNames.map(c => [c, 0]))]))
+  
+  for (const result of validComments.value ?? []) {
+    const p = result.platform || 'Unknown'
+    const className = result.main_class
+    if (base[p] && base[p][className] !== undefined) {
+      base[p][className]++
+    }
   }
+  
   const labels = platforms.value
   return {
     labels,
-    datasets: [
-      { label: t('analyze.results.summary.hate'), data: labels.map(l => base[l].hate), backgroundColor: analysisColors.hate },
-      { label: t('analyze.results.summary.nonhate'), data: labels.map(l => base[l].non), backgroundColor: analysisColors.nonhate },
-      { label: t('analyze.results.summary.neutral'), data: labels.map(l => base[l].neutral), backgroundColor: analysisColors.neutral }
-    ],
+    datasets: classNames.map((className, index) => ({
+      label: className,
+      data: labels.map(l => base[l][className] || 0),
+      backgroundColor: getChartColor(index)
+    }))
   }
 })
 const platformsBarOptions = reactive<ChartOptions<'bar'>>({
@@ -658,24 +688,27 @@ const platformsBarOptions = reactive<ChartOptions<'bar'>>({
 const histogramData = computed<ChartData<'bar'>>(() => {
   const bins = Array.from({ length: 10 }, (_, i) => i / 10)
   const labels = bins.map(b => `${(b * 100).toFixed(0)}–${((b + 0.1) * 100).toFixed(0)}%`)
-  const counts = {
-    hate: Array(10).fill(0),
-    non: Array(10).fill(0),
-    neutral: Array(10).fill(0)
+  
+  // Initialize counts for each main class
+  const classCounts = Object.fromEntries(
+    mainClasses.value.map(c => [c.name, Array(10).fill(0)])
+  )
+  
+  for (const result of validComments.value ?? []) {
+    const idx = Math.min(9, Math.floor(result.confidence * 10))
+    const className = result.main_class
+    if (classCounts[className]) {
+      classCounts[className][idx]++
+    }
   }
-  for (const c of analysisData.value?.comments_details ?? []) {
-    const idx = Math.min(9, Math.floor(c.score * 10))
-    if (c.label === 'hate-speech') counts.hate[idx]++
-    else if (c.label === 'non-hate-speech') counts.non[idx]++
-    else counts.neutral[idx]++
-  }
+  
   return {
     labels,
-    datasets: [
-      { label: t('analyze.results.summary.hate'), data: counts.hate, backgroundColor: analysisColors.hate },
-      { label: t('analyze.results.summary.nonhate'), data: counts.non, backgroundColor: analysisColors.nonhate },
-      { label: t('analyze.results.summary.neutral'), data: counts.neutral, backgroundColor: analysisColors.neutral }
-    ]
+    datasets: mainClasses.value.map((classData, index) => ({
+      label: classData.name,
+      data: classCounts[classData.name],
+      backgroundColor: getChartColor(index)
+    }))
   }
 })
 const histogramOptions = reactive<ChartOptions<'bar'>>({
@@ -713,7 +746,7 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
 })
 
 // whether there are platforms available
-const hasPlatforms = computed(() => platforms.value.length > 0)
+const hasPlatforms = computed(() => platforms.value.filter(p => p !== 'Unknown').length > 0)
 
 // DataTable state and functionality
 const filters = ref({})
@@ -737,7 +770,7 @@ const initFilters = () => {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }]
       },
-      label: {
+      main_class: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
       }
@@ -752,23 +785,17 @@ onMounted(() => {
 })
 
 // Paginated data for server-side simulation
-const paginatedComments = ref<Array<{
-  originalComment: string
-  platform?: string
-  date?: string
-  label: "hate-speech" | "non-hate-speech" | "neutral"
-  score: number
-}>>([])
-const totalRecords = computed(() => analysisData.value?.comments_details?.length ?? 0)
+const paginatedComments = ref<Array<SingleResult>>([])
 
-// Server-side pagination simulation
+// DEV: Server-side pagination simulation
+// TODO: REMOVE
 const fetchData = (page: number, rows: number, sortField?: string, sortOrder?: number, filters?: Record<string, { value: string }>) => {
   loading.value = true
   
   // Simulate server delay
   // TODO: replace with actual server pagination
   setTimeout(() => {
-    let data = [...(analysisData.value?.comments_details ?? [])]
+    let data = [...(analysisData.value?.results ?? [])]
     
     // Apply filters
     if (filters) {

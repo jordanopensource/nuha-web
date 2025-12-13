@@ -46,14 +46,15 @@ export interface AIAnalysisRequest {
   comments: CommentData[]
   // model_dialect: string // NOTE: may be added back later to support multi-dialect API
 }
+export interface SingleResult {
+  originalComment: string
+  platform?: string
+  date?: string
+  is_valid: boolean
+  main_class: string
+  sub_class: string
+  confidence: number
+}
 export interface AIAnalysisResponse {
-  results: Array<{
-    originalComment: string
-    platform?: string
-    date?: string
-    is_valid: boolean
-    main_class: string
-    sub_class: string
-    confidence: number
-  }>
+  results: Array<SingleResult>
 }

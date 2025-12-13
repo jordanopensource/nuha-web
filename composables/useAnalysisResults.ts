@@ -2,7 +2,6 @@ import type { AIAnalysisResponse } from '~/types/analyze'
 
 /**
  * Composable for managing analysis results state
- * This replaces the problematic URL query parameter approach with proper state management
  */
 export const useAnalysisResults = () => {
   const STORAGE_KEY = 'nuha_analysis_results'
