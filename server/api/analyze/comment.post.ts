@@ -1,5 +1,5 @@
-import { parseTextInput, generateMockAIResponse, ERROR_KEYS } from '~/server/utils/input-parser'
-import type { AIAnalysisRequest, AIAnalysisResponse } from '~/types/analyze'
+import { parseTextInput, ERROR_KEYS, convertToAPIRequest, convertFromAPIResponse } from '~/server/utils/input-parser'
+import type { AIAnalysisRequest, AIAnalysisResponse, BatchClassifyResponse } from '~/types/analyze'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -33,38 +33,48 @@ export default defineEventHandler(async (event) => {
     }
     
     // Get region
-    const region = body.region || 'egy'
+    // NOTE: to be updated once the API supports different models
+    const _region = body.region || 'egy'
     
     // Prepare data for AI analysis
-    const analysisRequest: AIAnalysisRequest = {
+    const _analysisRequest: AIAnalysisRequest = {
       comments,
-      model_dialect: region
+      // model_dialect: region
     }
     
-    // Check if AI analysis URL is configured
     const config = useRuntimeConfig()
     const aiModelUrl = config.aiModel?.url
     
     let analysisResponse: AIAnalysisResponse
-    
     if (aiModelUrl) {
       try {
-        const response = await $fetch<AIAnalysisResponse>(aiModelUrl, {
+        // convert to new API schema
+        const apiRequest = convertToAPIRequest(comments)
+        
+        // TODO: update to use single text response instead, reflect in UI
+        const response = await $fetch<BatchClassifyResponse>(`${aiModelUrl}/classify/batch`, {
           method: 'POST',
-          body: analysisRequest,
+          body: apiRequest,
           headers: {
             'Content-Type': 'application/json'
           }
         })
-        analysisResponse = response
+        
+        // convert back to frontend schema
+        analysisResponse = convertFromAPIResponse(response, comments)
       } catch (error) {
         console.error('AI Analysis API Error:', error)
-        // DEV: fallback to mock data if AI API fails
-        analysisResponse = generateMockAIResponse(comments, region)
+        throw createError({
+          statusCode: 500,
+          statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR
+        })
       }
     } else {
-      // DEV: use mock data when AI URL is not configured
-      analysisResponse = generateMockAIResponse(comments, region)
+      throw createError({
+        statusCode: 503,
+        statusMessage: 'AI analysis service not configured'
+        // TODO: add translatable error key for this error
+      })
     }
     
     return {

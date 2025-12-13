@@ -94,7 +94,7 @@ export default defineNuxtConfig({
     },
     // AI Analysis configuration
     aiModel: {
-      url: '',
+      url: 'http://localhost:8000',
     },
     public: {
       baseUrl: 'http://localhost:3000',

@@ -1,9 +1,7 @@
 import type { EventHandler, EventHandlerRequest } from 'h3'
 import * as XLSX from 'xlsx'
 import { ACCEPTED_MIME_TYPES, MAX_FILE_SIZE_BYTES, bytesToMB } from '~/utils/file-config'
-import type { CommentData, AIAnalysisResponse } from '~/types/analyze'
-
-// Data structure definitions moved to ~/types/analyze
+import type { CommentData, AIAnalysisResponse, BatchClassifyResponse, ClassificationResult } from '~/types/analyze'
 
 // Custom error class for translation
 export class TranslatableError extends Error {
@@ -213,37 +211,24 @@ export const parseFile = async (file: File): Promise<CommentData[]> => {
   }
 }
 
-// DEV: Mock AI response generator
-export const generateMockAIResponse = (
-    comments: CommentData[],
-    dialect: string
-  ): AIAnalysisResponse => {
-  const totalComments = comments.length
-  const hateSpeechCount = Math.floor(Math.random() * totalComments * 0.3) // Random 0-30%
-  const neutralCount = Math.floor(Math.random() * totalComments * 0.2)
-  const nonHateSpeechCount = totalComments - (hateSpeechCount + neutralCount)
-  
+// convert AIAnalysisRequest to new API BatchClassifyRequest
+export const convertToAPIRequest = (comments: CommentData[]) => {
   return {
-    general_analysis: {
-      hate_speech_percentage: Math.floor((hateSpeechCount / totalComments) * 100),
-      hate_speech_count: hateSpeechCount,
-      hate_speech_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100, // 0.7-1.0
-      non_hate_speech_percentage: Math.ceil((nonHateSpeechCount / totalComments) * 100),
-      non_hate_speech_count: nonHateSpeechCount,
-      non_hate_speech_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100, // 0.7-1.0
-      neutral_percentage: Math.round((neutralCount / totalComments) * 100),
-      neutral_count: neutralCount,
-      neutral_confidence_score: Math.round((Math.random() * 0.3 + 0.7) * 100) / 100,
-      model_version: 'mock-v1.0.0',
-      model_dialect: dialect
-    },
-    comments_details: comments.map(comment => ({
-      originalComment: comment.comment,
-      platform: comment.platform || '',
-      date: comment.date || '',
-      label: Math.random() > 0.7 ? 'hate-speech' : 
-             Math.random() > 0.5 ? 'non-hate-speech' : 'neutral' as const,
-      score: Math.round((Math.random() * 0.4 + 0.6) * 100) / 100 // 0.6-1.0
+    texts: comments.map(c => c.comment)
+  }
+}
+
+// convert new API BatchClassifyResponse to AIAnalysisResponse
+export const convertFromAPIResponse = (apiResponse: BatchClassifyResponse, originalComments: CommentData[]): AIAnalysisResponse => {
+  return {
+    results: apiResponse.results.map((result: ClassificationResult, i: number) => ({
+      originalComment: originalComments[i].comment,
+      platform: originalComments[i]?.platform,
+      date: originalComments[i]?.date,
+      is_valid: result.is_valid,
+      main_class: result.main_class,
+      sub_class: result.sub_class,
+      confidence: result.confidence
     }))
   }
 }

@@ -4,30 +4,56 @@ export interface CommentData {
   date?: string
 }
 
-export interface AIAnalysisRequest {
-  comments: CommentData[]
-  model_dialect: string
+// single text classification request
+export interface ClassifyRequest {
+  text: string
 }
 
+// batch text classification request
+export interface BatchClassifyRequest {
+  texts: string[]
+}
+
+// single classification response
+export interface ClassificationResult {
+  is_valid: boolean
+  sub_class: string
+  main_class: string
+  confidence: number
+}
+
+// batch classification response
+export interface BatchClassifyResponse {
+  results: ClassificationResult[]
+}
+
+// validation error response
+export interface ValidationError {
+  detail: Array<{
+    loc: (string | number)[]
+    msg: string
+    type: string
+  }>
+}
+
+// health check response
+export interface HealthResponse {
+  status: string
+}
+
+// legacy interface for backward compatibility
+export interface AIAnalysisRequest {
+  comments: CommentData[]
+  // model_dialect: string // NOTE: may be added back later to support multi-dialect API
+}
 export interface AIAnalysisResponse {
-  general_analysis: {
-    hate_speech_percentage: number
-    hate_speech_count: number
-    hate_speech_confidence_score: number
-    non_hate_speech_percentage: number
-    non_hate_speech_count: number
-    non_hate_speech_confidence_score: number
-    neutral_percentage: number
-    neutral_count: number
-    neutral_confidence_score: number
-    model_version: string
-    model_dialect: string
-  }
-  comments_details: Array<{
+  results: Array<{
     originalComment: string
     platform?: string
     date?: string
-    label: 'hate-speech' | 'non-hate-speech' | 'neutral'
-    score: number
+    is_valid: boolean
+    main_class: string
+    sub_class: string
+    confidence: number
   }>
 }
