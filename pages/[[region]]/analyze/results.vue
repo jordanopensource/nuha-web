@@ -342,6 +342,21 @@
     <div v-else-if="analysisLoading" class="mt-8 mx-auto text-center">
       <Icon name="mdi:loading" class="loader !h-6 !w-6" />
     </div>
+    <div class="flex flex-wrap gap-2 justify-center print:hidden">
+      <UiButton class="w-52">
+        <!-- TODO: on click, open a UiModal with download options (PDF, JSON, CSV, ...) -->
+        {{ $t('analyze.results.actions.download') }}
+        <template #icon>
+          <Icon name="mdi:download" />
+        </template>
+      </UiButton>
+      <UiButton class="w-52" variant="outline" @click="handlePrint">
+        {{ $t('analyze.results.actions.print') }}
+        <template #icon>
+          <Icon name="mdi:printer" />
+        </template>
+      </UiButton>
+    </div>
     <UiButton 
       class="mt-4 mx-auto w-fit flex-row-reverse print:!hidden"
       size="lg"
