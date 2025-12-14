@@ -162,10 +162,19 @@
           "global": "البحث في جميع الأعمدة...",
           "platform": "تصفية حسب المنصة",
           "classification": "تصفية حسب التصنيف"
+        },
+        "actions": {
+          "showAllColumns": "إظهار جميع الأعمدة",
+          "hideColumn": "إخفاء العمود"
+        },
+        "validity": {
+          "valid": "صالح",
+          "invalid": "غير صالح"
         }
       },
       "backToAnalyze": "الرجوع إلى التحليل",
-      "noDataAvailable": "لا توجد بيانات تحليل متاحة.",
+      "noDataAvailable": "لا توجد بيانات تحليل متاحة. يرجى إجراء تحليل أولاً.",
+      "noValidComments": "لا توجد تعليقات صحيحة. تأكد من أن التعليقات بلغة سليمة وباللهجة الـ{dialect}.",
       "download": {
         "title": "تنزيل النتائج",
         "subtitle": "اختر تنسيقًا لتنزيل نتائج التحليل",
@@ -179,6 +188,39 @@
         "downloadError": "فشل تنزيل الملف. يرجى المحاولة مرة أخرى.",
         "downloadSuccess": "تم تنزيل الملف بنجاح!"
       }
+    },
+    "validation": {
+      "textRequired": "إدخال النص مطلوب",
+      "textEmpty": "لا يمكن أن يكون إدخال النص فارغًا",
+      "oneCommentRequired": "يرجى إدخال تعليق واحد على الأقل",
+      "fileRequired": "يرجى اختيار ملف للرفع",
+      "fileSizeLimit": "حجم الملف يتجاوز حد 10 ميجابايت",
+      "invalidFileType": "نوع ملف غير صالح. الأنواع المقبولة: {types}",
+      "processingError": "حدث خطأ أثناء معالجة طلبك",
+      "dialectRequired": "يجب اختيار لهجة قبل التحليل"
+    },
+    "errors": {
+      "fileSizeExceeded": "حجم الملف يتجاوز الحد الأقصى {size} ميجابايت",
+      "invalidFileType": "نوع ملف غير صالح. يرجى رفع ملف نصي أو CSV أو JSON أو Excel",
+      "textInputEmpty": "إدخال النص فارغ",
+      "csvFileEmpty": "ملف CSV فارغ",
+      "csvNoData": "ملف CSV لا يحتوي على بيانات",
+      "csvRowError": "الصف {row}: التعليق مطلوب",
+      "jsonArrayRequired": "ملف JSON يجب أن يحتوي على مصفوفة من الكائنات",
+      "jsonItemError": "العنصر {item}: التعليق مطلوب",
+      "jsonInvalidFormat": "تنسيق JSON غير صالح",
+      "excelNoSheets": "ملف Excel لا يحتوي على أوراق",
+      "excelEmpty": "ملف Excel فارغ",
+      "excelNoData": "ملف Excel لا يحتوي على بيانات",
+      "excelRowError": "الصف {row}: التعليق مطلوب",
+      "excelParseError": "فشل في تحليل ملف Excel",
+      "unsupportedFileType": "نوع ملف غير مدعوم",
+      "noFileUploaded": "لم يتم رفع ملف",
+      "fileIsRequired": "الملف مطلوب",
+      "parseFileError": "فشل في تحليل الملف",
+      "noValidComments": "لم يتم العثور على تعليقات صالحة في الملف",
+      "parseTextError": "فشل في تحليل إدخال النص",
+      "internalServerError": "خطأ داخلي في الخادم"
     }
   },
   "login": {

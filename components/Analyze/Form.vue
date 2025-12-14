@@ -152,7 +152,7 @@ const clearError = () => {
 const validateForm = (): boolean => {
   clearError()
   if (!region.value) {
-    errorMessage.value = "You should select a dialect for the AI model to analyze" // TODO: i18n
+    errorMessage.value = $t('analyze.validation.dialectRequired')
     return false
   }
   

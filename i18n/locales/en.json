@@ -162,10 +162,19 @@
           "global": "Search all columns...",
           "platform": "Filter by platform",
           "classification": "Filter by classification"
+        },
+        "actions": {
+          "showAllColumns": "Show all columns",
+          "hideColumn": "Hide column"
+        },
+        "validity": {
+          "valid": "Valid",
+          "invalid": "Invalid"
         }
       },
       "backToAnalyze": "Back to Analyze",
-      "noDataAvailable": "No analysis data available.",
+      "noDataAvailable": "No analysis data available. Please run an analysis first.",
+      "noValidComments": "There are no valid comments provided. Make sure that the comments are in a valid {dialect} text.",
       "download": {
         "title": "Download Results",
         "subtitle": "Choose a format to download your analysis results",
@@ -187,7 +196,8 @@
       "fileRequired": "Please select a file to upload",
       "fileSizeLimit": "File size exceeds 10MB limit",
       "invalidFileType": "Invalid file type. Accepted types: {types}",
-      "processingError": "An error occurred while processing your request"
+      "processingError": "An error occurred while processing your request",
+      "dialectRequired": "You should select a dialect for the AI model to analyze"
     },
     "errors": {
       "fileSizeExceeded": "File size exceeds maximum limit of {size}MB",

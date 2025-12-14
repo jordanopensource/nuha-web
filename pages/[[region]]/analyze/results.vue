@@ -46,7 +46,6 @@
       <!-- Single Comment Analysis - Single Card Layout -->
       <div v-if="isSingleComment" class="max-w-2xl mx-auto">
         <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6 break-inside-avoid">
-          <!-- TODO: i18n -->
           <h2 class="font-normal mb-6">{{ $t('analyze.results.singleResult.title') }}</h2>
           
           <!-- Single Comment Result Card -->
@@ -60,7 +59,6 @@
             <!-- Classification Result -->
             <div class="grid md:grid-cols-2 gap-4">
               <div class="bg-blue-50 rounded-lg p-4">
-                <!-- TODO: i18n -->
                 <h3 class="text-base font-medium text-blue-700 mb-2">{{ $t('analyze.results.singleResult.classification') }}</h3>
                 <div class="space-y-1">
                   <p class="text-xl font-semibold text-blue-900">{{ validComments[0].main_class }}</p>
@@ -72,7 +70,6 @@
               </div>
               
               <div class="bg-green-50 rounded-lg p-4">
-                <!-- TODO: i18n -->
                 <h3 class="text-base font-medium text-green-700 mb-2">{{ $t('analyze.results.singleResult.confidence') }}</h3>
                 <div class="space-y-2">
                   <div class="flex items-center gap-3">
@@ -273,11 +270,10 @@
               </div>
             </template>
             <template #paginatorend>
-                <!-- TODO: i18n for the btn title -->
               <UiButton
                 variant="ghost"
                 size="md"
-                title="Show all columns"
+                :title="$t('analyze.results.details.actions.showAllColumns')"
                 class="aspect-square !rounded-full !p-2"
                 style="color: var(--p-paginator-nav-button-color)"
                 @click="restoreCols()"
@@ -317,11 +313,10 @@
                 {{ data.platform || $t('analyze.results.details.na') }}
               </template>
               <template #header>
-                <!-- TODO: i18n for the btn title -->
                 <UiButton
                   variant="ghost"
                   size="sm"
-                  title="Hide column"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square print:hidden !rounded-full !p-2"
                   @click="columnsConfig.platform = false"
                 >
@@ -340,11 +335,10 @@
                 {{ data.date || $t('analyze.results.details.na') }}
               </template>
               <template #header>
-                <!-- TODO: i18n for the btn title -->
                 <UiButton
                   variant="ghost"
                   size="sm"
-                  title="Hide column"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square print:hidden !rounded-full !p-2"
                   @click="columnsConfig.date = false"
                 >
@@ -362,15 +356,18 @@
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
                   <span class="font-medium">{{ data.main_class }}</span>
-                  <span class="text-sm text-gray-500">{{ data.sub_class }}</span>
+                  <span
+                    v-if="data.sub_class !== data.main_class"
+                    class="text-sm text-gray-500 pt-1">
+                      {{ data.sub_class }}
+                    </span>
                 </div>
               </template>
               <template #header>
-                <!-- TODO: i18n for the btn title -->
                 <UiButton
                   variant="ghost"
                   size="sm"
-                  title="Hide column"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square print:hidden !rounded-full !p-2"
                   @click="columnsConfig.label = false"
                 >
@@ -398,16 +395,16 @@
                     </div>
                     <span class="text-sm">{{ (data.confidence * 100).toFixed(1) }}%</span>
                   </div>
-                  <!-- TODO: i18n -->
-                  <small class="text-gray-500">{{ data.is_valid ? 'Valid' : 'Invalid' }}</small>
+                  <small v-if="!data.is_valid" class="text-gray-500 font-medium">
+                    {{ $t('analyze.results.details.validity.invalid') }}
+                  </small>
                 </div>
               </template>
               <template #header>
-                <!-- TODO: i18n for the btn title -->
                 <UiButton
                   variant="ghost"
                   size="sm"
-                  title="Hide column"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square print:hidden !rounded-full !p-2"
                   @click="columnsConfig.score = false"
                 >
@@ -544,7 +541,7 @@ onMounted(() => {
     validComments.value  = analysisData.value.results.filter(r => r.is_valid)
     analysisLoading.value = false
   } else {
-    error.value = 'No analysis data available. Please run an analysis first.' // TODO: i18n
+    error.value = $t('analyze.results.noDataAvailable')
     analysisLoading.value = false
   }
 })
@@ -598,8 +595,7 @@ const isBulkAnalysis = computed(() => totalComments.value > 1)
 // no valid comments error message
 watchEffect(() => {
   if (analysisData.value && !hasValidComments.value) {
-    // TODO: i18n
-    error.value = `There are no valid comments provided.\nMake sure that the comments are in a valid ${dialectDisplay.value} text.`
+    error.value = $t('analyze.results.noValidComments', { dialect: dialectDisplay.value })
   }
 })
 
@@ -647,7 +643,7 @@ const barChartData = computed<ChartData<'bar'>>(() => {
   if (!isBulkAnalysis.value || !hasValidComments.value) return { labels: [], datasets: [] }
 
   const datasets = mainClasses.value.map((classData, index) => ({
-    label: classData.name, // TODO: localize data labels
+    label: classData.name,
     data: [classData.count],
     backgroundColor: getChartColor(index),
     barThickness: 64,
