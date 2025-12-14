@@ -75,11 +75,11 @@
         "title": "Text Input Format",
         "structure": "Text Structure:",
         "structure-subtitle": "Fields marked with * are mandatory.",
-        "sampleText": "comment*, platform, date\ncomment*, platform, date\n...",
-        "tips": "Tips:",
-        "tip1": "Use clear, natural language",
-        "tip2": "Longer texts provide better analysis results",
-        "tip3": "Mixed dialects in the same text may affect accuracy"
+        "sampleText": "Write a comment in {dialect}..",
+        "tips": "Notes:",
+        "tip1": "Only write text in the specified dialects",
+        "tip2": "Mixed dialects in the same text may affect accuracy",
+        "tip3": "Use 'File Upload' if you want to analyze multiple texts"
       },
       "fileUpload": {
         "title": "File Upload Requirements",
@@ -114,7 +114,7 @@
           "distribution": "Distribution of Comments by Classification (%)",
           "totals": "Total Comments by Classification (Count)",
           "platformStacked": "Comments by Platform and Classification (Stacked)",
-          "histogram": "Confidence Score Distribution by Classification (0–100%)"
+          "histogram": "Confidence Score Distribution by Classification (0-100%)"
         },
         "commentsCountLabel": "# of comments",
         "commentsAxis": "Comments"

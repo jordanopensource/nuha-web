@@ -63,7 +63,7 @@
               key="text-input"
               v-model="textInput"
               :modal-label="$t('analyze.form.textInput')"
-              :placeholder="$t('analyze.form.textPlaceholder')"
+              :placeholder="dialectDisplay ? $t('analyze.help.textInput.sampleText', {dialect: dialectDisplay}) : $t('analyze.form.textPlaceholder')"
               :required="true"
             />
           </div>
@@ -120,7 +120,15 @@ const selectedMethod = ref(0) // 0 for text, 1 for file
 const showHelpModal = ref(false)
 const isLoading = ref(false)
 const errorMessage = ref('')
-const { region } = useGeolocation()
+const { region, supportedRegions } = useGeolocation()
+
+const { locale } = useI18n()
+
+const dialectDisplay = computed(() => {
+  const code = region.value?.countryCode
+  const match = supportedRegions.value.find(r => r.countryCode === code)
+  return match?.dialectName?.[locale.value] || code
+})
 
 // Form data
 const textInput = ref('')

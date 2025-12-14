@@ -2,7 +2,10 @@
   <div class="space-y-4">
     <div class="space-y-3">
       <div>
-        <h4 class="mb-2 font-IBMPlexSansArabic text-base">{{ $t('analyze.help.fileUpload.supportedTypes') }}</h4>
+        <div class="flex gap-2">
+          <Icon name="mdi:help-circle-outline" class="text-colors-primary" size="24" />
+          <h4 class="mb-2 font-IBMPlexSansArabic text-base">{{ $t('analyze.help.fileUpload.supportedTypes') }}</h4>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="file-type">
             <Icon name="mdi:file-document" size="24" class="icon" />
