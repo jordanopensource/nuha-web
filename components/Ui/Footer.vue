@@ -49,7 +49,7 @@
           <UiButton
             v-for="(link, i) in socialLinks"
             :key="i"
-            class="!p-1 hover:scale-105 transition-all"
+            class="!p-0 hover:scale-105 transition-all"
             :to="link.path()"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"

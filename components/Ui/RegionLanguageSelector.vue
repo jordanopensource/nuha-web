@@ -41,7 +41,7 @@
               size="lg"
               class="border"
               :class="{
-                'border-colors-primary bg-colors-primary-light bg-opacity-20': locale === l.code,
+                '!border-colors-primary !bg-colors-primary-light !bg-opacity-80': locale === l.code,
                 'border-colors-neutral-foreground border-opacity-20': locale !== l.code
               }"
               @click="updateLang(l.code)"

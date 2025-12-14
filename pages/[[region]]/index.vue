@@ -23,7 +23,7 @@
         </div>
       </template>
       <template #second-col>
-        <img src="~/assets/images/loving_doodle.svg" loading="lazy" alt="doodle" width="480" class="ms-auto max-lg:mx-auto">
+        <img src="/logo.png" loading="lazy" alt="doodle" width="300" class="ms-auto max-lg:mx-auto">
       </template>
     </UiPageHeading>
 
