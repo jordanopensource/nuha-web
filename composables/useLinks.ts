@@ -29,11 +29,6 @@ export const useLinks = () => {
       groups: ['footer', "social"],
     },
     {
-      path: () => localePath('/analyze'),
-      title: () => t('links.general.analyze'),
-      groups: ['desktop-header', "mobile-header", "footer"],
-    },
-    {
       path: () => localePath('/publications'),
       title: () => t('links.general.publications'),
       groups: ['desktop-header', 'mobile-header', "footer"],
@@ -42,6 +37,11 @@ export const useLinks = () => {
       path: () => localePath('/about'),
       title: () => t('links.general.about'),
       groups: ['footer', "mobile-header", "desktop-header", "info"],
+    },
+    {
+      path: () => localePath('/analyze'),
+      title: () => t('links.general.analyze'),
+      groups: ['desktop-header', "mobile-header", "footer"],
     },
     {
       path: () => localePath('/terms'),
