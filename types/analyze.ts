@@ -1,5 +1,5 @@
 export interface CommentData {
-  comment: string
+  comment: string | null
   platform?: string
   date?: string
 }
