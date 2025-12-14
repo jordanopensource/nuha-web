@@ -131,6 +131,16 @@
         "modelVersion": "Model Version:",
         "commentsWord": "Comments"
       },
+      "singleResult": {
+        "title": "Analysis Result",
+        "comment": "Comment",
+        "classification": "Classification",
+        "confidence": "Confidence",
+        "metadata": "Additional Information",
+        "platform": "Platform",
+        "date": "Date",
+        "notAvailable": "Not Available"
+      },
       "details": {
         "title": "Comments Analysis Details",
         "headers": {
@@ -153,7 +163,20 @@
         }
       },
       "backToAnalyze": "Back to Analyze",
-      "noDataAvailable": "No analysis data available."
+      "noDataAvailable": "No analysis data available.",
+      "download": {
+        "title": "Download Results",
+        "subtitle": "Choose a format to download your analysis results",
+        "pdf": "PDF Report",
+        "csv": "CSV File", 
+        "json": "JSON Data",
+        "pdfDescription": "Formatted report with charts and summary",
+        "csvDescription": "Spreadsheet format for further analysis", 
+        "jsonDescription": "Raw data in JSON format",
+        "downloading": "Downloading...",
+        "downloadError": "Failed to download file. Please try again.",
+        "downloadSuccess": "File downloaded successfully!"
+      }
     },
     "validation": {
       "textRequired": "Text input is required",

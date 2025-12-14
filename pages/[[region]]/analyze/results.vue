@@ -10,8 +10,8 @@
           <div class="flex flex-col gap-2 md:ms-auto max-md:mt-4 max-md:mx-auto print:hidden">
             <UiButton
               class="w-52 ms-auto"
+              @click="showDownloadModal = true"
             >
-              <!-- TODO: on click, open a UiModal with download options (PDF, JSON, CSV, ...) -->
               {{ $t('analyze.results.actions.download') }}
               <template #icon>
                 <Icon name="mdi:download" />
@@ -42,7 +42,6 @@
       </template>
     </UiPageHeading>
 
-    
     <div v-if="analysisData && hasValidComments">
       <!-- Single Comment Analysis - Single Card Layout -->
       <div v-if="isSingleComment" class="max-w-2xl mx-auto">
@@ -443,8 +442,7 @@
       v-if="totalValidComments > 0 && isBulkAnalysis"
       class="flex flex-wrap gap-2 justify-center print:hidden"
     >
-      <UiButton class="w-52">
-        <!-- TODO: on click, open a UiModal with download options (PDF, JSON, CSV, ...) -->
+      <UiButton class="w-52" @click="showDownloadModal = true">
         {{ $t('analyze.results.actions.download') }}
         <template #icon>
           <Icon name="mdi:download" />
@@ -473,6 +471,14 @@
         />
       </template>
     </UiButton>
+
+    <!-- Download Modal -->
+    <AnalyzeDownloadModal
+      v-model="showDownloadModal"
+      :analysis-data="analysisData"
+      :on-print-p-d-f="handlePrint"
+      @close="showDownloadModal = false"
+    />
   </div>
 </template>
 
@@ -548,11 +554,21 @@ onUnmounted(() => {
 })
 
 const handlePrint = () => {
-  window.print()
+  // make sure modal is closed
+  showDownloadModal.value = false
+  
+  // give time for modal to fully close and page to re-render
+  nextTick(() => {
+    setTimeout(() => {
+      document.body.focus()
+      window.print()
+    }, 300)
+  })
 }
 
 // charts visibility state + modal toggle
 const showCustomize = ref(false)
+const showDownloadModal = ref(false)
 const chartsVisible = reactive({
   distribution: true, // doughnut chart
   totals: false,      // totals horizontal bar
