@@ -364,6 +364,7 @@
             :sortable="true"
           >
             <!-- TODO: add filter? -->
+            <!-- TODO: use scorebar components -->
             <template #body="{ data }">
               <div class="flex flex-col gap-1">
                 <div class="flex items-center gap-2">
@@ -547,20 +548,26 @@ const dialectDisplay = computed(() => {
 
 const totalComments = computed(() => analysisData.value?.results?.length ?? 0)
 const totalValidComments = computed(() => validComments.value?.length ?? 0)
-if (totalValidComments.value < 1) {
-  // TODO: i18n
-  error.value = `There are no valid comments provided. Make sure that the comments are in a valid ${dialectDisplay.value} text.`
-}
 
+// early exit if no valid comments: don't compute charts or other expensive operations
+const hasValidComments = computed(() => totalValidComments.value > 0)
+
+// no valid comments error message
+watchEffect(() => {
+  if (analysisData.value && !hasValidComments.value) {
+    // TODO: i18n
+    error.value = `There are no valid comments provided. Make sure that the comments are in a valid ${dialectDisplay.value} text.`
+  }
+})
 
 // Compute main classes from results
 // TODO: refactor to its own composable
 // TODO: add another util to get sub_classes
 const mainClasses = computed(() => {
-  if (!(analysisData.value?.results && validComments.value)) return []
+  if (!hasValidComments.value || !validComments.value) return []
   
   const classMap = new Map<string, { count: number, totalConfidence: number }>()
-  // TODO: handle a single analyzed item
+  // TODO: handle single analyzed item
   validComments.value.forEach(result => {
     const className = result.main_class
     if (!classMap.has(className)) {
@@ -596,8 +603,10 @@ const getClassChipStyles = (index: number) => {
 
 // Datasets and options
 const barChartData = computed<ChartData<'bar'>>(() => {
+  if (!hasValidComments.value) return { labels: [], datasets: [] }
+
   const datasets = mainClasses.value.map((classData, index) => ({
-    label: classData.name,
+    label: classData.name, // TODO: localize data labels
     data: [classData.count],
     backgroundColor: getChartColor(index),
     barThickness: 64,
@@ -612,16 +621,20 @@ const barChartData = computed<ChartData<'bar'>>(() => {
   }
 })
 
-const pieChartData = computed<ChartData<'doughnut'>>(() => ({
-  labels: mainClasses.value.map(c => c.name),
-  datasets: [
-    {
-      data: mainClasses.value.map(c => c.count),
-      backgroundColor: mainClasses.value.map((_, index) => getChartColor(index)),
-      label: t('analyze.results.charts.commentsCountLabel'),
-    },
-  ],
-}))
+const pieChartData = computed<ChartData<'doughnut'>>(() => {
+  if (!hasValidComments.value) return { labels: [], datasets: [] }
+  
+  return {
+    labels: mainClasses.value.map(c => c.name),
+    datasets: [
+      {
+        data: mainClasses.value.map(c => c.count),
+        backgroundColor: mainClasses.value.map((_, index) => getChartColor(index)),
+        label: t('analyze.results.charts.commentsCountLabel'),
+      },
+    ],
+  }
+})
 
 // get chart colors dynamically
 // TODO: refactor
@@ -706,6 +719,8 @@ const doughnutOptions = reactive<ChartOptions<'doughnut'>>({
 
 // Stacked bar: labels per platform
 const platforms = computed(() => {
+  if (!hasValidComments.value) return []
+  
   const set = new Set<string>()
   for (const result of validComments.value ?? []) {
     set.add(result.platform || 'Unknown')
@@ -714,6 +729,8 @@ const platforms = computed(() => {
 })
 
 const platformStackedData = computed<ChartData<'bar'>>(() => {
+  if (!hasValidComments.value) return { labels: [], datasets: [] }
+  
   const classNames = mainClasses.value.map(c => c.name)
   const base = Object.fromEntries(platforms.value.map(p => [p, Object.fromEntries(classNames.map(c => [c, 0]))]))
   
@@ -770,6 +787,8 @@ const platformsBarOptions = reactive<ChartOptions<'bar'>>({
 })
 
 const histogramData = computed<ChartData<'bar'>>(() => {
+  if (!hasValidComments.value) return { labels: [], datasets: [] }
+  
   const bins = Array.from({ length: 10 }, (_, i) => i / 10)
   const labels = bins.map(b => `${(b * 100).toFixed(0)}–${((b + 0.1) * 100).toFixed(0)}%`)
   
@@ -830,7 +849,10 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
 })
 
 // whether there are platforms available
-const hasPlatforms = computed(() => platforms.value.filter(p => p !== 'Unknown').length > 0)
+const hasPlatforms = computed(() => {
+  if (!hasValidComments.value) return false
+  return platforms.value.filter(p => p !== 'Unknown').length > 0
+})
 watch(hasPlatforms, (hasValidPlatforms) => {
   if (!hasValidPlatforms) {
     chartsVisible.platform = false
