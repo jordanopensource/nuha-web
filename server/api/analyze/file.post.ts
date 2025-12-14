@@ -1,4 +1,5 @@
 import { parseFile, ERROR_KEYS, TranslatableError, convertToAPIRequest, convertFromAPIResponse } from '~/server/utils/input-parser'
+import { detectLocale } from '~/server/utils/locale'
 import type { AIAnalysisRequest, AIAnalysisResponse, BatchClassifyResponse } from '~/types/analyze'
 
 export default defineEventHandler(async (event) => {
@@ -59,6 +60,9 @@ export default defineEventHandler(async (event) => {
     // NOTE: to be updated once the API supports different models
     const _region = regionEntry?.data ? new TextDecoder().decode(regionEntry.data) : 'egy'
     
+    const userLocale = detectLocale(event)
+    const apiLang = userLocale === 'ar' ? 'ar' : 'en'
+    
     // prepare data for AI analysis
     const _analysisRequest: AIAnalysisRequest = {
       comments,
@@ -74,7 +78,7 @@ export default defineEventHandler(async (event) => {
       try {
         const apiRequest = convertToAPIRequest(comments)
 
-        const response = await $fetch<BatchClassifyResponse>(`${aiModelUrl}/classify/batch`, {
+        const response = await $fetch<BatchClassifyResponse>(`${aiModelUrl}/classify/batch?lang=${apiLang}`, {
           method: 'POST',
           body: apiRequest,
           headers: {
