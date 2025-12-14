@@ -7,7 +7,7 @@
     />
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start my-5">
       <analyze-form @method-changed="handleMethodChanged" />
-      <div class="hidden md:block p-2 pt-10 lg:px-8">
+      <div class="hidden md:block pt-10">
         <UiXTransition :direction-value="currentMethod">
           <div v-if="currentMethod === 0">
             <analyze-text-input-help />
