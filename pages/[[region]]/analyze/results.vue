@@ -210,6 +210,19 @@
               {{ $t('analyze.results.details.pagination.noData') }}
             </div>
           </template>
+          <template #paginatorend>
+              <!-- TODO: i18n for the btn title -->
+            <UiButton
+              variant="ghost"
+              size="md"
+              title="Show all columns"
+              class="aspect-square !rounded-full !p-2"
+              style="color: var(--p-paginator-nav-button-color)"
+              @click="restoreCols()"
+            >
+              <Icon name="mdi:restore" size="24" />
+            </UiButton>
+          </template>
           
           <template #loading>
             <div class="text-center p-12 bg-colors-neutral-background rounded-md">
@@ -242,12 +255,25 @@
           </pv-Column>
 
           <pv-Column 
+            v-if="columnsConfig.platform"
             field="platform" 
             :header="$t('analyze.results.details.headers.platform')"
             :sortable="true"
           >
             <template #body="{ data }">
               {{ data.platform || $t('analyze.results.details.na') }}
+            </template>
+            <template #header>
+              <!-- TODO: i18n for the btn title -->
+              <UiButton
+                variant="ghost"
+                size="sm"
+                title="Hide column"
+                class="aspect-square print:hidden !rounded-full !p-2"
+                @click="columnsConfig.platform = false"
+              >
+                <Icon name="mdi:close" size="18" />
+              </UiButton>
             </template>
 
             <!-- <template #filter="{ filterModel, filterCallback }">
@@ -268,7 +294,8 @@
             </template> -->
           </pv-Column>
 
-          <pv-Column 
+          <pv-Column
+            v-if="columnsConfig.date"
             field="date" 
             :header="$t('analyze.results.details.headers.date')"
             :sortable="true"
@@ -276,9 +303,23 @@
             <template #body="{ data }">
               {{ data.date || $t('analyze.results.details.na') }}
             </template>
+            <template #header>
+              <!-- TODO: i18n for the btn title -->
+              <UiButton
+                variant="ghost"
+                size="sm"
+                title="Hide column"
+                class="aspect-square print:hidden !rounded-full !p-2"
+                @click="columnsConfig.date = false"
+              >
+                <Icon name="mdi:close" size="18" />
+              </UiButton>
+            </template>
+
           </pv-Column>
 
-          <pv-Column 
+          <pv-Column
+            v-if="columnsConfig.label"
             field="label" 
             :header="$t('analyze.results.details.headers.classification')"
             :sortable="true"
@@ -288,6 +329,18 @@
                 <span class="font-medium">{{ data.main_class }}</span>
                 <span class="text-sm text-gray-500">{{ data.sub_class }}</span>
               </div>
+            </template>
+            <template #header>
+              <!-- TODO: i18n for the btn title -->
+              <UiButton
+                variant="ghost"
+                size="sm"
+                title="Hide column"
+                class="aspect-square print:hidden !rounded-full !p-2"
+                @click="columnsConfig.label = false"
+              >
+                <Icon name="mdi:close" size="18" />
+              </UiButton>
             </template>
             <!-- <template #filter="{ filterModel, filterCallback }">
               <select
@@ -303,7 +356,8 @@
             </template> -->
           </pv-Column>
 
-          <pv-Column 
+          <pv-Column
+            v-if="columnsConfig.score"
             field="score" 
             :header="$t('analyze.results.details.headers.score')"
             :sortable="true"
@@ -325,6 +379,18 @@
                 <!-- TODO: i18n -->
                 <small class="text-gray-500">{{ data.is_valid ? 'Valid' : 'Invalid' }}</small>
               </div>
+            </template>
+            <template #header>
+              <!-- TODO: i18n for the btn title -->
+              <UiButton
+                variant="ghost"
+                size="sm"
+                title="Hide column"
+                class="aspect-square print:hidden !rounded-full !p-2"
+                @click="columnsConfig.score = false"
+              >
+                <Icon name="mdi:close" size="18" />
+              </UiButton>
             </template>
           </pv-Column>
         </pv-DataTable>
@@ -410,6 +476,19 @@ const error = ref('')
 const isRtl = computed(() => locales.value.find((l) => l.code === locale.value)?.dir === 'rtl')
 const chartsContainer = ref<HTMLDivElement>()
 
+// to control what table columns to show
+const columnsConfig = reactive({
+  platform: true,
+  date: true,
+  label: true,
+  score: true
+})
+const restoreCols = () => {
+  columnsConfig.platform = true
+  columnsConfig.date = true
+  columnsConfig.label = true
+  columnsConfig.score = true
+}
 
 // Chart re-rendering key to force updates
 const chartRerenderKey = ref(0)
