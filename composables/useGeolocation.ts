@@ -91,7 +91,11 @@ export const useGeolocation = () => {
   const regionCookie = useCookie<string | null>('nuha_region', { maxAge: 60 * 60 * 24 * 30 })
 
   const setRegion = async (newRegion: RegionData | null) => {
-    if (newRegion?.countryCode && await isRegionSupported(newRegion.countryCode)) {
+    if (
+        newRegion?.countryCode &&
+        await isRegionSupported(newRegion.countryCode) &&
+        supportedRegions.value.filter(r => r.countryCode === newRegion.countryCode)[0].isAvailable
+      ) {
       if (!newRegion.dialectName) {
         newRegion.dialectName = supportedRegions.value.find(r => r.countryCode === newRegion.countryCode)?.dialectName
       }
