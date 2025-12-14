@@ -68,6 +68,7 @@
           </UiButton>
         </template>
         </UiPageHeading>
+
         <!-- Charts -->
         <ClientOnly>
           <div
@@ -88,7 +89,7 @@
             />
 
             <ChartBar
-              v-if="chartsVisible.platform && hasPlatforms"
+              v-if="chartsVisible.platform"
               :key="`platform-${chartRerenderKey}`"
               class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
               :chart-data="platformStackedData"
@@ -255,7 +256,7 @@
           </pv-Column>
 
           <pv-Column 
-            v-if="columnsConfig.platform"
+            v-if="hasPlatforms || columnsConfig.platform"
             field="platform" 
             :header="$t('analyze.results.details.headers.platform')"
             :sortable="true"
@@ -478,8 +479,8 @@ const chartsContainer = ref<HTMLDivElement>()
 
 // to control what table columns to show
 const columnsConfig = reactive({
-  platform: true,
-  date: true,
+  platform: false,
+  date: false,
   label: true,
   score: true
 })
@@ -707,7 +708,6 @@ const doughnutOptions = reactive<ChartOptions<'doughnut'>>({
 const platforms = computed(() => {
   const set = new Set<string>()
   for (const result of validComments.value ?? []) {
-    // TODO: check if it's a url and shorten it
     set.add(result.platform || 'Unknown')
   }
   return Array.from(set)
@@ -831,6 +831,17 @@ const histogramOptions = reactive<ChartOptions<'bar'>>({
 
 // whether there are platforms available
 const hasPlatforms = computed(() => platforms.value.filter(p => p !== 'Unknown').length > 0)
+watch(hasPlatforms, (hasValidPlatforms) => {
+  if (!hasValidPlatforms) {
+    chartsVisible.platform = false
+    chartsVisible.histogram = true // since platforms charts is now disabled, show this chart instead
+    columnsConfig.platform = false
+  } else {
+    chartsVisible.platform = true
+    chartsVisible.histogram = false
+    columnsConfig.platform = true
+  }
+}, { immediate: true })
 
 // DataTable state and functionality
 const filters = ref({})
@@ -974,5 +985,8 @@ input[type=checkbox] {
 }
 .p-paginator, .p-datatable-paginator-bottom {
   @apply print:!hidden;
+}
+.p-paginator-content-end {
+  @apply !mx-0;
 }
 </style>
