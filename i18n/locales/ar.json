@@ -83,15 +83,17 @@
       },
       "fileUpload": {
         "title": "متطلبات رفع الملفات",
-        "supportedTypes": "أنواع الملفات المدعومة:",
-        "textFile": "ملفات النص العادي",
-        "excelFile": "ملفات MS Excel",
-        "jsonFile": "ملفات JSON",
+        "supportedTypes": "أنواع الملفات المدعومة",
+        "requirements": "المتطلبات",
+        "maxSize": "الحد الأقصى لحجم الملف: 10 ميجابايت",
+        "encoding": "ترميز النص: UTF-8",
+        "content": "عمود/خاصية 'Comment' فقط مطلوب - جميع الأعمدة الأخرى اختيارية",
         "csvFile": "قيم مفصولة بفواصل",
-        "requirements": "متطلبات الملف:",
-        "maxSize": "الحد الأقصى لحجم الملف: ١٠ ميجابايت",
-        "encoding": "ترميز النص: UTF-8 مفضل",
-        "content": "يجب أن تحتوي الملفات على نص عربي قابل للقراءة"
+        "excelFile": "جدول بيانات Excel",
+        "jsonFile": "تنسيق JSON",
+        "textFile": "تنسيق نص خام",
+        "clickToDownload": "انقر على أي نوع ملف لتحميل قالبه",
+        "downloadTemplate": "تحميل قالب {fileType}"
       }
     },
     "results": {

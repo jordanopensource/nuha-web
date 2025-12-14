@@ -83,15 +83,17 @@
       },
       "fileUpload": {
         "title": "File Upload Requirements",
-        "supportedTypes": "Supported File Types:",
-        "textFile": "Plain text files",
-        "excelFile": "MS Excel Files",
-        "jsonFile": "JSON Files",
-        "csvFile": "Comma-separated values",
-        "requirements": "File Requirements:",
+        "supportedTypes": "Supported File Types",
+        "requirements": "Requirements",
         "maxSize": "Maximum file size: 10MB",
-        "encoding": "Text encoding: UTF-8 preferred",
-        "content": "Files should contain readable Arabic text"
+        "encoding": "Text encoding: UTF-8", 
+        "content": "Only 'Comment' column/property is required - all others are optional",
+        "csvFile": "Comma-separated values",
+        "excelFile": "Excel spreadsheet",
+        "jsonFile": "JSON array format",
+        "textFile": "Plain text format",
+        "clickToDownload": "Click on any file type to download its template",
+        "downloadTemplate": "Download {fileType} template"
       }
     },
     "results": {
