@@ -43,359 +43,381 @@
     </UiPageHeading>
 
     
-    <div v-if="analysisData && totalValidComments > 0">
-      <div
-        class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6"
-        :class="{'print:hidden': noChartVisible}"
-      >
-        <UiPageHeading
-          v-if="analysisData"
-          id="results-overview"
-          :title="$t('analyze.results.overview')"
-          class="[&_h2]:font-normal !my-0"
-        >
-        <template #second-col>
-          <UiButton
-            v-if="totalValidComments > 0"
-            variant="ghost"
-            class="w-52 md:ms-auto max-md:mx-auto print:!hidden"
-            @click="showCustomize = true"
-          >
-            {{ $t('analyze.results.customizeCharts') }}
-            <template #icon>
-              <Icon name="mdi:pencil" />
-            </template>
-          </UiButton>
-        </template>
-        </UiPageHeading>
-
-        <!-- Charts -->
-        <ClientOnly>
-          <div
-            ref="chartsContainer"
-            class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 py-12 max-sm:py-6 print:py-6"
-          >
-            <div v-if="noChartVisible">
-              {{ $t('analyze.results.noChartSelected') }}
+    <div v-if="analysisData && hasValidComments">
+      <!-- Single Comment Analysis - Single Card Layout -->
+      <div v-if="isSingleComment" class="max-w-2xl mx-auto">
+        <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6 break-inside-avoid">
+          <!-- TODO: i18n -->
+          <h2 class="font-normal mb-6">{{ $t('analyze.results.singleResult.title') }}</h2>
+          
+          <!-- Single Comment Result Card -->
+          <div v-if="validComments && validComments[0]" class="space-y-6">
+            <!-- Comment Text -->
+            <div class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-base font-medium text-gray-700 mb-2">{{ $t('analyze.results.details.headers.comment') }}</h3>
+              <p class="text-xl">{{ validComments[0].originalComment }}</p>
             </div>
-            <!-- Show only Distribution and Platform (if available) by default; others controlled via modal -->
-            <ChartDoughnut
-              v-if="chartsVisible.distribution"
-              :key="`doughnut-${chartRerenderKey}`"
-              class="w-3/4 max-sm:!w-full print:!w-full m-auto break-inside-avoid"
-              :chart-data="pieChartData"
-              :options="doughnutOptions"
-              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2 * 0.75}px` : ''"
-            />
-
-            <ChartBar
-              v-if="chartsVisible.platform"
-              :key="`platform-${chartRerenderKey}`"
-              class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
-              :chart-data="platformStackedData"
-              :options="platformsBarOptions"
-              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
-            />
-
-            <ChartBar
-              v-if="chartsVisible.totals"
-              :key="`totals-${chartRerenderKey}`"
-              class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
-              :chart-data="barChartData"
-              :options="barOptions"
-              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
-            />
-
-            <ChartBar
-              v-if="chartsVisible.histogram"
-              :key="`histogram-${chartRerenderKey}`"
-              class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
-              :chart-data="histogramData"
-              :options="histogramOptions"
-              :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
-            />
+            
+            <!-- Classification Result -->
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="bg-blue-50 rounded-lg p-4">
+                <!-- TODO: i18n -->
+                <h3 class="text-base font-medium text-blue-700 mb-2">{{ $t('analyze.results.singleResult.classification') }}</h3>
+                <div class="space-y-1">
+                  <p class="text-xl font-semibold text-blue-900">{{ validComments[0].main_class }}</p>
+                  <p
+                  v-if="validComments[0].sub_class !== validComments[0].main_class"
+                    class="text-base text-blue-600"
+                  >{{ validComments[0].sub_class }}</p>
+                </div>
+              </div>
+              
+              <div class="bg-green-50 rounded-lg p-4">
+                <!-- TODO: i18n -->
+                <h3 class="text-base font-medium text-green-700 mb-2">{{ $t('analyze.results.singleResult.confidence') }}</h3>
+                <div class="space-y-2">
+                  <div class="flex items-center gap-3">
+                    <div class="flex-1 bg-gray-200 rounded-full h-3">
+                      <div 
+                        class="h-3 rounded-full transition-all duration-300"
+                        :class="validComments[0].confidence > 0.8 ? 'bg-green-500' : validComments[0].confidence > 0.6 ? 'bg-yellow-500' : 'bg-red-500'"
+                        :style="{ width: `${validComments[0].confidence * 100}%` }"
+                      />
+                    </div>
+                    <span class="text-xl font-semibold text-green-900">{{ (validComments[0].confidence * 100).toFixed(1) }}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Metadata (if available) -->
+            <div v-if="validComments[0].platform || validComments[0].date" class="grid md:grid-cols-2 gap-4">
+              <div v-if="validComments[0].platform" class="bg-purple-50 rounded-lg p-4">
+                <h3 class="text-sm font-medium text-purple-700 mb-2">{{ $t('analyze.results.details.headers.platform') }}</h3>
+                <p class="text-purple-900">{{ validComments[0].platform }}</p>
+              </div>
+              
+              <div v-if="validComments[0].date" class="bg-orange-50 rounded-lg p-4">
+                <h3 class="text-sm font-medium text-orange-700 mb-2">{{ $t('analyze.results.details.headers.date') }}</h3>
+                <p class="text-orange-900">{{ validComments[0].date }}</p>
+              </div>
+            </div>
           </div>
-        </ClientOnly>
-
-        <!-- Customize Charts Modal -->
-        <UiModal
-          v-model="showCustomize"
-          :title="$t('analyze.results.customizeCharts')"
-          size="md"
-          :cancel-button-text="$t('misc.close')"
-          :show-action-button="false"
-          @close="showCustomize = false"
-        >
-          <div class="space-y-4">
-            <label class="checkbox-label">
-              <input v-model="chartsVisible.distribution" type="checkbox">
-              <span>{{ $t('analyze.results.charts.distribution') }}</span>
-            </label>
-            <label class="checkbox-label">
-              <input v-model="chartsVisible.totals" type="checkbox">
-              <span>{{ $t('analyze.results.charts.totals') }}</span>
-            </label>
-            <label
-              class="checkbox-label"
-              :class="{ 'opacity-50 pointer-events-none': !hasPlatforms }"
-              :title="!hasPlatforms ? $t('analyze.results.noChartSelected') : ''"
-            >
-              <input v-model="chartsVisible.platform" type="checkbox" :disabled="!hasPlatforms">
-              <span>{{ $t('analyze.results.charts.platformStacked') }}</span>
-            </label>
-            <label class="checkbox-label">
-              <input v-model="chartsVisible.histogram" type="checkbox">
-              <span>{{ $t('analyze.results.charts.histogram') }}</span>
-            </label>
-          </div>
-        </UiModal>
-      </div>
-
-      <!-- General Analysis Summary -->
-      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6 break-inside-avoid">
-        <h2 class="font-normal mb-4">{{ $t('analyze.results.summary.title') }}</h2>
-        
-        <!-- TODO: replace tailwind dynamic classes with plain css -->
-        <div class="grid gap-4 mb-6" :class="`grid-cols-${Math.min(mainClasses.length, 3)} max-sm:grid-cols-1`">
-          <ResultAnalysisSummaryChip
-            v-for="(classData, index) in mainClasses"
-            :key="classData.name"
-            :class="getClassChipStyles(index)"
-            :title="classData.name"
-            :value="classData.percentage + '%'"
-            :number-of-comments="classData.count"
-            :confidence="(classData.avgConfidence * 100).toFixed(1)"
-          />
-        </div>
-
-        <div class="flex flex-wrap print:justify-center gap-4 items-center">
-          <small class="flex items-center gap-1">
-            <Icon name="mdi:info-outline" class="text-colors-neutral-placeholder text-base" />
-            <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
-              {{ totalValidComments }}
-              {{ $t('analyze.results.summary.commentsWord') }}
-          </small>
-          <small>
-            <strong>{{ $t('analyze.results.summary.dialect') }}</strong>
-            {{ dialectDisplay }}
-          </small>
         </div>
       </div>
       
-      <!-- Comments Details -->
-      <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 break-inside-avoid">
-        <h2 class="font-normal mb-4">{{ $t('analyze.results.details.title') }}</h2>
-        
-        <pv-DataTable
-          v-model:filters="filters"
-          :value="paginatedComments"
-          :rows="rowsPerPage"
-          :total-records="totalComments"
-          :lazy="true"
-          :paginator="true"
-          :rows-per-page-options="[5, 10, 20, 50]"
-          :loading="loading"
-          :global-filter-fields="['originalComment', 'platform', 'date', 'main_class']"
-          filter-display="menu"
-          column-resize-mode="fit"
-          resizable-columns
-          paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          :current-page-report-template="$t('analyze.results.details.pagination.showing', { first: '{first}', last: '{last}', total: '{totalRecords}' })"
-          class="py-8 px-4 rounded-md"
-          @page="onPage"
-          @sort="onSort"
-          @filter="onFilter"
+      <!-- Bulk Analysis - Charts and Tables Layout -->
+      <div v-else-if="isBulkAnalysis">
+        <div
+          class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6"
+          :class="{'print:hidden': noChartVisible}"
         >
-          <template #empty>
-            <div class="text-center py-8 text-gray-500">
-              {{ $t('analyze.results.details.pagination.noData') }}
-            </div>
-          </template>
-          <template #paginatorend>
-              <!-- TODO: i18n for the btn title -->
+          <UiPageHeading
+            id="results-overview"
+            :title="$t('analyze.results.overview')"
+            class="[&_h2]:font-normal !my-0"
+          >
+          <template #second-col>
             <UiButton
               variant="ghost"
-              size="md"
-              title="Show all columns"
-              class="aspect-square !rounded-full !p-2"
-              style="color: var(--p-paginator-nav-button-color)"
-              @click="restoreCols()"
+              class="w-52 md:ms-auto max-md:mx-auto print:!hidden"
+              @click="showCustomize = true"
             >
-              <Icon name="mdi:restore" size="24" />
+              {{ $t('analyze.results.customizeCharts') }}
+              <template #icon>
+                <Icon name="mdi:pencil" />
+              </template>
             </UiButton>
           </template>
-          
-          <template #loading>
-            <div class="text-center p-12 bg-colors-neutral-background rounded-md">
-              <Icon name="mdi:loading" class="animate-spin text-2xl text-colors-primary" />
-              <p class="mt-2 text-colors-neutral-placeholder">{{ $t('misc.loading') }}</p>
-            </div>
-          </template>
+          </UiPageHeading>
 
-          <pv-Column 
-            field="originalComment" 
-            :header="$t('analyze.results.details.headers.comment')"
-            :sortable="true"
-          >
-            <template #body="{ data }">
-              <div class="max-w-fit">
-                <div class="truncate" :title="data.originalComment">
-                  {{ data.originalComment }}
-                </div>
+          <!-- Charts -->
+          <ClientOnly>
+            <div
+              ref="chartsContainer"
+              class="grid grid-cols-1 print:!grid-cols-1 md:grid-cols-2 gap-6 py-12 max-sm:py-6 print:py-6"
+            >
+              <div v-if="noChartVisible">
+                {{ $t('analyze.results.noChartSelected') }}
               </div>
-            </template>
-            <!-- <template #filter="{ filterModel, filterCallback }">
-              <input
-                v-model="filterModel.value"
-                type="text"
-                class="w-full p-2 border border-gray-300 rounded text-sm"
-                :placeholder="$t('analyze.results.details.filters.global')"
-                @input="filterCallback()"
-              >
-            </template> -->
-          </pv-Column>
-
-          <pv-Column 
-            v-if="hasPlatforms || columnsConfig.platform"
-            field="platform" 
-            :header="$t('analyze.results.details.headers.platform')"
-            :sortable="true"
-          >
-            <template #body="{ data }">
-              {{ data.platform || $t('analyze.results.details.na') }}
-            </template>
-            <template #header>
-              <!-- TODO: i18n for the btn title -->
-              <UiButton
-                variant="ghost"
-                size="sm"
-                title="Hide column"
-                class="aspect-square print:hidden !rounded-full !p-2"
-                @click="columnsConfig.platform = false"
-              >
-                <Icon name="mdi:close" size="18" />
-              </UiButton>
-            </template>
-
-            <!-- <template #filter="{ filterModel, filterCallback }">
-              <pv-Select
-                v-model="filterModel.value"
-                option-label="name"
-                :options="[
-                  { key: '', name: $t('analyze.results.details.filters.platform') },
-                  ...(platforms.map((p: string) => ({ key: p, name: p })))
-                  ]"
-                @change="filterCallback()"
+              <!-- Show only Distribution and Platform (if available) by default; others controlled via modal -->
+              <ChartDoughnut
+                v-if="chartsVisible.distribution"
+                :key="`doughnut-${chartRerenderKey}`"
+                class="w-3/4 max-sm:!w-full print:!w-full m-auto break-inside-avoid"
+                :chart-data="pieChartData"
+                :options="doughnutOptions"
+                :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2 * 0.75}px` : ''"
               />
-                <option value="">{{ $t('analyze.results.details.filters.platform') }}</option>
-                <option v-for="platform in platforms" :key="platform" :value="platform">
-                  {{ platform }}
-                </option>
-              </pv-Select>
-            </template> -->
-          </pv-Column>
 
-          <pv-Column
-            v-if="columnsConfig.date"
-            field="date" 
-            :header="$t('analyze.results.details.headers.date')"
-            :sortable="true"
+              <ChartBar
+                v-if="chartsVisible.platform"
+                :key="`platform-${chartRerenderKey}`"
+                class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
+                :chart-data="platformStackedData"
+                :options="platformsBarOptions"
+                :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
+              />
+
+              <ChartBar
+                v-if="chartsVisible.totals"
+                :key="`totals-${chartRerenderKey}`"
+                class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
+                :chart-data="barChartData"
+                :options="barOptions"
+                :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
+              />
+
+              <ChartBar
+                v-if="chartsVisible.histogram"
+                :key="`histogram-${chartRerenderKey}`"
+                class="w-full max-sm:!w-full print:min-w-52 print:!w-full m-auto break-inside-avoid"
+                :chart-data="histogramData"
+                :options="histogramOptions"
+                :style="chartsContainer?.offsetWidth ? `width: ${chartsContainer.offsetWidth / 2}px` : ''"
+              />
+            </div>
+          </ClientOnly>
+
+          <!-- Customize Charts Modal -->
+          <UiModal
+            v-model="showCustomize"
+            :title="$t('analyze.results.customizeCharts')"
+            size="md"
+            :cancel-button-text="$t('misc.close')"
+            :show-action-button="false"
+            @close="showCustomize = false"
           >
-            <template #body="{ data }">
-              {{ data.date || $t('analyze.results.details.na') }}
-            </template>
-            <template #header>
-              <!-- TODO: i18n for the btn title -->
-              <UiButton
-                variant="ghost"
-                size="sm"
-                title="Hide column"
-                class="aspect-square print:hidden !rounded-full !p-2"
-                @click="columnsConfig.date = false"
+            <div class="space-y-4">
+              <label class="checkbox-label">
+                <input v-model="chartsVisible.distribution" type="checkbox">
+                <span>{{ $t('analyze.results.charts.distribution') }}</span>
+              </label>
+              <label class="checkbox-label">
+                <input v-model="chartsVisible.totals" type="checkbox">
+                <span>{{ $t('analyze.results.charts.totals') }}</span>
+              </label>
+              <label
+                class="checkbox-label"
+                :class="{ 'opacity-50 pointer-events-none': !hasPlatforms }"
+                :title="!hasPlatforms ? $t('analyze.results.noChartSelected') : ''"
               >
-                <Icon name="mdi:close" size="18" />
-              </UiButton>
-            </template>
+                <input v-model="chartsVisible.platform" type="checkbox" :disabled="!hasPlatforms">
+                <span>{{ $t('analyze.results.charts.platformStacked') }}</span>
+              </label>
+              <label class="checkbox-label">
+                <input v-model="chartsVisible.histogram" type="checkbox">
+                <span>{{ $t('analyze.results.charts.histogram') }}</span>
+              </label>
+            </div>
+          </UiModal>
+        </div>
 
-          </pv-Column>
+        <!-- General Analysis Summary -->
+        <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6 break-inside-avoid">
+          <h2 class="font-normal mb-4">{{ $t('analyze.results.summary.title') }}</h2>
+          
+          <!-- TODO: replace tailwind dynamic classes with plain css -->
+          <div class="grid gap-4 mb-6" :class="`grid-cols-${Math.min(mainClasses.length, 3)} max-sm:grid-cols-1`">
+            <ResultAnalysisSummaryChip
+              v-for="(classData, index) in mainClasses"
+              :key="classData.name"
+              :class="getClassChipStyles(index)"
+              :title="classData.name"
+              :value="classData.percentage + '%'"
+              :number-of-comments="classData.count"
+              :confidence="(classData.avgConfidence * 100).toFixed(1)"
+            />
+          </div>
 
-          <pv-Column
-            v-if="columnsConfig.label"
-            field="label" 
-            :header="$t('analyze.results.details.headers.classification')"
-            :sortable="true"
+          <div class="flex flex-wrap print:justify-center gap-4 items-center">
+            <small class="flex items-center gap-1">
+              <Icon name="mdi:info-outline" class="text-colors-neutral-placeholder text-base" />
+              <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
+                {{ totalValidComments }}
+                {{ $t('analyze.results.summary.commentsWord') }}
+            </small>
+            <small>
+              <strong>{{ $t('analyze.results.summary.dialect') }}</strong>
+              {{ dialectDisplay }}
+            </small>
+          </div>
+        </div>
+        
+        <!-- Comments Details -->
+        <div class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 break-inside-avoid">
+          <h2 class="font-normal mb-4">{{ $t('analyze.results.details.title') }}</h2>
+          
+          <pv-DataTable
+            v-model:filters="filters"
+            :value="paginatedComments"
+            :rows="rowsPerPage"
+            :total-records="totalComments"
+            :lazy="true"
+            :paginator="true"
+            :rows-per-page-options="[5, 10, 20, 50]"
+            :loading="loading"
+            :global-filter-fields="['originalComment', 'platform', 'date', 'main_class']"
+            filter-display="menu"
+            column-resize-mode="fit"
+            resizable-columns
+            paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+            :current-page-report-template="$t('analyze.results.details.pagination.showing', { first: '{first}', last: '{last}', total: '{totalRecords}' })"
+            class="py-8 px-4 rounded-md"
+            @page="onPage"
+            @sort="onSort"
+            @filter="onFilter"
           >
-            <template #body="{ data }">
-              <div class="flex flex-col gap-1">
-                <span class="font-medium">{{ data.main_class }}</span>
-                <span class="text-sm text-gray-500">{{ data.sub_class }}</span>
+            <template #empty>
+              <div class="text-center py-8 text-gray-500">
+                {{ $t('analyze.results.details.pagination.noData') }}
               </div>
             </template>
-            <template #header>
-              <!-- TODO: i18n for the btn title -->
+            <template #paginatorend>
+                <!-- TODO: i18n for the btn title -->
               <UiButton
                 variant="ghost"
-                size="sm"
-                title="Hide column"
-                class="aspect-square print:hidden !rounded-full !p-2"
-                @click="columnsConfig.label = false"
+                size="md"
+                title="Show all columns"
+                class="aspect-square !rounded-full !p-2"
+                style="color: var(--p-paginator-nav-button-color)"
+                @click="restoreCols()"
               >
-                <Icon name="mdi:close" size="18" />
+                <Icon name="mdi:restore" size="24" />
               </UiButton>
             </template>
-            <!-- <template #filter="{ filterModel, filterCallback }">
-              <select
-                v-model="filterModel.value"
-                class="w-full p-2 border border-gray-300 rounded text-sm"
-                @change="filterCallback()"
-              >
-                <option value="">{{ $t('analyze.results.details.filters.classification') }}</option>
-                <option value="hate-speech">hate-speech</option>
-                <option value="non-hate-speech">non-hate-speech</option>
-                <option value="neutral">neutral</option>
-              </select>
-            </template> -->
-          </pv-Column>
+            
+            <template #loading>
+              <div class="text-center p-12 bg-colors-neutral-background rounded-md">
+                <Icon name="mdi:loading" class="animate-spin text-2xl text-colors-primary" />
+                <p class="mt-2 text-colors-neutral-placeholder">{{ $t('misc.loading') }}</p>
+              </div>
+            </template>
 
-          <pv-Column
-            v-if="columnsConfig.score"
-            field="score" 
-            :header="$t('analyze.results.details.headers.score')"
-            :sortable="true"
-          >
-            <!-- TODO: add filter? -->
-            <!-- TODO: use scorebar components -->
-            <template #body="{ data }">
-              <div class="flex flex-col gap-1">
-                <div class="flex items-center gap-2">
-                  <div class="w-16 bg-gray-200 rounded-full h-2">
-                    <!-- TODO: unify colors -->
-                    <div 
-                      class="h-2 rounded-full"
-                      :class="data.confidence > 0.8 ? 'bg-green-500' : data.confidence > 0.6 ? 'bg-yellow-500' : 'bg-red-500'"
-                      :style="{ width: `${data.confidence * 100}%` }"
-                    ></div>
+            <pv-Column 
+              field="originalComment" 
+              :header="$t('analyze.results.details.headers.comment')"
+              :sortable="true"
+            >
+              <template #body="{ data }">
+                <div class="max-w-fit">
+                  <div class="truncate" :title="data.originalComment">
+                    {{ data.originalComment }}
                   </div>
-                  <span class="text-sm">{{ (data.confidence * 100).toFixed(1) }}%</span>
                 </div>
-                <!-- TODO: i18n -->
-                <small class="text-gray-500">{{ data.is_valid ? 'Valid' : 'Invalid' }}</small>
-              </div>
-            </template>
-            <template #header>
-              <!-- TODO: i18n for the btn title -->
-              <UiButton
-                variant="ghost"
-                size="sm"
-                title="Hide column"
-                class="aspect-square print:hidden !rounded-full !p-2"
-                @click="columnsConfig.score = false"
-              >
-                <Icon name="mdi:close" size="18" />
-              </UiButton>
-            </template>
-          </pv-Column>
-        </pv-DataTable>
+              </template>
+            </pv-Column>
+
+            <pv-Column 
+              v-if="hasPlatforms || columnsConfig.platform"
+              field="platform" 
+              :header="$t('analyze.results.details.headers.platform')"
+              :sortable="true"
+            >
+              <template #body="{ data }">
+                {{ data.platform || $t('analyze.results.details.na') }}
+              </template>
+              <template #header>
+                <!-- TODO: i18n for the btn title -->
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  title="Hide column"
+                  class="aspect-square print:hidden !rounded-full !p-2"
+                  @click="columnsConfig.platform = false"
+                >
+                  <Icon name="mdi:close" size="18" />
+                </UiButton>
+              </template>
+            </pv-Column>
+
+            <pv-Column
+              v-if="columnsConfig.date"
+              field="date" 
+              :header="$t('analyze.results.details.headers.date')"
+              :sortable="true"
+            >
+              <template #body="{ data }">
+                {{ data.date || $t('analyze.results.details.na') }}
+              </template>
+              <template #header>
+                <!-- TODO: i18n for the btn title -->
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  title="Hide column"
+                  class="aspect-square print:hidden !rounded-full !p-2"
+                  @click="columnsConfig.date = false"
+                >
+                  <Icon name="mdi:close" size="18" />
+                </UiButton>
+              </template>
+            </pv-Column>
+
+            <pv-Column
+              v-if="columnsConfig.label"
+              field="label" 
+              :header="$t('analyze.results.details.headers.classification')"
+              :sortable="true"
+            >
+              <template #body="{ data }">
+                <div class="flex flex-col gap-1">
+                  <span class="font-medium">{{ data.main_class }}</span>
+                  <span class="text-sm text-gray-500">{{ data.sub_class }}</span>
+                </div>
+              </template>
+              <template #header>
+                <!-- TODO: i18n for the btn title -->
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  title="Hide column"
+                  class="aspect-square print:hidden !rounded-full !p-2"
+                  @click="columnsConfig.label = false"
+                >
+                  <Icon name="mdi:close" size="18" />
+                </UiButton>
+              </template>
+            </pv-Column>
+
+            <pv-Column
+              v-if="columnsConfig.score"
+              field="score" 
+              :header="$t('analyze.results.details.headers.score')"
+              :sortable="true"
+            >
+              <template #body="{ data }">
+                <div class="flex flex-col gap-1">
+                  <div class="flex items-center gap-2">
+                    <div class="w-16 bg-gray-200 rounded-full h-2">
+                      <!-- TODO: unify colors -->
+                      <div 
+                        class="h-2 rounded-full"
+                        :class="data.confidence > 0.8 ? 'bg-green-500' : data.confidence > 0.6 ? 'bg-yellow-500' : 'bg-red-500'"
+                        :style="{ width: `${data.confidence * 100}%` }"
+                      />
+                    </div>
+                    <span class="text-sm">{{ (data.confidence * 100).toFixed(1) }}%</span>
+                  </div>
+                  <!-- TODO: i18n -->
+                  <small class="text-gray-500">{{ data.is_valid ? 'Valid' : 'Invalid' }}</small>
+                </div>
+              </template>
+              <template #header>
+                <!-- TODO: i18n for the btn title -->
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  title="Hide column"
+                  class="aspect-square print:hidden !rounded-full !p-2"
+                  @click="columnsConfig.score = false"
+                >
+                  <Icon name="mdi:close" size="18" />
+                </UiButton>
+              </template>
+            </pv-Column>
+          </pv-DataTable>
+        </div>
       </div>
     </div>
     
@@ -415,8 +437,10 @@
     <div v-else-if="analysisLoading" class="mt-8 mx-auto text-center">
       <Icon name="mdi:loading" class="loader !h-6 !w-6" />
     </div>
+    
+    <!-- download results bar -->
     <div
-      v-if="totalValidComments > 0"
+      v-if="totalValidComments > 0 && isBulkAnalysis"
       class="flex flex-wrap gap-2 justify-center print:hidden"
     >
       <UiButton class="w-52">
@@ -433,6 +457,7 @@
         </template>
       </UiButton>
     </div>
+    <!-- Back to analyze button -->
     <UiButton 
       class="mt-4 mx-auto w-fit flex-row-reverse print:!hidden"
       size="lg"
@@ -551,23 +576,23 @@ const totalValidComments = computed(() => validComments.value?.length ?? 0)
 
 // early exit if no valid comments: don't compute charts or other expensive operations
 const hasValidComments = computed(() => totalValidComments.value > 0)
+const isSingleComment = computed(() => totalComments.value === 1)
+const isBulkAnalysis = computed(() => totalComments.value > 1)
 
 // no valid comments error message
 watchEffect(() => {
   if (analysisData.value && !hasValidComments.value) {
     // TODO: i18n
-    error.value = `There are no valid comments provided. Make sure that the comments are in a valid ${dialectDisplay.value} text.`
+    error.value = `There are no valid comments provided.\nMake sure that the comments are in a valid ${dialectDisplay.value} text.`
   }
 })
 
-// Compute main classes from results
-// TODO: refactor to its own composable
-// TODO: add another util to get sub_classes
+// Compute main classes from results (only for bulk analysis)
 const mainClasses = computed(() => {
-  if (!hasValidComments.value || !validComments.value) return []
+  if (!isBulkAnalysis.value || !validComments.value) return []
   
   const classMap = new Map<string, { count: number, totalConfidence: number }>()
-  // TODO: handle single analyzed item
+  
   validComments.value.forEach(result => {
     const className = result.main_class
     if (!classMap.has(className)) {
@@ -601,9 +626,9 @@ const getClassChipStyles = (index: number) => {
   return colors[index % colors.length]
 }
 
-// Datasets and options
+// Datasets and options (only computed for bulk analysis)
 const barChartData = computed<ChartData<'bar'>>(() => {
-  if (!hasValidComments.value) return { labels: [], datasets: [] }
+  if (!isBulkAnalysis.value || !hasValidComments.value) return { labels: [], datasets: [] }
 
   const datasets = mainClasses.value.map((classData, index) => ({
     label: classData.name, // TODO: localize data labels
@@ -622,7 +647,7 @@ const barChartData = computed<ChartData<'bar'>>(() => {
 })
 
 const pieChartData = computed<ChartData<'doughnut'>>(() => {
-  if (!hasValidComments.value) return { labels: [], datasets: [] }
+  if (!isBulkAnalysis.value) return { labels: [], datasets: [] }
   
   return {
     labels: mainClasses.value.map(c => c.name),
@@ -787,7 +812,7 @@ const platformsBarOptions = reactive<ChartOptions<'bar'>>({
 })
 
 const histogramData = computed<ChartData<'bar'>>(() => {
-  if (!hasValidComments.value) return { labels: [], datasets: [] }
+  if (!isBulkAnalysis.value || !hasValidComments.value) return { labels: [], datasets: [] }
   
   const bins = Array.from({ length: 10 }, (_, i) => i / 10)
   const labels = bins.map(b => `${(b * 100).toFixed(0)}–${((b + 0.1) * 100).toFixed(0)}%`)
