@@ -12,7 +12,7 @@
         class="ui-message__icon"
         size="20"
       />
-      <div class="text-sm font-medium flex-1">
+      <div class="msg text-sm font-medium flex-1">
         <slot>
           <template v-if="message">{{ message }}</template>
         </slot>

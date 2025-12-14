@@ -5,7 +5,7 @@
       :title="$t('analyze.results.title')"
       use-h1
     >
-      <template #second-col>
+      <template v-if="totalValidComments > 0" #second-col>
         <div class="flex flex-wrap">
           <div class="flex flex-col gap-2 md:ms-auto max-md:mt-4 max-md:mx-auto print:hidden">
             <UiButton
@@ -43,7 +43,7 @@
     </UiPageHeading>
 
     
-    <div v-if="analysisData">
+    <div v-if="analysisData && totalValidComments > 0">
       <div
         class="bg-white border border-colors-neutral-placeholder border-opacity-20 rounded-lg p-6 mb-6"
         :class="{'print:hidden': noChartVisible}"
@@ -56,6 +56,7 @@
         >
         <template #second-col>
           <UiButton
+            v-if="totalValidComments > 0"
             variant="ghost"
             class="w-52 md:ms-auto max-md:mx-auto print:!hidden"
             @click="showCustomize = true"
@@ -162,7 +163,7 @@
             :title="classData.name"
             :value="classData.percentage + '%'"
             :number-of-comments="classData.count"
-            :confidence="classData.avgConfidence.toFixed(1)"
+            :confidence="(classData.avgConfidence * 100).toFixed(1)"
           />
         </div>
 
@@ -198,7 +199,7 @@
           column-resize-mode="fit"
           resizable-columns
           paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          :current-page-report-template="$t('analyze.results.details.pagination.showing', { first: '{first}', last: '{last}', total: '{totalValidComments}' })"
+          :current-page-report-template="$t('analyze.results.details.pagination.showing', { first: '{first}', last: '{last}', total: '{totalRecords}' })"
           class="py-8 px-4 rounded-md"
           @page="onPage"
           @sort="onSort"
@@ -335,6 +336,7 @@
         type="error" 
         :message="error"
         show-close-button
+        class="[&_.msg]:text-lg"
         @close="error = ''"
       />
     </div>
@@ -345,7 +347,10 @@
     <div v-else-if="analysisLoading" class="mt-8 mx-auto text-center">
       <Icon name="mdi:loading" class="loader !h-6 !w-6" />
     </div>
-    <div class="flex flex-wrap gap-2 justify-center print:hidden">
+    <div
+      v-if="totalValidComments > 0"
+      class="flex flex-wrap gap-2 justify-center print:hidden"
+    >
       <UiButton class="w-52">
         <!-- TODO: on click, open a UiModal with download options (PDF, JSON, CSV, ...) -->
         {{ $t('analyze.results.actions.download') }}
@@ -460,12 +465,12 @@ const dialectDisplay = computed(() => {
   return match?.dialectName?.[locale.value] || code
 })
 
-const totalComments = computed(() => {
-  return analysisData.value?.results?.length ?? 0
-})
-const totalValidComments = computed(() => {
-  return validComments.value?.length ?? 0
-})
+const totalComments = computed(() => analysisData.value?.results?.length ?? 0)
+const totalValidComments = computed(() => validComments.value?.length ?? 0)
+if (totalValidComments.value < 1) {
+  // TODO: i18n
+  error.value = `There are no valid comments provided. Make sure that the comments are in a valid ${dialectDisplay.value} text.`
+}
 
 
 // Compute main classes from results
