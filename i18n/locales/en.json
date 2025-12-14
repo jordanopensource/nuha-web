@@ -35,7 +35,8 @@
       "language": "Language",
       "region": "Region",
       "detectedLocation": "Detected Location",
-      "apply": "Apply Changes"
+      "apply": "Apply Changes",
+      "selectDialect": "Select AI Dialect"
     }
   },
   "misc": {

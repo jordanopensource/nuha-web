@@ -35,7 +35,8 @@
       "language": "اللغة",
       "region": "اللهجة",
       "detectedLocation": "الموقع المكتشف",
-      "apply": "تطبيق التغييرات"
+      "apply": "تطبيق التغييرات",
+      "selectDialect": "اختر لهجة التحليل"
     }
   },
   "misc": {

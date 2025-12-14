@@ -98,6 +98,9 @@ export default defineNuxtConfig({
     },
     public: {
       baseUrl: 'http://localhost:3000',
+      aiModel: {
+        defaultRegion: 'egy',
+      },
     },
   },
   nitro: {
@@ -116,6 +119,9 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: ['xlsx'],
     },
+    server: {
+      allowedHosts: ['undevoutly-unsimulating-leena.ngrok-free.dev']
+    }
   },
   primevue: {
     options: {
