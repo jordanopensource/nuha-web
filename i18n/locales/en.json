@@ -1,10 +1,10 @@
 {
   "homepage": {
     "nuha": "Nuha",
-    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "subtitle": "An open source AI-enabled classifier to detect and analyze online gender based hate speech in different Arabic dialects.",
     "login": "Login",
     "howItWorks": "How it works?",
-    "howItWorksSubtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "howItWorksSubtitle": "Classifying different types of online gender based hate speech and analyze texts depending on the Arabic dialect chosen.",
     "learnMore": "Learn More",
     "ourPublications": "Our Publications",
     "readMore": "Read More",
@@ -58,7 +58,7 @@
   "analyze": {
     "page": {
       "title": "Analyze Comments",
-      "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+      "subtitle": "Analyze Arabic text and files to detect hate speech across regional dialects."
     },
     "form": {
       "textInput": "Text Input",
@@ -256,7 +256,7 @@
   "publications": {
     "page": {
       "title": "Publications",
-      "subtitle": "Explore our latest research, insights, and articles on language, technology, and social impact."
+      "subtitle": "Check out latest research and publications on Online Gender-Based Hate Speech and Technology-Facilitated Gender Based Violence in the region."
     },
     "sections": {
       "featured": "Featured",
