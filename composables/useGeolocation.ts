@@ -86,6 +86,9 @@ export const useGeolocation = () => {
   }
 
   const region = useState<RegionData | null>('userRegion', () => null)
+  
+  // Get default AI model from runtime config
+  const defaultRegion = useRuntimeConfig().public.aiModel.defaultRegion
 
   // 30 days cookie for country code
   const regionCookie = useCookie<string | null>('nuha_region', { maxAge: 60 * 60 * 24 * 30 })
@@ -110,6 +113,18 @@ export const useGeolocation = () => {
     return region
   }
 
+  // Set default region from config
+  const setDefaultRegion = async () => {
+    if (defaultRegion && await isRegionSupported(defaultRegion)) {
+      const foundRegion = supportedRegions.value.find(r => r.countryCode === defaultRegion)
+      if (foundRegion && foundRegion.isAvailable) {
+        await setRegion(foundRegion)
+        return true
+      }
+    }
+    return false
+  }
+
   const isRegionDetected = computed(async () => {
     // check whether a region is stored in a cookie or state and is valid
     const countryCode = (region.value?.countryCode || regionCookie?.value)?.toString()
@@ -124,10 +139,14 @@ export const useGeolocation = () => {
     } else {
       regionCookie.value = null // make sure to reset the cookie
     }
-    return regionExists
+    return regionExists || region.value !== null
   })
   
+  // if not stored, fetch it
   const fetchRegion = async () => {
+    if (await setDefaultRegion()) return // set default region first, if set
+
+    // otherwise, check if detected
     if (await isRegionDetected.value) return region.value
 
     try {

@@ -120,9 +120,13 @@ NUXT_LISTMONK_FR_TEMPLATE_ID=
 NUXT_LISTMONK_CKB_TEMPLATE_ID=
 
 # AI Analysis
-# Important to analyze the text and files.
-# If not configured, it'll fallback to mock responses for development purposes.
+# AI Model URL: important to analyze the text and files.
 NUXT_AI_MODEL_URL=your-ai-endpoint
+
+# Default AI Model/Region for initial selection (optional)
+# Sets the default AI model dialect
+# Must match a supported region code from your the CMS (e.g., 'egy' for Egyptian model)
+NUXT_PUBLIC_AI_MODEL_DEFAULT_REGION=egy
 ```
 
 ## CMS Setup

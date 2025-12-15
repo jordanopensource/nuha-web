@@ -2,15 +2,17 @@
   <div class="space-y-4">
     <div class="space-y-3">
       <div>
-        <h4 class="mb-2 font-IBMPlexSansArabic text-base">{{ $t('analyze.help.textInput.structure') }}</h4>
-        <div class="bg-white border bg-opacity-20 p-4 mx-2 mb-4 rounded-md text-sm">
+        <div class="flex gap-2">
+          <Icon name="mdi:help-circle-outline" class="text-colors-primary" size="24" />
+          <h4 class="mb-2 font-IBMPlexSansArabic text-base">{{ $t('analyze.help.textInput.structure') }}</h4>
+        </div>
+        <div class="bg-white border bg-opacity-20 p-4 mb-4 rounded-md text-sm">
           <p
             class="font-IBMPlexMono text-colors-neutral-foreground opacity-70 whitespace-pre-line"
           >
-            {{ $t('analyze.help.textInput.sampleText') }}
+            {{ $t('analyze.help.textInput.sampleText', {dialect: dialectDisplay}) }}
           </p>
         </div>
-        <p>{{ $t('analyze.help.textInput.structure-subtitle') }}</p>
       </div>
       <div>
         <h4 class="mb-2 font-IBMPlexSansArabic text-base">{{ $t('analyze.help.textInput.tips') }}</h4>
@@ -23,3 +25,15 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const { region, supportedRegions } = useGeolocation()
+const { locale } = useI18n()
+
+const dialectDisplay = computed(() => {
+  const code = region.value?.countryCode
+  const match = supportedRegions.value.find(r => r.countryCode === code)
+  return match?.dialectName?.[locale.value] || code
+})
+
+</script>

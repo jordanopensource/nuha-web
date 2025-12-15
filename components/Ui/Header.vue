@@ -11,17 +11,34 @@
       </NuxtLink>
 
       <!-- Desktop list -->
-      <nav class="list hidden lg:flex gap-2 ms-auto print:hidden">
-        <UiButton
-          v-for="link, i in getLinksByGroup('desktop-header')"
-          :key="i"
-          :to="link.path()"
-          variant="ghost"
-          size="lg"
-          class="min-w-fit"
-        >
-          {{ link.title() }}
-        </UiButton>
+      <nav class="list hidden lg:flex gap-2 me-4 ms-auto print:hidden">
+        <AuthState>
+          <template #default="{ loggedIn }">
+            <UiButton
+              v-for="link, i in getLinksByGroup('desktop-header')"
+              :key="i"
+              :to="link.path()"
+              :variant="loggedIn && link.path().includes('analyze') ? 'primary' : 'ghost'"
+              :size="loggedIn && link.path().includes('analyze') ? 'md' : 'lg'"
+              class="min-w-fit"
+              :class="{'!font-semibold': loggedIn && link.path().includes('analyze')}"
+            >
+              {{ link.title() }}
+            </UiButton>
+          </template>
+          <template #placeholder>
+            <UiButton
+              v-for="link, i in getLinksByGroup('desktop-header')"
+              :key="i"
+              :to="link.path()"
+              variant="ghost"
+              size="lg"
+              class="min-w-fit"
+            >
+              {{ link.title() }}
+            </UiButton>
+          </template>
+        </AuthState>
       </nav>
       
       <!-- Desktop auth section -->
