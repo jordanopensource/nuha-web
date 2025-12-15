@@ -119,6 +119,9 @@ export default defineNuxtConfig({
       strapi: {
         url: 'http://localhost:1337',
       },
+      authEmailEnabled: true,
+      authGithubEnabled: true,
+      authGoogleEnabled: false,
     },
   },
   nitro: {

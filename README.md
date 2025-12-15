@@ -98,6 +98,17 @@ NUXT_OAUTH_GOOGLE_CLIENT_ID=your-google-client-id
 NUXT_OAUTH_GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
 
+### Login Options Configuration (Optional)
+
+Control which authentication methods are available to users. All methods are enabled by default.
+
+```bash
+# Login Options Visibility (set to 'false' to hide, enabled by default)
+NUXT_PUBLIC_AUTH_EMAIL_ENABLED=true
+NUXT_PUBLIC_AUTH_GITHUB_ENABLED=true
+NUXT_PUBLIC_AUTH_GOOGLE_ENABLED=true
+```
+
 ### Additional Services (Optional)
 
 ```bash
