@@ -54,8 +54,6 @@ export default defineNuxtConfig({
   ],
 
   strapi: {
-    url: process.env.STRAPI_URL || 'http://localhost:1337',
-    token: process.env.STRAPI_TOKEN,
     prefix: '/api',
     version: 'v5',
   },
@@ -66,6 +64,9 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    strapi: {
+      token: '',
+    },
     // Session configuration
     session: {
       name: 'nuxt-auth-session',
@@ -113,6 +114,9 @@ export default defineNuxtConfig({
       baseUrl: 'http://localhost:3000',
       aiModel: {
         defaultRegion: 'egy',
+      },
+      strapi: {
+        url: 'http://localhost:1337',
       },
     },
   },
