@@ -10,31 +10,33 @@ export const ALLOWED_FILE_TYPES: AllowedFileType[] = [
   {
     mime: 'text/plain',
     labelKey: 'analyze.fileTypes.plainText',
-    extensions: ['.txt']
+    extensions: ['.txt'],
   },
   {
     mime: 'text/csv',
     labelKey: 'analyze.fileTypes.csv',
-    extensions: ['.csv']
+    extensions: ['.csv'],
   },
   {
     mime: 'application/json',
     labelKey: 'analyze.fileTypes.json',
-    extensions: ['.json']
+    extensions: ['.json'],
   },
   {
     mime: 'application/vnd.ms-excel', // .xls
     labelKey: 'analyze.fileTypes.excelXls',
-    extensions: ['.xls']
+    extensions: ['.xls'],
   },
   {
     mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
     labelKey: 'analyze.fileTypes.excelXlsx',
-    extensions: ['.xlsx']
-  }
+    extensions: ['.xlsx'],
+  },
 ]
 
-export const ACCEPTED_MIME_TYPES = ALLOWED_FILE_TYPES.map(t => t.mime)
-export const ACCEPTED_EXTENSIONS = ALLOWED_FILE_TYPES.flatMap(t => t.extensions)
+export const ACCEPTED_MIME_TYPES = ALLOWED_FILE_TYPES.map((t) => t.mime)
+export const ACCEPTED_EXTENSIONS = ALLOWED_FILE_TYPES.flatMap(
+  (t) => t.extensions
+)
 
 export const bytesToMB = (bytes: number) => Math.round(bytes / 1024 / 1024)

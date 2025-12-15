@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   if (event.method !== 'POST') {
     throw createError({
       statusCode: 405,
-      statusMessage: 'Method not allowed'
+      statusMessage: 'Method not allowed',
     })
   }
 
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     if (!email || typeof email !== 'string') {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Email is required'
+        statusMessage: 'Email is required',
       })
     }
 
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     if (!emailRegex.test(email)) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Invalid email format'
+        statusMessage: 'Invalid email format',
       })
     }
 
@@ -42,9 +42,8 @@ export default defineEventHandler(async (event) => {
 
     return {
       success: true,
-      message: 'Magic link sent successfully'
+      message: 'Magic link sent successfully',
     }
-
   } catch (error) {
     console.error('Magic link send error:', error)
 
@@ -56,10 +55,10 @@ export default defineEventHandler(async (event) => {
     if (error && typeof error === 'object' && 'statusCode' in error) {
       throw error as NuxtError
     }
-    
+
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to send magic link'
+      statusMessage: 'Failed to send magic link',
     })
   }
 })

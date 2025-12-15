@@ -28,7 +28,7 @@ export interface PublicationCover {
   caption: string | null
   width: number
   height: number
-  formats: { 
+  formats: {
     thumbnail: object
     small: object
     medium: object

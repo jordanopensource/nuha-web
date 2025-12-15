@@ -4,7 +4,9 @@
   font-style: normal;
   font-weight: 100;
   font-display: swap;
-  src: local('IBM Plex Mono Thin'), local('IBMPlexMono-Thin'),
+  src:
+    local('IBM Plex Mono Thin'),
+    local('IBMPlexMono-Thin'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-Thin.woff2') format('woff2');
 }
 
@@ -13,7 +15,9 @@
   font-style: italic;
   font-weight: 100;
   font-display: swap;
-  src: local('IBM Plex Mono Thin Italic'), local('IBMPlexMono-ThinItalic'),
+  src:
+    local('IBM Plex Mono Thin Italic'),
+    local('IBMPlexMono-ThinItalic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-ThinItalic.woff2')
       format('woff2');
 }
@@ -23,7 +27,9 @@
   font-style: normal;
   font-weight: 200;
   font-display: swap;
-  src: local('IBM Plex Mono ExtraLight'), local('IBMPlexMono-ExtraLight'),
+  src:
+    local('IBM Plex Mono ExtraLight'),
+    local('IBMPlexMono-ExtraLight'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-ExtraLight.woff2')
       format('woff2');
 }
@@ -32,7 +38,8 @@
   font-style: italic;
   font-weight: 200;
   font-display: swap;
-  src: local('IBM Plex Mono ExtraLight Italic'),
+  src:
+    local('IBM Plex Mono ExtraLight Italic'),
     local('IBMPlexMono-ExtraLightItalic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-ExtraLightItalic.woff2')
       format('woff2');
@@ -43,7 +50,9 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: local('IBM Plex Mono Light'), local('IBMPlexMono-Light'),
+  src:
+    local('IBM Plex Mono Light'),
+    local('IBMPlexMono-Light'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-Light.woff2') format('woff2');
 }
 
@@ -52,7 +61,9 @@
   font-style: italic;
   font-weight: 300;
   font-display: swap;
-  src: local('IBM Plex Mono Light Italic'), local('IBMPlexMono-LightItalic'),
+  src:
+    local('IBM Plex Mono Light Italic'),
+    local('IBMPlexMono-LightItalic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-LightItalic.woff2')
       format('woff2');
 }
@@ -62,7 +73,9 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('IBM Plex Mono'), local('IBMPlexMono'),
+  src:
+    local('IBM Plex Mono'),
+    local('IBMPlexMono'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-Regular.woff2')
       format('woff2');
 }
@@ -72,7 +85,9 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: local('IBM Plex Mono Italic'), local('IBMPlexMono-Italic'),
+  src:
+    local('IBM Plex Mono Italic'),
+    local('IBMPlexMono-Italic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-Italic.woff2') format('woff2');
 }
 @font-face {
@@ -80,7 +95,9 @@
   font-style: normal;
   font-weight: 450;
   font-display: swap;
-  src: local('IBM Plex Mono Text'), local('IBMPlexMono-Text'),
+  src:
+    local('IBM Plex Mono Text'),
+    local('IBMPlexMono-Text'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-Text.woff2') format('woff2');
 }
 
@@ -89,7 +106,9 @@
   font-style: italic;
   font-weight: 450;
   font-display: swap;
-  src: local('IBM Plex Mono Text Italic'), local('IBMPlexMono-TextItalic'),
+  src:
+    local('IBM Plex Mono Text Italic'),
+    local('IBMPlexMono-TextItalic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-TextItalic.woff2')
       format('woff2');
 }
@@ -99,7 +118,9 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: local('IBM Plex Mono Medium'), local('IBMPlexMono-Medium'),
+  src:
+    local('IBM Plex Mono Medium'),
+    local('IBMPlexMono-Medium'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-Medium.woff2') format('woff2');
 }
 
@@ -108,7 +129,9 @@
   font-style: italic;
   font-weight: 500;
   font-display: swap;
-  src: local('IBM Plex Mono Medium Italic'), local('IBMPlexMono-MediumItalic'),
+  src:
+    local('IBM Plex Mono Medium Italic'),
+    local('IBMPlexMono-MediumItalic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-MediumItalic.woff2')
       format('woff2');
 }
@@ -118,7 +141,9 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: local('IBM Plex Mono SemiBold'), local('IBMPlexMono-SemiBold'),
+  src:
+    local('IBM Plex Mono SemiBold'),
+    local('IBMPlexMono-SemiBold'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-SemiBold.woff2')
       format('woff2');
 }
@@ -128,7 +153,8 @@
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: local('IBM Plex Mono SemiBold Italic'),
+  src:
+    local('IBM Plex Mono SemiBold Italic'),
     local('IBMPlexMono-SemiBoldItalic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-SemiBoldItalic.woff2')
       format('woff2');
@@ -139,7 +165,9 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: local('IBM Plex Mono Bold'), local('IBMPlexMono-Bold'),
+  src:
+    local('IBM Plex Mono Bold'),
+    local('IBMPlexMono-Bold'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-Bold.woff2') format('woff2');
 }
 
@@ -148,7 +176,9 @@
   font-style: italic;
   font-weight: 700;
   font-display: swap;
-  src: local('IBM Plex Mono Bold Italic'), local('IBMPlexMono-BoldItalic'),
+  src:
+    local('IBM Plex Mono Bold Italic'),
+    local('IBMPlexMono-BoldItalic'),
     url('~/assets/fonts/IBM-Plex-Mono/IBMPlexMono-BoldItalic.woff2')
       format('woff2');
 }
@@ -159,7 +189,9 @@
   font-style: normal;
   font-weight: 100;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic Thin'), local('IBMPlexSansArabic-Thin'),
+  src:
+    local('IBM Plex Sans Arabic Thin'),
+    local('IBMPlexSansArabic-Thin'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Thin.woff2')
       format('woff2');
 }
@@ -169,7 +201,8 @@
   font-style: normal;
   font-weight: 200;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic ExtraLight'),
+  src:
+    local('IBM Plex Sans Arabic ExtraLight'),
     local('IBMPlexSansArabic-ExtraLight'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-ExtraLight.woff2')
       format('woff2');
@@ -180,7 +213,9 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic Light'), local('IBMPlexSansArabic-Light'),
+  src:
+    local('IBM Plex Sans Arabic Light'),
+    local('IBMPlexSansArabic-Light'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Light.woff2')
       format('woff2');
 }
@@ -190,7 +225,9 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic'), local('IBMPlexSansArabic'),
+  src:
+    local('IBM Plex Sans Arabic'),
+    local('IBMPlexSansArabic'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Regular.woff2')
       format('woff2');
 }
@@ -200,7 +237,9 @@
   font-style: normal;
   font-weight: 450;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic Text'), local('IBMPlexSansArabic-Text'),
+  src:
+    local('IBM Plex Sans Arabic Text'),
+    local('IBMPlexSansArabic-Text'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Text.woff2')
       format('woff2');
 }
@@ -210,7 +249,9 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic Medium'), local('IBMPlexSansArabic-Medium'),
+  src:
+    local('IBM Plex Sans Arabic Medium'),
+    local('IBMPlexSansArabic-Medium'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Medium.woff2')
       format('woff2');
 }
@@ -220,7 +261,8 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic SemiBold'),
+  src:
+    local('IBM Plex Sans Arabic SemiBold'),
     local('IBMPlexSansArabic-SemiBold'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-SemiBold.woff2')
       format('woff2');
@@ -231,7 +273,9 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: local('IBM Plex Sans Arabic Bold'), local('IBMPlexSansArabic-Bold'),
+  src:
+    local('IBM Plex Sans Arabic Bold'),
+    local('IBMPlexSansArabic-Bold'),
     url('~/assets/fonts/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Bold.woff2')
       format('woff2');
 }

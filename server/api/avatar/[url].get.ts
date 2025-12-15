@@ -1,10 +1,10 @@
 export default defineEventHandler(async (event) => {
   const url = getRouterParam(event, 'url')
-  
+
   if (!url) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'URL parameter is required'
+      statusMessage: 'URL parameter is required',
     })
   }
 
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   } catch {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Invalid URL encoding'
+      statusMessage: 'Invalid URL encoding',
     })
   }
 
@@ -31,25 +31,25 @@ export default defineEventHandler(async (event) => {
     'avatars0.githubusercontent.com',
     'avatars1.githubusercontent.com',
     'avatars2.githubusercontent.com',
-    'avatars3.githubusercontent.com'
+    'avatars3.githubusercontent.com',
   ]
-  
+
   const urlObj = new URL(avatarUrl)
   if (!allowedDomains.includes(urlObj.hostname)) {
     throw createError({
       statusCode: 403,
-      statusMessage: 'Only Google and GitHub avatar URLs are allowed'
+      statusMessage: 'Only Google and GitHub avatar URLs are allowed',
     })
   }
 
   try {
     // Fetch the image from the avatar service
     const response = await fetch(avatarUrl)
-    
+
     if (!response.ok) {
       throw createError({
         statusCode: response.status,
-        statusMessage: 'Failed to fetch avatar'
+        statusMessage: 'Failed to fetch avatar',
       })
     }
 
@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
     setHeaders(event, {
       'Content-Type': contentType,
       'Cache-Control': 'public, max-age=86400', // Cache for 24 hours
-      'Cross-Origin-Resource-Policy': 'cross-origin'
+      'Cross-Origin-Resource-Policy': 'cross-origin',
     })
 
     // Return the image data
@@ -70,7 +70,7 @@ export default defineEventHandler(async (event) => {
     console.error('Avatar proxy error:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to proxy avatar'
+      statusMessage: 'Failed to proxy avatar',
     })
   }
 })

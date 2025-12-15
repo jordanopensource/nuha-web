@@ -1,16 +1,13 @@
 <template>
-  <Html
-    :lang="head.htmlAttrs!.lang"
-    :dir="head.htmlAttrs!.dir"
-  >
+  <Html :lang="head.htmlAttrs!.lang" :dir="head.htmlAttrs!.dir">
     <Body>
       <NuxtRouteAnnouncer />
-      <div class="flex flex-col min-h-screen">
+      <div class="flex min-h-screen flex-col">
         <UiHeader />
         <main class="flex-1">
           <NuxtPage class="container py-8" />
         </main>
-        <UiFooter/>
+        <UiFooter />
       </div>
     </Body>
   </Html>
@@ -22,11 +19,11 @@
     lang: true,
     seo: true,
   })
-
 </script>
 
 <style lang="postcss">
-body, #__nuxt {
-  @apply min-h-screen bg-colors-neutral-background text-colors-neutral-foreground;
-}
+  body,
+  #__nuxt {
+    @apply min-h-screen bg-colors-neutral-background text-colors-neutral-foreground;
+  }
 </style>

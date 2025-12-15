@@ -1,10 +1,6 @@
 <template>
-  <div class="flex gap-2 flex-wrap justify-start items-center">
-    <UiChip 
-      v-if="category" 
-      :text="category.name" 
-      variant="primary" 
-    />
+  <div class="flex flex-wrap items-center justify-start gap-2">
+    <UiChip v-if="category" :text="category.name" variant="primary" />
     <template v-if="regions && regions.length > 0">
       <UiChip
         v-for="region in regions"
@@ -17,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Category, Region } from '~/types/publication';
+  import type { Category, Region } from '~/types/publication'
 
-defineProps<{
-  category?: Category;
-  regions?: Region[];
-}>();
+  defineProps<{
+    category?: Category
+    regions?: Region[]
+  }>()
 </script>
