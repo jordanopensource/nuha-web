@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:build": "eslint . --max-warnings 0",
+    "lint:fix": "prettier --write --list-different . && npm run lint --fix"
   },
   "dependencies": {
     "@nuxt/eslint": "1.5.2",
@@ -20,11 +23,15 @@
     "@types/jsonwebtoken": "^9.0.10",
     "chart.js": "^4.5.0",
     "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "i18n-iso-countries": "^7.14.0",
     "ioredis": "^5.7.0",
     "jsonwebtoken": "^9.0.2",
     "nuxt": "^3.17.7",
     "nuxt-auth-utils": "^0.5.24",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "primevue": "^4.3.9",
     "vue": "^3.5.17",
     "vue-chartjs": "^5.3.2",

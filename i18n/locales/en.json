@@ -1,10 +1,10 @@
 {
   "homepage": {
     "nuha": "Nuha",
-    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "subtitle": "An open source AI-enabled classifier to detect and analyze online gender based hate speech in different Arabic dialects.",
     "login": "Login",
     "howItWorks": "How it works?",
-    "howItWorksSubtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "howItWorksSubtitle": "Classifying different types of online gender based hate speech and analyze texts depending on the Arabic dialect chosen.",
     "learnMore": "Learn More",
     "ourPublications": "Our Publications",
     "readMore": "Read More",
@@ -35,7 +35,8 @@
       "language": "Language",
       "region": "Region",
       "detectedLocation": "Detected Location",
-      "apply": "Apply Changes"
+      "apply": "Apply Changes",
+      "selectDialect": "Select AI Dialect"
     }
   },
   "misc": {
@@ -57,7 +58,7 @@
   "analyze": {
     "page": {
       "title": "Analyze Comments",
-      "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+      "subtitle": "Analyze Arabic text and files to detect hate speech across regional dialects."
     },
     "form": {
       "textInput": "Text Input",
@@ -74,23 +75,25 @@
         "title": "Text Input Format",
         "structure": "Text Structure:",
         "structure-subtitle": "Fields marked with * are mandatory.",
-        "sampleText": "comment*, platform, date\ncomment*, platform, date\n...",
-        "tips": "Tips:",
-        "tip1": "Use clear, natural language",
-        "tip2": "Longer texts provide better analysis results",
-        "tip3": "Mixed dialects in the same text may affect accuracy"
+        "sampleText": "Write a comment in {dialect}..",
+        "tips": "Notes:",
+        "tip1": "Only write text in the specified dialects",
+        "tip2": "Mixed dialects in the same text may affect accuracy",
+        "tip3": "Use 'File Upload' if you want to analyze multiple texts"
       },
       "fileUpload": {
         "title": "File Upload Requirements",
-        "supportedTypes": "Supported File Types:",
-        "textFile": "Plain text files",
-        "excelFile": "MS Excel Files",
-        "jsonFile": "JSON Files",
-        "csvFile": "Comma-separated values",
-        "requirements": "File Requirements:",
+        "supportedTypes": "Supported File Types",
+        "requirements": "Requirements",
         "maxSize": "Maximum file size: 10MB",
-        "encoding": "Text encoding: UTF-8 preferred",
-        "content": "Files should contain readable Arabic text"
+        "encoding": "Text encoding: UTF-8",
+        "content": "Only 'Comment' column/property is required - all others are optional",
+        "csvFile": "Comma-separated values",
+        "excelFile": "Excel spreadsheet",
+        "jsonFile": "JSON array format",
+        "textFile": "Plain text format",
+        "clickToDownload": "Click on any file type to download its template",
+        "downloadTemplate": "Download {fileType} template"
       }
     },
     "results": {
@@ -113,7 +116,7 @@
           "distribution": "Distribution of Comments by Classification (%)",
           "totals": "Total Comments by Classification (Count)",
           "platformStacked": "Comments by Platform and Classification (Stacked)",
-          "histogram": "Confidence Score Distribution by Classification (0–100%)"
+          "histogram": "Confidence Score Distribution by Classification (0-100%)"
         },
         "commentsCountLabel": "# of comments",
         "commentsAxis": "Comments"
@@ -129,6 +132,16 @@
         "dialect": "Dialect:",
         "modelVersion": "Model Version:",
         "commentsWord": "Comments"
+      },
+      "singleResult": {
+        "title": "Analysis Result",
+        "comment": "Comment",
+        "classification": "Classification",
+        "confidence": "Confidence",
+        "metadata": "Additional Information",
+        "platform": "Platform",
+        "date": "Date",
+        "notAvailable": "Not Available"
       },
       "details": {
         "title": "Comments Analysis Details",
@@ -149,10 +162,32 @@
           "global": "Search all columns...",
           "platform": "Filter by platform",
           "classification": "Filter by classification"
+        },
+        "actions": {
+          "showAllColumns": "Show all columns",
+          "hideColumn": "Hide column"
+        },
+        "validity": {
+          "valid": "Valid",
+          "invalid": "Invalid"
         }
       },
       "backToAnalyze": "Back to Analyze",
-      "noDataAvailable": "No analysis data available."
+      "noDataAvailable": "No analysis data available. Please run an analysis first.",
+      "noValidComments": "There are no valid comments provided. Make sure that the comments are in a valid {dialect} text.",
+      "download": {
+        "title": "Download Results",
+        "subtitle": "Choose a format to download your analysis results",
+        "pdf": "PDF Report",
+        "csv": "CSV File",
+        "json": "JSON Data",
+        "pdfDescription": "Formatted report with charts and summary",
+        "csvDescription": "Spreadsheet format for further analysis",
+        "jsonDescription": "Raw data in JSON format",
+        "downloading": "Downloading...",
+        "downloadError": "Failed to download file. Please try again.",
+        "downloadSuccess": "File downloaded successfully!"
+      }
     },
     "validation": {
       "textRequired": "Text input is required",
@@ -161,7 +196,8 @@
       "fileRequired": "Please select a file to upload",
       "fileSizeLimit": "File size exceeds 10MB limit",
       "invalidFileType": "Invalid file type. Accepted types: {types}",
-      "processingError": "An error occurred while processing your request"
+      "processingError": "An error occurred while processing your request",
+      "dialectRequired": "You should select a dialect for the AI model to analyze"
     },
     "errors": {
       "fileSizeExceeded": "File size exceeds maximum limit of {size}MB",
@@ -220,7 +256,7 @@
   "publications": {
     "page": {
       "title": "Publications",
-      "subtitle": "Explore our latest research, insights, and articles on language, technology, and social impact."
+      "subtitle": "Check out latest research and publications on Online Gender-Based Hate Speech and Technology-Facilitated Gender Based Violence in the region."
     },
     "sections": {
       "featured": "Featured",

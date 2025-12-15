@@ -1,7 +1,7 @@
-import type { 
-  PublicationCategory as Category, 
+import type {
+  PublicationCategory as Category,
   PublicationRegion as Region,
-  PublicationAuthor as Author
-} from './strapi';
+  PublicationAuthor as Author,
+} from './strapi'
 
-export type { Category, Region, Author };
+export type { Category, Region, Author }

@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Expose Tailwind theme colors as CSS variables for JS consumption in Chart.js */
 :root {
   /* Semantic analysis colors */
@@ -15,11 +14,11 @@
   --color-analysis-neutral-100: theme('colors.colors.analysis.neutral.100');
 }
 
-
 ::selection {
   @apply bg-colors-primary-light text-colors-primary-active;
 }
-html, div {
+html,
+div {
   scroll-behavior: smooth;
 }
 
@@ -30,16 +29,15 @@ html, div {
   @apply flex flex-col gap-12;
 }
 
-input[type="email"],
-input[type="text"],
-input[type="password"] {
-  @apply w-full border border-colors-neutral-placeholder rounded-md p-4;
-  @apply focus:!border-colors-primary focus:outline-none focus:border-2 focus:p-[15px];
+input[type='email'],
+input[type='text'],
+input[type='password'] {
+  @apply w-full rounded-md border border-colors-neutral-placeholder p-4;
+  @apply focus:border-2 focus:!border-colors-primary focus:p-[15px] focus:outline-none;
 }
 input::placeholder {
   @apply select-none;
 }
-
 
 @keyframes spin {
   0% {

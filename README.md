@@ -93,7 +93,7 @@ This is important for oAuth to work.
 NUXT_OAUTH_GITHUB_CLIENT_ID=your-github-client-id
 NUXT_OAUTH_GITHUB_CLIENT_SECRET=your-github-client-secret
 
-# Google OAuth  
+# Google OAuth
 NUXT_OAUTH_GOOGLE_CLIENT_ID=your-google-client-id
 NUXT_OAUTH_GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
@@ -120,9 +120,13 @@ NUXT_LISTMONK_FR_TEMPLATE_ID=
 NUXT_LISTMONK_CKB_TEMPLATE_ID=
 
 # AI Analysis
-# Important to analyze the text and files.
-# If not configured, it'll fallback to mock responses for development purposes.
+# AI Model URL: important to analyze the text and files.
 NUXT_AI_MODEL_URL=your-ai-endpoint
+
+# Default AI Model/Region for initial selection (optional)
+# Sets the default AI model dialect
+# Must match a supported region code from your the CMS (e.g., 'egy' for Egyptian model)
+NUXT_PUBLIC_AI_MODEL_DEFAULT_REGION=egy
 ```
 
 ## CMS Setup
@@ -188,7 +192,7 @@ docker compose logs -f nuha-web-dev
 # Build and start production
 docker compose --profile prod up --build -d
 
-# View logs  
+# View logs
 docker compose logs -f nuha-web-prod
 ```
 
@@ -255,7 +259,7 @@ Check the application logs:
 # Local development
 yarn dev
 
-# Docker development  
+# Docker development
 docker compose logs nuha-web-dev
 
 # Docker production

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Pie } from 'vue-chartjs'
-import type { ChartData, ChartOptions } from 'chart.js'
+  import { Pie } from 'vue-chartjs'
+  import type { ChartData, ChartOptions } from 'chart.js'
 
-defineProps<{
-  chartData: ChartData<'pie'>
-  options?: ChartOptions<'pie'>
-}>()
+  defineProps<{
+    chartData: ChartData<'pie'>
+    options?: ChartOptions<'pie'>
+  }>()
 </script>
 
 <template>

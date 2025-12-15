@@ -2,7 +2,7 @@ import { detectLocale, getLocalizedPath } from '~/server/utils/locale'
 
 export default defineOAuthGitHubEventHandler({
   config: {
-    emailRequired: true
+    emailRequired: true,
   },
   async onSuccess(event, { user }) {
     // Create proxied avatar URL if user has an avatar
@@ -24,11 +24,11 @@ export default defineOAuthGitHubEventHandler({
         avatar: avatarUrl,
         provider: 'github',
         githubId: user.id.toString(),
-        verified: true
+        verified: true,
       },
-      loggedInAt: new Date()
+      loggedInAt: new Date(),
     })
-    
+
     // Detect user's locale and redirect to locale-aware analyze page
     const locale = detectLocale(event)
     const localizedPath = getLocalizedPath('analyze', locale)
@@ -38,7 +38,10 @@ export default defineOAuthGitHubEventHandler({
     console.error('GitHub OAuth error:', error)
     // Detect user's locale and redirect to locale-aware login page with error
     const locale = detectLocale(event)
-    const localizedPath = getLocalizedPath('login?error=github_oauth_failed', locale)
+    const localizedPath = getLocalizedPath(
+      'login?error=github_oauth_failed',
+      locale
+    )
     return sendRedirect(event, localizedPath)
-  }
+  },
 })

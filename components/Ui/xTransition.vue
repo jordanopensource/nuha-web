@@ -12,37 +12,37 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
-  directionValue: {
-    type: Number,
-    default: 0,
-  }
-})
+  defineProps({
+    directionValue: {
+      type: Number,
+      default: 0,
+    },
+  })
 </script>
 
 <style>
-.input-method-enter-active,
-.input-method-leave-active {
-  transition: all 0.1s ease-out;
-}
+  .input-method-enter-active,
+  .input-method-leave-active {
+    transition: all 0.1s ease-out;
+  }
 
-.input-method-enter-from.method-0 {
-  opacity: 0;
-  transform: translateX(-10px);
-}
+  .input-method-enter-from.method-0 {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
 
-.input-method-leave-to.method-0 {
-  opacity: 0;
-  transform: translateX(10px);
-}
+  .input-method-leave-to.method-0 {
+    opacity: 0;
+    transform: translateX(10px);
+  }
 
-.input-method-enter-from.method-1 {
-  opacity: 0;
-  transform: translateX(10px);
-}
+  .input-method-enter-from.method-1 {
+    opacity: 0;
+    transform: translateX(10px);
+  }
 
-.input-method-leave-to.method-1 {
-  opacity: 0;
-  transform: translateX(-10px);
-}
+  .input-method-leave-to.method-1 {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
 </style>

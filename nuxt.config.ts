@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-import Lara from '@primeuix/themes/lara';
+import Lara from '@primeuix/themes/lara'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
@@ -14,14 +14,27 @@ export default defineNuxtConfig({
       alwaysRedirect: true,
     },
     locales: [
-      { code: 'en',  file: 'en.json',  name: 'English', language: 'en', nativeName: 'English' },
-      { code: 'ar',  file: 'ar.json',  name: 'Arabic', language: 'ar', dir: 'rtl', nativeName: 'العربية' },
+      {
+        code: 'en',
+        file: 'en.json',
+        name: 'English',
+        language: 'en',
+        nativeName: 'English',
+      },
+      {
+        code: 'ar',
+        file: 'ar.json',
+        name: 'Arabic',
+        language: 'ar',
+        dir: 'rtl',
+        nativeName: 'العربية',
+      },
       // { code: 'fr',  file: 'fr.json',  name: 'French', language: 'fr', nativeName: 'Français' },
       // { code: 'ckb', file: 'ckb.json', name: 'Central Kurdish', language: 'ckb', dir: 'rtl', nativeName: 'کوردیی ناوەندی' }
     ],
     defaultLocale: 'en',
-    defaultDirection: "ltr",
-    baseUrl: 'http://localhost:3000/'
+    defaultDirection: 'ltr',
+    baseUrl: 'http://localhost:3000/',
   },
   modules: [
     '@nuxt/eslint',
@@ -41,25 +54,26 @@ export default defineNuxtConfig({
   ],
 
   strapi: {
-    url: process.env.STRAPI_URL || 'http://localhost:1337',
-    token: process.env.STRAPI_TOKEN,
     prefix: '/api',
     version: 'v5',
   },
   icon: {
     serverBundle: {
-      collections: ['mdi', 'circle-flags']
-    }
+      collections: ['mdi', 'circle-flags'],
+    },
   },
-  
+
   runtimeConfig: {
+    strapi: {
+      token: '',
+    },
     // Session configuration
     session: {
       name: 'nuxt-auth-session',
       cookie: {
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
-        httpOnly: true
+        httpOnly: true,
       },
       maxAge: 60 * 60 * 24 * 7, // 1 week
       password: '',
@@ -81,7 +95,7 @@ export default defineNuxtConfig({
       google: {
         clientId: '',
         clientSecret: '',
-      }
+      },
     },
     listmonk: {
       url: '',
@@ -98,6 +112,12 @@ export default defineNuxtConfig({
     },
     public: {
       baseUrl: 'http://localhost:3000',
+      aiModel: {
+        defaultRegion: 'egy',
+      },
+      strapi: {
+        url: 'http://localhost:1337',
+      },
     },
   },
   nitro: {
@@ -105,16 +125,19 @@ export default defineNuxtConfig({
       host: 'localhost',
     },
     externals: {
-      inline: ['xlsx']
+      inline: ['xlsx'],
     },
     moduleSideEffects: ['xlsx'],
   },
   vite: {
     ssr: {
-      noExternal: ['xlsx']
+      noExternal: ['xlsx'],
     },
     optimizeDeps: {
       include: ['xlsx'],
+    },
+    server: {
+      allowedHosts: ['undevoutly-unsimulating-leena.ngrok-free.dev'],
     },
   },
   primevue: {
@@ -128,14 +151,14 @@ export default defineNuxtConfig({
           cssLayer: false,
         },
       },
-  },
+    },
     autoImport: false,
     components: {
       prefix: 'pv',
-      include: ['DataTable', 'Column', 'Select']
+      include: ['DataTable', 'Column', 'Select'],
     },
     directives: {
-      prefix: 'pv'
+      prefix: 'pv',
     },
   },
 })

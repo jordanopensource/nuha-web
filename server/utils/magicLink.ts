@@ -33,16 +33,20 @@ function initRedis(): Redis | null {
       password: config.redis.password || undefined,
       db: parseInt(config.redis.db || '0'),
       maxRetriesPerRequest: 3,
-      lazyConnect: true
+      lazyConnect: true,
     })
 
     // Test connection
-    redisClient.ping()
+    redisClient
+      .ping()
       .then(() => {
         console.info('Redis connection successful.')
       })
       .catch((error) => {
-        console.warn('Redis connection failed, falling back to in-memory storage:', error.message)
+        console.warn(
+          'Redis connection failed, falling back to in-memory storage:',
+          error.message
+        )
         redisClient?.disconnect()
         redisClient = null
       })
@@ -50,44 +54,59 @@ function initRedis(): Redis | null {
     redisInitialized = true
     return redisClient
   } catch (error) {
-    console.warn('Redis connection failed, falling back to in-memory storage:', error)
+    console.warn(
+      'Redis connection failed, falling back to in-memory storage:',
+      error
+    )
     redisClient = null
     return null
   }
 }
 
 // Store token with expiration
-async function storeToken(token: string, email: string, expires: Date): Promise<void> {
+async function storeToken(
+  token: string,
+  email: string,
+  expires: Date
+): Promise<void> {
   const redis = initRedis()
-  
+
   if (redis) {
     try {
       const config = useRuntimeConfig()
       const keyPrefix = config.redis.keyPrefix || 'nuha_auth:'
       const key = `${keyPrefix}magic_link:${token}`
-      const expirationSeconds = Math.floor((expires.getTime() - Date.now()) / 1000)
+      const expirationSeconds = Math.floor(
+        (expires.getTime() - Date.now()) / 1000
+      )
 
-      await redis.setex(key, expirationSeconds, JSON.stringify({ email, expires: expires.toISOString() }))
+      await redis.setex(
+        key,
+        expirationSeconds,
+        JSON.stringify({ email, expires: expires.toISOString() })
+      )
       return
     } catch (error) {
       console.warn('Redis store failed, falling back to in-memory:', error)
     }
   }
-  
+
   // Fallback
   magicLinkTokens.set(token, { email, expires })
 }
 
 // Retrieve and remove token
-async function retrieveAndRemoveToken(token: string): Promise<{ email: string; expires: Date } | null> {
+async function retrieveAndRemoveToken(
+  token: string
+): Promise<{ email: string; expires: Date } | null> {
   const redis = initRedis()
-  
+
   if (redis) {
     try {
       const config = useRuntimeConfig()
       const keyPrefix = config.redis.keyPrefix || 'nuha_auth:'
       const key = `${keyPrefix}magic_link:${token}`
-      
+
       const data = await redis.get(key)
       if (data) {
         await redis.del(key) // remove after retrieval
@@ -110,23 +129,26 @@ async function retrieveAndRemoveToken(token: string): Promise<{ email: string; e
 }
 
 // Cleanup expired in-memory tokens every 60
-setInterval(() => {
-  const now = new Date()
-  for (const [token, data] of magicLinkTokens.entries()) {
-    if (data.expires < now) {
-      magicLinkTokens.delete(token)
+setInterval(
+  () => {
+    const now = new Date()
+    for (const [token, data] of magicLinkTokens.entries()) {
+      if (data.expires < now) {
+        magicLinkTokens.delete(token)
+      }
     }
-  }
-}, 60 * 60 * 1000)
+  },
+  60 * 60 * 1000
+)
 
 export async function generateMagicLinkToken(email: string): Promise<string> {
   const config = useRuntimeConfig()
   const secret = config.session.password
-  
+
   if (!secret) {
     throw createError({
       statusCode: 500,
-      statusMessage: 'Session password not configured'
+      statusMessage: 'Session password not configured',
     })
   }
 
@@ -143,14 +165,16 @@ export async function generateMagicLinkToken(email: string): Promise<string> {
   return token
 }
 
-export async function verifyMagicLinkToken(token: string): Promise<{ email: string } | null> {
+export async function verifyMagicLinkToken(
+  token: string
+): Promise<{ email: string } | null> {
   const config = useRuntimeConfig()
   const secret = config.session.password
-  
+
   if (!secret) {
     throw createError({
       statusCode: 500,
-      statusMessage: 'Session password not configured'
+      statusMessage: 'Session password not configured',
     })
   }
 
@@ -168,7 +192,7 @@ export async function verifyMagicLinkToken(token: string): Promise<{ email: stri
 
     // verify JWT
     const payload = jwt.verify(token, secret) as MagicLinkPayload
-    
+
     return { email: payload.email }
   } catch (error) {
     console.error('Magic link verification error:', error)
@@ -182,12 +206,12 @@ enum ListmonkEndpoint {
 }
 
 export async function sendMagicLinkEmail(
-  email: string, 
-  magicLink: string, 
+  email: string,
+  magicLink: string,
   locale: string = 'en'
 ): Promise<void> {
   const config = useRuntimeConfig()
-  
+
   if (!config.listmonk.url || !config.listmonk.user || !config.listmonk.token) {
     console.error('Listmonk configuration missing!')
     return
@@ -196,9 +220,11 @@ export async function sendMagicLinkEmail(
   try {
     // Get template ID based on locale
     const templateId = getTemplateIdByLocale(locale, config.listmonk)
-    
+
     if (!templateId) {
-      console.warn(`No template ID configured for locale ${locale}, logging magic link instead`)
+      console.warn(
+        `No template ID configured for locale ${locale}, logging magic link instead`
+      )
       return
     }
 
@@ -229,7 +255,10 @@ interface ListmonkConfig {
   ckbTemplateId: string
 }
 
-function getTemplateIdByLocale(locale: string, config: ListmonkConfig): string | null {
+function getTemplateIdByLocale(
+  locale: string,
+  config: ListmonkConfig
+): string | null {
   switch (locale) {
     case 'en':
       return config.enTemplateId

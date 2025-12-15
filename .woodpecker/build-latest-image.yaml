@@ -1,0 +1,84 @@
+when:
+  - event: [push, manual]
+    branch:
+      exclude: [main]
+  - event: [pull_request]
+    evaluate: 'CI_COMMIT_TARGET_BRANCH != "main"'
+
+variables:
+  - &docker_repo 'josaorg/nuha-web'
+  - &slack_channel 'builds'
+  - &success_message >
+    ✅ *SUCCESS* - Latest Build #{{ build.number }}
+
+    📁 *Repository:* {{ repo.name }}
+    🌿 *Branch:* {{ build.branch }}
+    📝 *Commit:* {{ truncate build.commit 8 }}
+    👤 *Author:* {{ build.author }}
+
+    🔗 *Links:*
+    • <{{ build.link }}|View Build>
+  - &failure_message >
+    ❌ *FAILED* - Latest Build #{{ build.number }}
+
+    📁 *Repository:* {{ repo.name }}
+    🌿 *Branch:* {{ build.branch }}
+    📝 *Commit:* {{ truncate build.commit 8 }}
+    👤 *Author:* {{ build.author }}
+
+    🔗 *Links:*
+    • <{{ build.link }}|View Build>
+
+steps:
+  - name: run-pre-commit-hooks
+    image: josaorg/pre-commit-runner
+    settings:
+      args: '--all-files'
+      skip: 'end-of-file-fixer'
+
+  - name: build-latest-image
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      repo: *docker_repo
+      dockerfile: ./Dockerfile
+      tags:
+        - ${CI_COMMIT_SHA:-latest}
+        - latest
+      username:
+        from_secret: DOCKER_HUB_USERNAME
+      password:
+        from_secret: DOCKER_HUB_PASSWORD
+      build_args:
+        - CI_COMMIT_SHA=${CI_COMMIT_SHA}
+        - CI_REPO_URL=${CI_REPO_URL}
+        - CI_REPO_NAME=${CI_REPO_NAME}
+        - CI_PIPELINE_URL=${CI_PIPELINE_URL}
+        - CI_PIPELINE_CREATED=${CI_PIPELINE_CREATED}
+    depends_on:
+      - run-pre-commit-hooks
+
+  - name: notify-slack-latest-success
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: SLACK_WEBHOOK
+      channel: *slack_channel
+      template: *success_message
+    when:
+      - status: success
+    depends_on:
+      - run-pre-commit-hooks
+      - build-latest-image
+
+  - name: notify-slack-latest-failure
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: SLACK_WEBHOOK
+      channel: *slack_channel
+      template: *failure_message
+    when:
+      - status: failure
+    depends_on:
+      - run-pre-commit-hooks
+      - build-latest-image

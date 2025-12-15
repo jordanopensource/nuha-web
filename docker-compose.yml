@@ -7,7 +7,7 @@ services:
     container_name: nuha-redis
     restart: unless-stopped
     ports:
-      - "${NUXT_REDIS_PORT:-6379}:6379"
+      - '${NUXT_REDIS_PORT:-6379}:6379'
     volumes:
       - redis_data:/data
     command: >
@@ -19,7 +19,7 @@ services:
         fi
       "
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
       timeout: 3s
       retries: 5
@@ -34,7 +34,7 @@ services:
     container_name: nuha-web-dev
     restart: unless-stopped
     ports:
-      - "${NUXT_PORT:-3000}:3000"
+      - '${NUXT_PORT:-3000}:3000'
     volumes:
       # auto-reload code
       - .:/app
@@ -48,7 +48,7 @@ services:
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3000
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
     depends_on:
       redis:
         condition: service_healthy
@@ -65,7 +65,7 @@ services:
     container_name: nuha-web-prod
     restart: unless-stopped
     ports:
-      - "${NUXT_PORT:-3000}:3000"
+      - '${NUXT_PORT:-3000}:3000'
     env_file:
       - .env
     environment:
@@ -75,7 +75,7 @@ services:
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3000
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
     depends_on:
       redis:
         condition: service_healthy
