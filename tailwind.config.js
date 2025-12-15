@@ -8,7 +8,7 @@ export default {
     './pages/**/*.vue',
     './composables/**/*.{js,ts}',
     './plugins/**/*.{js,ts}',
-    './app.vue'
+    './app.vue',
   ],
   theme: {
     container: {
@@ -18,8 +18,8 @@ export default {
         sm: '1rem',
         md: '2rem',
         lg: '3rem',
-        xl: '4rem'
-      }
+        xl: '4rem',
+      },
     },
     extend: {
       colors: {
@@ -31,9 +31,9 @@ export default {
           },
           primary: {
             DEFAULT: '#C40F55', // main pink
-            hover: '#8B0A39',   // hover state
-            active: '#72082F',  // active / pressed
-            light: '#fdeaed',   // light pink for secondary. OLD COLOR: #FCF0F7
+            hover: '#8B0A39', // hover state
+            active: '#72082F', // active / pressed
+            light: '#fdeaed', // light pink for secondary. OLD COLOR: #FCF0F7
           },
           // Semantic analysis colors used across charts & UI
           analysis: {
@@ -70,19 +70,18 @@ export default {
         IBMPlexMono: '"IBM Plex Mono"',
       },
       fontSize: {
-        'h1': ['48px', { lineHeight: '1.2', fontWeight: '600' }],
+        h1: ['48px', { lineHeight: '1.2', fontWeight: '600' }],
         'h1-m': ['40px', { lineHeight: '1.2', fontWeight: '600' }], // mobile
-        'h2': ['36px', { lineHeight: '1.2', fontWeight: '600' }],
+        h2: ['36px', { lineHeight: '1.2', fontWeight: '600' }],
         'h2-m': ['32px', { lineHeight: '1.2', fontWeight: '600' }],
-        'h3': ['24px', { lineHeight: '1.16', fontWeight: '600' }],
+        h3: ['24px', { lineHeight: '1.16', fontWeight: '600' }],
         'h3-m': ['22px', { lineHeight: '1.16', fontWeight: '600' }],
-        'h4': ['20px', { lineHeight: '1.16', fontWeight: '600' }],
+        h4: ['20px', { lineHeight: '1.16', fontWeight: '600' }],
         'h4-m': ['18px', { lineHeight: '1.16', fontWeight: '600' }],
-        'base': ['18px', { lineHeight: '1.16' }],
-        'subtext': ['14px', { lineHeight: '1.16' }], // small / supportive text
+        base: ['18px', { lineHeight: '1.16' }],
+        subtext: ['14px', { lineHeight: '1.16' }], // small / supportive text
       },
     },
   },
   plugins: [],
 }
-

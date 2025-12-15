@@ -16,7 +16,7 @@
   }
 
   body {
-    @apply text-base font-normal font-IBMPlexSansArabic;
+    @apply font-IBMPlexSansArabic text-base font-normal;
   }
 
   small {

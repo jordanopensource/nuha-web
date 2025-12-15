@@ -7,28 +7,40 @@
         aria-label="home"
         @click="showMobileMenu = false"
       >
-        <img class="select-none max-sm:w-14" width="70" height="70" src="/logo.png" alt="Nuha logo">
+        <img
+          class="select-none max-sm:w-14"
+          width="70"
+          height="70"
+          src="/logo.png"
+          alt="Nuha logo"
+        />
       </NuxtLink>
 
       <!-- Desktop list -->
-      <nav class="list hidden lg:flex gap-2 me-4 ms-auto print:hidden">
+      <nav class="list me-4 ms-auto hidden gap-2 lg:flex print:hidden">
         <AuthState>
           <template #default="{ loggedIn }">
             <UiButton
-              v-for="link, i in getLinksByGroup('desktop-header')"
+              v-for="(link, i) in getLinksByGroup('desktop-header')"
               :key="i"
               :to="link.path()"
-              :variant="loggedIn && link.path().includes('analyze') ? 'primary' : 'ghost'"
+              :variant="
+                loggedIn && link.path().includes('analyze')
+                  ? 'primary'
+                  : 'ghost'
+              "
               :size="loggedIn && link.path().includes('analyze') ? 'md' : 'lg'"
               class="min-w-fit"
-              :class="{'!font-semibold': loggedIn && link.path().includes('analyze')}"
+              :class="{
+                '!font-semibold': loggedIn && link.path().includes('analyze'),
+              }"
             >
               {{ link.title() }}
             </UiButton>
           </template>
           <template #placeholder>
             <UiButton
-              v-for="link, i in getLinksByGroup('desktop-header')"
+              v-for="(link, i) in getLinksByGroup('desktop-header')"
               :key="i"
               :to="link.path()"
               variant="ghost"
@@ -40,9 +52,9 @@
           </template>
         </AuthState>
       </nav>
-      
+
       <!-- Desktop auth section -->
-      <div class="list hidden lg:flex items-center gap-2 print:hidden">
+      <div class="list hidden items-center gap-2 lg:flex print:hidden">
         <AuthState>
           <template #default="{ loggedIn, user }">
             <template v-if="loggedIn">
@@ -50,21 +62,13 @@
             </template>
             <template v-else>
               <UiRegionLanguageSelector size="md" mode="language" />
-              <UiButton
-                :to="localePath('/login')"
-                variant="primary"
-                size="md"
-              >
+              <UiButton :to="localePath('/login')" variant="primary" size="md">
                 {{ $t('links.general.login') }}
               </UiButton>
             </template>
           </template>
           <template #placeholder>
-            <UiButton
-              variant="outline"
-              size="md"
-              disabled
-            >
+            <UiButton variant="outline" size="md" disabled>
               {{ $t('misc.loading') }}
             </UiButton>
           </template>
@@ -75,12 +79,16 @@
       <AuthState>
         <template #default="{ loggedIn, user }">
           <template v-if="loggedIn">
-            <UiUserMenu class="lg:!hidden z-40 my-auto print:hidden" :user="user" size="sm" />
+            <UiUserMenu
+              class="z-40 my-auto lg:!hidden print:hidden"
+              :user="user"
+              size="sm"
+            />
           </template>
         </template>
       </AuthState>
       <UiButton
-        class="lg:!hidden z-40 justify-end !px-1 aspect-square print:!hidden"
+        class="z-40 aspect-square justify-end !px-1 lg:!hidden print:!hidden"
         aria-label="navigation menu"
         variant="ghost"
         @click="showMobileMenu = !showMobileMenu"
@@ -97,31 +105,38 @@
     <!-- Mobile menu & backdrop -->
     <Transition name="menu-dropdown">
       <div
-      v-if="showMobileMenu"
-      class="w-full h-screen start-0 top-0 z-30 absolute bg-colors-neutral-background bg-opacity-20 backdrop-blur-xl border lg:hidden"
-      @click="showMobileMenu = false"
+        v-if="showMobileMenu"
+        class="absolute start-0 top-0 z-30 h-screen w-full border bg-colors-neutral-background bg-opacity-20 backdrop-blur-xl lg:hidden"
+        @click="showMobileMenu = false"
       />
     </Transition>
     <Transition name="menu-items-dropdown">
-      <div v-if="showMobileMenu" class="absolute container z-40 left-0 right-0 print:hidden">
+      <div
+        v-if="showMobileMenu"
+        class="container absolute left-0 right-0 z-40 print:hidden"
+      >
         <nav
-          class="w-full flex flex-col transition-all gap-y-2.5 p-5 lg:!hidden"
-          :class="showMobileMenu ? 'visible opacity-100 duration-200' : 'opacity-0 invisible absolute'"
+          class="flex w-full flex-col gap-y-2.5 p-5 transition-all lg:!hidden"
+          :class="
+            showMobileMenu
+              ? 'visible opacity-100 duration-200'
+              : 'invisible absolute opacity-0'
+          "
         >
           <UiButton
-            v-for="link, i in getLinksByGroup('desktop-header')"
+            v-for="(link, i) in getLinksByGroup('desktop-header')"
             :key="i"
             :to="link.path()"
             variant="ghost"
             size="lg"
-            class="!font-medium border  border-colors-neutral-placeholder border-opacity-0 hover:border-opacity-20"
+            class="border border-colors-neutral-placeholder border-opacity-0 !font-medium hover:border-opacity-20"
             @click="showMobileMenu = false"
           >
             {{ link.title() }}
           </UiButton>
-  
+
           <UiRegionLanguageSelector size="lg" mode="language" />
-  
+
           <AuthState>
             <template #default="{ loggedIn }">
               <template v-if="!loggedIn">
@@ -136,11 +151,7 @@
               </template>
             </template>
             <template #placeholder>
-              <UiButton
-                variant="outline"
-                size="lg"
-                disabled
-              >
+              <UiButton variant="outline" size="lg" disabled>
                 {{ $t('misc.loading') }}
               </UiButton>
             </template>
@@ -158,34 +169,34 @@
 </script>
 
 <style>
-.menu-dropdown-enter-active,
-.menu-items-dropdown-enter-active {
-  transition: all 200ms ease-out;
-}
-.menu-dropdown-leave-active,
-.menu-items-dropdown-leave-active {
-  transition: all 200ms ease-in;
-}
+  .menu-dropdown-enter-active,
+  .menu-items-dropdown-enter-active {
+    transition: all 200ms ease-out;
+  }
+  .menu-dropdown-leave-active,
+  .menu-items-dropdown-leave-active {
+    transition: all 200ms ease-in;
+  }
 
-.menu-dropdown-enter-from,
-.menu-items-dropdown-enter-from {
-  transform: translateY(-100%);
-}
-.menu-dropdown-enter-to {
-  transform: translateY(0px);
-}
-.menu-dropdown-leave-from {
-  transform: translateY(0px);
-}
-.menu-dropdown-leave-to,
-.menu-items-dropdown-leave-to {
-  transform: translateY(-100%);
-}
+  .menu-dropdown-enter-from,
+  .menu-items-dropdown-enter-from {
+    transform: translateY(-100%);
+  }
+  .menu-dropdown-enter-to {
+    transform: translateY(0px);
+  }
+  .menu-dropdown-leave-from {
+    transform: translateY(0px);
+  }
+  .menu-dropdown-leave-to,
+  .menu-items-dropdown-leave-to {
+    transform: translateY(-100%);
+  }
 
-.menu-items-dropdown-enter-to {
-  transform: translateY(2px);
-}
-.menu-items-dropdown-leave-from {
-  transform: translateY(2px);
-}
+  .menu-items-dropdown-enter-to {
+    transform: translateY(2px);
+  }
+  .menu-items-dropdown-leave-from {
+    transform: translateY(2px);
+  }
 </style>

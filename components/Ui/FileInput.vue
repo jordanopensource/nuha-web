@@ -4,8 +4,12 @@
     <UiButton
       ref="dropzone"
       variant="ghost"
-      class="w-full h-36 border border-dashed border-colors-primary"
-      :class="isOverDropZone ? '!bg-colors-primary !text-colors-primary-light scale-105' : '!bg-colors-primary-light'"
+      class="h-36 w-full border border-dashed border-colors-primary"
+      :class="
+        isOverDropZone
+          ? 'scale-105 !bg-colors-primary !text-colors-primary-light'
+          : '!bg-colors-primary-light'
+      "
       @click="() => clickUpload()"
     >
       <label :for="id" class="cursor-pointer" @click.prevent>
@@ -16,7 +20,7 @@
         }}
       </label>
       <template #icon>
-        <Icon name="mdi:upload" size="24"/>
+        <Icon name="mdi:upload" size="24" />
       </template>
     </UiButton>
   </div>
@@ -28,7 +32,7 @@
     type="file"
     :accept="acceptedTypes.join(', ')"
     @change="updateFile"
-  >
+  />
 </template>
 
 <script setup lang="ts">
@@ -38,7 +42,7 @@
   const props = defineProps({
     label: {
       type: String,
-      default: null
+      default: null,
     },
     placeholder: {
       type: String,
@@ -46,8 +50,8 @@
     },
     acceptedTypes: {
       type: Array as PropType<string[]>,
-      default: () => ACCEPTED_MIME_TYPES
-    }
+      default: () => ACCEPTED_MIME_TYPES,
+    },
   })
 
   const emit = defineEmits(['update:file', 'error'])
@@ -67,17 +71,17 @@
     if (files === null || files.length === 0) {
       return
     }
-    
+
     const selectedFile = files[0]
-    
+
     if (!isValidFileType(selectedFile)) {
       emit('error', {
         message: $t('analyze.errors.invalidFileType'),
-        file: selectedFile
+        file: selectedFile,
       })
       return
     }
-    
+
     file.value = selectedFile
     updateData()
   }
@@ -91,11 +95,11 @@
     const fileInput = document.getElementById(id) as HTMLInputElement
     fileInput.click()
   }
-  
+
   // Dropzone
   const dropzone = ref<HTMLButtonElement>()
-  
-  async function onDrop (files : File[] | null) {
+
+  async function onDrop(files: File[] | null) {
     file.value = files ? files[0] : null
     updateData()
   }

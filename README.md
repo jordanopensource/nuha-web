@@ -93,7 +93,7 @@ This is important for oAuth to work.
 NUXT_OAUTH_GITHUB_CLIENT_ID=your-github-client-id
 NUXT_OAUTH_GITHUB_CLIENT_SECRET=your-github-client-secret
 
-# Google OAuth  
+# Google OAuth
 NUXT_OAUTH_GOOGLE_CLIENT_ID=your-google-client-id
 NUXT_OAUTH_GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
@@ -192,7 +192,7 @@ docker compose logs -f nuha-web-dev
 # Build and start production
 docker compose --profile prod up --build -d
 
-# View logs  
+# View logs
 docker compose logs -f nuha-web-prod
 ```
 
@@ -259,7 +259,7 @@ Check the application logs:
 # Local development
 yarn dev
 
-# Docker development  
+# Docker development
 docker compose logs nuha-web-dev
 
 # Docker production

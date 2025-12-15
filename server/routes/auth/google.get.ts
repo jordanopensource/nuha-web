@@ -20,11 +20,11 @@ export default defineOAuthGoogleEventHandler({
         avatar: avatarUrl,
         provider: 'google',
         googleId: user.id?.toString() || undefined,
-        verified: user.email_verified
+        verified: user.email_verified,
       },
-      loggedInAt: new Date()
+      loggedInAt: new Date(),
     })
-    
+
     // Detect user's locale and redirect to locale-aware analyze page
     const locale = detectLocale(event)
     const localizedPath = getLocalizedPath('analyze', locale)
@@ -34,7 +34,10 @@ export default defineOAuthGoogleEventHandler({
     console.error('Google OAuth error:', error)
     // Detect user's locale and redirect to locale-aware login page with error
     const locale = detectLocale(event)
-    const localizedPath = getLocalizedPath('login?error=google_oauth_failed', locale)
+    const localizedPath = getLocalizedPath(
+      'login?error=google_oauth_failed',
+      locale
+    )
     return sendRedirect(event, localizedPath)
-  }
+  },
 })

@@ -5,34 +5,34 @@
     :class="{ 'featured-card': featured }"
   >
     <div
-      class="flex flex-col max-md:!flex h-full"
-      :class="{ 'md:grid grid-cols-2 xl:grid-cols-3 md:gap-4 items-start': featured }"
+      class="flex h-full flex-col max-md:!flex"
+      :class="{
+        'grid-cols-2 items-start md:grid md:gap-4 xl:grid-cols-3': featured,
+      }"
     >
-      <div
-        v-if="coverImageUrl"
-        class="w-full overflow-hidden h-max"
-      >
+      <div v-if="coverImageUrl" class="h-max w-full overflow-hidden">
         <img
           :src="coverImageUrl"
           :alt="title"
-          class="w-full max-h-72 object-cover"
+          class="max-h-72 w-full object-cover"
           :class="{ 'md:max-h-full md:pe-1': featured }"
           loading="lazy"
-        >
+        />
       </div>
       <div
-        class="py-4 px-2 flex flex-col gap-3 my-auto"
+        class="my-auto flex flex-col gap-3 px-2 py-4"
         :class="{
-          'md:grid grid-cols-2 !w-full col-span-full': featured && !coverImageUrl,
-          'md:h-full': featured
+          'col-span-full !w-full grid-cols-2 md:grid':
+            featured && !coverImageUrl,
+          'md:h-full': featured,
         }"
       >
-        <h3 class="font-LTZarid font-semibold line-clamp-2">
+        <h3 class="line-clamp-2 font-LTZarid font-semibold">
           {{ title }}
         </h3>
         <p
           v-if="excerpt"
-          class="font-LTZarid text-base text-colors-neutral-foreground line-clamp-3"
+          class="line-clamp-3 font-LTZarid text-base text-colors-neutral-foreground"
           :class="{ 'line-clamp-6': featured }"
         >
           {{ excerpt }}
@@ -40,7 +40,7 @@
         <UiChip
           v-if="category"
           :text="category"
-          class="category transition-colors duration-200 w-max"
+          class="category w-max transition-colors duration-200"
           :class="{ 'md:mt-auto': featured }"
         />
       </div>
@@ -49,53 +49,54 @@
 </template>
 
 <script lang="ts" setup>
-interface Props {
-  title: string
-  coverImageUrl?: string | null
-  excerpt?: string | null
-  category?: string | null
-  featured?: boolean
-  slug: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  featured: false,
-  category: null,
-  coverImageUrl: null,
-  excerpt: null,
-})
-
-const route = useRoute()
-const { region } = useGeolocation()
-
-const publicationLink = computed(() => {
-  // Build the link using the current route's region parameter
-  const pubRegion = route.params.region as string || region.value?.countryCode
-  if (pubRegion) {
-    return `/${pubRegion.toLowerCase()}/publications/${props.slug}`
+  interface Props {
+    title: string
+    coverImageUrl?: string | null
+    excerpt?: string | null
+    category?: string | null
+    featured?: boolean
+    slug: string
   }
-  return `/publications/${props.slug}`
-})
+
+  const props = withDefaults(defineProps<Props>(), {
+    featured: false,
+    category: null,
+    coverImageUrl: null,
+    excerpt: null,
+  })
+
+  const route = useRoute()
+  const { region } = useGeolocation()
+
+  const publicationLink = computed(() => {
+    // Build the link using the current route's region parameter
+    const pubRegion =
+      (route.params.region as string) || region.value?.countryCode
+    if (pubRegion) {
+      return `/${pubRegion.toLowerCase()}/publications/${props.slug}`
+    }
+    return `/publications/${props.slug}`
+  })
 </script>
 
 <style lang="postcss" scoped>
-.publication-card {
-  @apply block bg-colors-neutral-background rounded-md;
-  @apply border border-colors-neutral-placeholder border-opacity-5;
-  @apply hover:shadow-md transition-shadow duration-200;
-  @apply hover:bg-colors-primary-light hover:text-colors-neutral-foreground transition-colors duration-200 hover:bg-opacity-50;
-  @apply overflow-hidden;
-}
-
-.publication-card:hover {
-  @apply border-colors-primary border-opacity-20;
-  .category {
-    @apply bg-colors-primary bg-opacity-10;
+  .publication-card {
+    @apply block rounded-md bg-colors-neutral-background;
+    @apply border border-colors-neutral-placeholder border-opacity-5;
+    @apply transition-shadow duration-200 hover:shadow-md;
+    @apply transition-colors duration-200 hover:bg-colors-primary-light hover:bg-opacity-50 hover:text-colors-neutral-foreground;
+    @apply overflow-hidden;
   }
-}
 
-/* Featured Card Layout */
-.featured-card {
-  @apply col-span-full md:max-h-80;
-}
+  .publication-card:hover {
+    @apply border-colors-primary border-opacity-20;
+    .category {
+      @apply bg-colors-primary bg-opacity-10;
+    }
+  }
+
+  /* Featured Card Layout */
+  .featured-card {
+    @apply col-span-full md:max-h-80;
+  }
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <footer class="bg-colors-primary-light mt-auto print:hidden">
+  <footer class="mt-auto bg-colors-primary-light print:hidden">
     <div
-      class="container grid grid-cols-1 md:grid-cols-3 gap-8 pt-16 pb-24 max-md:px-8 max-md:flex flex-col"
+      class="container grid grid-cols-1 flex-col gap-8 pb-24 pt-16 max-md:flex max-md:px-8 md:grid-cols-3"
     >
-      <div class="flex-col gap-4 col-span-1 hidden md:flex">
+      <div class="col-span-1 hidden flex-col gap-4 md:flex">
         <NuxtLink :to="$nuxt.$localePath('/')">
-          <img width="86" src="/logo.png" alt="Nuha logo">
+          <img width="86" src="/logo.png" alt="Nuha logo" />
         </NuxtLink>
         <div class="mt-auto">
           <h3 class="!font-bold">Nuha نهى</h3>
@@ -14,11 +14,13 @@
           </small>
         </div>
       </div>
-      <nav class="flex flex-col md:items-center gap-4 col-span-1 w-max md:mx-auto">
+      <nav
+        class="col-span-1 flex w-max flex-col gap-4 md:mx-auto md:items-center"
+      >
         <NuxtLink
           v-for="(link, i) in projectLinks"
           :key="i"
-          class="w-full max-md:min-w-max text-base md:text-center hover:underline"
+          class="w-full text-base hover:underline max-md:min-w-max md:text-center"
           :to="link.path()"
           :external="link.external"
           :target="link.external ? '_blank' : '_self'"
@@ -27,17 +29,17 @@
         </NuxtLink>
         <UiRegionLanguageSelector
           size="md"
-          class="[&_button.lang-btn]:!px-0 [&_button.lang-btn]:max-md:!justify-start hover:underline"
+          class="hover:underline [&_button.lang-btn]:!px-0 [&_button.lang-btn]:max-md:!justify-start"
           button-variant="ghost"
           show-flag-in-button
         />
       </nav>
-      <div class="flex flex-col gap-4 max-md:gap-8 col-span-1">
+      <div class="col-span-1 flex flex-col gap-4 max-md:gap-8">
         <nav class="flex flex-col gap-4 md:items-end">
           <NuxtLink
             v-for="(link, i) in infoLinks"
             :key="i"
-            class="max-md:min-w-max text-base hover:underline md:text-end"
+            class="text-base hover:underline max-md:min-w-max md:text-end"
             :to="link.path()"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"
@@ -49,7 +51,7 @@
           <UiButton
             v-for="(link, i) in socialLinks"
             :key="i"
-            class="!p-0 hover:scale-105 transition-all"
+            class="!p-0 transition-all hover:scale-105"
             :to="link.path()"
             :external="link.external"
             :target="link.external ? '_blank' : '_self'"
@@ -60,11 +62,11 @@
           </UiButton>
         </nav>
       </div>
-      <div class="flex flex-col gap-4 col-span-1 md:hidden">
+      <div class="col-span-1 flex flex-col gap-4 md:hidden">
         <NuxtLink :to="$nuxt.$localePath('/')">
-          <img width="75" height="75" src="/logo.png" alt="Nuha logo">
+          <img width="75" height="75" src="/logo.png" alt="Nuha logo" />
         </NuxtLink>
-        <div> 
+        <div>
           <h3 class="!font-bold">Nuha نهى</h3>
           <small>
             {{ $t('links.footer.copyright') }}
@@ -77,12 +79,11 @@
 
 <script setup lang="ts">
   const { getLinksByGroup } = useLinks()
-  const projectLinks = getLinksByGroup('footer').filter(l => 
-    !l.groups?.includes('social') && !l.groups?.includes('info')
+  const projectLinks = getLinksByGroup('footer').filter(
+    (l) => !l.groups?.includes('social') && !l.groups?.includes('info')
   )
   const infoLinks = getLinksByGroup('info')
   const socialLinks = getLinksByGroup('social')
 </script>
 
-<style scoped lang="postcss">
-</style>
+<style scoped lang="postcss"></style>
