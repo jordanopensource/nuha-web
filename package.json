@@ -17,7 +17,6 @@
     "@nuxt/fonts": "0.11.4",
     "@nuxt/icon": "1.15.0",
     "@nuxtjs/i18n": "10.0.0",
-    "@nuxtjs/strapi": "2.1.1",
     "@primeuix/themes": "^1.2.5",
     "@types/ioredis": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.10",

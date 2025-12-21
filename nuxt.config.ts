@@ -43,7 +43,6 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
-    '@nuxtjs/strapi',
     'nuxt-auth-utils',
     '@primevue/nuxt-module',
     'nuxt-api-party',
@@ -54,10 +53,6 @@ export default defineNuxtConfig({
     '@/assets/css/fonts/29lt-zarid-text.css',
   ],
 
-  strapi: {
-    prefix: '/api',
-    version: 'v5',
-  },
   icon: {
     serverBundle: {
       collections: ['mdi', 'circle-flags'],
@@ -65,9 +60,6 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    strapi: {
-      token: '',
-    },
     apiParty: {
       endpoints: {
         cms: {
@@ -125,8 +117,8 @@ export default defineNuxtConfig({
       aiModel: {
         defaultRegion: 'egy',
       },
-      strapi: {
-        url: 'http://localhost:1337',
+      cms: {
+        prefix: '/api',
       },
       authEmailEnabled: true,
       authGithubEnabled: true,
@@ -148,9 +140,6 @@ export default defineNuxtConfig({
     },
     optimizeDeps: {
       include: ['xlsx'],
-    },
-    server: {
-      allowedHosts: ['undevoutly-unsimulating-leena.ngrok-free.dev'],
     },
   },
   primevue: {

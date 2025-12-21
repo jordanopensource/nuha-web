@@ -1,6 +1,5 @@
 // Based on this IP Lookup Service: https://ip-api.com/docs/api:json
 
-import type { StrapiLocale } from '@nuxtjs/strapi'
 import type { PublicationRegion } from '~/types/strapi'
 import countries from 'i18n-iso-countries'
 
@@ -9,7 +8,7 @@ export interface RegionData {
    * Object where each key is a language code (ISO 639-1), and its value is
    * the dialect name in that language
    */
-  dialectName?: Record<StrapiLocale, string>
+  dialectName?: Record<string, string>
   /**
    * 3-letter country code (ISO 3166-1 alpha-3, e.g., EGY for Egypt).
    */
@@ -39,8 +38,8 @@ export const useGeolocation = () => {
       // FIXME: handle paginations if the # of regions is more than 25
       const { find } = useStrapi()
       const response = await find<PublicationRegion>('regions', {
-        // @ts-expect-error this works!
         locale: '*',
+        populate: '*',
       })
 
       // Group regions by documentId to collect all localized versions
@@ -55,7 +54,7 @@ export const useGeolocation = () => {
       // Transform to RegionData format
       supportedRegions.value = Array.from(regionMap.values()).map(
         (regionLocales) => {
-          const dialectName = {} as Record<StrapiLocale, string>
+          const dialectName = {} as Record<string, string>
           let countryCode = ''
           let flagIcon = ''
           let isAvailable: boolean | null = false

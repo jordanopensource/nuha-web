@@ -77,8 +77,13 @@ A web app built with Nuxt 3 for analyzing text and files for hate-speech detecti
 NUXT_SESSION_PASSWORD=your-secure-session-password-with-at-least-32-characters
 
 # Strapi CMS (REQUIRED for content)
-STRAPI_URL=http://localhost:1337
-STRAPI_TOKEN=your-strapi-token  # Optional if content is public
+NUXT_API_PARTY_ENDPOINTS_CMS_URL=http://localhost:1337
+
+# Optional if your CMS content is public
+NUXT_API_PARTY_ENDPOINTS_CMS_TOKEN=your-strapi-token
+
+# Optional - default is /api
+NUXT_PUBLIC_CMS_PREFIX=/api
 
 # Base URL
 NUXT_PUBLIC_BASE_URL=http://localhost:3000 # (default value)
@@ -154,8 +159,8 @@ This application requires **Strapi CMS** for content management:
    ```
 
 2. **Configure Strapi connection**
-   - Set `STRAPI_URL` in your `.env` file (e.g., `http://localhost:1337`)
-   - Either set `STRAPI_TOKEN` with your API token **OR** make content publicly accessible in Strapi admin panel
+   - Set `NUXT_API_PARTY_ENDPOINTS_CMS_URL` in your `.env` file (e.g., `http://localhost:1337`)
+   - Either set `NUXT_API_PARTY_ENDPOINTS_CMS_TOKEN` with your API token **OR** make content publicly accessible in Strapi admin panel
 
 3. **Content types required**
    - Publications
