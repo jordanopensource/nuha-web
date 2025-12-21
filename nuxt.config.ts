@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     '@nuxtjs/strapi',
     'nuxt-auth-utils',
     '@primevue/nuxt-module',
+    'nuxt-api-party',
   ],
   css: [
     '@/assets/css/main.css',
@@ -66,6 +67,14 @@ export default defineNuxtConfig({
   runtimeConfig: {
     strapi: {
       token: '',
+    },
+    apiParty: {
+      endpoints: {
+        cms: {
+          url: '',
+          token: '',
+        },
+      },
     },
     // Session configuration
     session: {
