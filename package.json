@@ -28,7 +28,7 @@
     "i18n-iso-countries": "^7.14.0",
     "ioredis": "^5.7.0",
     "jsonwebtoken": "^9.0.2",
-    "nuxt": "^3.17.7",
+    "nuxt": "^3.20.2",
     "nuxt-api-party": "3.4.2",
     "nuxt-auth-utils": "^0.5.24",
     "prettier": "^3.7.4",
@@ -44,6 +44,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@primevue/nuxt-module": "^4.3.9",
+    "@types/qs": "^6.14.0",
     "@vueuse/core": "^13.6.0",
     "@vueuse/nuxt": "^13.6.0"
   }
