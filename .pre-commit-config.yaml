@@ -31,7 +31,6 @@ repos:
     rev: v1.37.1
   - hooks:
       - id: validate-eslint
-      - id: run-samplr
     repo: https://github.com/jordanopensource/pre-commit-hooks
     rev: v0.4.5
   - hooks:
