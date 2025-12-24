@@ -60,7 +60,7 @@
       }),
     {
       watch: [locale],
-      transform: (res) => (Array.isArray(res.data) ? res.data[0] : res.data),
+      transform: (res) => res.data as unknown as AboutPage,
     }
   )
 </script>

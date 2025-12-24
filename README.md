@@ -77,8 +77,13 @@ A web app built with Nuxt 3 for analyzing text and files for hate-speech detecti
 NUXT_SESSION_PASSWORD=your-secure-session-password-with-at-least-32-characters
 
 # Strapi CMS (REQUIRED for content)
-STRAPI_URL=http://localhost:1337
-STRAPI_TOKEN=your-strapi-token  # Optional if content is public
+NUXT_API_PARTY_ENDPOINTS_CMS_URL=http://localhost:1337
+
+# Optional if your CMS content is public
+NUXT_API_PARTY_ENDPOINTS_CMS_TOKEN=your-strapi-token
+
+# Optional - default is /api
+NUXT_PUBLIC_CMS_PREFIX=/api
 
 # Base URL
 NUXT_PUBLIC_BASE_URL=http://localhost:3000 # (default value)
@@ -98,6 +103,17 @@ NUXT_OAUTH_GOOGLE_CLIENT_ID=your-google-client-id
 NUXT_OAUTH_GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
 
+### Login Options Configuration (Optional)
+
+Control which authentication methods are available to users. All methods are enabled by default.
+
+```bash
+# Login Options Visibility (set to 'false' to hide, enabled by default)
+NUXT_PUBLIC_AUTH_EMAIL_ENABLED=true
+NUXT_PUBLIC_AUTH_GITHUB_ENABLED=true
+NUXT_PUBLIC_AUTH_GOOGLE_ENABLED=true
+```
+
 ### Additional Services (Optional)
 
 ```bash
@@ -114,6 +130,7 @@ NUXT_REDIS_DB=0
 NUXT_LISTMONK_URL=http://localhost:9000 # without /api/
 NUXT_LISTMONK_USER=username
 NUXT_LISTMONK_TOKEN=token
+NUXT_LISTMONK_LIST_ID=
 NUXT_LISTMONK_EN_TEMPLATE_ID=
 NUXT_LISTMONK_AR_TEMPLATE_ID=
 NUXT_LISTMONK_FR_TEMPLATE_ID=
@@ -142,8 +159,8 @@ This application requires **Strapi CMS** for content management:
    ```
 
 2. **Configure Strapi connection**
-   - Set `STRAPI_URL` in your `.env` file (e.g., `http://localhost:1337`)
-   - Either set `STRAPI_TOKEN` with your API token **OR** make content publicly accessible in Strapi admin panel
+   - Set `NUXT_API_PARTY_ENDPOINTS_CMS_URL` in your `.env` file (e.g., `http://localhost:1337`)
+   - Either set `NUXT_API_PARTY_ENDPOINTS_CMS_TOKEN` with your API token **OR** make content publicly accessible in Strapi admin panel
 
 3. **Content types required**
    - Publications

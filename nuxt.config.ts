@@ -43,9 +43,9 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
-    '@nuxtjs/strapi',
     'nuxt-auth-utils',
     '@primevue/nuxt-module',
+    'nuxt-api-party',
   ],
   css: [
     '@/assets/css/main.css',
@@ -53,10 +53,6 @@ export default defineNuxtConfig({
     '@/assets/css/fonts/29lt-zarid-text.css',
   ],
 
-  strapi: {
-    prefix: '/api',
-    version: 'v5',
-  },
   icon: {
     serverBundle: {
       collections: ['mdi', 'circle-flags'],
@@ -64,8 +60,13 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    strapi: {
-      token: '',
+    apiParty: {
+      endpoints: {
+        cms: {
+          url: '',
+          token: '',
+        },
+      },
     },
     // Session configuration
     session: {
@@ -101,6 +102,7 @@ export default defineNuxtConfig({
       url: '',
       user: '',
       token: '',
+      listId: '',
       enTemplateId: '',
       arTemplateId: '',
       frTemplateId: '',
@@ -115,9 +117,12 @@ export default defineNuxtConfig({
       aiModel: {
         defaultRegion: 'egy',
       },
-      strapi: {
-        url: 'http://localhost:1337',
+      cms: {
+        prefix: '/api',
       },
+      authEmailEnabled: true,
+      authGithubEnabled: true,
+      authGoogleEnabled: false,
     },
   },
   nitro: {

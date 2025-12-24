@@ -1,5 +1,3 @@
-import type { StrapiLocale } from '@nuxtjs/strapi'
-
 export interface Publication {
   id: number
   documentId: string
@@ -50,7 +48,7 @@ export interface PublicationCategory {
   documentId: number
   slug: string
   description: string | null
-  locale: StrapiLocale
+  locale: string
   updatedAt: Date
   publishedAt: Date
 }
@@ -65,7 +63,7 @@ export interface PublicationRegion {
   createdAt: string
   updatedAt: string
   publishedAt: string
-  locale: StrapiLocale
+  locale: string
 }
 
 export interface PublicationAuthor {
@@ -78,7 +76,7 @@ export interface PublicationAuthor {
   createdAt: string
   updatedAt: string
   publishedAt: string
-  locale: StrapiLocale
+  locale: string
 }
 
 export interface AboutPage {
@@ -89,7 +87,7 @@ export interface AboutPage {
   createdAt: string
   updatedAt: string
   publishedAt: string
-  locale: StrapiLocale
+  locale: string
 }
 
 export interface TermsPage {
@@ -100,7 +98,7 @@ export interface TermsPage {
   createdAt: string
   updatedAt: string
   publishedAt: string
-  locale: StrapiLocale
+  locale: string
 }
 
 export interface PrivacyPage {
@@ -111,5 +109,75 @@ export interface PrivacyPage {
   createdAt: string
   updatedAt: string
   publishedAt: string
-  locale: StrapiLocale
+  locale: string
+}
+export interface MetaResponsePaginationByPage {
+  page: number
+  pageSize: number
+  pageCount: number
+  total: number
+}
+export interface MetaResponsePaginationByOffset {
+  start: number
+  limit: number
+  total: number
+}
+export interface StrapiSystemFields {
+  documentId: string
+  locale?: string
+}
+
+export interface StrapiResponseSingle<T> {
+  data: StrapiResponseData<T>
+  meta: StrapiResponseMeta
+}
+export interface StrapiResponseMany<T> {
+  data: StrapiResponseData<T>[]
+  meta: StrapiResponseMeta
+}
+export interface StrapiResponseMeta {
+  pagination: MetaResponsePaginationByPage | MetaResponsePaginationByOffset
+  [key: string]: unknown
+}
+
+export type StrapiResponseData<T> = T extends object
+  ? T extends Array<infer U>
+    ? Array<StrapiResponseData<U>>
+    : T extends Record<string, unknown>
+      ? {
+          [K in keyof T]: StrapiResponseData<T[K]>
+        } & StrapiSystemFields
+      : T
+  : T
+export interface StrapiResponseMetaPagination {
+  page: number
+  pageSize: number
+}
+
+export interface StrapiResponseMany<T> {
+  data: StrapiResponseData<T>[]
+  meta: StrapiResponseMeta
+}
+
+export interface StrapiFilters {
+  [key: string]: unknown
+}
+
+export interface StrapiSort {
+  [key: string]: 'asc' | 'desc'
+}
+
+export interface StrapiRequestPagination {
+  page?: number
+  pageSize?: number
+  start?: number
+  limit?: number
+}
+export interface StrapiParams {
+  locale?: string
+  populate?: string | string[] | Record<string, unknown>
+  fields?: string[]
+  filters?: StrapiFilters
+  sort?: string[] | StrapiSort
+  pagination?: StrapiRequestPagination
 }

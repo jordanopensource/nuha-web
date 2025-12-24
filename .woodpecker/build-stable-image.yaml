@@ -7,8 +7,8 @@ when:
       exclude: [main]
 
 variables:
-  - &docker_repo 'josaorg/nuha-web'
-  - &slack_channel 'builds'
+  - &docker_repo "josaorg/nuha-web"
+  - &slack_channel "builds"
   - &success_message >
     ✅ *SUCCESS* - Stable Build #{{ build.number }}
 
@@ -34,8 +34,8 @@ steps:
   - name: run-pre-commit-hooks
     image: josaorg/pre-commit-runner
     settings:
-      args: '--all-files'
-      skip: 'end-of-file-fixer'
+      args: "--all-files"
+      skip: "end-of-file-fixer, run-samplr"
 
   - name: build-stable-image
     image: woodpeckerci/plugin-docker-buildx

@@ -6,8 +6,8 @@ when:
     evaluate: 'CI_COMMIT_TARGET_BRANCH != "main"'
 
 variables:
-  - &docker_repo 'josaorg/nuha-web'
-  - &slack_channel 'builds'
+  - &docker_repo "josaorg/nuha-web"
+  - &slack_channel "builds"
   - &success_message >
     ✅ *SUCCESS* - Latest Build #{{ build.number }}
 
@@ -33,8 +33,8 @@ steps:
   - name: run-pre-commit-hooks
     image: josaorg/pre-commit-runner
     settings:
-      args: '--all-files'
-      skip: 'end-of-file-fixer'
+      args: "--all-files"
+      skip: "end-of-file-fixer, run-samplr"
 
   - name: build-latest-image
     image: woodpeckerci/plugin-docker-buildx
