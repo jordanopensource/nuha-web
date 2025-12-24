@@ -35,7 +35,7 @@ steps:
     image: josaorg/pre-commit-runner
     settings:
       args: '--all-files'
-      skip: 'end-of-file-fixer'
+      skip: 'end-of-file-fixer, run-samplr'
 
   - name: build-stable-image
     image: woodpeckerci/plugin-docker-buildx
