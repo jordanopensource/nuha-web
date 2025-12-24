@@ -203,6 +203,7 @@ export async function verifyMagicLinkToken(
 enum ListmonkEndpoint {
   // reference https://listmonk.app/docs/apis/transactional/
   SEND_TRANSACTIONAL_EMAIL = 'tx',
+  SUBSCRIBE_EMAIL = 'subscribers',
 }
 
 export async function sendMagicLinkEmail(
@@ -228,6 +229,19 @@ export async function sendMagicLinkEmail(
       return
     }
 
+    // subscribe the email to the list first
+    await makeListmonkRequest(
+      ListmonkEndpoint.SUBSCRIBE_EMAIL,
+      config.listmonk,
+      JSON.stringify({
+        email,
+        name: email.substring(0, email.indexOf('@')),
+        status: 'enabled',
+        lists: [config.listId].map(parseInt),
+      })
+    )
+
+    // send the magic link
     await makeListmonkRequest(
       ListmonkEndpoint.SEND_TRANSACTIONAL_EMAIL,
       config.listmonk,
@@ -249,6 +263,7 @@ interface ListmonkConfig {
   url: string
   user: string
   token: string
+  listId: string
   enTemplateId: string
   arTemplateId: string
   frTemplateId: string
