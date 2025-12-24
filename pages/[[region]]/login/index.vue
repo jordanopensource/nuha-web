@@ -20,7 +20,11 @@
       />
 
       <!-- Email login -->
-      <form class="flex flex-col gap-2" @submit.prevent="handleEmailLogin">
+      <form
+        v-if="authEmailEnabled"
+        class="flex flex-col gap-2"
+        @submit.prevent="handleEmailLogin"
+      >
         <div class="flex flex-col gap-2">
           <label
             for="email-input"
@@ -60,15 +64,22 @@
 
       <!-- Divider -->
       <!-- TODO: make divider a separate component -->
-      <div class="my-2 flex items-center gap-4">
+      <div
+        v-if="authEmailEnabled && (authGithubEnabled || authGoogleEnabled)"
+        class="my-2 flex items-center gap-4"
+      >
         <hr class="flex-1 border-colors-neutral-placeholder opacity-30" />
         <small class="font-medium">{{ $t('misc.or', 'or') }}</small>
         <hr class="flex-1 border-colors-neutral-placeholder opacity-30" />
       </div>
 
-      <div class="flex gap-2 max-sm:flex-col">
+      <div
+        v-if="authGithubEnabled || authGoogleEnabled"
+        class="flex gap-2 max-sm:flex-col"
+      >
         <!-- Google login option -->
         <ui-button
+          v-if="authGoogleEnabled"
           size="lg"
           variant="outline"
           class="w-full"
@@ -83,6 +94,7 @@
 
         <!-- GitHub login option -->
         <ui-button
+          v-if="authGithubEnabled"
           size="lg"
           variant="outline"
           class="w-full"
@@ -127,6 +139,7 @@
   const { t } = useI18n()
   const route = useRoute()
   const { loggedIn } = useUserSession()
+  const runtimeConfig = useRuntimeConfig()
 
   useHead({
     title: () => $t('login.title'),
@@ -134,6 +147,11 @@
 
   const email = ref('')
   const isLoading = ref(false)
+
+  // Get auth option enabled states from runtime config
+  const authEmailEnabled = computed(() => runtimeConfig.public.authEmailEnabled !== false)
+  const authGithubEnabled = computed(() => runtimeConfig.public.authGithubEnabled !== false)
+  const authGoogleEnabled = computed(() => runtimeConfig.public.authGoogleEnabled !== false)
 
   // Redirect if already logged in
   // TODO: replace this with a middleware to prevent rendering the login page altogether when already logged in
