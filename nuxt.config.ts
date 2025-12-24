@@ -141,6 +141,9 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: ['xlsx'],
     },
+    server: {
+      allowedHosts: ['undevoutly-unsimulating-leena.ngrok-free.dev'],
+    },
   },
   primevue: {
     options: {

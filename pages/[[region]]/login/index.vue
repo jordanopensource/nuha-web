@@ -149,22 +149,20 @@
   const isLoading = ref(false)
 
   // Get auth option enabled states from runtime config
-  const authEmailEnabled = computed(() => runtimeConfig.public.authEmailEnabled !== false)
-  const authGithubEnabled = computed(() => runtimeConfig.public.authGithubEnabled !== false)
-  const authGoogleEnabled = computed(() => runtimeConfig.public.authGoogleEnabled !== false)
+  const authEmailEnabled = computed(
+    () => runtimeConfig.public.authEmailEnabled !== false
+  )
+  const authGithubEnabled = computed(
+    () => runtimeConfig.public.authGithubEnabled !== false
+  )
+  const authGoogleEnabled = computed(
+    () => runtimeConfig.public.authGoogleEnabled !== false
+  )
 
   // Redirect if already logged in
   // TODO: replace this with a middleware to prevent rendering the login page altogether when already logged in
   watch(loggedIn, (newLoggedIn) => {
     if (newLoggedIn) {
-      const returnTo = (route.query.returnTo as string) || '/analyze'
-      navigateTo(returnTo)
-    }
-  })
-
-  // Check for initial login state
-  onMounted(() => {
-    if (loggedIn.value) {
       const returnTo = (route.query.returnTo as string) || '/analyze'
       navigateTo(returnTo)
     }
@@ -181,8 +179,13 @@
     },
   })
 
-  // Check for URL error parameters
+  // Check for initial login state and URL error parameters
   onMounted(() => {
+    if (loggedIn.value) {
+      const returnTo = (route.query.returnTo as string) || '/analyze'
+      navigateTo(returnTo)
+    }
+
     const error = route.query.error as string
     if (error) {
       messages.error.text = getErrorMessage(error)
