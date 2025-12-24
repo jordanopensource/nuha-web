@@ -1,5 +1,5 @@
 export const usePublications = () => {
-  const strapiUrl = useStrapiUrl()
+  // const strapiUrl = useStrapiUrl()
 
   const addHeadingIds = (html: string | undefined) => {
     if (!html) return
@@ -33,11 +33,12 @@ export const usePublications = () => {
     if (coverUrl.startsWith('http')) {
       return coverUrl
     }
+    return null
 
     // Remove /api suffix from strapiUrl for media files
-    const baseUrl = strapiUrl.replace('/api', '')
+    // const baseUrl = strapiUrl.replace('/api', '')
 
-    return `${baseUrl}${coverUrl.startsWith('/') ? '' : '/'}${coverUrl}`
+    // return `${baseUrl}${coverUrl.startsWith('/') ? '' : '/'}${coverUrl}`
   }
   return {
     addHeadingIds,
