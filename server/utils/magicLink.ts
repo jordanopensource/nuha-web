@@ -218,17 +218,17 @@ export async function sendMagicLinkEmail(
     return
   }
 
+  // Get template ID based on locale
+  const templateId = getTemplateIdByLocale(locale, config.listmonk)
+
+  if (!templateId) {
+    console.warn(
+      `No template ID configured for locale ${locale}, logging magic link instead`
+    )
+    return
+  }
+
   try {
-    // Get template ID based on locale
-    const templateId = getTemplateIdByLocale(locale, config.listmonk)
-
-    if (!templateId) {
-      console.warn(
-        `No template ID configured for locale ${locale}, logging magic link instead`
-      )
-      return
-    }
-
     // subscribe the email to the list first
     await makeListmonkRequest(
       ListmonkEndpoint.SUBSCRIBE_EMAIL,
@@ -240,7 +240,22 @@ export async function sendMagicLinkEmail(
         lists: [config.listId].map(parseInt),
       })
     )
+  } catch (error) {
+    let errorMessage = ''
+    if (typeof error?.response?.data?.message === 'string') {
+      errorMessage = error.response.data.message
+    } else if (typeof error?.message === 'string') {
+      errorMessage = error.message
+    }
 
+    const isExpectedError = errorMessage?.toLowerCase().includes('conflict')
+
+    if (!isExpectedError) {
+      console.error('Failed to subscribe email:', error)
+    }
+  }
+
+  try {
     // send the magic link
     await makeListmonkRequest(
       ListmonkEndpoint.SEND_TRANSACTIONAL_EMAIL,
