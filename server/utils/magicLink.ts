@@ -241,7 +241,18 @@ export async function sendMagicLinkEmail(
       })
     )
   } catch (error) {
-    console.error('Failed to subscribe email:', error)
+    let errorMessage = ''
+    if (typeof error?.response?.data?.message === 'string') {
+      errorMessage = error.response.data.message
+    } else if (typeof error?.message === 'string') {
+      errorMessage = error.message
+    }
+
+    const isExpectedError = errorMessage?.toLowerCase().includes('conflict')
+
+    if (!isExpectedError) {
+      console.error('Failed to subscribe email:', error)
+    }
   }
 
   try {
