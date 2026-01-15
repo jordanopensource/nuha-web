@@ -85,56 +85,6 @@ export const parseTextInput = (text: string): CommentData[] => {
   return [{ comment: inputText }]
 }
 
-// Header column detection utilities
-interface ColumnIndices {
-  commentIndex: number
-  platformIndex: number
-  dateIndex: number
-}
-
-const normalizeHeader = (header: string): string => {
-  return header.trim().toLowerCase()
-}
-
-const isCommentHeader = (header: string): boolean => {
-  const normalized = normalizeHeader(header)
-  return normalized.includes('comment')
-}
-
-const isPlatformHeader = (header: string): boolean => {
-  const normalized = normalizeHeader(header)
-  return normalized === 'platform' || normalized === 'platforms'
-}
-
-const isDateHeader = (header: string): boolean => {
-  const normalized = normalizeHeader(header)
-  return normalized === 'date' || normalized === 'dates'
-}
-
-const parseHeaders = (headers: string[]): ColumnIndices => {
-  let commentIndex = -1
-  let platformIndex = -1
-  let dateIndex = -1
-
-  headers.forEach((header, index) => {
-    if (isCommentHeader(header)) {
-      commentIndex = index
-    } else if (isPlatformHeader(header)) {
-      platformIndex = index
-    } else if (isDateHeader(header)) {
-      dateIndex = index
-    }
-    // Other headers are silently ignored
-  })
-
-  // comments header is required
-  if (commentIndex === -1) {
-    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
-  }
-
-  return { commentIndex, platformIndex, dateIndex }
-}
-
 // CSV parsing utilities
 const parseCsvString = (text: string): CommentData[] => {
   const lines = text.trim().split('\n')
