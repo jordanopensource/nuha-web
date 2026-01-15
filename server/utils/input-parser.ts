@@ -76,20 +76,12 @@ export const validateFile = (
 }
 
 export const parseTextInput = (text: string): CommentData[] => {
-  const lines = text
-    .trim()
-    .split('\n')
-    .filter((line) => line.trim() !== '')
-
-  if (lines.length === 0) {
+  const inputText = text.trim()
+  if (inputText.length === 0) {
     throw new Error(ERROR_KEYS.TEXT_INPUT_EMPTY)
   }
 
-  return lines.map((line) => {
-    return {
-      comment: line,
-    }
-  })
+  return [{ comment: inputText }]
 }
 
 // CSV parsing utilities
