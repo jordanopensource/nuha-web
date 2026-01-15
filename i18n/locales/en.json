@@ -214,6 +214,7 @@
       "excelNoData": "Excel file contains no data",
       "excelRowError": "Row {row}: Comment is required",
       "excelParseError": "Failed to parse Excel file",
+      "missingCommentHeader": "Missing required 'comment' column header",
       "unsupportedFileType": "Unsupported file type",
       "noFileUploaded": "No file uploaded",
       "fileIsRequired": "File is required",

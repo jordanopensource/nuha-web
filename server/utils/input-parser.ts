@@ -40,6 +40,7 @@ export const ERROR_KEYS = {
   EXCEL_NO_DATA: 'analyze.errors.excelNoData',
   EXCEL_ROW_ERROR: 'analyze.errors.excelRowError',
   EXCEL_PARSE_ERROR: 'analyze.errors.excelParseError',
+  MISSING_COMMENT_HEADER: 'analyze.errors.missingCommentHeader', // TODO: i18n
   UNSUPPORTED_FILE_TYPE: 'analyze.errors.unsupportedFileType',
   NO_FILE_UPLOADED: 'analyze.errors.noFileUploaded',
   FILE_IS_REQUIRED: 'analyze.errors.fileIsRequired',
@@ -84,39 +85,91 @@ export const parseTextInput = (text: string): CommentData[] => {
   return [{ comment: inputText }]
 }
 
+// Header column detection utilities
+interface ColumnIndices {
+  commentIndex: number
+  platformIndex: number
+  dateIndex: number
+}
+
+const normalizeHeader = (header: string): string => {
+  return header.trim().toLowerCase()
+}
+
+const isCommentHeader = (header: string): boolean => {
+  const normalized = normalizeHeader(header)
+  return normalized === 'comment' || normalized === 'comments'
+}
+
+const isPlatformHeader = (header: string): boolean => {
+  const normalized = normalizeHeader(header)
+  return normalized === 'platform' || normalized === 'platforms'
+}
+
+const isDateHeader = (header: string): boolean => {
+  const normalized = normalizeHeader(header)
+  return normalized === 'date' || normalized === 'dates'
+}
+
+const parseHeaders = (headers: string[]): ColumnIndices => {
+  let commentIndex = -1
+  let platformIndex = -1
+  let dateIndex = -1
+
+  headers.forEach((header, index) => {
+    if (isCommentHeader(header)) {
+      commentIndex = index
+    } else if (isPlatformHeader(header)) {
+      platformIndex = index
+    } else if (isDateHeader(header)) {
+      dateIndex = index
+    }
+    // Other headers are silently ignored
+  })
+
+  // comments header is required
+  if (commentIndex === -1) {
+    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
+  }
+
+  return { commentIndex, platformIndex, dateIndex }
+}
+
 // CSV parsing utilities
 export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
   const text = await file.text()
   const lines = text.trim().split('\n')
 
-  if (lines.length === 0) {
-    throw new Error(ERROR_KEYS.CSV_FILE_EMPTY)
+  if (lines.length <= 1) {
+    throw new TranslatableError(ERROR_KEYS.CSV_NO_DATA)
   }
 
-  // Skip header if it looks like one
-  const startIndex = lines[0].toLowerCase().includes('comment') ? 1 : 0
-  const dataLines = lines.slice(startIndex)
+  // parse header row
+  const headerLine = lines[0]
+  const headers = headerLine
+    .split(',')
+    .map((part) => part.trim().replace(/^"|"$/g, ''))
 
-  if (dataLines.length === 0) {
-    throw new Error(ERROR_KEYS.CSV_NO_DATA)
-  }
+  const { commentIndex, platformIndex, dateIndex } = parseHeaders(headers)
+
+  const dataLines = lines.slice(1)
 
   return dataLines.map((line, _index) => {
     const parts = line
       .split(',')
-      .map((part) => part.trim().replace(/^"|"$/g, ''))
+      .map((part) => part.trim().replace(/^"|"$/g, '')) // remove quotes
 
-    if (!parts[0]) {
-      // throw new TranslatableError(ERROR_KEYS.CSV_ROW_ERROR, { row: startIndex + index + 1 })
+    const comment = parts[commentIndex]
+    if (!comment) {
       return {
         comment: null,
       }
     }
 
     return {
-      comment: parts[0],
-      platform: parts[1] || '',
-      date: parts[2] || '',
+      comment,
+      platform: platformIndex !== -1 ? parts[platformIndex] || '' : '',
+      date: dateIndex !== -1 ? parts[dateIndex] || '' : '',
     }
   })
 }
@@ -164,7 +217,7 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     const sheetName = workbook.SheetNames[0]
 
     if (!sheetName) {
-      throw new Error(ERROR_KEYS.EXCEL_NO_SHEETS)
+      throw new TranslatableError(ERROR_KEYS.EXCEL_NO_SHEETS)
     }
 
     const worksheet = workbook.Sheets[sheetName]
@@ -173,43 +226,49 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     }) as string[][]
 
     if (jsonData.length === 0) {
-      throw new Error(ERROR_KEYS.EXCEL_EMPTY)
+      throw new TranslatableError(ERROR_KEYS.EXCEL_EMPTY)
     }
 
-    // Skip header row if it exists
-    const startIndex =
-      jsonData[0] &&
-      jsonData[0][0] &&
-      jsonData[0][0].toString().toLowerCase().includes('comment')
-        ? 1
-        : 0
+    // Parse header row
+    const headerRow = jsonData[0]
+    if (!headerRow || headerRow.length === 0) {
+      throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
+    }
 
-    const dataRows = jsonData.slice(startIndex)
+    const headers = headerRow.map((cell) => (cell ? cell.toString() : ''))
+    const { commentIndex, platformIndex, dateIndex } = parseHeaders(headers)
+
+    const dataRows = jsonData.slice(1)
 
     if (dataRows.length === 0) {
-      throw new Error(ERROR_KEYS.EXCEL_NO_DATA)
+      throw new TranslatableError(ERROR_KEYS.EXCEL_NO_DATA)
     }
+
     return dataRows
       .filter((row) => row.length !== 0)
       .map((row, _index) => {
-        if (!row[0]) {
-          // throw new TranslatableError(ERROR_KEYS.EXCEL_ROW_ERROR, { row: startIndex + index + 1 })
+        const comment = row[commentIndex]
+        if (!comment) {
           return {
             comment: null,
           }
         }
 
         return {
-          comment: row[0].toString(),
-          platform: row[1] ? row[1].toString() : '',
-          date: row[2] ? row[2].toString() : '',
+          comment: comment.toString(),
+          platform:
+            platformIndex !== -1 && row[platformIndex]
+              ? row[platformIndex].toString()
+              : '',
+          date:
+            dateIndex !== -1 && row[dateIndex] ? row[dateIndex].toString() : '',
         }
       })
   } catch (error) {
     if (error instanceof TranslatableError) {
       throw error
     }
-    throw new Error(ERROR_KEYS.EXCEL_PARSE_ERROR)
+    throw new TranslatableError(ERROR_KEYS.EXCEL_PARSE_ERROR)
   }
 }
 
