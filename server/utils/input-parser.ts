@@ -40,7 +40,7 @@ export const ERROR_KEYS = {
   EXCEL_NO_DATA: 'analyze.errors.excelNoData',
   EXCEL_ROW_ERROR: 'analyze.errors.excelRowError',
   EXCEL_PARSE_ERROR: 'analyze.errors.excelParseError',
-  MISSING_COMMENT_HEADER: 'analyze.errors.missingCommentHeader', // TODO: i18n
+  MISSING_COMMENT_HEADER: 'analyze.errors.missingCommentHeader',
   UNSUPPORTED_FILE_TYPE: 'analyze.errors.unsupportedFileType',
   NO_FILE_UPLOADED: 'analyze.errors.noFileUploaded',
   FILE_IS_REQUIRED: 'analyze.errors.fileIsRequired',
@@ -136,8 +136,7 @@ const parseHeaders = (headers: string[]): ColumnIndices => {
 }
 
 // CSV parsing utilities
-export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
-  const text = await file.text()
+const parseCsvString = (text: string): CommentData[] => {
   const lines = text.trim().split('\n')
 
   if (lines.length <= 1) {
@@ -172,6 +171,11 @@ export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
       date: dateIndex !== -1 ? parts[dateIndex] || '' : '',
     }
   })
+}
+
+export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
+  const text = await file.text()
+  return parseCsvString(text)
 }
 
 // JSON parsing utilities
@@ -221,49 +225,13 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     }
 
     const worksheet = workbook.Sheets[sheetName]
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-      header: 1,
-    }) as string[][]
+    const csvString = XLSX.utils.sheet_to_csv(worksheet)
 
-    if (jsonData.length === 0) {
+    if (!csvString.trim()) {
       throw new TranslatableError(ERROR_KEYS.EXCEL_EMPTY)
     }
 
-    // Parse header row
-    const headerRow = jsonData[0]
-    if (!headerRow || headerRow.length === 0) {
-      throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
-    }
-
-    const headers = headerRow.map((cell) => (cell ? cell.toString() : ''))
-    const { commentIndex, platformIndex, dateIndex } = parseHeaders(headers)
-
-    const dataRows = jsonData.slice(1)
-
-    if (dataRows.length === 0) {
-      throw new TranslatableError(ERROR_KEYS.EXCEL_NO_DATA)
-    }
-
-    return dataRows
-      .filter((row) => row.length !== 0)
-      .map((row, _index) => {
-        const comment = row[commentIndex]
-        if (!comment) {
-          return {
-            comment: null,
-          }
-        }
-
-        return {
-          comment: comment.toString(),
-          platform:
-            platformIndex !== -1 && row[platformIndex]
-              ? row[platformIndex].toString()
-              : '',
-          date:
-            dateIndex !== -1 && row[dateIndex] ? row[dateIndex].toString() : '',
-        }
-      })
+    return parseCsvString(csvString)
   } catch (error) {
     if (error instanceof TranslatableError) {
       throw error
