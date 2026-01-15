@@ -214,6 +214,7 @@
       "excelNoData": "ملف Excel لا يحتوي على بيانات",
       "excelRowError": "الصف {row}: التعليق مطلوب",
       "excelParseError": "فشل في تحليل ملف Excel",
+      "missingCommentHeader": "عمود 'comment' أو مطلوب في رأس الملف",
       "unsupportedFileType": "نوع ملف غير مدعوم",
       "noFileUploaded": "لم يتم رفع ملف",
       "fileIsRequired": "الملف مطلوب",
