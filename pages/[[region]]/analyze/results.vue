@@ -395,7 +395,7 @@
             </pv-Column>
 
             <pv-Column
-              v-if="hasPlatforms || columnsConfig.platform"
+              v-if="columnsConfig.platform && hasPlatforms"
               field="platform"
               :header="$t('analyze.results.details.headers.platform')"
               :sortable="true"
