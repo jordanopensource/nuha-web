@@ -98,7 +98,7 @@ const normalizeHeader = (header: string): string => {
 
 const isCommentHeader = (header: string): boolean => {
   const normalized = normalizeHeader(header)
-  return normalized === 'comment' || normalized === 'comments'
+  return normalized.includes('comment')
 }
 
 const isPlatformHeader = (header: string): boolean => {
