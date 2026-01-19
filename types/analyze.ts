@@ -47,7 +47,7 @@ export interface AIAnalysisRequest {
   // model_dialect: string // NOTE: may be added back later to support multi-dialect API
 }
 export interface SingleResult {
-  originalComment: string
+  comment: string
   platform?: string
   date?: string
   is_valid: boolean

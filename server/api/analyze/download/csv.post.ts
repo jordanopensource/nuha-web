@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
     // generate csv content
     const headers = [
-      'Original Comment',
+      'Comment',
       'Platform',
       'Date',
       'Is Valid',
@@ -36,15 +36,15 @@ export default defineEventHandler(async (event) => {
       headers.join(','),
       ...results.map((result) =>
         [
-          `"${(result.originalComment || '').replace(/"/g, '""')}"`, // Escape quotes and handle null
-          `"${result.platform || 'N/A'}"`,
-          `"${result.date || 'N/A'}"`,
+          `"${(result.comment || '').replace(/"/g, '""')}"`, // Escape quotes and handle null
+          `"${result.platform || ''}"`,
+          `"${result.date || ''}"`,
           result.is_valid ? 'Yes' : 'No',
-          `"${result.main_class || 'N/A'}"`,
-          `"${result.sub_class || 'N/A'}"`,
+          `"${result.main_class || ''}"`,
+          `"${result.sub_class || ''}"`,
           typeof result.confidence === 'number'
             ? result.confidence.toFixed(2)
-            : 'N/A',
+            : '',
         ].join(',')
       ),
     ]
