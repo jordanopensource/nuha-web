@@ -55,7 +55,7 @@
               <h3 class="mb-2 text-base font-medium text-gray-700">
                 {{ $t('analyze.results.details.headers.comment') }}
               </h3>
-              <p class="text-xl">{{ validComments[0].originalComment }}</p>
+              <p class="text-xl">{{ validComments[0].comment }}</p>
             </div>
 
             <!-- Classification Result -->
@@ -327,7 +327,7 @@
             :rows-per-page-options="[5, 10, 20, 50]"
             :loading="loading"
             :global-filter-fields="[
-              'originalComment',
+              'comment',
               'platform',
               'date',
               'main_class',
@@ -381,14 +381,14 @@
             </template>
 
             <pv-Column
-              field="originalComment"
+              field="comment"
               :header="$t('analyze.results.details.headers.comment')"
               :sortable="true"
             >
               <template #body="{ data }">
                 <div class="max-w-fit">
-                  <div class="truncate" :title="data.originalComment">
-                    {{ data.originalComment }}
+                  <div class="truncate" :title="data.comment">
+                    {{ data.comment }}
                   </div>
                 </div>
               </template>
@@ -1046,7 +1046,7 @@
   const initFilters = () => {
     filters.value = {
       // global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      originalComment: {
+      comment: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
       },
