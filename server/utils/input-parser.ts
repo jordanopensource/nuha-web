@@ -98,7 +98,7 @@ const normalizeHeader = (header: string): string => {
 
 const isCommentHeader = (header: string): boolean => {
   const normalized = normalizeHeader(header)
-  return normalized === 'comment' || normalized === 'comments'
+  return normalized.includes('comment')
 }
 
 const isPlatformHeader = (header: string): boolean => {
@@ -277,7 +277,7 @@ export const convertFromAPIResponse = (
   return {
     results: apiResponse.results.map(
       (result: ClassificationResult, i: number) => ({
-        originalComment: originalComments[i].comment!,
+        comment: originalComments[i].comment!,
         platform: originalComments[i]?.platform,
         date: originalComments[i]?.date,
         is_valid: result.is_valid,
