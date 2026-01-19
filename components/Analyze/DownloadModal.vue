@@ -157,7 +157,7 @@
       if (endpoint.includes('csv')) {
         // CSV response is already a string
         fileContent = response as string
-        mimeType = 'text/csv'
+        mimeType = 'text/csv;charset=utf-8'
       } else {
         // JSON response needs to be stringified if it's an object
         fileContent =
@@ -168,7 +168,9 @@
       }
 
       // Create blob and download
-      const blob = new Blob([fileContent], { type: mimeType })
+      const blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), fileContent], {
+        type: mimeType,
+      })
 
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')

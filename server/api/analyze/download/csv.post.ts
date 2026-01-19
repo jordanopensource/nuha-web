@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
     const csvContent = csvRows.join('\n')
 
     // set headers for file download
-    setHeader(event, 'Content-Type', 'text/csv; charset=utf-8')
+    setHeader(event, 'Content-Type', 'text/csv;charset=utf-8')
     setHeader(
       event,
       'Content-Disposition',
