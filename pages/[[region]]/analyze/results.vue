@@ -318,6 +318,7 @@
           </h2>
 
           <pv-DataTable
+            id="dt-responsive-table"
             v-model:filters="filters"
             :value="paginatedComments"
             :rows="rowsPerPage"
@@ -343,7 +344,7 @@
                 total: '{totalRecords}',
               })
             "
-            class="rounded-md px-4 py-8"
+            class="rounded-md py-8 md:px-4"
             @page="onPage"
             @sort="onSort"
             @filter="onFilter"
@@ -362,7 +363,7 @@
                 style="color: var(--p-paginator-nav-button-color)"
                 @click="restoreCols()"
               >
-                <Icon name="mdi:restore" size="24" />
+                <Icon name="mdi:view-column" size="24" />
               </UiButton>
             </template>
 
@@ -387,7 +388,7 @@
             >
               <template #body="{ data }">
                 <div class="max-w-fit">
-                  <div class="truncate" :title="data.comment">
+                  <div class="comment-cell truncate" :title="data.comment">
                     {{ data.comment }}
                   </div>
                 </div>
@@ -446,7 +447,7 @@
             >
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
-                  <span class="font-medium">{{ data.main_class }}</span>
+                  <span class="overflow-hidden whitespace-normal font-medium">{{ data.main_class }}</span>
                   <span
                     v-if="data.sub_class !== data.main_class"
                     class="pt-1 text-sm text-gray-500"
@@ -476,7 +477,7 @@
             >
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 max-md:justify-center">
                     <div class="h-2 w-16 rounded-full bg-gray-200">
                       <!-- TODO: unify colors -->
                       <div
@@ -1218,5 +1219,59 @@
   }
   .p-paginator-content-end {
     @apply !mx-0;
+  }
+
+  /* Mobile Table Style */
+  @media (max-width: 768px) {
+    #dt-responsive-table table {
+      width: 100% !important;
+      max-width: 100% !important;
+      display: block;
+    }
+
+    #dt-responsive-table table thead {
+      /* hide the table header on mobile */
+      display: none !important;
+    }
+
+    /* Styles for the table rows */
+    #dt-responsive-table table tbody {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      min-height: auto !important;
+    }
+
+    /* Styles for individual table rows (cards) */
+    #dt-responsive-table table tbody tr {
+      @apply rounded-md border border-colors-neutral-placeholder shadow-md;
+      display: table-row !important;
+      margin-bottom: 1rem !important;
+      background-color: #fff !important;
+      padding: 1rem !important;
+      break-inside: avoid;
+    }
+    /* Comment cell styling */
+    #dt-responsive-table table tbody tr .comment-cell {
+      width: 100%;
+      direction: rtl;
+      overflow: hidden;
+      white-space: normal;
+      line-height: 1.5;
+    }
+
+    /* Styles for table cells within rows */
+    #dt-responsive-table table tbody td {
+      margin: 0.5rem 0 !important;
+      display: block !important;
+      width: 100% !important;
+      min-width: 100% !important;
+      span {
+        text-align: center;
+      }
+    }
+    #dt-responsive-table table tbody td:last-child {
+      border: none !important;
+    }
   }
 </style>
