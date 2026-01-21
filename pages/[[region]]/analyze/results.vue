@@ -359,7 +359,7 @@
                 variant="ghost"
                 size="md"
                 :title="$t('analyze.results.details.actions.showAllColumns')"
-                class="aspect-square !rounded-full !p-2"
+                class="aspect-square !rounded-full !p-2 max-md:!hidden"
                 style="color: var(--p-paginator-nav-button-color)"
                 @click="restoreCols()"
               >
@@ -1272,6 +1272,20 @@
     }
     #dt-responsive-table table tbody td:last-child {
       border: none !important;
+    }
+
+    /* styles for table pagination */
+    #dt-responsive-table .p-paginator-content .p-select {
+      width: 100%;
+      order: 0;
+    }
+    #dt-responsive-table .p-paginator-content .p-paginator-current {
+      width: 100%;
+      order: 1;
+      text-align: center;
+    }
+    #dt-responsive-table .p-paginator-content button {
+      order: 2;
     }
   }
 </style>
