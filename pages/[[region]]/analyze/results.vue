@@ -324,8 +324,8 @@
             :rows="rowsPerPage"
             :total-records="totalComments"
             :lazy="true"
-            :paginator="true"
-            :rows-per-page-options="[5, 10, 20, 50]"
+            :paginator="rowsPerPageOptions.length > 0"
+            :rows-per-page-options="rowsPerPageOptions"
             :loading="loading"
             :global-filter-fields="[
               'comment',
@@ -1043,6 +1043,10 @@
   const loading = ref(false)
   const first = ref(0)
   const rowsPerPage = ref(10)
+  const rowsPerPageOptions = computed(() => {
+    const allOptions = [5, 10, 20, 50]
+    return allOptions.filter((opt) => opt <= totalComments.value)
+  })
 
   const initFilters = () => {
     filters.value = {
