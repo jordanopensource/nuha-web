@@ -1348,6 +1348,20 @@
     #dt-responsive-table table tbody td:last-child {
       border: none !important;
     }
+
+    /* styles for table pagination */
+    #dt-responsive-table .p-paginator-content .p-select {
+      width: 100%;
+      order: 0;
+    }
+    #dt-responsive-table .p-paginator-content .p-paginator-current {
+      width: 100%;
+      order: 1;
+      text-align: center;
+    }
+    #dt-responsive-table .p-paginator-content button {
+      order: 2;
+    }
   }
 
   /* Mobile-only pagination styles */
