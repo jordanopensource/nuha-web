@@ -165,7 +165,9 @@
         },
         "actions": {
           "showAllColumns": "إظهار جميع الأعمدة",
-          "hideColumn": "إخفاء العمود"
+          "hideColumn": "إخفاء العمود",
+          "expandComment": "عرض التعليق",
+          "collapseComment": "إخفاء التعليق"
         },
         "validity": {
           "valid": "صالح",
