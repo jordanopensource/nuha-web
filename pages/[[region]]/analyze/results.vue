@@ -668,8 +668,39 @@
     { immediate: false }
   )
 
+  // Store original pagination settings for print restore
+  const prePrintRowsPerPage = ref(10)
+  const prePrintFirst = ref(0)
+
+  const handleBeforePrint = () => {
+    forceChartRerender()
+
+    // Store current pagination state
+    prePrintRowsPerPage.value = rowsPerPage.value
+    prePrintFirst.value = first.value
+
+    // Show all rows for printing
+    rowsPerPage.value = totalComments.value
+    first.value = 0
+
+    // Synchronously load all data for print
+    const data = [...(analysisData.value?.results ?? [])]
+    paginatedComments.value = data
+  }
+
+  const handleAfterPrint = () => {
+    // Restore original pagination after print
+    rowsPerPage.value = prePrintRowsPerPage.value
+    first.value = prePrintFirst.value
+    fetchData(
+      prePrintFirst.value / prePrintRowsPerPage.value,
+      prePrintRowsPerPage.value
+    )
+  }
+
   onMounted(() => {
-    window.addEventListener('beforeprint', forceChartRerender)
+    window.addEventListener('beforeprint', handleBeforePrint)
+    window.addEventListener('afterprint', handleAfterPrint)
 
     // Get analysis data from state instead of URL query parameters
     const storedData = getAnalysisResults()
@@ -684,7 +715,8 @@
   })
 
   onUnmounted(() => {
-    window.removeEventListener('beforeprint', forceChartRerender)
+    window.removeEventListener('beforeprint', handleBeforePrint)
+    window.removeEventListener('afterprint', handleAfterPrint)
   })
 
   const handlePrint = () => {
@@ -1253,8 +1285,8 @@
     @apply !mx-0;
   }
 
-  /* Mobile Table Style */
-  @media (max-width: 768px) {
+  /* Mobile & Print Table Style - Card Layout */
+  @media (max-width: 768px), print {
     #dt-responsive-table table {
       width: 100% !important;
       max-width: 100% !important;
@@ -1262,7 +1294,7 @@
     }
 
     #dt-responsive-table table thead {
-      /* hide the table header on mobile */
+      /* hide the table header on mobile/print */
       display: none !important;
     }
 
@@ -1305,8 +1337,10 @@
     #dt-responsive-table table tbody td:last-child {
       border: none !important;
     }
+  }
 
-    /* styles for table pagination */
+  /* Mobile-only pagination styles */
+  @media (max-width: 768px) {
     #dt-responsive-table .p-paginator-content .p-select {
       width: 100%;
       order: 0;
@@ -1318,6 +1352,13 @@
     }
     #dt-responsive-table .p-paginator-content button {
       order: 2;
+    }
+  }
+
+  /* remove shadows in print */
+  @media print {
+    #dt-responsive-table table tbody tr {
+      box-shadow: none !important;
     }
   }
 </style>
