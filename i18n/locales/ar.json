@@ -176,17 +176,19 @@
           "invalid": "غير صالح"
         }
       },
-      "backToAnalyze": "عُد إلى التحليل",
+      "backToAnalyze": "عودة إلى التحليل",
       "noDataAvailable": "لا توجد بيانات تحليل متاحة. يرجى إجراء تحليل أولاً.",
       "noValidComments": "لا توجد تعليقات صحيحة. تأكد من أن التعليقات بلغة سليمة وباللهجة {dialect}.",
       "download": {
         "title": "تنزيل النتائج",
         "subtitle": "اختر تنسيقًا لتنزيل نتائج التحليل",
+        "xlsx": "ملف Excel",
         "pdf": "تقرير PDF",
         "csv": "ملف CSV",
         "json": "بيانات JSON",
+        "xlsxDescription": "تنسيق جدول بيانات Excel (.xlsx)",
         "pdfDescription": "تقرير منسق مع الرسوم البيانية والملخص",
-        "csvDescription": "تنسيق جدول بيانات للتحليل الإضافي",
+        "csvDescription": "تنسيق جدول بيانات للتحليل المتقدّم",
         "jsonDescription": "البيانات الخام بتنسيق JSON",
         "downloading": "جاري التنزيل...",
         "downloadError": "فشل تنزيل الملف. يرجى المحاولة مرة أخرى.",
