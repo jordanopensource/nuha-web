@@ -19,8 +19,8 @@
         </div>
         <div class="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2">
           <UiButton
-            variant="outline"
-            class="file-type !bg-colors-primary-light !bg-opacity-100 !text-colors-neutral-foreground [&_.icon]:!text-colors-neutral-foreground"
+            variant="primary"
+            class="file-type !bg-colors-primary !text-colors-neutral-background [&_.icon]:!text-colors-neutral-background"
             @click="downloadTemplate('xlsx')"
           >
             <template #icon>
@@ -31,11 +31,8 @@
               <div class="file-description">
                 {{ $t('analyze.help.fileUpload.excelFile') }}
               </div>
-              <div
-                class="file-description flex items-center gap-1 !opacity-100"
-              >
-                <Icon name="mdi:star" size="18" />
-                {{ $t('analyze.help.fileUpload.excelHint') }}
+              <div class="file-description !opacity-100">
+                ⭐ {{ $t('analyze.help.fileUpload.excelHint') }}
               </div>
             </div>
             <div class="download-overlay">
