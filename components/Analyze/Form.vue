@@ -287,6 +287,6 @@
 
 <style lang="postcss" scoped>
   .selected-method-style {
-    @apply ms-[3px] scale-105 !rounded-t-md border border-b-0 border-colors-primary-light !bg-white;
+    @apply ms-[3px] scale-105 !rounded-t-md border border-b-0 border-colors-primary-light !bg-white font-medium;
   }
 </style>
