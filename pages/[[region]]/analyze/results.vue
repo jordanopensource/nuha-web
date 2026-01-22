@@ -324,7 +324,8 @@
             :rows="rowsPerPage"
             :total-records="totalComments"
             :lazy="true"
-            :paginator="rowsPerPageOptions.length > 0"
+            :paginator="true"
+            :always-show-paginator="false"
             :rows-per-page-options="rowsPerPageOptions"
             :loading="loading"
             :global-filter-fields="[
@@ -336,6 +337,8 @@
             filter-display="menu"
             column-resize-mode="fit"
             resizable-columns
+            table-style="table-layout: fixed"
+            pt:columnResizeIndicator:class="bg-colors-primary-active"
             paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
             :current-page-report-template="
               $t('analyze.results.details.pagination.showing', {
@@ -385,12 +388,35 @@
               field="comment"
               :header="$t('analyze.results.details.headers.comment')"
               :sortable="true"
+              style="width: 50%"
             >
               <template #body="{ data }">
-                <div class="max-w-fit">
-                  <div class="comment-cell truncate" :title="data.comment">
+                <div class="flex items-start gap-2">
+                  <div
+                    class="comment-cell flex-1 transition-all"
+                    :class="data._expanded ? 'whitespace-normal' : 'truncate'"
+                    :title="data.comment"
+                  >
                     {{ data.comment }}
                   </div>
+                  <UiButton
+                    variant="ghost"
+                    size="sm"
+                    :title="
+                      data._expanded
+                        ? $t('analyze.results.details.actions.collapseComment')
+                        : $t('analyze.results.details.actions.expandComment')
+                    "
+                    class="aspect-square shrink-0 !rounded-full !p-1 max-md:!hidden print:!hidden"
+                    @click="data._expanded = !data._expanded"
+                  >
+                    <Icon
+                      name="mdi:chevron-down"
+                      class="transition-transform"
+                      :class="{ 'rotate-180': data._expanded }"
+                      size="18"
+                    />
+                  </UiButton>
                 </div>
               </template>
             </pv-Column>
@@ -447,7 +473,9 @@
             >
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
-                  <span class="overflow-hidden whitespace-normal font-medium">{{ data.main_class }}</span>
+                  <span class="overflow-hidden whitespace-normal font-medium">{{
+                    data.main_class
+                  }}</span>
                   <span
                     v-if="data.sub_class !== data.main_class"
                     class="pt-1 text-sm text-gray-500"
