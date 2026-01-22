@@ -165,7 +165,9 @@
         },
         "actions": {
           "showAllColumns": "Show all columns",
-          "hideColumn": "Hide column"
+          "hideColumn": "Hide column",
+          "expandComment": "Expand comment",
+          "collapseComment": "Collapse comment"
         },
         "validity": {
           "valid": "Valid",
