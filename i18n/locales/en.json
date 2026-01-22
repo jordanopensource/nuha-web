@@ -93,7 +93,9 @@
         "jsonFile": "JSON array format",
         "textFile": "Plain text format",
         "clickToDownload": "Click on any file type to download its template",
-        "downloadTemplate": "Download {fileType} template"
+        "downloadTemplate": "Download {fileType} template",
+        "excelHint": "Best support for Excel on Windows",
+        "csvWarning": "May not display Arabic correctly on Excel"
       }
     },
     "results": {

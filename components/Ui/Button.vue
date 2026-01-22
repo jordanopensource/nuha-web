@@ -111,7 +111,7 @@
 
   .btn-ghost {
     @apply bg-transparent text-colors-neutral-foreground;
-    @apply hover:bg-colors-primary-light hover:bg-opacity-40;
+    @apply hover:bg-colors-primary-light;
     @apply active:bg-colors-primary-light active:shadow-sm;
     @apply disabled:bg-colors-primary-light disabled:bg-opacity-80;
     .loader {
