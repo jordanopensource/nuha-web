@@ -22,7 +22,7 @@
       <div class="grid grid-cols-1 gap-3">
         <!-- XLSX Download (Highlighted) -->
         <UiButton
-          variant="primary"
+          variant="outline"
           size="lg"
           class="h-auto p-4"
           :disabled="downloading"
@@ -32,7 +32,7 @@
             <Icon name="mdi:file-excel" size="24" />
           </template>
           <div class="flex-1 text-start">
-            <div class="font-medium">
+            <div class="font-bold">
               {{ $t('analyze.results.download.xlsx') }}
             </div>
             <div class="mt-1 text-sm opacity-70">
