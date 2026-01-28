@@ -55,7 +55,7 @@
               <h3 class="mb-2 text-base font-medium text-gray-700">
                 {{ $t('analyze.results.details.headers.comment') }}
               </h3>
-              <p class="text-xl">{{ validComments[0].originalComment }}</p>
+              <p class="text-xl">{{ validComments[0].comment }}</p>
             </div>
 
             <!-- Classification Result -->
@@ -318,16 +318,18 @@
           </h2>
 
           <pv-DataTable
+            id="dt-responsive-table"
             v-model:filters="filters"
             :value="paginatedComments"
             :rows="rowsPerPage"
             :total-records="totalComments"
             :lazy="true"
             :paginator="true"
-            :rows-per-page-options="[5, 10, 20, 50]"
+            :always-show-paginator="false"
+            :rows-per-page-options="rowsPerPageOptions"
             :loading="loading"
             :global-filter-fields="[
-              'originalComment',
+              'comment',
               'platform',
               'date',
               'main_class',
@@ -335,6 +337,8 @@
             filter-display="menu"
             column-resize-mode="fit"
             resizable-columns
+            table-style="table-layout: fixed"
+            pt:columnResizeIndicator:class="bg-colors-primary-active"
             paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
             :current-page-report-template="
               $t('analyze.results.details.pagination.showing', {
@@ -343,7 +347,7 @@
                 total: '{totalRecords}',
               })
             "
-            class="rounded-md px-4 py-8"
+            class="rounded-md py-8 md:px-4"
             @page="onPage"
             @sort="onSort"
             @filter="onFilter"
@@ -358,11 +362,11 @@
                 variant="ghost"
                 size="md"
                 :title="$t('analyze.results.details.actions.showAllColumns')"
-                class="aspect-square !rounded-full !p-2"
+                class="aspect-square !rounded-full !p-2 max-md:!hidden"
                 style="color: var(--p-paginator-nav-button-color)"
                 @click="restoreCols()"
               >
-                <Icon name="mdi:restore" size="24" />
+                <Icon name="mdi:view-column" size="24" />
               </UiButton>
             </template>
 
@@ -381,21 +385,44 @@
             </template>
 
             <pv-Column
-              field="originalComment"
+              field="comment"
               :header="$t('analyze.results.details.headers.comment')"
               :sortable="true"
+              style="width: 50%"
             >
               <template #body="{ data }">
-                <div class="max-w-fit">
-                  <div class="truncate" :title="data.originalComment">
-                    {{ data.originalComment }}
+                <div class="flex items-start gap-2">
+                  <div
+                    class="comment-cell flex-1 transition-all"
+                    :class="data._expanded ? 'whitespace-normal' : 'truncate'"
+                    :title="data.comment"
+                  >
+                    {{ data.comment }}
                   </div>
+                  <UiButton
+                    variant="ghost"
+                    size="sm"
+                    :title="
+                      data._expanded
+                        ? $t('analyze.results.details.actions.collapseComment')
+                        : $t('analyze.results.details.actions.expandComment')
+                    "
+                    class="aspect-square shrink-0 !rounded-full !p-1 max-md:!hidden print:!hidden"
+                    @click="data._expanded = !data._expanded"
+                  >
+                    <Icon
+                      name="mdi:chevron-down"
+                      class="transition-transform"
+                      :class="{ 'rotate-180': data._expanded }"
+                      size="18"
+                    />
+                  </UiButton>
                 </div>
               </template>
             </pv-Column>
 
             <pv-Column
-              v-if="hasPlatforms || columnsConfig.platform"
+              v-if="columnsConfig.platform && hasPlatforms"
               field="platform"
               :header="$t('analyze.results.details.headers.platform')"
               :sortable="true"
@@ -446,7 +473,9 @@
             >
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
-                  <span class="font-medium">{{ data.main_class }}</span>
+                  <span class="overflow-hidden whitespace-normal font-medium">{{
+                    data.main_class
+                  }}</span>
                   <span
                     v-if="data.sub_class !== data.main_class"
                     class="pt-1 text-sm text-gray-500"
@@ -476,7 +505,7 @@
             >
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 max-md:justify-center">
                     <div class="h-2 w-16 rounded-full bg-gray-200">
                       <!-- TODO: unify colors -->
                       <div
@@ -639,8 +668,39 @@
     { immediate: false }
   )
 
+  // Store original pagination settings for print restore
+  const prePrintRowsPerPage = ref(10)
+  const prePrintFirst = ref(0)
+
+  const handleBeforePrint = () => {
+    forceChartRerender()
+
+    // Store current pagination state
+    prePrintRowsPerPage.value = rowsPerPage.value
+    prePrintFirst.value = first.value
+
+    // Show all rows for printing
+    rowsPerPage.value = totalComments.value
+    first.value = 0
+
+    // Synchronously load all data for print
+    const data = [...(analysisData.value?.results ?? [])]
+    paginatedComments.value = data
+  }
+
+  const handleAfterPrint = () => {
+    // Restore original pagination after print
+    rowsPerPage.value = prePrintRowsPerPage.value
+    first.value = prePrintFirst.value
+    fetchData(
+      prePrintFirst.value / prePrintRowsPerPage.value,
+      prePrintRowsPerPage.value
+    )
+  }
+
   onMounted(() => {
-    window.addEventListener('beforeprint', forceChartRerender)
+    window.addEventListener('beforeprint', handleBeforePrint)
+    window.addEventListener('afterprint', handleAfterPrint)
 
     // Get analysis data from state instead of URL query parameters
     const storedData = getAnalysisResults()
@@ -655,7 +715,8 @@
   })
 
   onUnmounted(() => {
-    window.removeEventListener('beforeprint', forceChartRerender)
+    window.removeEventListener('beforeprint', handleBeforePrint)
+    window.removeEventListener('afterprint', handleAfterPrint)
   })
 
   const handlePrint = () => {
@@ -1042,11 +1103,15 @@
   const loading = ref(false)
   const first = ref(0)
   const rowsPerPage = ref(10)
+  const rowsPerPageOptions = computed(() => {
+    const allOptions = [5, 10, 20, 50]
+    return allOptions.filter((opt) => opt <= totalComments.value)
+  })
 
   const initFilters = () => {
     filters.value = {
       // global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      originalComment: {
+      comment: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
       },
@@ -1218,5 +1283,82 @@
   }
   .p-paginator-content-end {
     @apply !mx-0;
+  }
+
+  /* Mobile & Print Table Style - Card Layout */
+  @media (max-width: 768px), print {
+    #dt-responsive-table table {
+      width: 100% !important;
+      max-width: 100% !important;
+      display: block;
+    }
+
+    #dt-responsive-table table thead {
+      /* hide the table header on mobile/print */
+      display: none !important;
+    }
+
+    /* Styles for the table rows */
+    #dt-responsive-table table tbody {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      min-height: auto !important;
+    }
+
+    /* Styles for individual table rows (cards) */
+    #dt-responsive-table table tbody tr {
+      @apply rounded-md border border-colors-neutral-placeholder shadow-md;
+      display: table-row !important;
+      margin-bottom: 1rem !important;
+      background-color: #fff !important;
+      padding: 1rem !important;
+      break-inside: avoid;
+    }
+    /* Comment cell styling */
+    #dt-responsive-table table tbody tr .comment-cell {
+      width: 100%;
+      direction: rtl;
+      overflow: hidden;
+      white-space: normal;
+      line-height: 1.5;
+    }
+
+    /* Styles for table cells within rows */
+    #dt-responsive-table table tbody td {
+      margin: 0.5rem 0 !important;
+      display: block !important;
+      width: 100% !important;
+      min-width: 100% !important;
+      span {
+        text-align: center;
+      }
+    }
+    #dt-responsive-table table tbody td:last-child {
+      border: none !important;
+    }
+  }
+
+  /* Mobile-only pagination styles */
+  @media (max-width: 768px) {
+    #dt-responsive-table .p-paginator-content .p-select {
+      width: 100%;
+      order: 0;
+    }
+    #dt-responsive-table .p-paginator-content .p-paginator-current {
+      width: 100%;
+      order: 1;
+      text-align: center;
+    }
+    #dt-responsive-table .p-paginator-content button {
+      order: 2;
+    }
+  }
+
+  /* remove shadows in print */
+  @media print {
+    #dt-responsive-table table tbody tr {
+      box-shadow: none !important;
+    }
   }
 </style>

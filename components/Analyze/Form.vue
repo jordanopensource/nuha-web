@@ -116,6 +116,7 @@
   </form>
 </template>
 <script setup lang="ts">
+  import { useDropZone } from '@vueuse/core'
   import {
     MAX_FILE_SIZE_BYTES,
     ACCEPTED_MIME_TYPES,
@@ -130,8 +131,19 @@
   const isLoading = ref(false)
   const errorMessage = ref('')
   const { region, supportedRegions } = useGeolocation()
-
   const { locale } = useI18n()
+
+  // auto-detect file drag over the page and switch to file input mode
+  const pageDropzone = computed(() =>
+    import.meta.client ? document.body : null
+  )
+  useDropZone(pageDropzone, {
+    onEnter() {
+      if (selectedMethod.value === 0) {
+        selectMethod(1)
+      }
+    },
+  })
 
   const dialectDisplay = computed(() => {
     const code = region.value?.countryCode
@@ -287,6 +299,6 @@
 
 <style lang="postcss" scoped>
   .selected-method-style {
-    @apply ms-[3px] scale-105 !rounded-t-md border border-b-0 border-colors-primary-light !bg-white;
+    @apply ms-[3px] scale-105 !rounded-t-md border border-b-0 border-colors-primary-light !bg-white font-medium;
   }
 </style>

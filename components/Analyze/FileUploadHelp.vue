@@ -19,32 +19,8 @@
         </div>
         <div class="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2">
           <UiButton
-            variant="ghost"
-            class="file-type"
-            @click="downloadTemplate('csv')"
-          >
-            <template #icon>
-              <Icon name="mdi:file-table" size="28" class="icon" />
-            </template>
-            <div class="flex-1 text-start">
-              <div dir="ltr" class="file-ext">.csv</div>
-              <div class="file-description">
-                {{ $t('analyze.help.fileUpload.csvFile') }}
-              </div>
-            </div>
-            <div class="download-overlay">
-              <Icon name="mdi:download" size="20" />
-              <span>{{
-                $t('analyze.help.fileUpload.downloadTemplate', {
-                  fileType: 'CSV',
-                })
-              }}</span>
-            </div>
-          </UiButton>
-
-          <UiButton
-            variant="ghost"
-            class="file-type"
+            variant="outline"
+            class="file-type !bg-colors-primary-light !bg-opacity-100 !text-colors-neutral-foreground [&_.icon]:!text-colors-neutral-foreground"
             @click="downloadTemplate('xlsx')"
           >
             <template #icon>
@@ -55,12 +31,42 @@
               <div class="file-description">
                 {{ $t('analyze.help.fileUpload.excelFile') }}
               </div>
+              <div
+                class="file-description flex items-center gap-1 !opacity-100"
+              >
+                <Icon name="mdi:star" size="18" />
+                {{ $t('analyze.help.fileUpload.excelHint') }}
+              </div>
             </div>
             <div class="download-overlay">
               <Icon name="mdi:download" size="20" />
               <span>{{
                 $t('analyze.help.fileUpload.downloadTemplate', {
                   fileType: 'Excel',
+                })
+              }}</span>
+            </div>
+          </UiButton>
+
+          <UiButton
+            variant="ghost"
+            class="file-type"
+            @click="downloadTemplate('txt')"
+          >
+            <template #icon>
+              <Icon name="mdi:file-document" size="28" class="icon" />
+            </template>
+            <div class="flex-1 text-start">
+              <div dir="ltr" class="file-ext">.txt</div>
+              <div class="file-description">
+                {{ $t('analyze.help.fileUpload.textFile') }}
+              </div>
+            </div>
+            <div class="download-overlay">
+              <Icon name="mdi:download" size="20" />
+              <span>{{
+                $t('analyze.help.fileUpload.downloadTemplate', {
+                  fileType: 'TXT',
                 })
               }}</span>
             </div>
@@ -93,24 +99,31 @@
           <UiButton
             variant="ghost"
             class="file-type"
-            @click="downloadTemplate('txt')"
+            @click="downloadTemplate('csv')"
           >
             <template #icon>
-              <Icon name="mdi:file-document" size="28" class="icon" />
+              <Icon name="mdi:file-table" size="28" class="icon" />
             </template>
             <div class="flex-1 text-start">
-              <div dir="ltr" class="file-ext">.txt</div>
+              <div dir="ltr" class="file-ext">.csv</div>
               <div class="file-description">
-                {{ $t('analyze.help.fileUpload.textFile') }}
+                {{ $t('analyze.help.fileUpload.csvFile') }}
               </div>
             </div>
             <div class="download-overlay">
               <Icon name="mdi:download" size="20" />
-              <span>{{
-                $t('analyze.help.fileUpload.downloadTemplate', {
-                  fileType: 'TXT',
-                })
-              }}</span>
+              <div class="flex flex-col">
+                <span>
+                  {{
+                    $t('analyze.help.fileUpload.downloadTemplate', {
+                      fileType: 'CSV',
+                    })
+                  }}
+                </span>
+                <span class="overflow-hidden text-xs">
+                  ⚠️ {{ $t('analyze.help.fileUpload.csvWarning') }}
+                </span>
+              </div>
             </div>
           </UiButton>
         </div>
@@ -159,7 +172,7 @@
     }
 
     .download-overlay {
-      @apply absolute inset-0 flex items-center justify-center gap-2 bg-colors-primary bg-opacity-100 text-sm font-medium text-white;
+      @apply absolute inset-0 z-10 flex items-center justify-center gap-2 bg-colors-primary bg-opacity-70 text-sm font-medium text-white backdrop-blur-sm;
       @apply pointer-events-none opacity-0 transition-opacity duration-200;
     }
 
