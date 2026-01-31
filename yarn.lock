@@ -2798,6 +2798,11 @@
   resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-14.2.0.tgz#990be3368ee24acf4e8daf47db396f913dc9e939"
   integrity sha512-i3axTGjU8b13FtyR4Keeama+43iD+BwX9C2TmzBVKqjSHArF03hjkp2SBZ1m72Jk2UtrX0aYCugBq2R1fhkuAQ==
 
+"@vueuse/metadata@14.2.0":
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-14.2.0.tgz#990be3368ee24acf4e8daf47db396f913dc9e939"
+  integrity sha512-i3axTGjU8b13FtyR4Keeama+43iD+BwX9C2TmzBVKqjSHArF03hjkp2SBZ1m72Jk2UtrX0aYCugBq2R1fhkuAQ==
+
 "@vueuse/nuxt@^13.6.0":
   version "13.9.0"
   resolved "https://registry.yarnpkg.com/@vueuse/nuxt/-/nuxt-13.9.0.tgz#96bf3fcc459114816ccb291cf9f3ef38846efca0"
