@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     '@primevue/nuxt-module',
     'nuxt-api-party',
+    '@nuxt/scripts',
   ],
   css: [
     '@/assets/css/main.css',
