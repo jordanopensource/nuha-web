@@ -144,6 +144,11 @@ NUXT_AI_MODEL_URL=your-ai-endpoint
 # Sets the default AI model dialect
 # Must match a supported region code from your the CMS (e.g., 'egy' for Egyptian model)
 NUXT_PUBLIC_AI_MODEL_DEFAULT_REGION=egy
+
+# Matomo Analytics Configurations
+NUXT_PUBLIC_SCRIPTS_MATOMO_ANALYTICS_MATOMO_URL=
+NUXT_PUBLIC_SCRIPTS_MATOMO_ANALYTICS_SITE_ID=
+NUXT_PUBLIC_SCRIPTS_MATOMO_ANALYTICS_TRACKER_URL=
 ```
 
 ## CMS Setup

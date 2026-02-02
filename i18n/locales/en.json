@@ -93,7 +93,9 @@
         "jsonFile": "JSON array format",
         "textFile": "Plain text format",
         "clickToDownload": "Click on any file type to download its template",
-        "downloadTemplate": "Download {fileType} template"
+        "downloadTemplate": "Download {fileType} template",
+        "excelHint": "Best support for Excel on Windows",
+        "csvWarning": "May not display Arabic correctly on Excel"
       }
     },
     "results": {
@@ -165,7 +167,9 @@
         },
         "actions": {
           "showAllColumns": "Show all columns",
-          "hideColumn": "Hide column"
+          "hideColumn": "Hide column",
+          "expandComment": "Expand comment",
+          "collapseComment": "Collapse comment"
         },
         "validity": {
           "valid": "Valid",
@@ -178,11 +182,13 @@
       "download": {
         "title": "Download Results",
         "subtitle": "Choose a format to download your analysis results",
+        "xlsx": "Excel File",
         "pdf": "PDF Report",
         "csv": "CSV File",
         "json": "JSON Data",
+        "xlsxDescription": "Excel spreadsheet format (.xlsx)",
         "pdfDescription": "Formatted report with charts and summary",
-        "csvDescription": "Spreadsheet format for further analysis",
+        "csvDescription": "Spreadsheet format for advanced analysis",
         "jsonDescription": "Raw data in JSON format",
         "downloading": "Downloading...",
         "downloadError": "Failed to download file. Please try again.",
@@ -214,6 +220,7 @@
       "excelNoData": "Excel file contains no data",
       "excelRowError": "Row {row}: Comment is required",
       "excelParseError": "Failed to parse Excel file",
+      "missingCommentHeader": "Missing required 'comment' column header",
       "unsupportedFileType": "Unsupported file type",
       "noFileUploaded": "No file uploaded",
       "fileIsRequired": "File is required",

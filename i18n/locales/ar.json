@@ -93,7 +93,9 @@
         "jsonFile": "تنسيق JSON",
         "textFile": "تنسيق نص خام",
         "clickToDownload": "انقر على أي نوع ملف لتحميل قالبه",
-        "downloadTemplate": "تحميل قالب {fileType}"
+        "downloadTemplate": "تحميل قالب {fileType}",
+        "excelHint": "أفضل دعم لبرنامج Excel على Windows",
+        "csvWarning": "قد لا يعرض العربية بشكل صحيح في Excel"
       }
     },
     "results": {
@@ -165,24 +167,28 @@
         },
         "actions": {
           "showAllColumns": "إظهار جميع الأعمدة",
-          "hideColumn": "إخفاء العمود"
+          "hideColumn": "إخفاء العمود",
+          "expandComment": "عرض التعليق",
+          "collapseComment": "إخفاء التعليق"
         },
         "validity": {
           "valid": "صالح",
           "invalid": "غير صالح"
         }
       },
-      "backToAnalyze": "الرجوع إلى التحليل",
+      "backToAnalyze": "عودة إلى التحليل",
       "noDataAvailable": "لا توجد بيانات تحليل متاحة. يرجى إجراء تحليل أولاً.",
-      "noValidComments": "لا توجد تعليقات صحيحة. تأكد من أن التعليقات بلغة سليمة وباللهجة الـ{dialect}.",
+      "noValidComments": "لا توجد تعليقات صحيحة. تأكد من أن التعليقات بلغة سليمة وباللهجة {dialect}.",
       "download": {
         "title": "تنزيل النتائج",
         "subtitle": "اختر تنسيقًا لتنزيل نتائج التحليل",
+        "xlsx": "ملف Excel",
         "pdf": "تقرير PDF",
         "csv": "ملف CSV",
         "json": "بيانات JSON",
+        "xlsxDescription": "تنسيق جدول بيانات Excel (.xlsx)",
         "pdfDescription": "تقرير منسق مع الرسوم البيانية والملخص",
-        "csvDescription": "تنسيق جدول بيانات للتحليل الإضافي",
+        "csvDescription": "تنسيق جدول بيانات للتحليل المتقدّم",
         "jsonDescription": "البيانات الخام بتنسيق JSON",
         "downloading": "جاري التنزيل...",
         "downloadError": "فشل تنزيل الملف. يرجى المحاولة مرة أخرى.",
@@ -214,6 +220,7 @@
       "excelNoData": "ملف Excel لا يحتوي على بيانات",
       "excelRowError": "الصف {row}: التعليق مطلوب",
       "excelParseError": "فشل في تحليل ملف Excel",
+      "missingCommentHeader": "عمود 'comment' مطلوب في رأس الملف",
       "unsupportedFileType": "نوع ملف غير مدعوم",
       "noFileUploaded": "لم يتم رفع ملف",
       "fileIsRequired": "الملف مطلوب",

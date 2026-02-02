@@ -20,6 +20,31 @@
       />
 
       <div class="grid grid-cols-1 gap-3">
+        <!-- XLSX Download (Highlighted) -->
+        <UiButton
+          variant="outline"
+          size="lg"
+          class="h-auto p-4"
+          :disabled="downloading"
+          @click="downloadXLSX"
+        >
+          <template #icon>
+            <Icon name="mdi:file-excel" size="24" />
+          </template>
+          <div class="flex-1 text-start">
+            <div class="font-bold">
+              {{ $t('analyze.results.download.xlsx') }}
+            </div>
+            <div class="mt-1 text-sm opacity-70">
+              {{ $t('analyze.results.download.xlsxDescription') }}
+            </div>
+            <div class="mt-1 flex items-center gap-1 text-sm opacity-90">
+              <Icon name="mdi:star" size="18" />
+              {{ $t('analyze.help.fileUpload.excelHint') }}
+            </div>
+          </div>
+        </UiButton>
+
         <!-- PDF Download -->
         <UiButton
           variant="ghost"
@@ -41,27 +66,6 @@
           </div>
         </UiButton>
 
-        <!-- CSV Download -->
-        <UiButton
-          variant="ghost"
-          size="lg"
-          class="h-auto border border-colors-neutral-foreground border-opacity-20 p-4"
-          :disabled="downloading"
-          @click="downloadCSV"
-        >
-          <template #icon>
-            <Icon name="mdi:file-table" size="24" class="text-green-600" />
-          </template>
-          <div class="flex-1 text-start">
-            <div class="font-medium">
-              {{ $t('analyze.results.download.csv') }}
-            </div>
-            <div class="mt-1 text-sm opacity-70">
-              {{ $t('analyze.results.download.csvDescription') }}
-            </div>
-          </div>
-        </UiButton>
-
         <!-- JSON Download -->
         <UiButton
           variant="ghost"
@@ -79,6 +83,27 @@
             </div>
             <div class="mt-1 text-sm opacity-70">
               {{ $t('analyze.results.download.jsonDescription') }}
+            </div>
+          </div>
+        </UiButton>
+
+        <!-- CSV Download -->
+        <UiButton
+          variant="ghost"
+          size="lg"
+          class="h-auto border border-colors-neutral-foreground border-opacity-20 p-4"
+          :disabled="downloading"
+          @click="downloadCSV"
+        >
+          <template #icon>
+            <Icon name="mdi:file-table" size="24" class="text-green-600" />
+          </template>
+          <div class="flex-1 text-start">
+            <div class="font-medium">
+              {{ $t('analyze.results.download.csv') }}
+            </div>
+            <div class="mt-1 text-sm opacity-70">
+              {{ $t('analyze.results.download.csvDescription') }}
             </div>
           </div>
         </UiButton>
@@ -157,7 +182,7 @@
       if (endpoint.includes('csv')) {
         // CSV response is already a string
         fileContent = response as string
-        mimeType = 'text/csv'
+        mimeType = 'text/csv;charset=utf-8'
       } else {
         // JSON response needs to be stringified if it's an object
         fileContent =
@@ -168,7 +193,9 @@
       }
 
       // Create blob and download
-      const blob = new Blob([fileContent], { type: mimeType })
+      const blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), fileContent], {
+        type: mimeType,
+      })
 
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
@@ -197,6 +224,50 @@
           props.onPrintPDF!()
         }, 200)
       })
+    }
+  }
+
+  const downloadXLSX = async () => {
+    if (!props.analysisData) {
+      showNotification(t('analyze.results.download.downloadError'), 'error')
+      return
+    }
+
+    downloading.value = true
+
+    try {
+      const response = await $fetch('/api/analyze/download/xlsx', {
+        method: 'POST',
+        body: {
+          data: props.analysisData,
+        },
+        responseType: 'arrayBuffer',
+      })
+
+      const timestamp = new Date()
+        .toISOString()
+        .replace(/[:.]/g, '-')
+        .slice(0, -5)
+
+      const blob = new Blob([response], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      })
+
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `nuha_analysis_results_${timestamp}.xlsx`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+
+      showNotification(t('analyze.results.download.downloadSuccess'))
+    } catch (error) {
+      console.error('Download error:', error)
+      showNotification(t('analyze.results.download.downloadError'), 'error')
+    } finally {
+      downloading.value = false
     }
   }
 
