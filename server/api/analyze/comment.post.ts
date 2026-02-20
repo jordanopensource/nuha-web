@@ -1,15 +1,9 @@
 import {
   parseTextInput,
   ERROR_KEYS,
-  convertToAPIRequest,
-  convertFromAPIResponse,
 } from '~/server/utils/input-parser'
 import { detectLocale } from '~/server/utils/locale'
-import type {
-  AIAnalysisRequest,
-  AIAnalysisResponse,
-  BatchClassifyResponse,
-} from '~/types/analyze'
+import { AnalysisQueue } from '~/server/utils/analysis-queue'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -47,57 +41,15 @@ export default defineEventHandler(async (event) => {
     // NOTE: to be updated once the API supports different models
     const _region = body.region || 'egy'
 
-    // Detect user's locale for API labels, supported API languages (en, ar)
-    const userLocale = detectLocale(event)
-    const apiLang = userLocale === 'ar' ? 'ar' : 'en'
-
-    // Prepare data for AI analysis
-    const _analysisRequest: AIAnalysisRequest = {
-      comments,
-      // model_dialect: region
-    }
-
-    const config = useRuntimeConfig()
-    const aiModelUrl = config.aiModel?.url
-
-    let analysisResponse: AIAnalysisResponse
-    if (aiModelUrl) {
-      try {
-        // convert to new API schema
-        const apiRequest = convertToAPIRequest(comments)
-
-        // TODO: update to use single text response instead, reflect in UI
-        const response = await $fetch<BatchClassifyResponse>(
-          `${aiModelUrl}/classify/batch?lang=${apiLang}`,
-          {
-            method: 'POST',
-            body: apiRequest,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-
-        // convert back to frontend schema
-        analysisResponse = convertFromAPIResponse(response, comments)
-      } catch (error) {
-        console.error('AI Analysis API Error:', error)
-        throw createError({
-          statusCode: 500,
-          statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR,
-        })
-      }
-    } else {
-      throw createError({
-        statusCode: 503,
-        statusMessage: 'AI analysis service not configured',
-        // TODO: add translatable error key for this error
-      })
-    }
+    // Create analysis job
+    const job = await AnalysisQueue.createJob(comments, _region)
 
     return {
       success: true,
-      data: analysisResponse,
+      data: {
+        analysis_id: job.analysis_id,
+        total_comments: job.total_comments
+      },
     }
   } catch (error) {
     if (error && typeof error === 'object' && 'statusCode' in error) {

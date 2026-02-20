@@ -58,3 +58,23 @@ export interface SingleResult {
 export interface AIAnalysisResponse {
   results: Array<SingleResult>
 }
+
+// Analysis Job Types
+
+export type AnalysisStatus = 'pending' | 'processing' | 'completed' | 'failed'
+
+export interface AnalysisJob {
+  analysis_id: string
+  total_comments: number
+  processed_comments: number
+  status: AnalysisStatus
+  created_at: string
+  dialect: string
+  error?: string
+}
+
+export interface AnalysisJobSummary {
+  analysis_id: string
+  total_comments: number
+  status: AnalysisStatus
+}
