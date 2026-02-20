@@ -1,11 +1,9 @@
 import {
   parseTextInput,
   ERROR_KEYS,
-  convertToAPIRequest,
-  convertFromAPIResponse,
 } from '~/server/utils/input-parser'
 import { detectLocale } from '~/server/utils/locale'
-import type { AIAnalysisResponse, BatchClassifyResponse } from '~/types/analyze'
+import { AnalysisQueue } from '~/server/utils/analysis-queue'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -42,54 +40,15 @@ export default defineEventHandler(async (event) => {
     // Get region
     const region = body.region || 'arz'
 
-    // Detect user's locale for API labels, supported API languages (en, ar)
-    const userLocale = detectLocale(event)
-    const apiLang = userLocale
-
-    const config = useRuntimeConfig()
-    const aiModelUrl = config.aiModel?.url
-
-    let analysisResponse: AIAnalysisResponse
-    if (aiModelUrl) {
-      try {
-        // convert to new API schema
-        const apiRequest = convertToAPIRequest(comments)
-
-        // TODO: update to use single text response instead, reflect in UI
-        const response = await $fetch<BatchClassifyResponse>(
-          `${aiModelUrl}/${region}/classify/batch`,
-          {
-            method: 'POST',
-            body: {
-              ...apiRequest,
-              lang: apiLang,
-            },
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-
-        // convert back to frontend schema
-        analysisResponse = convertFromAPIResponse(response, comments)
-      } catch (error) {
-        console.error('AI Analysis API Error:', error)
-        throw createError({
-          statusCode: 500,
-          statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR,
-        })
-      }
-    } else {
-      throw createError({
-        statusCode: 503,
-        statusMessage: 'AI analysis service not configured',
-        // TODO: add translatable error key for this error
-      })
-    }
+    // Create analysis job
+    const job = await AnalysisQueue.createJob(comments, region)
 
     return {
       success: true,
-      data: analysisResponse,
+      data: {
+        analysis_id: job.analysis_id,
+        total_comments: job.total_comments
+      },
     }
   } catch (error) {
     if (error && typeof error === 'object' && 'statusCode' in error) {

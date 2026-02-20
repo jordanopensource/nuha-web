@@ -2,11 +2,10 @@ import {
   parseFile,
   ERROR_KEYS,
   TranslatableError,
-  convertToAPIRequest,
-  convertFromAPIResponse,
 } from '~/server/utils/input-parser'
 import { detectLocale } from '~/server/utils/locale'
-import type { AIAnalysisResponse, BatchClassifyResponse } from '~/types/analyze'
+
+import { AnalysisQueue } from '~/server/utils/analysis-queue'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -71,51 +70,15 @@ export default defineEventHandler(async (event) => {
       ? new TextDecoder().decode(regionEntry.data)
       : 'arz'
 
-    const userLocale = detectLocale(event)
-    const apiLang = userLocale
-
-    const config = useRuntimeConfig()
-    const aiModelUrl = config.aiModel?.url
-
-    let analysisResponse: AIAnalysisResponse
-
-    if (aiModelUrl) {
-      try {
-        const apiRequest = convertToAPIRequest(comments)
-
-        const response = await $fetch<BatchClassifyResponse>(
-          `${aiModelUrl}/${region}/classify/batch`,
-          {
-            method: 'POST',
-            body: {
-              ...apiRequest,
-              lang: apiLang,
-            },
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-
-        analysisResponse = convertFromAPIResponse(response, comments)
-      } catch (error) {
-        console.error('AI Analysis API Error:', error)
-        throw createError({
-          statusCode: 500,
-          statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR,
-        })
-      }
-    } else {
-      throw createError({
-        statusCode: 503,
-        statusMessage: 'AI analysis service not configured',
-        // TODO: i18n
-      })
-    }
+    // Create analysis job
+    const job = await AnalysisQueue.createJob(comments, region)
 
     return {
       success: true,
-      data: analysisResponse,
+      data: {
+        analysis_id: job.analysis_id,
+        total_comments: job.total_comments
+      },
     }
   } catch (error) {
     if (error && typeof error === 'object' && 'statusCode' in error) {
