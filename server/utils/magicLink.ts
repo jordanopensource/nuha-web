@@ -7,60 +7,14 @@ interface MagicLinkPayload {
   iat: number
 }
 
-let redisClient: Redis | null = null
-let redisInitialized = false
+import { getRedisClient, getRedisKey } from '~/server/utils/redis'
 
 // fallback in-memory storage for magic link tokens
 const magicLinkTokens = new Map<string, { email: string; expires: Date }>()
 
-// initialize Redis client
+// initialize redis client
 function initRedis(): Redis | null {
-  if (redisInitialized) {
-    return redisClient
-  }
-
-  try {
-    const config = useRuntimeConfig()
-
-    if (!config.redis.host) {
-      console.warn('Redis not configured, using in-memory token storage.')
-      return null
-    }
-
-    redisClient = new Redis({
-      host: config.redis.host,
-      port: parseInt(config.redis.port || '6379'),
-      password: config.redis.password || undefined,
-      db: parseInt(config.redis.db || '0'),
-      maxRetriesPerRequest: 3,
-      lazyConnect: true,
-    })
-
-    // Test connection
-    redisClient
-      .ping()
-      .then(() => {
-        console.info('Redis connection successful.')
-      })
-      .catch((error) => {
-        console.warn(
-          'Redis connection failed, falling back to in-memory storage:',
-          error.message
-        )
-        redisClient?.disconnect()
-        redisClient = null
-      })
-
-    redisInitialized = true
-    return redisClient
-  } catch (error) {
-    console.warn(
-      'Redis connection failed, falling back to in-memory storage:',
-      error
-    )
-    redisClient = null
-    return null
-  }
+  return getRedisClient()
 }
 
 // Store token with expiration
@@ -73,12 +27,11 @@ async function storeToken(
 
   if (redis) {
     try {
-      const config = useRuntimeConfig()
-      const keyPrefix = config.redis.keyPrefix || 'nuha_auth:'
-      const key = `${keyPrefix}magic_link:${token}`
       const expirationSeconds = Math.floor(
         (expires.getTime() - Date.now()) / 1000
       )
+
+      const key = getRedisKey(`magic_link:${token}`)
 
       await redis.setex(
         key,
@@ -103,9 +56,7 @@ async function retrieveAndRemoveToken(
 
   if (redis) {
     try {
-      const config = useRuntimeConfig()
-      const keyPrefix = config.redis.keyPrefix || 'nuha_auth:'
-      const key = `${keyPrefix}magic_link:${token}`
+      const key = getRedisKey(`magic_link:${token}`)
 
       const data = await redis.get(key)
       if (data) {
@@ -240,7 +191,7 @@ export async function sendMagicLinkEmail(
         lists: [config.listId].map(parseInt),
       })
     )
-  } catch (error) {
+  } catch (error: any) {
     let errorMessage = ''
     if (typeof error?.response?.data?.message === 'string') {
       errorMessage = error.response.data.message
