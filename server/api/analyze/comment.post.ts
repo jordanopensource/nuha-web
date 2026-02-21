@@ -39,15 +39,16 @@ export default defineEventHandler(async (event) => {
 
     // Get region
     const region = body.region || 'arz'
+    const lang = detectLocale(event)
 
     // Create analysis job
-    const job = await AnalysisQueue.createJob(comments, region)
+    const job = await AnalysisQueue.createJob(comments, region, lang)
 
     return {
       success: true,
       data: {
         analysis_id: job.analysis_id,
-        total_comments: job.total_comments
+        total_comments: job.total_comments,
       },
     }
   } catch (error) {
