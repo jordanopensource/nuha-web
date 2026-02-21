@@ -18,7 +18,7 @@ export class AnalysisQueue {
     return getRedisKey(`analysis:${id}`)
   }
 
-  static async createJob(comments: CommentData[], dialect: string = 'egy'): Promise<AnalysisJob> {
+  static async createJob(comments: CommentData[], dialect: string = 'egy', lang: string = 'ar'): Promise<AnalysisJob> {
     const redis = getRedisClient()
     if (!redis) {
       throw new Error('Redis not available for analysis job creation')
@@ -33,7 +33,8 @@ export class AnalysisQueue {
       processed_comments: 0,
       status: 'pending',
       created_at: now,
-      dialect
+      dialect,
+      lang
     }
 
     const key = this.getJobKey(id)
@@ -74,6 +75,7 @@ export class AnalysisQueue {
       status: meta.status as AnalysisJob['status'],
       created_at: meta.created_at as string,
       dialect: meta.dialect as string,
+      lang: meta.lang as string,
       error: meta.error
     }
   }
@@ -242,9 +244,7 @@ export class AnalysisQueue {
 
         if (comments.length === 0) break
 
-        // FIXME: get the actual client language
-        const apiLang = 'ar'
-        const response = await AIService.analyzeBatch(comments, apiLang)
+        const response = await AIService.analyzeBatch(comments, job.lang)
 
         await this.saveResults(id, response.results)
 

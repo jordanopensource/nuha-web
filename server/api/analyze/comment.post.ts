@@ -41,8 +41,12 @@ export default defineEventHandler(async (event) => {
     // NOTE: to be updated once the API supports different models
     const _region = body.region || 'egy'
 
+    // Detect locale
+    const userLocale = detectLocale(event)
+    const lang = userLocale === 'ar' ? 'ar' : 'en'
+
     // Create analysis job
-    const job = await AnalysisQueue.createJob(comments, _region)
+    const job = await AnalysisQueue.createJob(comments, _region, lang)
 
     return {
       success: true,

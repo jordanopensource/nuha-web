@@ -70,6 +70,7 @@ export interface AnalysisJob {
   status: AnalysisStatus
   created_at: string
   dialect: string
+  lang: string
   error?: string
 }
 
