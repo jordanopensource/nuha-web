@@ -1,4 +1,5 @@
 import { AnalysisQueue } from '~/server/utils/analysis-queue'
+import type { AnalysisOverview } from '~/types/analyze'
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
@@ -10,7 +11,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const overview = await AnalysisQueue.getOverview(id)
+  const overview: AnalysisOverview | null = await AnalysisQueue.getOverview(id)
 
   if (!overview) {
     throw createError({
