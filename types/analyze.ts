@@ -78,3 +78,34 @@ export interface AnalysisJobSummary {
   total_comments: number
   status: AnalysisStatus
 }
+
+// Analysis Stats Types
+export interface MainClassStats {
+  name: string
+  count: number
+  avgConfidence: number
+}
+
+export interface PlatformStats {
+  [platform: string]: {
+    [mainClass: string]: number
+  }
+}
+
+export interface HistogramStats {
+  [mainClass: string]: number[]
+}
+
+export interface AnalysisOverview {
+  job: AnalysisJob
+  stats: {
+    mainClasses: MainClassStats[]
+    platforms: PlatformStats
+    histogram: HistogramStats
+  }
+}
+
+export interface AnalysisOverviewResponse {
+  success: boolean
+  data: AnalysisOverview
+}
