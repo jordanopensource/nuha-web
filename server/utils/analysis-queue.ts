@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
 import { getRedisClient, getRedisKey } from '~/server/utils/redis'
-import type { AnalysisJob, CommentData, SingleResult } from '~/types/analyze'
+import type {
+  AnalysisJob,
+  AnalysisOverview,
+  CommentData,
+  SingleResult,
+} from '~/types/analyze'
 import { AIService } from '~/server/utils/ai-service'
 
 const JOB_TTL_SECONDS = 3600 * 24 * 2 // 2 days
@@ -8,7 +13,7 @@ const BATCH_SIZE = 50
 const BATCH_DELAY_MS = 100 // to avoid rate limiting
 
 export interface AnalysisStats {
-  classes: Record<string, { count: number, totalConfidence: number }>
+  classes: Record<string, { count: number; totalConfidence: number }>
   platforms: Record<string, Record<string, number>>
   histogram: Record<string, number[]>
 }
@@ -18,7 +23,11 @@ export class AnalysisQueue {
     return getRedisKey(`analysis:${id}`)
   }
 
-  static async createJob(comments: CommentData[], dialect: string = 'egy', lang: string = 'ar'): Promise<AnalysisJob> {
+  static async createJob(
+    comments: CommentData[],
+    dialect: string = 'egy',
+    lang: string = 'ar'
+  ): Promise<AnalysisJob> {
     const redis = getRedisClient()
     if (!redis) {
       throw new Error('Redis not available for analysis job creation')
@@ -34,7 +43,7 @@ export class AnalysisQueue {
       status: 'pending',
       created_at: now,
       dialect,
-      lang
+      lang,
     }
 
     const key = this.getJobKey(id)
@@ -43,7 +52,7 @@ export class AnalysisQueue {
     await redis.hset(`${key}:meta`, job)
 
     // Store raw comments
-    const commentsJson = comments.map(c => JSON.stringify(c))
+    const commentsJson = comments.map((c) => JSON.stringify(c))
     if (commentsJson.length > 0) {
       await redis.rpush(`${key}:comments`, ...commentsJson)
     }
@@ -76,11 +85,15 @@ export class AnalysisQueue {
       created_at: meta.created_at as string,
       dialect: meta.dialect as string,
       lang: meta.lang as string,
-      error: meta.error
+      error: meta.error,
     }
   }
 
-  static async updateJobStatus(id: string, status: AnalysisJob['status'], processed?: number) {
+  static async updateJobStatus(
+    id: string,
+    status: AnalysisJob['status'],
+    processed?: number
+  ) {
     const redis = getRedisClient()
     if (!redis) return
 
@@ -97,7 +110,7 @@ export class AnalysisQueue {
     if (!redis) return
 
     const key = this.getJobKey(id)
-    const resultsJson = results.map(r => JSON.stringify(r))
+    const resultsJson = results.map((r) => JSON.stringify(r))
 
     if (resultsJson.length > 0) {
       await redis.rpush(`${key}:results`, ...resultsJson)
@@ -120,7 +133,11 @@ export class AnalysisQueue {
       const confidence = result.confidence
 
       multi.hincrby(`${key}:stats:classes`, `${className}:count`, 1)
-      multi.hincrbyfloat(`${key}:stats:classes`, `${className}:score`, confidence)
+      multi.hincrbyfloat(
+        `${key}:stats:classes`,
+        `${className}:score`,
+        confidence
+      )
 
       multi.hincrby(`${key}:stats:platforms`, `${platform}:${className}`, 1)
 
@@ -131,22 +148,24 @@ export class AnalysisQueue {
     await multi.exec()
   }
 
-  static async getOverview(id: string): Promise<any> {
+  static async getOverview(id: string): Promise<AnalysisOverview | null> {
     const redis = getRedisClient()
     if (!redis) return null
 
     const key = this.getJobKey(id)
-    const [meta, classStats, platformStats, histogramStats] = await Promise.all([
-      redis.hgetall(`${key}:meta`),
-      redis.hgetall(`${key}:stats:classes`),
-      redis.hgetall(`${key}:stats:platforms`),
-      redis.hgetall(`${key}:stats:histogram`)
-    ])
+    const [meta, classStats, platformStats, histogramStats] = await Promise.all(
+      [
+        redis.hgetall(`${key}:meta`),
+        redis.hgetall(`${key}:stats:classes`),
+        redis.hgetall(`${key}:stats:platforms`),
+        redis.hgetall(`${key}:stats:histogram`),
+      ]
+    )
 
     if (!meta || Object.keys(meta).length === 0) return null
 
     // Parse Classes
-    const classesMap: Record<string, { count: number, totalScore: number }> = {}
+    const classesMap: Record<string, { count: number; totalScore: number }> = {}
     for (const [field, value] of Object.entries(classStats)) {
       const [className, type] = field.split(':')
       if (className && !classesMap[className]) {
@@ -164,7 +183,7 @@ export class AnalysisQueue {
     const mainClasses = Object.entries(classesMap).map(([name, data]) => ({
       name,
       count: data.count,
-      avgConfidence: data.count > 0 ? data.totalScore / data.count : 0
+      avgConfidence: data.count > 0 ? data.totalScore / data.count : 0,
     }))
 
     // Parse Platforms
@@ -194,33 +213,41 @@ export class AnalysisQueue {
         ...meta,
         total_comments: parseInt(meta.total_comments || '0'),
         processed_comments: parseInt(meta.processed_comments || '0'),
-        status: meta.status
+        status: meta.status,
       },
       stats: {
         mainClasses,
         platforms,
-        histogram
-      }
+        histogram,
+      },
     }
   }
 
-  static async getComments(id: string, start: number, end: number): Promise<CommentData[]> {
+  static async getComments(
+    id: string,
+    start: number,
+    end: number
+  ): Promise<CommentData[]> {
     const redis = getRedisClient()
     if (!redis) return []
 
     const key = this.getJobKey(id)
     const raw = await redis.lrange(`${key}:comments`, start, end)
-    return raw.map(r => JSON.parse(r) as CommentData)
+    return raw.map((r) => JSON.parse(r) as CommentData)
   }
 
-  static async getAnalyzedResults(id: string, start: number, end: number): Promise<SingleResult[]> {
+  static async getAnalyzedResults(
+    id: string,
+    start: number,
+    end: number
+  ): Promise<SingleResult[]> {
     const redis = getRedisClient()
     if (!redis) return []
 
     const key = this.getJobKey(id)
     // lrange is inclusive
     const raw = await redis.lrange(`${key}:results`, start, end)
-    return raw.map(r => JSON.parse(r) as SingleResult)
+    return raw.map((r) => JSON.parse(r) as SingleResult)
   }
 
   static async processJob(id: string) {
@@ -238,7 +265,6 @@ export class AnalysisQueue {
       const total = job.total_comments
 
       while (currentOffset < total) {
-
         const endOffset = Math.min(currentOffset + BATCH_SIZE - 1, total - 1)
         const comments = await this.getComments(id, currentOffset, endOffset)
 
@@ -251,12 +277,11 @@ export class AnalysisQueue {
         currentOffset += comments.length
         await this.updateJobStatus(id, 'processing', currentOffset)
 
-        await new Promise(resolve => setTimeout(resolve, BATCH_DELAY_MS))
+        await new Promise((resolve) => setTimeout(resolve, BATCH_DELAY_MS))
       }
 
       await this.updateJobStatus(id, 'completed', total)
       console.log(`Job ${id} completed`)
-
     } catch (error: any) {
       console.error(`Job ${id} failed:`, error)
       const redis = getRedisClient()
@@ -264,7 +289,7 @@ export class AnalysisQueue {
         const key = this.getJobKey(id)
         await redis.hset(`${key}:meta`, {
           status: 'failed',
-          error: error.message || 'Unknown error'
+          error: error.message || 'Unknown error',
         })
       }
     }
