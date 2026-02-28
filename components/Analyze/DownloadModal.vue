@@ -126,7 +126,8 @@
 
   interface Props {
     modelValue: boolean
-    analysisData: AIAnalysisResponse | null
+    analysisData?: AIAnalysisResponse | null
+    jobId?: string
     onPrintPDF?: () => void
   }
 
@@ -161,7 +162,7 @@
   }
 
   const downloadFile = async (endpoint: string, filename: string) => {
-    if (!props.analysisData) {
+    if (!props.jobId && !props.analysisData) {
       showNotification(t('analyze.results.download.downloadError'), 'error')
       return
     }
@@ -172,7 +173,8 @@
       const response = await $fetch(endpoint, {
         method: 'POST',
         body: {
-          data: props.analysisData,
+          job_id: props.jobId,
+          // data: props.analysisData,
         },
       })
 
@@ -228,7 +230,7 @@
   }
 
   const downloadXLSX = async () => {
-    if (!props.analysisData) {
+    if (!props.jobId && !props.analysisData) {
       showNotification(t('analyze.results.download.downloadError'), 'error')
       return
     }
@@ -239,7 +241,8 @@
       const response = await $fetch('/api/analyze/download/xlsx', {
         method: 'POST',
         body: {
-          data: props.analysisData,
+          job_id: props.jobId,
+          // data: props.analysisData,
         },
         responseType: 'arrayBuffer',
       })
