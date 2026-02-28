@@ -180,68 +180,83 @@
           </UiPageHeading>
 
           <!-- Charts -->
-          <ClientOnly>
-            <div
-              ref="chartsContainer"
-              class="grid grid-cols-1 gap-6 py-12 max-sm:py-6 md:grid-cols-2 print:!grid-cols-1 print:py-6"
-            >
-              <div v-if="noChartVisible">
-                {{ $t('analyze.results.noChartSelected') }}
+          <div class="relative">
+            <ClientOnly>
+              <div
+                ref="chartsContainer"
+                class="grid grid-cols-1 gap-6 py-12 max-sm:py-6 md:grid-cols-2 print:!grid-cols-1 print:py-6"
+              >
+                <div v-if="noChartVisible">
+                  {{ $t('analyze.results.noChartSelected') }}
+                </div>
+
+                <ChartDoughnut
+                  v-if="chartsVisible.distribution"
+                  :key="`doughnut-${chartRerenderKey}`"
+                  class="m-auto w-3/4 break-inside-avoid max-sm:!w-full print:!w-full"
+                  :chart-data="pieChartData"
+                  :options="doughnutOptions"
+                  :style="
+                    chartsContainer?.offsetWidth
+                      ? `width: ${(chartsContainer.offsetWidth / 2) * 0.75}px`
+                      : ''
+                  "
+                />
+
+                <ChartBar
+                  v-if="chartsVisible.platform"
+                  :key="`platform-${chartRerenderKey}`"
+                  class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
+                  :chart-data="platformStackedData"
+                  :options="platformsBarOptions"
+                  :style="
+                    chartsContainer?.offsetWidth
+                      ? `width: ${chartsContainer.offsetWidth / 2}px`
+                      : ''
+                  "
+                />
+
+                <ChartBar
+                  v-if="chartsVisible.totals"
+                  :key="`totals-${chartRerenderKey}`"
+                  class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
+                  :chart-data="barChartData"
+                  :options="barOptions"
+                  :style="
+                    chartsContainer?.offsetWidth
+                      ? `width: ${chartsContainer.offsetWidth / 2}px`
+                      : ''
+                  "
+                />
+
+                <ChartBar
+                  v-if="chartsVisible.histogram"
+                  :key="`histogram-${chartRerenderKey}`"
+                  class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
+                  :chart-data="histogramData"
+                  :options="histogramOptions"
+                  :style="
+                    chartsContainer?.offsetWidth
+                      ? `width: ${chartsContainer.offsetWidth / 2}px`
+                      : ''
+                  "
+                />
               </div>
+            </ClientOnly>
 
-              <ChartDoughnut
-                v-if="chartsVisible.distribution"
-                :key="`doughnut-${chartRerenderKey}`"
-                class="m-auto w-3/4 break-inside-avoid max-sm:!w-full print:!w-full"
-                :chart-data="pieChartData"
-                :options="doughnutOptions"
-                :style="
-                  chartsContainer?.offsetWidth
-                    ? `width: ${(chartsContainer.offsetWidth / 2) * 0.75}px`
-                    : ''
-                "
-              />
-
-              <ChartBar
-                v-if="chartsVisible.platform"
-                :key="`platform-${chartRerenderKey}`"
-                class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
-                :chart-data="platformStackedData"
-                :options="platformsBarOptions"
-                :style="
-                  chartsContainer?.offsetWidth
-                    ? `width: ${chartsContainer.offsetWidth / 2}px`
-                    : ''
-                "
-              />
-
-              <ChartBar
-                v-if="chartsVisible.totals"
-                :key="`totals-${chartRerenderKey}`"
-                class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
-                :chart-data="barChartData"
-                :options="barOptions"
-                :style="
-                  chartsContainer?.offsetWidth
-                    ? `width: ${chartsContainer.offsetWidth / 2}px`
-                    : ''
-                "
-              />
-
-              <ChartBar
-                v-if="chartsVisible.histogram"
-                :key="`histogram-${chartRerenderKey}`"
-                class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
-                :chart-data="histogramData"
-                :options="histogramOptions"
-                :style="
-                  chartsContainer?.offsetWidth
-                    ? `width: ${chartsContainer.offsetWidth / 2}px`
-                    : ''
-                "
-              />
+            <!-- Charts loading overlay -->
+            <div
+              v-if="isProcessing && !noChartVisible"
+              class="absolute inset-0 z-20 flex items-center justify-center rounded-md bg-white/40 print:hidden"
+            >
+              <div
+                class="flex items-center gap-2 rounded-full border bg-white/80 px-3 py-1 text-xl font-medium text-colors-primary"
+              >
+                <Icon name="mdi:loading" class="animate-spin" />
+                {{ $t('misc.loading') }}
+              </div>
             </div>
-          </ClientOnly>
+          </div>
 
           <!-- Customize Charts Modal -->
           <UiModal
@@ -852,8 +867,8 @@
   const chartsVisible = reactive({
     distribution: true,
     totals: false,
-    platform: true,
-    histogram: false,
+    platform: false,
+    histogram: true,
   })
   const noChartVisible = computed(
     () =>
