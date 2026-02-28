@@ -814,6 +814,10 @@
   let pollo: any = null
 
   onMounted(async () => {
+    window.addEventListener('beforeprint', handleBeforePrint)
+    window.addEventListener('afterprint', handleAfterPrint)
+    window.addEventListener('keydown', handlePrintShortcut)
+
     const id = route.query.id as string
     if (id) {
       jobId.value = id
@@ -855,8 +859,9 @@
   })
 
   onUnmounted(() => {
-    // window.removeEventListener('beforeprint', handleBeforePrint)
-    // window.removeEventListener('afterprint', handleAfterPrint)
+    window.removeEventListener('beforeprint', handleBeforePrint)
+    window.removeEventListener('afterprint', handleAfterPrint)
+    window.removeEventListener('keydown', handlePrintShortcut)
     if (pollo) clearInterval(pollo)
   })
 
@@ -865,10 +870,19 @@
   const rowsPerPage = ref(10)
   const rowsPerPageOptions = ref([5, 10, 20, 50])
 
+  // Print state
+  const prePrintRowsPerPage = ref(10)
+  const prePrintFirst = ref(0)
+  const isPrintMode = ref(false)
+  const isPreparingPrint = ref(false)
+
+  const updateTablePage = async (page: number, rows: number) => {
+    first.value = page * rows
+    rowsPerPage.value = rows
+    await fetchResults(page, rows)
+  }
   const onPage = (event: any) => {
-    first.value = event.first
-    rowsPerPage.value = event.rows
-    fetchResults(event.page, event.rows)
+    updateTablePage(event.page, event.rows)
   }
   // const onSort = () => {
   //   // TODO: on server side
@@ -1090,17 +1104,70 @@
     },
   })
 
-  const handlePrint = () => {
+  const preparePrintData = async () => {
+    if (isPreparingPrint.value || !isValidJob.value) return
+
+    isPreparingPrint.value = true
+    try {
+      if (!isPrintMode.value) {
+        prePrintRowsPerPage.value = rowsPerPage.value
+        prePrintFirst.value = first.value
+      }
+
+      await fetchOverview()
+
+      const allRowsCount =
+        jobStatus.value?.total_comments ||
+        totalAnalyzed.value ||
+        rowsPerPage.value
+
+      await updateTablePage(0, allRowsCount)
+      isPrintMode.value = true
+    } finally {
+      isPreparingPrint.value = false
+    }
+  }
+
+  const restoreAfterPrint = async () => {
+    if (!isPrintMode.value) return
+
+    const restoredRows = prePrintRowsPerPage.value
+    const restoredFirst = prePrintFirst.value
+    const restoredPage = Math.floor(restoredFirst / restoredRows)
+
+    await updateTablePage(restoredPage, restoredRows)
+    first.value = restoredFirst
+    isPrintMode.value = false
+  }
+
+  const handleBeforePrint = () => {
+    if (isPrintMode.value) return
+    preparePrintData()
+  }
+
+  const handleAfterPrint = () => {
+    restoreAfterPrint()
+  }
+
+  const handlePrintShortcut = (event: KeyboardEvent) => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'p') {
+      event.preventDefault()
+      handlePrint()
+    }
+  }
+
+  const handlePrint = async () => {
     // make sure modal is closed
     showDownloadModal.value = false
 
+    await preparePrintData()
+
     // give time for modal to fully close and page to re-render
-    nextTick(() => {
-      setTimeout(() => {
-        document.body.focus()
-        window.print()
-      }, 300)
-    })
+    await nextTick()
+    setTimeout(() => {
+      document.body.focus()
+      window.print()
+    }, 300)
   }
 
   // Filters ref (unused server-side for now but required for DataTable prop)
