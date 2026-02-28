@@ -1,22 +1,22 @@
 @layer base {
   h1 {
-    @apply font-LTZarid text-h1-m lg:text-h1;
+    @apply font-LTZarid text-h1-m lg:text-h1 print:!font-LTZarid;
   }
 
   h2 {
-    @apply font-LTZarid text-h2-m lg:text-h2;
+    @apply font-LTZarid text-h2-m lg:text-h2 print:!font-LTZarid;
   }
 
   h3 {
-    @apply font-LTZarid text-h3-m lg:text-h3;
+    @apply font-LTZarid text-h3-m lg:text-h3 print:!font-LTZarid;
   }
 
   h4 {
-    @apply font-LTZarid text-h4-m lg:text-h4;
+    @apply font-LTZarid text-h4-m lg:text-h4 print:!font-LTZarid;
   }
 
   body {
-    @apply font-IBMPlexSansArabic text-base font-normal;
+    @apply font-IBMPlexSansArabic text-base font-normal print:!font-IBMPlexSansArabic;
   }
 
   small {

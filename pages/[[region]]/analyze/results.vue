@@ -1297,6 +1297,10 @@
 
   /* remove shadows in print */
   @media print {
+    * {
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
     #dt-responsive-table table tbody tr {
       box-shadow: none !important;
     }
