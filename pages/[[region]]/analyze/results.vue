@@ -10,7 +10,7 @@
             <!-- Analysis processing status indicator -->
             <div
               v-if="isProcessing"
-              class="ms-auto flex w-fit items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-sm text-blue-600"
+              class="ms-auto flex w-fit items-center gap-2 rounded-full bg-colors-primary-light px-3 py-1 text-sm text-colors-primary-active"
             >
               <Icon name="mdi:loading" class="animate-spin" />
               {{ $t('misc.loading') }} ({{
@@ -57,6 +57,19 @@
         </div>
       </template>
     </UiPageHeading>
+
+    <div v-if="isProcessing" class="h-2 rounded-md border print:hidden">
+      <div
+        class="progress-bar h-2 rounded-md bg-colors-primary transition-all duration-300"
+        :style="{
+          width: `${Math.round(
+            ((jobStatus?.processed_comments || 0) /
+              (jobStatus?.total_comments || 1)) *
+              100
+          )}%`,
+        }"
+      />
+    </div>
 
     <div v-if="isValidJob" class="analysis-container">
       <div v-if="isSingleComment" class="mx-auto max-w-2xl">
