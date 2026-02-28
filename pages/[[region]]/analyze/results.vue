@@ -343,10 +343,10 @@
                 name="mdi:info-outline"
                 class="text-base text-colors-neutral-placeholder"
               />
-              <!-- TODO: i18n -->
               <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
-              {{ jobStatus?.total_comments }} ({{ totalAnalyzed }} analyzed)
+              {{ jobStatus?.total_comments }}
               {{ $t('analyze.results.summary.commentsWord') }}
+              ({{ totalAnalyzed }} {{ $t('analyze.results.summary.analyzed') }})
             </small>
             <small>
               <strong>{{ $t('analyze.results.summary.dialect') }}</strong>

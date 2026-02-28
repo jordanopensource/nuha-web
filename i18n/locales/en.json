@@ -133,7 +133,8 @@
         "totalLabel": "Total:",
         "dialect": "Dialect:",
         "modelVersion": "Model Version:",
-        "commentsWord": "Comments"
+        "commentsWord": "Comments",
+        "analyzed": "analyzed"
       },
       "singleResult": {
         "title": "Analysis Result",

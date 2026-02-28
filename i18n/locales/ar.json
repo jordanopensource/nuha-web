@@ -133,7 +133,8 @@
         "totalLabel": "الإجمالي:",
         "dialect": "اللهجة:",
         "modelVersion": "إصدار النموذج:",
-        "commentsWord": "تعليق"
+        "commentsWord": "تعليق",
+        "analyzed": "محللة"
       },
       "singleResult": {
         "title": "نتيجة التحليل",
