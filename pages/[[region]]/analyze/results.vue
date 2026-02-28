@@ -58,396 +58,492 @@
       </template>
     </UiPageHeading>
 
-    <div v-if="isValidJob">
-      <!-- Bulk Analysis - Charts and Tables Layout -->
-      <!-- Only showing Bulk layout for now -->
-      <div
-        class="mb-6 rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
-        :class="{ 'print:hidden': noChartVisible }"
-      >
-        <UiPageHeading
-          id="results-overview"
-          :title="$t('analyze.results.overview')"
-          class="!my-0 [&_h2]:font-normal"
-        >
-          <template #second-col>
-            <UiButton
-              variant="ghost"
-              class="w-52 max-md:mx-auto md:ms-auto print:!hidden"
-              @click="showCustomize = true"
-            >
-              {{ $t('analyze.results.customizeCharts') }}
-              <template #icon>
-                <Icon name="mdi:pencil" />
-              </template>
-            </UiButton>
-          </template>
-        </UiPageHeading>
-
-        <!-- Charts -->
-        <ClientOnly>
-          <div
-            ref="chartsContainer"
-            class="grid grid-cols-1 gap-6 py-12 max-sm:py-6 md:grid-cols-2 print:!grid-cols-1 print:py-6"
-          >
-            <div v-if="noChartVisible">
-              {{ $t('analyze.results.noChartSelected') }}
-            </div>
-
-            <ChartDoughnut
-              v-if="chartsVisible.distribution"
-              :key="`doughnut-${chartRerenderKey}`"
-              class="m-auto w-3/4 break-inside-avoid max-sm:!w-full print:!w-full"
-              :chart-data="pieChartData"
-              :options="doughnutOptions"
-              :style="
-                chartsContainer?.offsetWidth
-                  ? `width: ${(chartsContainer.offsetWidth / 2) * 0.75}px`
-                  : ''
-              "
-            />
-
-            <ChartBar
-              v-if="chartsVisible.platform"
-              :key="`platform-${chartRerenderKey}`"
-              class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
-              :chart-data="platformStackedData"
-              :options="platformsBarOptions"
-              :style="
-                chartsContainer?.offsetWidth
-                  ? `width: ${chartsContainer.offsetWidth / 2}px`
-                  : ''
-              "
-            />
-
-            <ChartBar
-              v-if="chartsVisible.totals"
-              :key="`totals-${chartRerenderKey}`"
-              class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
-              :chart-data="barChartData"
-              :options="barOptions"
-              :style="
-                chartsContainer?.offsetWidth
-                  ? `width: ${chartsContainer.offsetWidth / 2}px`
-                  : ''
-              "
-            />
-
-            <ChartBar
-              v-if="chartsVisible.histogram"
-              :key="`histogram-${chartRerenderKey}`"
-              class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
-              :chart-data="histogramData"
-              :options="histogramOptions"
-              :style="
-                chartsContainer?.offsetWidth
-                  ? `width: ${chartsContainer.offsetWidth / 2}px`
-                  : ''
-              "
-            />
-          </div>
-        </ClientOnly>
-
-        <!-- Customize Charts Modal -->
-        <UiModal
-          v-model="showCustomize"
-          :title="$t('analyze.results.customizeCharts')"
-          size="md"
-          :cancel-button-text="$t('misc.close')"
-          :show-action-button="false"
-          @close="showCustomize = false"
-        >
-          <div class="space-y-4">
-            <label class="checkbox-label">
-              <input v-model="chartsVisible.distribution" type="checkbox" />
-              <span>{{ $t('analyze.results.charts.distribution') }}</span>
-            </label>
-            <label class="checkbox-label">
-              <input v-model="chartsVisible.totals" type="checkbox" />
-              <span>{{ $t('analyze.results.charts.totals') }}</span>
-            </label>
-            <label
-              class="checkbox-label"
-              :class="{ 'pointer-events-none opacity-50': !hasPlatforms }"
-              :title="
-                !hasPlatforms ? $t('analyze.results.noChartSelected') : ''
-              "
-            >
-              <input
-                v-model="chartsVisible.platform"
-                type="checkbox"
-                :disabled="!hasPlatforms"
-              />
-              <span>{{ $t('analyze.results.charts.platformStacked') }}</span>
-            </label>
-            <label class="checkbox-label">
-              <input v-model="chartsVisible.histogram" type="checkbox" />
-              <span>{{ $t('analyze.results.charts.histogram') }}</span>
-            </label>
-          </div>
-        </UiModal>
-      </div>
-
-      <!-- General Analysis Summary -->
-      <div
-        class="mb-6 break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
-      >
-        <h2 class="mb-4 font-normal">
-          {{ $t('analyze.results.summary.title') }}
-        </h2>
-
-        <!-- TODO: replace tailwind dynamic classes with plain css -->
+    <div v-if="isValidJob" class="analysis-container">
+      <div v-if="isSingleComment" class="mx-auto max-w-2xl">
         <div
-          class="mb-6 grid gap-4"
-          :class="`grid-cols-${Math.min(stats.mainClasses.length, 3)} max-sm:grid-cols-1`"
+          class="mb-6 break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
         >
-          <ResultAnalysisSummaryChip
-            v-for="(classData, index) in stats.mainClasses"
-            :key="classData.name"
-            :class="getClassChipStyles(index)"
-            :title="classData.name"
-            :value="
-              Math.round((classData.count / (totalAnalyzed || 1)) * 100) + '%'
-            "
-            :number-of-comments="classData.count"
-            :confidence="(classData.avgConfidence * 100).toFixed(1)"
-          />
-        </div>
+          <h2 class="mb-6 font-normal">
+            {{ $t('analyze.results.singleResult.title') }}
+          </h2>
 
-        <div class="flex flex-wrap items-center gap-4 print:justify-center">
-          <small class="flex items-center gap-1">
-            <Icon
-              name="mdi:info-outline"
-              class="text-base text-colors-neutral-placeholder"
-            />
-            <!-- TODO: i18n -->
-            <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
-            {{ jobStatus?.total_comments }} ({{ totalAnalyzed }} analyzed)
-            {{ $t('analyze.results.summary.commentsWord') }}
-          </small>
-          <small>
-            <strong>{{ $t('analyze.results.summary.dialect') }}</strong>
-            {{ dialectDisplay }}
-          </small>
+          <!-- Single Comment Result Card -->
+          <div v-if="singleComment" class="space-y-6">
+            <!-- Comment Text -->
+            <div class="rounded-lg bg-gray-50 p-4">
+              <h3 class="mb-2 text-base font-medium text-gray-700">
+                {{ $t('analyze.results.details.headers.comment') }}
+              </h3>
+              <p class="text-xl">{{ singleComment.comment }}</p>
+            </div>
+
+            <!-- Classification Result -->
+            <div class="grid gap-4 md:grid-cols-2">
+              <div class="rounded-lg bg-blue-50 p-4">
+                <h3 class="mb-2 text-base font-medium text-blue-700">
+                  {{ $t('analyze.results.singleResult.classification') }}
+                </h3>
+                <div class="space-y-1">
+                  <p class="text-xl font-semibold text-blue-900">
+                    {{ singleComment.main_class }}
+                  </p>
+                  <p
+                    v-if="singleComment.sub_class !== singleComment.main_class"
+                    class="text-base text-blue-600"
+                  >
+                    {{ singleComment.sub_class }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="rounded-lg bg-green-50 p-4">
+                <h3 class="mb-2 text-base font-medium text-green-700">
+                  {{ $t('analyze.results.singleResult.confidence') }}
+                </h3>
+                <div class="space-y-2">
+                  <div class="flex items-center gap-3">
+                    <div class="h-3 flex-1 rounded-full bg-gray-200">
+                      <div
+                        class="h-3 rounded-full transition-all duration-300"
+                        :class="
+                          singleComment.confidence > 0.8
+                            ? 'bg-green-500'
+                            : singleComment.confidence > 0.6
+                              ? 'bg-yellow-500'
+                              : 'bg-red-500'
+                        "
+                        :style="{
+                          width: `${singleComment.confidence * 100}%`,
+                        }"
+                      />
+                    </div>
+                    <span class="text-xl font-semibold text-green-900">
+                      {{ (singleComment.confidence * 100).toFixed(1) }}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Metadata (if available) -->
+            <div
+              v-if="singleComment.platform || singleComment.date"
+              class="grid gap-4 md:grid-cols-2"
+            >
+              <div
+                v-if="singleComment.platform"
+                class="rounded-lg bg-purple-50 p-4"
+              >
+                <h3 class="mb-2 text-sm font-medium text-purple-700">
+                  {{ $t('analyze.results.details.headers.platform') }}
+                </h3>
+                <p class="text-purple-900">{{ singleComment.platform }}</p>
+              </div>
+
+              <div
+                v-if="singleComment.date"
+                class="rounded-lg bg-orange-50 p-4"
+              >
+                <h3 class="mb-2 text-sm font-medium text-orange-700">
+                  {{ $t('analyze.results.details.headers.date') }}
+                </h3>
+                <p class="text-orange-900">{{ singleComment.date }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Comments Details -->
-      <div
-        class="break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
-      >
-        <h2 class="mb-4 font-normal">
-          {{ $t('analyze.results.details.title') }}
-        </h2>
-
-        <pv-DataTable
-          id="dt-responsive-table"
-          v-model:filters="filters"
-          :value="paginatedComments"
-          :rows="rowsPerPage"
-          :total-records="totalAnalyzed"
-          :lazy="true"
-          :paginator="true"
-          :always-show-paginator="false"
-          :rows-per-page-options="rowsPerPageOptions"
-          :loading="tableLoading"
-          column-resize-mode="fit"
-          resizable-columns
-          table-style="table-layout: fixed"
-          pt:columnResizeIndicator:class="bg-colors-primary-active"
-          paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          :current-page-report-template="
-            $t('analyze.results.details.pagination.showing', {
-              first: '{first}',
-              last: '{last}',
-              total: '{totalRecords}',
-            })
-          "
-          class="rounded-md py-8 md:px-4"
-          @page="onPage"
+      <template v-else>
+        <!-- Bulk Analysis - Charts and Tables Layout -->
+        <div
+          class="mb-6 rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
+          :class="{ 'print:hidden': noChartVisible }"
         >
-          <template #empty>
-            <div class="py-8 text-center text-gray-500">
-              {{ $t('analyze.results.details.pagination.noData') }}
-            </div>
-          </template>
-          <template #paginatorend>
-            <UiButton
-              variant="ghost"
-              size="md"
-              :title="$t('analyze.results.details.actions.showAllColumns')"
-              class="aspect-square !rounded-full !p-2 max-md:!hidden"
-              style="color: var(--p-paginator-nav-button-color)"
-              @click="restoreCols()"
-            >
-              <Icon name="mdi:view-column" size="24" />
-            </UiButton>
-          </template>
-
-          <template #loading>
-            <div
-              class="rounded-md bg-colors-neutral-background p-12 text-center"
-            >
-              <Icon
-                name="mdi:loading"
-                class="animate-spin text-2xl text-colors-primary"
-              />
-              <p class="mt-2 text-colors-neutral-placeholder">
-                {{ $t('misc.loading') }}
-              </p>
-            </div>
-          </template>
-
-          <pv-Column
-            field="comment"
-            :header="$t('analyze.results.details.headers.comment')"
-            style="width: 50%"
+          <UiPageHeading
+            id="results-overview"
+            :title="$t('analyze.results.overview')"
+            class="!my-0 [&_h2]:font-normal"
           >
-            <template #body="{ data }">
-              <div class="flex items-start gap-2">
-                <div
-                  class="comment-cell flex-1 transition-all"
-                  :class="data._expanded ? 'whitespace-normal' : 'truncate'"
-                  :title="data.comment"
-                >
-                  {{ data.comment }}
+            <template #second-col>
+              <UiButton
+                variant="ghost"
+                class="w-52 max-md:mx-auto md:ms-auto print:!hidden"
+                @click="showCustomize = true"
+              >
+                {{ $t('analyze.results.customizeCharts') }}
+                <template #icon>
+                  <Icon name="mdi:pencil" />
+                </template>
+              </UiButton>
+            </template>
+          </UiPageHeading>
+
+          <!-- Charts -->
+          <ClientOnly>
+            <div
+              ref="chartsContainer"
+              class="grid grid-cols-1 gap-6 py-12 max-sm:py-6 md:grid-cols-2 print:!grid-cols-1 print:py-6"
+            >
+              <div v-if="noChartVisible">
+                {{ $t('analyze.results.noChartSelected') }}
+              </div>
+
+              <ChartDoughnut
+                v-if="chartsVisible.distribution"
+                :key="`doughnut-${chartRerenderKey}`"
+                class="m-auto w-3/4 break-inside-avoid max-sm:!w-full print:!w-full"
+                :chart-data="pieChartData"
+                :options="doughnutOptions"
+                :style="
+                  chartsContainer?.offsetWidth
+                    ? `width: ${(chartsContainer.offsetWidth / 2) * 0.75}px`
+                    : ''
+                "
+              />
+
+              <ChartBar
+                v-if="chartsVisible.platform"
+                :key="`platform-${chartRerenderKey}`"
+                class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
+                :chart-data="platformStackedData"
+                :options="platformsBarOptions"
+                :style="
+                  chartsContainer?.offsetWidth
+                    ? `width: ${chartsContainer.offsetWidth / 2}px`
+                    : ''
+                "
+              />
+
+              <ChartBar
+                v-if="chartsVisible.totals"
+                :key="`totals-${chartRerenderKey}`"
+                class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
+                :chart-data="barChartData"
+                :options="barOptions"
+                :style="
+                  chartsContainer?.offsetWidth
+                    ? `width: ${chartsContainer.offsetWidth / 2}px`
+                    : ''
+                "
+              />
+
+              <ChartBar
+                v-if="chartsVisible.histogram"
+                :key="`histogram-${chartRerenderKey}`"
+                class="m-auto w-full break-inside-avoid max-sm:!w-full print:!w-full print:min-w-52"
+                :chart-data="histogramData"
+                :options="histogramOptions"
+                :style="
+                  chartsContainer?.offsetWidth
+                    ? `width: ${chartsContainer.offsetWidth / 2}px`
+                    : ''
+                "
+              />
+            </div>
+          </ClientOnly>
+
+          <!-- Customize Charts Modal -->
+          <UiModal
+            v-model="showCustomize"
+            :title="$t('analyze.results.customizeCharts')"
+            size="md"
+            :cancel-button-text="$t('misc.close')"
+            :show-action-button="false"
+            @close="showCustomize = false"
+          >
+            <div class="space-y-4">
+              <label class="checkbox-label">
+                <input v-model="chartsVisible.distribution" type="checkbox" />
+                <span>{{ $t('analyze.results.charts.distribution') }}</span>
+              </label>
+              <label class="checkbox-label">
+                <input v-model="chartsVisible.totals" type="checkbox" />
+                <span>{{ $t('analyze.results.charts.totals') }}</span>
+              </label>
+              <label
+                class="checkbox-label"
+                :class="{ 'pointer-events-none opacity-50': !hasPlatforms }"
+                :title="
+                  !hasPlatforms ? $t('analyze.results.noChartSelected') : ''
+                "
+              >
+                <input
+                  v-model="chartsVisible.platform"
+                  type="checkbox"
+                  :disabled="!hasPlatforms"
+                />
+                <span>{{ $t('analyze.results.charts.platformStacked') }}</span>
+              </label>
+              <label class="checkbox-label">
+                <input v-model="chartsVisible.histogram" type="checkbox" />
+                <span>{{ $t('analyze.results.charts.histogram') }}</span>
+              </label>
+            </div>
+          </UiModal>
+        </div>
+
+        <!-- General Analysis Summary -->
+        <div
+          class="mb-6 break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
+        >
+          <h2 class="mb-4 font-normal">
+            {{ $t('analyze.results.summary.title') }}
+          </h2>
+
+          <!-- TODO: replace tailwind dynamic classes with plain css -->
+          <div
+            class="mb-6 grid gap-4"
+            :class="`grid-cols-${Math.min(stats.mainClasses.length, 3)} max-sm:grid-cols-1`"
+          >
+            <ResultAnalysisSummaryChip
+              v-for="(classData, index) in stats.mainClasses"
+              :key="classData.name"
+              :class="getClassChipStyles(index)"
+              :title="classData.name"
+              :value="
+                Math.round((classData.count / (totalAnalyzed || 1)) * 100) + '%'
+              "
+              :number-of-comments="classData.count"
+              :confidence="(classData.avgConfidence * 100).toFixed(1)"
+            />
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4 print:justify-center">
+            <small class="flex items-center gap-1">
+              <Icon
+                name="mdi:info-outline"
+                class="text-base text-colors-neutral-placeholder"
+              />
+              <!-- TODO: i18n -->
+              <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
+              {{ jobStatus?.total_comments }} ({{ totalAnalyzed }} analyzed)
+              {{ $t('analyze.results.summary.commentsWord') }}
+            </small>
+            <small>
+              <strong>{{ $t('analyze.results.summary.dialect') }}</strong>
+              {{ dialectDisplay }}
+            </small>
+          </div>
+        </div>
+
+        <!-- Comments Details -->
+        <div
+          class="break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
+        >
+          <h2 class="mb-4 font-normal">
+            {{ $t('analyze.results.details.title') }}
+          </h2>
+
+          <pv-DataTable
+            id="dt-responsive-table"
+            v-model:filters="filters"
+            :value="paginatedComments"
+            :rows="rowsPerPage"
+            :total-records="totalAnalyzed"
+            :lazy="true"
+            :paginator="true"
+            :always-show-paginator="false"
+            :rows-per-page-options="rowsPerPageOptions"
+            :loading="tableLoading"
+            column-resize-mode="fit"
+            resizable-columns
+            table-style="table-layout: fixed"
+            pt:columnResizeIndicator:class="bg-colors-primary-active"
+            paginator-template="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+            :current-page-report-template="
+              $t('analyze.results.details.pagination.showing', {
+                first: '{first}',
+                last: '{last}',
+                total: '{totalRecords}',
+              })
+            "
+            class="rounded-md py-8 md:px-4"
+            @page="onPage"
+          >
+            <template #empty>
+              <div class="py-8 text-center text-gray-500">
+                {{ $t('analyze.results.details.pagination.noData') }}
+              </div>
+            </template>
+            <template #paginatorend>
+              <UiButton
+                variant="ghost"
+                size="md"
+                :title="$t('analyze.results.details.actions.showAllColumns')"
+                class="aspect-square !rounded-full !p-2 max-md:!hidden"
+                style="color: var(--p-paginator-nav-button-color)"
+                @click="restoreCols()"
+              >
+                <Icon name="mdi:view-column" size="24" />
+              </UiButton>
+            </template>
+
+            <template #loading>
+              <div
+                class="rounded-md bg-colors-neutral-background p-12 text-center"
+              >
+                <Icon
+                  name="mdi:loading"
+                  class="animate-spin text-2xl text-colors-primary"
+                />
+                <p class="mt-2 text-colors-neutral-placeholder">
+                  {{ $t('misc.loading') }}
+                </p>
+              </div>
+            </template>
+
+            <pv-Column
+              field="comment"
+              :header="$t('analyze.results.details.headers.comment')"
+              style="width: 50%"
+            >
+              <template #body="{ data }">
+                <div class="flex items-start gap-2">
+                  <div
+                    class="comment-cell flex-1 transition-all"
+                    :class="data._expanded ? 'whitespace-normal' : 'truncate'"
+                    :title="data.comment"
+                  >
+                    {{ data.comment }}
+                  </div>
+                  <UiButton
+                    variant="ghost"
+                    size="sm"
+                    :title="
+                      data._expanded
+                        ? $t('analyze.results.details.actions.collapseComment')
+                        : $t('analyze.results.details.actions.expandComment')
+                    "
+                    class="aspect-square shrink-0 !rounded-full !p-1 max-md:!hidden print:!hidden"
+                    @click="data._expanded = !data._expanded"
+                  >
+                    <Icon
+                      name="mdi:chevron-down"
+                      class="transition-transform"
+                      :class="{ 'rotate-180': data._expanded }"
+                      size="18"
+                    />
+                  </UiButton>
                 </div>
+              </template>
+            </pv-Column>
+
+            <pv-Column
+              v-if="columnsConfig.platform && hasPlatforms"
+              field="platform"
+              :header="$t('analyze.results.details.headers.platform')"
+            >
+              <template #body="{ data }">
+                {{ data.platform || $t('analyze.results.details.na') }}
+              </template>
+              <template #header>
                 <UiButton
                   variant="ghost"
                   size="sm"
-                  :title="
-                    data._expanded
-                      ? $t('analyze.results.details.actions.collapseComment')
-                      : $t('analyze.results.details.actions.expandComment')
-                  "
-                  class="aspect-square shrink-0 !rounded-full !p-1 max-md:!hidden print:!hidden"
-                  @click="data._expanded = !data._expanded"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
+                  class="aspect-square !rounded-full !p-2 print:hidden"
+                  @click="columnsConfig.platform = false"
                 >
-                  <Icon
-                    name="mdi:chevron-down"
-                    class="transition-transform"
-                    :class="{ 'rotate-180': data._expanded }"
-                    size="18"
-                  />
+                  <Icon name="mdi:close" size="18" />
                 </UiButton>
-              </div>
-            </template>
-          </pv-Column>
+              </template>
+            </pv-Column>
 
-          <pv-Column
-            v-if="columnsConfig.platform && hasPlatforms"
-            field="platform"
-            :header="$t('analyze.results.details.headers.platform')"
-          >
-            <template #body="{ data }">
-              {{ data.platform || $t('analyze.results.details.na') }}
-            </template>
-            <template #header>
-              <UiButton
-                variant="ghost"
-                size="sm"
-                :title="$t('analyze.results.details.actions.hideColumn')"
-                class="aspect-square !rounded-full !p-2 print:hidden"
-                @click="columnsConfig.platform = false"
-              >
-                <Icon name="mdi:close" size="18" />
-              </UiButton>
-            </template>
-          </pv-Column>
-
-          <pv-Column
-            v-if="columnsConfig.date"
-            field="date"
-            :header="$t('analyze.results.details.headers.date')"
-          >
-            <template #body="{ data }">
-              {{ data.date || $t('analyze.results.details.na') }}
-            </template>
-            <template #header>
-              <UiButton
-                variant="ghost"
-                size="sm"
-                :title="$t('analyze.results.details.actions.hideColumn')"
-                class="aspect-square !rounded-full !p-2 print:hidden"
-                @click="columnsConfig.date = false"
-              >
-                <Icon name="mdi:close" size="18" />
-              </UiButton>
-            </template>
-          </pv-Column>
-
-          <pv-Column
-            v-if="columnsConfig.label"
-            field="label"
-            :header="$t('analyze.results.details.headers.classification')"
-          >
-            <template #body="{ data }">
-              <div class="flex flex-col gap-1">
-                <span class="overflow-hidden whitespace-normal font-medium">{{
-                  data.main_class
-                }}</span>
-                <span
-                  v-if="data.sub_class !== data.main_class"
-                  class="pt-1 text-sm text-gray-500"
+            <pv-Column
+              v-if="columnsConfig.date"
+              field="date"
+              :header="$t('analyze.results.details.headers.date')"
+            >
+              <template #body="{ data }">
+                {{ data.date || $t('analyze.results.details.na') }}
+              </template>
+              <template #header>
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
+                  class="aspect-square !rounded-full !p-2 print:hidden"
+                  @click="columnsConfig.date = false"
                 >
-                  {{ data.sub_class }}
-                </span>
-              </div>
-            </template>
-            <template #header>
-              <UiButton
-                variant="ghost"
-                size="sm"
-                :title="$t('analyze.results.details.actions.hideColumn')"
-                class="aspect-square !rounded-full !p-2 print:hidden"
-                @click="columnsConfig.label = false"
-              >
-                <Icon name="mdi:close" size="18" />
-              </UiButton>
-            </template>
-          </pv-Column>
+                  <Icon name="mdi:close" size="18" />
+                </UiButton>
+              </template>
+            </pv-Column>
 
-          <pv-Column
-            v-if="columnsConfig.score"
-            field="score"
-            :header="$t('analyze.results.details.headers.score')"
-          >
-            <template #body="{ data }">
-              <div class="flex flex-col gap-1">
-                <div class="flex items-center gap-2 max-md:justify-center">
-                  <div class="h-2 w-16 rounded-full bg-gray-200">
-                    <div
-                      class="h-2 rounded-full"
-                      :class="
-                        data.confidence > 0.8
-                          ? 'bg-green-500'
-                          : data.confidence > 0.6
-                            ? 'bg-yellow-500'
-                            : 'bg-red-500'
-                      "
-                      :style="{ width: `${data.confidence * 100}%` }"
-                    />
-                  </div>
-                  <span class="text-sm"
-                    >{{ (data.confidence * 100).toFixed(1) }}%</span
+            <pv-Column
+              v-if="columnsConfig.label"
+              field="label"
+              :header="$t('analyze.results.details.headers.classification')"
+            >
+              <template #body="{ data }">
+                <div class="flex flex-col gap-1">
+                  <span class="overflow-hidden whitespace-normal font-medium">
+                    {{ data.main_class }}
+                  </span>
+                  <span
+                    v-if="data.sub_class !== data.main_class"
+                    class="pt-1 text-sm text-gray-500"
                   >
+                    {{ data.sub_class }}
+                  </span>
                 </div>
-              </div>
-            </template>
-            <template #header>
-              <UiButton
-                variant="ghost"
-                size="sm"
-                :title="$t('analyze.results.details.actions.hideColumn')"
-                class="aspect-square !rounded-full !p-2 print:hidden"
-                @click="columnsConfig.score = false"
-              >
-                <Icon name="mdi:close" size="18" />
-              </UiButton>
-            </template>
-          </pv-Column>
-        </pv-DataTable>
-      </div>
+              </template>
+              <template #header>
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
+                  class="aspect-square !rounded-full !p-2 print:hidden"
+                  @click="columnsConfig.label = false"
+                >
+                  <Icon name="mdi:close" size="18" />
+                </UiButton>
+              </template>
+            </pv-Column>
+
+            <pv-Column
+              v-if="columnsConfig.score"
+              field="score"
+              :header="$t('analyze.results.details.headers.score')"
+            >
+              <template #body="{ data }">
+                <div class="flex flex-col gap-1">
+                  <div class="flex items-center gap-2 max-md:justify-center">
+                    <div class="h-2 w-16 rounded-full bg-gray-200">
+                      <div
+                        class="h-2 rounded-full"
+                        :class="
+                          data.confidence > 0.8
+                            ? 'bg-green-500'
+                            : data.confidence > 0.6
+                              ? 'bg-yellow-500'
+                              : 'bg-red-500'
+                        "
+                        :style="{ width: `${data.confidence * 100}%` }"
+                      />
+                    </div>
+                    <span class="text-sm"
+                      >{{ (data.confidence * 100).toFixed(1) }}%</span
+                    >
+                  </div>
+                </div>
+              </template>
+              <template #header>
+                <UiButton
+                  variant="ghost"
+                  size="sm"
+                  :title="$t('analyze.results.details.actions.hideColumn')"
+                  class="aspect-square !rounded-full !p-2 print:hidden"
+                  @click="columnsConfig.score = false"
+                >
+                  <Icon name="mdi:close" size="18" />
+                </UiButton>
+              </template>
+            </pv-Column>
+          </pv-DataTable>
+        </div>
+      </template>
     </div>
 
     <div v-else-if="error" class="mt-8">
@@ -559,6 +655,9 @@
   const error = ref('')
   const paginatedComments = ref<SingleResult[]>([])
   const totalAnalyzed = ref(0)
+  const isSingleComment = ref(false)
+  const hasCheckedSingleComment = ref(false)
+  const singleComment = computed(() => paginatedComments.value?.[0] || null)
 
   const isProcessing = computed(
     () =>
@@ -630,6 +729,11 @@
       )
       if (response.success) {
         jobStatus.value = response.data.job
+
+        if (!hasCheckedSingleComment.value) {
+          isSingleComment.value = response.data.job.total_comments === 1
+          hasCheckedSingleComment.value = true
+        }
 
         const s = response.data.stats
         // Update stats
