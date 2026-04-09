@@ -93,10 +93,10 @@
         "jsonFile": "ملف بتنسيق JSON",
         "textFile": "ملف بتنسيق نص صريح",
         "clickToDownload": "يرجى النقر على أي نوع ملف لتنزيل القالب",
-        "downloadTemplate": "تنزيل القالب {fileType}"
-    "excelHint": "أفضل دعم لبرنامج إكسل على ويندوز",
-    "csvWarning": "قد لا تُعرَض اللغة العربية بشكل صحيح على إكسل"
-    }
+        "downloadTemplate": "تنزيل القالب {fileType}",
+        "excelHint": "أفضل دعم لبرنامج إكسل على ويندوز",
+        "csvWarning": "قد لا تُعرَض اللغة العربية بشكل صحيح على إكسل"
+      }
     },
     "results": {
       "title": "نتائج التحليل",
@@ -167,7 +167,7 @@
         },
         "actions": {
           "showAllColumns": "إظهار جميع الأعمدة",
-          "hideColumn": "إخفاء العمود"
+          "hideColumn": "إخفاء العمود",
           "expandComment": "عرض التعليق",
           "collapseComment": "إخفاء التعليق"
         },
@@ -190,7 +190,7 @@
         "jsonDescription": "بيانات خام بتنسيق JSON",
         "downloading": "قيد التنزيل...",
         "downloadError": "خلل أثناء تنزيل الملف، يرجى المحاولة مرة أخرى.",
-        "downloadSuccess": "نجحت عملية تنزيل الملف!"
+        "downloadSuccess": "نجحت عملية تنزيل الملف!",
         "downloadError": "فشل تنزيل الملف. يرجى المحاولة مرة أخرى.",
         "downloadSuccess": "نُزِّل الملف بنجاح!"
       }
