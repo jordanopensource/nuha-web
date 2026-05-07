@@ -44,7 +44,7 @@ steps:
       registry: *registry_url
       dockerfile: ./Dockerfile
       tags:
-        - ${CI_COMMIT_SHA:-latest}
+        - latest-${CI_COMMIT_SHA}
         - latest
       username:
         from_secret: REGISTRY_USERNAME
