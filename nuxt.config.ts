@@ -30,7 +30,14 @@ export default defineNuxtConfig({
         nativeName: 'العربية',
       },
       // { code: 'fr',  file: 'fr.json',  name: 'French', language: 'fr', nativeName: 'Français' },
-      // { code: 'ckb', file: 'ckb.json', name: 'Central Kurdish', language: 'ckb', dir: 'rtl', nativeName: 'کوردیی ناوەندی' }
+      {
+        code: 'ckb',
+        file: 'ckb.json',
+        name: 'Central Kurdish',
+        language: 'ckb',
+        dir: 'rtl',
+        nativeName: 'کوردیی ناوەندی',
+      },
     ],
     defaultLocale: 'en',
     defaultDirection: 'ltr',
