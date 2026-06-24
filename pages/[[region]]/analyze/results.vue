@@ -55,7 +55,12 @@
               <h3 class="mb-2 text-base font-medium text-gray-700">
                 {{ $t('analyze.results.details.headers.comment') }}
               </h3>
-              <p class="text-xl">{{ validComments[0].comment }}</p>
+              <p
+                dir="rtl"
+                class="max-h-64 overflow-hidden overflow-y-auto whitespace-normal break-words text-xl"
+              >
+                {{ validComments[0].comment }}
+              </p>
             </div>
 
             <!-- Classification Result -->
