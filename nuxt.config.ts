@@ -116,6 +116,7 @@ export default defineNuxtConfig({
       user: '',
       token: '',
       listId: '',
+      fromEmail: '',
       enTemplateId: '',
       arTemplateId: '',
       frTemplateId: '',
