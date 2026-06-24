@@ -467,7 +467,7 @@
 
             <pv-Column
               v-if="columnsConfig.label"
-              field="label"
+              field="main_class"
               :header="$t('analyze.results.details.headers.classification')"
               :sortable="true"
             >
@@ -499,7 +499,7 @@
 
             <pv-Column
               v-if="columnsConfig.score"
-              field="score"
+              field="confidence"
               :header="$t('analyze.results.details.headers.score')"
               :sortable="true"
             >
