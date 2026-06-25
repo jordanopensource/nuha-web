@@ -1108,6 +1108,8 @@
   const loading = ref(false)
   const first = ref(0)
   const rowsPerPage = ref(10)
+  const currentSortField = ref<string | undefined>()
+  const currentSortOrder = ref<number | undefined>()
   const rowsPerPageOptions = computed(() => {
     const allOptions = [5, 10, 20, 50]
     return allOptions.filter((opt) => opt <= totalComments.value)
@@ -1225,14 +1227,17 @@
     fetchData(
       event.page,
       event.rows,
-      event.sortField,
-      event.sortOrder,
+      currentSortField.value,
+      currentSortOrder.value,
       filters.value
     )
   }
   const onSort = (event: { sortField: string; sortOrder: number }) => {
+    currentSortField.value = event.sortField
+    currentSortOrder.value = event.sortOrder
+    first.value = 0
     fetchData(
-      first.value / rowsPerPage.value,
+      0,
       rowsPerPage.value,
       event.sortField,
       event.sortOrder,
@@ -1241,6 +1246,7 @@
   }
   const onFilter = (event: { filters: Record<string, unknown> }) => {
     filters.value = event.filters
+    first.value = 0
     fetchData(0, rowsPerPage.value, undefined, undefined, event.filters)
   }
 
