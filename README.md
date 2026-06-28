@@ -10,7 +10,7 @@ A web app built with Nuxt 3 for analyzing text and files for hate-speech detecti
 - **Modern UI**: Built with Tailwind CSS
 - **Docker Ready**: Full Docker setup for development and production
 - **Responsive Design**: Works on all device sizes
-- **Geolocation**: Automatic region detection using IP address with manual fallback and optional URL routing (e.g., `/en/egy`)
+- **Geolocation**: Automatic region detection using IP address with manual fallback and optional URL routing (e.g., `/en/arz`)
 
 ## Prerequisites
 
@@ -142,8 +142,8 @@ NUXT_AI_MODEL_URL=your-ai-endpoint
 
 # Default AI Model/Region for initial selection (optional)
 # Sets the default AI model dialect
-# Must match a supported region code from your the CMS (e.g., 'egy' for Egyptian model)
-NUXT_PUBLIC_AI_MODEL_DEFAULT_REGION=egy
+# Must match a supported region code from your the CMS (e.g., 'arz' for Egyptian model)
+NUXT_PUBLIC_AI_MODEL_DEFAULT_REGION=arz
 
 # Matomo Analytics Configurations
 NUXT_PUBLIC_SCRIPTS_MATOMO_ANALYTICS_MATOMO_URL=
