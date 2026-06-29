@@ -3,6 +3,5 @@
   font-display: swap;
   src:
     local('29LT Zarid Text'),
-    url('~/assets/fonts/29LT-Zarid-Text/29LTZaridText.woff') format('woff'),
     url('~/assets/fonts/29LT-Zarid-Text/29LTZaridText.woff2') format('woff2');
 }
