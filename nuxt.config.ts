@@ -136,7 +136,7 @@ export default defineNuxtConfig({
     public: {
       baseUrl: 'http://localhost:3000',
       aiModel: {
-        defaultRegion: 'egy',
+        defaultRegion: 'arz',
       },
       cms: {
         prefix: '/api',
