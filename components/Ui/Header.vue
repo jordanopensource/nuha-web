@@ -58,10 +58,10 @@
         <AuthState>
           <template #default="{ loggedIn, user }">
             <template v-if="loggedIn">
-              <UiUserMenu :user="user" size="md" />
+              <LazyUiUserMenu :user="user" size="md" />
             </template>
             <template v-else>
-              <UiRegionLanguageSelector size="md" mode="language" />
+              <LazyUiRegionLanguageSelector size="md" mode="language" />
               <UiButton :to="localePath('/login')" variant="primary" size="md">
                 {{ $t('links.general.login') }}
               </UiButton>
@@ -79,7 +79,7 @@
       <AuthState>
         <template #default="{ loggedIn, user }">
           <template v-if="loggedIn">
-            <UiUserMenu
+            <LazyUiUserMenu
               class="z-40 my-auto lg:!hidden print:hidden"
               :user="user"
               size="sm"
@@ -135,7 +135,7 @@
             {{ link.title() }}
           </UiButton>
 
-          <UiRegionLanguageSelector size="lg" mode="language" />
+          <LazyUiRegionLanguageSelector size="lg" mode="language" />
 
           <AuthState>
             <template #default="{ loggedIn }">
