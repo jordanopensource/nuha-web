@@ -6,16 +6,16 @@
       :subtitle="$t('analyze.page.subtitle')"
     />
     <div class="my-5 grid grid-cols-1 items-start gap-4 md:grid-cols-2">
-      <analyze-form @method-changed="handleMethodChanged" />
+      <LazyAnalyzeForm @method-changed="handleMethodChanged" />
       <div class="hidden pt-10 md:block">
-        <UiXTransition :direction-value="currentMethod">
+        <LazyUiXTransition :direction-value="currentMethod">
           <div v-if="currentMethod === 0">
-            <analyze-text-input-help />
+            <LazyAnalyzeTextInputHelp />
           </div>
           <div v-else>
-            <analyze-file-upload-help />
+            <LazyAnalyzeFileUploadHelp />
           </div>
-        </UiXTransition>
+        </LazyUiXTransition>
       </div>
     </div>
   </div>

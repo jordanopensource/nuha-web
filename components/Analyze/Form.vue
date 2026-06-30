@@ -26,7 +26,7 @@
       }"
     >
       <div class="flex justify-between py-2">
-        <ui-region-language-selector
+        <LazyUiRegionLanguageSelector
           :title="$t('analyze.form.regionTitle')"
           mode="region"
           button-variant="ghost"
@@ -60,7 +60,7 @@
       </div>
 
       <div>
-        <UiXTransition :direction-value="selectedMethod">
+        <LazyUiXTransition :direction-value="selectedMethod">
           <div v-if="selectedMethod === 0">
             <ui-text-area
               key="text-input"
@@ -77,14 +77,14 @@
             />
           </div>
           <div v-else>
-            <ui-file-input
+            <LazyUiFileInput
               key="file-input"
               :placeholder="$t('analyze.form.filePlaceholder')"
               @error="(message) => onFileError(message)"
               @update:file="(file) => (selectedFile = file.data)"
             />
           </div>
-        </UiXTransition>
+        </LazyUiXTransition>
       </div>
       <ui-button
         size="lg"
@@ -100,7 +100,7 @@
     </div>
 
     <!-- Help Modal - only visible on small screens -->
-    <UiModal
+    <LazyUiModal
       v-model="showHelpModal"
       :title="$t('analyze.help.title')"
       :show-action-button="false"
@@ -110,9 +110,9 @@
       class="md:hidden"
       @cancel="showHelpModal = false"
     >
-      <analyze-text-input-help v-if="selectedMethod === 0" />
-      <analyze-file-upload-help v-else />
-    </UiModal>
+      <LazyAnalyzeTextInputHelp v-if="selectedMethod === 0" />
+      <LazyAnalyzeFileUploadHelp v-else />
+    </LazyUiModal>
   </form>
 </template>
 <script setup lang="ts">
