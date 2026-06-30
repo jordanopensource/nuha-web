@@ -45,7 +45,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/eslint',
-    '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
