@@ -234,7 +234,7 @@ export async function sendMagicLinkEmail(
       ListmonkEndpoint.SEND_TRANSACTIONAL_EMAIL,
       config.listmonk,
       JSON.stringify({
-        from_email: `${config.listmonk.fromEmail} <${config.listmonk.fromEmail}>`,
+        from_email: `${config.listmonk.fromName} <${config.listmonk.fromEmail}>`,
         subscriber_email: email,
         template_id: parseInt(templateId),
         data: {

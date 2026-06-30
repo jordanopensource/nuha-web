@@ -123,6 +123,7 @@ export default defineNuxtConfig({
       token: '',
       listId: '',
       fromEmail: '',
+      fromName: 'Nuha Research',
       enTemplateId: '',
       arTemplateId: '',
       frTemplateId: '',
