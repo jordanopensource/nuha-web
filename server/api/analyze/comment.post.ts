@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
     const lang = detectLocale(event)
 
     // Create analysis job
-    const job = await AnalysisQueue.createJob(comments, region, lang)
+    const job = await AnalysisQueue.createJob(comments, lang, region)
 
     return {
       success: true,

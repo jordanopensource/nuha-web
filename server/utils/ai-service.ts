@@ -12,7 +12,8 @@ import {
 export class AIService {
   static async analyzeBatch(
     comments: CommentData[],
-    lang: string = 'ar'
+    lang: string = 'ar',
+    dialect: string = 'arz'
   ): Promise<AIAnalysisResponse> {
     const config = useRuntimeConfig()
     const aiModelUrl = config.aiModel?.url
@@ -28,7 +29,7 @@ export class AIService {
       const apiRequest = convertToAPIRequest(comments)
 
       const response = await $fetch<BatchClassifyResponse>(
-        `${aiModelUrl}/classify/batch?lang=${lang}`,
+        `${aiModelUrl}/classify/batch?lang=${lang}&dialect=${dialect}`,
         {
           method: 'POST',
           body: apiRequest,

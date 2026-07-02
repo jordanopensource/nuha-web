@@ -30,25 +30,35 @@ export default defineEventHandler(async (event) => {
       success: true,
       data: {
         results: [],
-        job
-      }
+        job,
+      },
     }
   }
 
   // analyze first N comments, save results and update progress
-  const analysisResponse = await AIService.analyzeBatch(comments, job.lang)
+  const analysisResponse = await AIService.analyzeBatch(
+    comments,
+    job.lang,
+    job.dialect
+  )
 
   await AnalysisQueue.saveResults(id, analysisResponse.results)
-  await AnalysisQueue.updateJobStatus(id, 'processing', analysisResponse.results.length)
+  await AnalysisQueue.updateJobStatus(
+    id,
+    'processing',
+    analysisResponse.results.length
+  )
 
   // trigger background full analysis
-  AnalysisQueue.processJob(id).catch(err => console.error('Background job launch failed:', err))
+  AnalysisQueue.processJob(id).catch((err) =>
+    console.error('Background job launch failed:', err)
+  )
 
   return {
     success: true,
     data: {
       ...analysisResponse,
-      job
-    }
+      job,
+    },
   }
 })

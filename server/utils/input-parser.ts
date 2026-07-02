@@ -141,19 +141,8 @@ const parseCsvString = (text: string): CommentData[] => {
 
   if (lines.length <= 1) {
     throw new TranslatableError(ERROR_KEYS.CSV_NO_DATA)
-  if (lines.length <= 1) {
-    throw new TranslatableError(ERROR_KEYS.CSV_NO_DATA)
   }
 
-  // parse header row
-  const headerLine = lines[0]
-  const headers = headerLine
-    .split(',')
-    .map((part) => part.trim().replace(/^"|"$/g, ''))
-
-  const { commentIndex, platformIndex, dateIndex } = parseHeaders(headers)
-
-  const dataLines = lines.slice(1)
   // parse header row
   const headerLine = lines[0]
   const headers = headerLine
@@ -168,10 +157,7 @@ const parseCsvString = (text: string): CommentData[] => {
     const parts = line
       .split(',')
       .map((part) => part.trim().replace(/^"|"$/g, '')) // remove quotes
-      .map((part) => part.trim().replace(/^"|"$/g, '')) // remove quotes
 
-    const comment = parts[commentIndex]
-    if (!comment) {
     const comment = parts[commentIndex]
     if (!comment) {
       return {
@@ -180,9 +166,6 @@ const parseCsvString = (text: string): CommentData[] => {
     }
 
     return {
-      comment,
-      platform: platformIndex !== -1 ? parts[platformIndex] || '' : '',
-      date: dateIndex !== -1 ? parts[dateIndex] || '' : '',
       comment,
       platform: platformIndex !== -1 ? parts[platformIndex] || '' : '',
       date: dateIndex !== -1 ? parts[dateIndex] || '' : '',
@@ -239,7 +222,6 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
 
     if (!sheetName) {
       throw new TranslatableError(ERROR_KEYS.EXCEL_NO_SHEETS)
-      throw new TranslatableError(ERROR_KEYS.EXCEL_NO_SHEETS)
     }
 
     const worksheet = workbook.Sheets[sheetName]
@@ -254,7 +236,6 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     if (error instanceof TranslatableError) {
       throw error
     }
-    throw new TranslatableError(ERROR_KEYS.EXCEL_PARSE_ERROR)
     throw new TranslatableError(ERROR_KEYS.EXCEL_PARSE_ERROR)
   }
 }

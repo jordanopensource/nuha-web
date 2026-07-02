@@ -44,6 +44,17 @@
               </template>
             </UiButton>
             <UiButton
+              class="ms-auto w-52"
+              variant="outline"
+              :disabled="isProcessing"
+              @click="openShareModal"
+            >
+              {{ $t('analyze.results.actions.share') }}
+              <template #icon>
+                <Icon name="mdi:share-variant" />
+              </template>
+            </UiButton>
+            <UiButton
               class="ms-auto w-52 md:!hidden"
               variant="ghost"
               to="#results-overview"
@@ -87,7 +98,12 @@
               <h3 class="mb-2 text-base font-medium text-gray-700">
                 {{ $t('analyze.results.details.headers.comment') }}
               </h3>
-              <p class="text-xl">{{ singleComment.comment }}</p>
+              <p
+                dir="rtl"
+                class="max-h-64 overflow-hidden overflow-y-auto whitespace-normal break-words text-xl"
+              >
+                {{ singleComment.comment }}
+              </p>
             </div>
 
             <!-- Classification Result -->
@@ -618,6 +634,17 @@
           <Icon name="mdi:printer" />
         </template>
       </UiButton>
+      <UiButton
+        :disabled="isProcessing"
+        class="w-52"
+        variant="outline"
+        @click="openShareModal"
+      >
+        {{ $t('analyze.results.actions.share') }}
+        <template #icon>
+          <Icon name="mdi:share-variant" />
+        </template>
+      </UiButton>
     </div>
 
     <!-- Back to analyze button -->
@@ -640,6 +667,46 @@
       :job-id="jobId"
       @close="showDownloadModal = false"
     />
+
+    <!-- Share Modal -->
+    <UiModal
+      v-model="showShareModal"
+      :title="$t('analyze.results.actions.share')"
+      size="md"
+      :cancel-button-text="$t('misc.close')"
+      :show-action-button="false"
+      @close="showShareModal = false"
+    >
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 max-sm:flex-col">
+          <input
+            ref="shareUrlInput"
+            :value="shareUrl"
+            type="text"
+            class="h-full w-full rounded-md border bg-colors-neutral-background p-3 text-sm"
+            disabled
+            readonly
+          />
+
+          <UiButton
+            class="h-full border border-colors-primary-light max-sm:w-full"
+            :disabled="!isSupported"
+            @click="copyShareUrl"
+          >
+            {{ $t('publications.single.share.copyUrl') }}
+            <template #icon>
+              <Icon name="mdi:content-copy" size="24" />
+            </template>
+          </UiButton>
+        </div>
+
+        <UiMessage
+          v-if="copied"
+          type="success"
+          :message="$t('publications.single.share.urlCopied')"
+        />
+      </div>
+    </UiModal>
   </div>
 </template>
 
@@ -655,16 +722,12 @@
   } from '~/types/analyze'
   import { analysisColors } from '~/utils/colors'
   // import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
-  import { useWindowSize } from '@vueuse/core'
+  import { useWindowSize, useClipboard } from '@vueuse/core'
 
   const { supportedRegions, region } = useGeolocation()
   const { locale, locales, t } = useI18n()
   const { width } = useWindowSize()
   const route = useRoute()
-
-  definePageMeta({
-    middleware: ['auth'],
-  })
 
   useHead({
     title: () => `${$t('analyze.results.title')} — ${$t('homepage.nuha')}`,
@@ -888,9 +951,37 @@
   //   // TODO: on server side
   // }
 
-  // Charts
   const showCustomize = ref(false)
   const showDownloadModal = ref(false)
+  const showShareModal = ref(false)
+  const shareUrlInput = ref<HTMLInputElement | null>(null)
+  const shareUrl = ref('')
+  const { copy, copied, isSupported } = useClipboard({
+    source: shareUrl,
+    legacy: true,
+  })
+
+  const selectShareUrlInput = () => {
+    if (!shareUrlInput.value) return
+    shareUrlInput.value.disabled = false
+    shareUrlInput.value.focus()
+    shareUrlInput.value.select()
+    shareUrlInput.value.disabled = true
+  }
+
+  const openShareModal = async () => {
+    shareUrl.value = import.meta.client ? window.location.href : ''
+    showShareModal.value = true
+    await nextTick()
+    selectShareUrlInput()
+  }
+
+  const copyShareUrl = async () => {
+    if (!shareUrl.value) return
+    await copy(shareUrl.value)
+    selectShareUrlInput()
+  }
+
   const chartsVisible = reactive({
     distribution: true,
     totals: false,

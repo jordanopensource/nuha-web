@@ -33,10 +33,7 @@ export function getRedisClient(): Redis | null {
         console.info('Redis connection successful.')
       })
       .catch((error) => {
-        console.warn(
-          'Redis connection failed:',
-          error.message
-        )
+        console.warn('Redis connection failed:', error.message)
         redisClient?.disconnect()
         redisClient = null
       })
@@ -44,10 +41,7 @@ export function getRedisClient(): Redis | null {
     redisInitialized = true
     return redisClient
   } catch (error) {
-    console.warn(
-      'Redis connection initialization failed:',
-      error
-    )
+    console.warn('Redis connection initialization failed:', error)
     redisClient = null
     return null
   }

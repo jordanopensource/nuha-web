@@ -25,8 +25,8 @@ export class AnalysisQueue {
 
   static async createJob(
     comments: CommentData[],
-    dialect: string = 'egy',
-    lang: string = 'ar'
+    lang: string = 'ar',
+    dialect: string = 'arz'
   ): Promise<AnalysisJob> {
     const redis = getRedisClient()
     if (!redis) {
@@ -270,7 +270,11 @@ export class AnalysisQueue {
 
         if (comments.length === 0) break
 
-        const response = await AIService.analyzeBatch(comments, job.lang)
+        const response = await AIService.analyzeBatch(
+          comments,
+          job.lang,
+          job.dialect
+        )
 
         await this.saveResults(id, response.results)
 

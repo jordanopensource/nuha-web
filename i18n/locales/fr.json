@@ -100,6 +100,7 @@
       "actions": {
         "download": "Télécharger les résultats",
         "print": "Imprimer",
+        "share": "Partager",
         "jumpToResults": "Aller aux résultats"
       },
       "customizeCharts": "Personnaliser les graphiques",

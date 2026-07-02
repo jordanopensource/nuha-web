@@ -1,13 +1,12 @@
 import jwt from 'jsonwebtoken'
-import Redis from 'ioredis'
+import type Redis from 'ioredis'
+import { getRedisClient, getRedisKey } from '~/server/utils/redis'
 
 interface MagicLinkPayload {
   email: string
   exp: number
   iat: number
 }
-
-import { getRedisClient, getRedisKey } from '~/server/utils/redis'
 
 // fallback in-memory storage for magic link tokens
 const magicLinkTokens = new Map<string, { email: string; expires: Date }>()
@@ -177,33 +176,6 @@ export async function sendMagicLinkEmail(
       `No template ID configured for locale ${locale}, logging magic link instead`
     )
     return
-  }
-
-  try {
-    // subscribe the email to the list first
-    await makeListmonkRequest(
-      ListmonkEndpoint.SUBSCRIBE_EMAIL,
-      config.listmonk,
-      JSON.stringify({
-        email,
-        name: email.substring(0, email.indexOf('@')),
-        status: 'enabled',
-        lists: [config.listId].map(parseInt),
-      })
-    )
-  } catch (error: any) {
-    let errorMessage = ''
-    if (typeof error?.response?.data?.message === 'string') {
-      errorMessage = error.response.data.message
-    } else if (typeof error?.message === 'string') {
-      errorMessage = error.message
-    }
-
-    const isExpectedError = errorMessage?.toLowerCase().includes('conflict')
-
-    if (!isExpectedError) {
-      console.error('Failed to subscribe email:', error)
-    }
   }
 
   try {

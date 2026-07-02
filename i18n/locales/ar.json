@@ -105,6 +105,7 @@
       "actions": {
         "download": "تنزيل النتائج",
         "print": "طباعة",
+        "share": "مشاركة",
         "jumpToResults": "الانتقال إلى النتائج"
       },
       "customizeCharts": "إنشاء الرسوم البيانية",

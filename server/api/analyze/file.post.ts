@@ -70,16 +70,17 @@ export default defineEventHandler(async (event) => {
       ? new TextDecoder().decode(regionEntry.data)
       : 'arz'
 
+    console.log('Region:', region)
     const lang = detectLocale(event)
 
     // Create analysis job
-    const job = await AnalysisQueue.createJob(comments, region, lang)
+    const job = await AnalysisQueue.createJob(comments, lang, region)
 
     return {
       success: true,
       data: {
         analysis_id: job.analysis_id,
-        total_comments: job.total_comments
+        total_comments: job.total_comments,
       },
     }
   } catch (error) {

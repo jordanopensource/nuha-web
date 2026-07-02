@@ -105,6 +105,7 @@
       "actions": {
         "download": "Download Results",
         "print": "Print",
+        "share": "Share",
         "jumpToResults": "Jump to results"
       },
       "customizeCharts": "Customize Charts",
