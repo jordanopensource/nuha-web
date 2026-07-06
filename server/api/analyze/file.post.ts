@@ -70,7 +70,6 @@ export default defineEventHandler(async (event) => {
       ? new TextDecoder().decode(regionEntry.data)
       : 'arz'
 
-    console.log('Region:', region)
     const lang = detectLocale(event)
 
     // Create analysis job

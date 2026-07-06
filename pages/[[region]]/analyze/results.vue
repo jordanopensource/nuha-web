@@ -13,13 +13,7 @@
               class="ms-auto flex w-fit items-center gap-2 rounded-full bg-colors-primary-light px-3 py-1 text-sm text-colors-primary-active"
             >
               <Icon name="mdi:loading" class="animate-spin" />
-              {{ $t('misc.loading') }} ({{
-                Math.round(
-                  ((jobStatus?.processed_comments || 0) /
-                    (jobStatus?.total_comments || 1)) *
-                    100
-                )
-              }}%)
+              {{ $t('misc.loading') }} ({{ processingProgressPercentage }}%)
             </div>
 
             <UiButton
@@ -72,13 +66,7 @@
     <div v-if="isProcessing && !error" class="h-2 rounded-md border print:hidden">
       <div
         class="progress-bar h-2 rounded-md bg-colors-primary transition-all duration-300"
-        :style="{
-          width: `${Math.round(
-            ((jobStatus?.processed_comments || 0) /
-              (jobStatus?.total_comments || 1)) *
-              100
-          )}%`,
-        }"
+        :style="{ width: `${processingProgressPercentage}%` }"
       />
     </div>
 
@@ -755,6 +743,14 @@
       jobStatus.value?.status === 'processing' ||
       jobStatus.value?.status === 'pending'
   )
+  const processingProgressPercentage = computed(() =>
+    Math.round(
+      ((jobStatus.value?.processed_comments || 0) /
+        (jobStatus.value?.total_comments || 1)) *
+        100
+    )
+  )
+
   const isValidJob = computed(() => !!jobStatus.value)
 
   // to control what table columns to show
