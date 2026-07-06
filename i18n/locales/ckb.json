@@ -105,7 +105,8 @@
       "actions": {
         "download": "داگرتنی ئەنجامەکان",
         "print": "چاپ بکە",
-        "jumpToResults": "بڕۆ بۆ ئەنجامەکان"
+        "jumpToResults": "بڕۆ بۆ ئەنجامەکان",
+        "share": "ئەنجامی بڵاوکردنەوە"
       },
       "customizeCharts": "هێڵکارییەکان بە خواستی خۆت دابنێ",
       "noChartSelected": "هیچ هێڵکارییەک هەڵنەبژێردراوە",
@@ -133,7 +134,8 @@
         "totalLabel": "کۆ:",
         "dialect": "زاراوە:",
         "modelVersion": "وەشانی مۆدێلەکە:",
-        "commentsWord": "کۆمێنتەکان"
+        "commentsWord": "کۆمێنتەکان",
+        "analyzed": "شیکاری کراوە"
       },
       "singleResult": {
         "title": "ئەنجامی شیکاری",
