@@ -36,7 +36,8 @@
       "region": "Region",
       "detectedLocation": "Detected Location",
       "apply": "Apply Changes",
-      "selectDialect": "Select AI Dialect"
+      "selectDialect": "Select AI Dialect",
+      "dialectUnsupported": "The previously selected dialect isn't supported in this language. Please choose a new one below."
     }
   },
   "misc": {

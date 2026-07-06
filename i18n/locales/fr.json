@@ -35,7 +35,8 @@
       "language": "Langue",
       "region": "Région",
       "detectedLocation": "Emplacement Détecté",
-      "apply": "Appliquer les Modifications"
+      "apply": "Appliquer les Modifications",
+      "dialectUnsupported": "Le dialecte précédemment sélectionné n'est pas disponible dans cette langue. Veuillez en choisir un nouveau ci-dessous."
     }
   },
   "misc": {
@@ -154,6 +155,9 @@
       },
       "backToAnalyze": "Retour à l'analyse",
       "noDataAvailable": "Aucune donnée d'analyse disponible."
+    },
+    "validation": {
+      "processingError": "Une erreur s'est produite lors du traitement de votre demande."
     }
   },
   "login": {
