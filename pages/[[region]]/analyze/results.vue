@@ -2,7 +2,7 @@
 <template>
   <div class="page-container">
     <UiPageHeading :title="$t('analyze.results.title')" use-h1>
-      <template v-if="isValidJob" #second-col>
+      <template v-if="isValidJob && !error" #second-col>
         <div class="flex flex-wrap">
           <div
             class="flex flex-col gap-2 max-md:mx-auto max-md:mt-4 md:ms-auto print:hidden"
@@ -69,7 +69,7 @@
       </template>
     </UiPageHeading>
 
-    <div v-if="isProcessing" class="h-2 rounded-md border print:hidden">
+    <div v-if="isProcessing && !error" class="h-2 rounded-md border print:hidden">
       <div
         class="progress-bar h-2 rounded-md bg-colors-primary transition-all duration-300"
         :style="{
@@ -82,7 +82,7 @@
       />
     </div>
 
-    <div v-if="isValidJob" class="analysis-container">
+    <div v-if="isValidJob && !error" class="analysis-container">
       <div v-if="isSingleComment" class="mx-auto max-w-2xl">
         <div
           class="mb-6 break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
@@ -610,7 +610,7 @@
     </div>
 
     <div
-      v-if="isValidJob"
+      v-if="isValidJob && !error"
       class="flex flex-wrap justify-center gap-2 print:hidden"
     >
       <UiButton
@@ -843,6 +843,8 @@
       }
     } catch (err) {
       console.error('Overview fetch error:', err)
+      error.value = $t('analyze.validation.processingError')
+      stopPolling()
     }
   }
 
@@ -869,12 +871,20 @@
       }
     } catch (err) {
       console.error('Results fetch error', err)
+      error.value = $t('analyze.validation.processingError')
+      stopPolling()
     } finally {
       tableLoading.value = false
     }
   }
 
   let pollo: any = null
+  const stopPolling = () => {
+    if (pollo) {
+      clearInterval(pollo)
+      pollo = null
+    }
+  }
 
   onMounted(async () => {
     window.addEventListener('beforeprint', handleBeforePrint)
@@ -886,6 +896,10 @@
       jobId.value = id
       // Initial fetch
       await fetchOverview()
+      if (error.value) {
+        analysisLoading.value = false
+        return
+      }
 
       // Trigger analysis if still pending (first load)
       if (jobStatus.value?.status === 'pending') {
@@ -899,19 +913,25 @@
           await fetchOverview()
         } catch (e) {
           console.error('Failed to trigger analysis:', e)
-          error.value = $t('analyze.results.processingError')
+          error.value = $t('analyze.validation.processingError')
+        }
+
+        if (error.value) {
+          analysisLoading.value = false
+          return
         }
       }
 
       await fetchResults(0, rowsPerPage.value)
       analysisLoading.value = false
+      if (error.value) return
 
       // Start polling if needed
       if (isProcessing.value) {
         pollo = setInterval(async () => {
           await fetchOverview()
-          if (!isProcessing.value) {
-            clearInterval(pollo)
+          if (error.value || !isProcessing.value) {
+            stopPolling()
           }
         }, 2000)
       }
@@ -925,7 +945,7 @@
     window.removeEventListener('beforeprint', handleBeforePrint)
     window.removeEventListener('afterprint', handleAfterPrint)
     window.removeEventListener('keydown', handlePrintShortcut)
-    if (pollo) clearInterval(pollo)
+    stopPolling()
   })
 
   // Table Handlers
