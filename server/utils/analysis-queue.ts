@@ -48,24 +48,47 @@ export class AnalysisQueue {
 
     const key = this.getJobKey(id)
 
-    // Store metadata
-    await redis.hset(`${key}:meta`, job)
+    try {
+      // Store metadata
+      await redis.hset(`${key}:meta`, job)
 
-    // Store raw comments
-    const commentsJson = comments.map((c) => JSON.stringify(c))
-    if (commentsJson.length > 0) {
-      await redis.rpush(`${key}:comments`, ...commentsJson)
+      // Store raw comments
+      const commentsJson = comments.map((c) => JSON.stringify(c))
+      if (commentsJson.length > 0) {
+        await redis.rpush(`${key}:comments`, ...commentsJson)
+      }
+
+      // Set expiration
+      await redis.expire(`${key}:meta`, JOB_TTL_SECONDS)
+      await redis.expire(`${key}:comments`, JOB_TTL_SECONDS)
+      await redis.expire(`${key}:results`, JOB_TTL_SECONDS)
+      await redis.expire(`${key}:stats:classes`, JOB_TTL_SECONDS)
+      await redis.expire(`${key}:stats:platforms`, JOB_TTL_SECONDS)
+      await redis.expire(`${key}:stats:histogram`, JOB_TTL_SECONDS)
+
+      return job
+    } catch (error) {
+      console.error(`Failed to create analysis job ${id}:`, error)
+
+      // attempt cleanup
+      await redis
+        .del(
+          `${key}:meta`,
+          `${key}:comments`,
+          `${key}:results`,
+          `${key}:stats:classes`,
+          `${key}:stats:platforms`,
+          `${key}:stats:histogram`
+        )
+        .catch((cleanupErr) =>
+          console.error(
+            `Failed to clean up partial job ${id}:`,
+            cleanupErr
+          )
+        )
+
+      throw new Error('Failed to create analysis job')
     }
-
-    // Set expiration
-    await redis.expire(`${key}:meta`, JOB_TTL_SECONDS)
-    await redis.expire(`${key}:comments`, JOB_TTL_SECONDS)
-    await redis.expire(`${key}:results`, JOB_TTL_SECONDS)
-    await redis.expire(`${key}:stats:classes`, JOB_TTL_SECONDS)
-    await redis.expire(`${key}:stats:platforms`, JOB_TTL_SECONDS)
-    await redis.expire(`${key}:stats:histogram`, JOB_TTL_SECONDS)
-
-    return job
   }
 
   static async getJob(id: string): Promise<AnalysisJob | null> {
@@ -129,8 +152,18 @@ export class AnalysisQueue {
 
     for (const result of results) {
       const className = result.main_class
+      if (!className) {
+        console.warn(`Skipping stats for result without main_class in job ${id}`)
+        continue
+      }
+
       const platform = result.platform || 'Unknown'
-      const confidence = result.confidence
+      // guard against missing/NaN confidence
+      const confidence =
+        typeof result.confidence === 'number' &&
+        Number.isFinite(result.confidence)
+          ? result.confidence
+          : 0
 
       multi.hincrby(`${key}:stats:classes`, `${className}:count`, 1)
       multi.hincrbyfloat(
@@ -145,7 +178,16 @@ export class AnalysisQueue {
       multi.hincrby(`${key}:stats:histogram`, `${className}:${bin}`, 1)
     }
 
-    await multi.exec()
+    const execResult = await multi.exec()
+
+    // surface multi.exec errors if any
+    const failed = execResult?.filter(([err]) => err) ?? []
+    if (failed.length > 0) {
+      console.error(
+        `${failed.length} stats command(s) failed for job ${id}:`,
+        failed.map(([err]) => err)
+      )
+    }
   }
 
   static async getOverview(id: string): Promise<AnalysisOverview | null> {

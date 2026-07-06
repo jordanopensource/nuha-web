@@ -1,5 +1,6 @@
 import { AnalysisQueue } from '~/server/utils/analysis-queue'
 import { AIService } from '~/server/utils/ai-service'
+import { ERROR_KEYS } from '~/server/utils/input-parser'
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
@@ -36,18 +37,36 @@ export default defineEventHandler(async (event) => {
   }
 
   // analyze first N comments, save results and update progress
-  const analysisResponse = await AIService.analyzeBatch(
-    comments,
-    job.lang,
-    job.dialect
-  )
+  let analysisResponse
+  try {
+    analysisResponse = await AIService.analyzeBatch(
+      comments,
+      job.lang,
+      job.dialect
+    )
 
-  await AnalysisQueue.saveResults(id, analysisResponse.results)
-  await AnalysisQueue.updateJobStatus(
-    id,
-    'processing',
-    analysisResponse.results.length
-  )
+    await AnalysisQueue.saveResults(id, analysisResponse.results)
+    await AnalysisQueue.updateJobStatus(
+      id,
+      'processing',
+      analysisResponse.results.length
+    )
+  } catch (error) {
+    console.error(`Initial batch analysis failed for job ${id}:`, error)
+
+    await AnalysisQueue.updateJobStatus(id, 'failed').catch((statusErr) =>
+      console.error(`Failed to mark job ${id} as failed:`, statusErr)
+    )
+
+    if (error && typeof error === 'object' && 'statusCode' in error) {
+      throw error
+    }
+
+    throw createError({
+      statusCode: 500,
+      statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR,
+    })
+  }
 
   // trigger background full analysis
   AnalysisQueue.processJob(id).catch((err) =>
