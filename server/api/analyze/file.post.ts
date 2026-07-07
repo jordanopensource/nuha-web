@@ -84,10 +84,13 @@ export default defineEventHandler(async (event) => {
         const apiRequest = convertToAPIRequest(comments)
 
         const response = await $fetch<BatchClassifyResponse>(
-          `${aiModelUrl}/classify/batch?lang=${apiLang}&dialect=${region}`,
+          `${aiModelUrl}/${region}/classify/batch`,
           {
             method: 'POST',
-            body: apiRequest,
+            body: {
+              ...apiRequest,
+              lang: apiLang,
+            },
             headers: {
               'Content-Type': 'application/json',
             },
