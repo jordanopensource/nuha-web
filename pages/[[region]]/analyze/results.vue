@@ -505,7 +505,7 @@
 
             <pv-Column
               v-if="columnsConfig.label"
-              field="label"
+              field="main_class"
               :header="$t('analyze.results.details.headers.classification')"
             >
               <template #body="{ data }">
@@ -536,7 +536,7 @@
 
             <pv-Column
               v-if="columnsConfig.score"
-              field="score"
+              field="confidence"
               :header="$t('analyze.results.details.headers.score')"
             >
               <template #body="{ data }">
