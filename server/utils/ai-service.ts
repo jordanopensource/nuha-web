@@ -29,10 +29,13 @@ export class AIService {
       const apiRequest = convertToAPIRequest(comments)
 
       const response = await $fetch<BatchClassifyResponse>(
-        `${aiModelUrl}/classify/batch?lang=${lang}&dialect=${dialect}`,
+       `${aiModelUrl}/${dialect}/classify/batch`,
         {
           method: 'POST',
-          body: apiRequest,
+          body: {
+              ...apiRequest,
+              lang,
+            },
           headers: {
             'Content-Type': 'application/json',
           },
