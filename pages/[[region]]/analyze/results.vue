@@ -55,7 +55,12 @@
               <h3 class="mb-2 text-base font-medium text-gray-700">
                 {{ $t('analyze.results.details.headers.comment') }}
               </h3>
-              <p class="text-xl">{{ validComments[0].comment }}</p>
+              <p
+                dir="rtl"
+                class="max-h-64 overflow-hidden overflow-y-auto whitespace-normal break-words text-xl"
+              >
+                {{ validComments[0].comment }}
+              </p>
             </div>
 
             <!-- Classification Result -->
@@ -467,7 +472,7 @@
 
             <pv-Column
               v-if="columnsConfig.label"
-              field="label"
+              field="main_class"
               :header="$t('analyze.results.details.headers.classification')"
               :sortable="true"
             >
@@ -499,7 +504,7 @@
 
             <pv-Column
               v-if="columnsConfig.score"
-              field="score"
+              field="confidence"
               :header="$t('analyze.results.details.headers.score')"
               :sortable="true"
             >
@@ -1103,6 +1108,8 @@
   const loading = ref(false)
   const first = ref(0)
   const rowsPerPage = ref(10)
+  const currentSortField = ref<string | undefined>()
+  const currentSortOrder = ref<number | undefined>()
   const rowsPerPageOptions = computed(() => {
     const allOptions = [5, 10, 20, 50]
     return allOptions.filter((opt) => opt <= totalComments.value)
@@ -1220,14 +1227,17 @@
     fetchData(
       event.page,
       event.rows,
-      event.sortField,
-      event.sortOrder,
+      currentSortField.value,
+      currentSortOrder.value,
       filters.value
     )
   }
   const onSort = (event: { sortField: string; sortOrder: number }) => {
+    currentSortField.value = event.sortField
+    currentSortOrder.value = event.sortOrder
+    first.value = 0
     fetchData(
-      first.value / rowsPerPage.value,
+      0,
       rowsPerPage.value,
       event.sortField,
       event.sortOrder,
@@ -1236,6 +1246,7 @@
   }
   const onFilter = (event: { filters: Record<string, unknown> }) => {
     filters.value = event.filters
+    first.value = 0
     fetchData(0, rowsPerPage.value, undefined, undefined, event.filters)
   }
 

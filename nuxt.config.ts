@@ -30,7 +30,14 @@ export default defineNuxtConfig({
         nativeName: 'العربية',
       },
       // { code: 'fr',  file: 'fr.json',  name: 'French', language: 'fr', nativeName: 'Français' },
-      // { code: 'ckb', file: 'ckb.json', name: 'Central Kurdish', language: 'ckb', dir: 'rtl', nativeName: 'کوردیی ناوەندی' }
+      {
+        code: 'ckb',
+        file: 'ckb.json',
+        name: 'Central Kurdish',
+        language: 'ckb',
+        dir: 'rtl',
+        nativeName: 'کوردیی ناوەندی',
+      },
     ],
     defaultLocale: 'en',
     defaultDirection: 'ltr',
@@ -38,7 +45,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/eslint',
-    '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxtjs/i18n',
     '@nuxtjs/tailwindcss',
@@ -116,6 +122,8 @@ export default defineNuxtConfig({
       user: '',
       token: '',
       listId: '',
+      fromEmail: '',
+      fromName: 'Nuha Research',
       enTemplateId: '',
       arTemplateId: '',
       frTemplateId: '',
@@ -128,7 +136,7 @@ export default defineNuxtConfig({
     public: {
       baseUrl: 'http://localhost:3000',
       aiModel: {
-        defaultRegion: 'egy',
+        defaultRegion: 'arz',
       },
       cms: {
         prefix: '/api',

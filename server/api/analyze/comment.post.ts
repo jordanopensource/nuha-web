@@ -5,11 +5,7 @@ import {
   convertFromAPIResponse,
 } from '~/server/utils/input-parser'
 import { detectLocale } from '~/server/utils/locale'
-import type {
-  AIAnalysisRequest,
-  AIAnalysisResponse,
-  BatchClassifyResponse,
-} from '~/types/analyze'
+import type { AIAnalysisResponse, BatchClassifyResponse } from '~/types/analyze'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -44,18 +40,11 @@ export default defineEventHandler(async (event) => {
     }
 
     // Get region
-    // NOTE: to be updated once the API supports different models
-    const _region = body.region || 'egy'
+    const region = body.region || 'arz'
 
     // Detect user's locale for API labels, supported API languages (en, ar)
     const userLocale = detectLocale(event)
-    const apiLang = userLocale === 'ar' ? 'ar' : 'en'
-
-    // Prepare data for AI analysis
-    const _analysisRequest: AIAnalysisRequest = {
-      comments,
-      // model_dialect: region
-    }
+    const apiLang = userLocale
 
     const config = useRuntimeConfig()
     const aiModelUrl = config.aiModel?.url
@@ -68,10 +57,13 @@ export default defineEventHandler(async (event) => {
 
         // TODO: update to use single text response instead, reflect in UI
         const response = await $fetch<BatchClassifyResponse>(
-          `${aiModelUrl}/classify/batch?lang=${apiLang}`,
+          `${aiModelUrl}/${region}/classify/batch`,
           {
             method: 'POST',
-            body: apiRequest,
+            body: {
+              ...apiRequest,
+              lang: apiLang,
+            },
             headers: {
               'Content-Type': 'application/json',
             },

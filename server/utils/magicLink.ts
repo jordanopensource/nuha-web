@@ -229,38 +229,12 @@ export async function sendMagicLinkEmail(
   }
 
   try {
-    // subscribe the email to the list first
-    await makeListmonkRequest(
-      ListmonkEndpoint.SUBSCRIBE_EMAIL,
-      config.listmonk,
-      JSON.stringify({
-        email,
-        name: email.substring(0, email.indexOf('@')),
-        status: 'enabled',
-        lists: [config.listId].map(parseInt),
-      })
-    )
-  } catch (error) {
-    let errorMessage = ''
-    if (typeof error?.response?.data?.message === 'string') {
-      errorMessage = error.response.data.message
-    } else if (typeof error?.message === 'string') {
-      errorMessage = error.message
-    }
-
-    const isExpectedError = errorMessage?.toLowerCase().includes('conflict')
-
-    if (!isExpectedError) {
-      console.error('Failed to subscribe email:', error)
-    }
-  }
-
-  try {
     // send the magic link
     await makeListmonkRequest(
       ListmonkEndpoint.SEND_TRANSACTIONAL_EMAIL,
       config.listmonk,
       JSON.stringify({
+        from_email: `${config.listmonk.fromName} <${config.listmonk.fromEmail}>`,
         subscriber_email: email,
         template_id: parseInt(templateId),
         data: {

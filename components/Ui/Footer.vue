@@ -27,7 +27,7 @@
         >
           {{ link.title() }}
         </NuxtLink>
-        <UiRegionLanguageSelector
+        <LazyUiRegionLanguageSelector
           size="md"
           class="hover:underline [&_button.lang-btn]:!px-0 [&_button.lang-btn]:max-md:!justify-start"
           button-variant="ghost"

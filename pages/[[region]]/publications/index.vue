@@ -88,7 +88,7 @@
             </UiButton>
 
             <!-- TODO: change region selector title -->
-            <UiRegionLanguageSelector
+            <LazyUiRegionLanguageSelector
               size="sm"
               class="ms-auto"
               button-variant="ghost"
@@ -159,7 +159,7 @@
           </UiButton>
         </div>
         <!-- TODO: change title -->
-        <UiRegionLanguageSelector
+        <LazyUiRegionLanguageSelector
           size="sm"
           button-variant="outline"
           show-flag-in-button
