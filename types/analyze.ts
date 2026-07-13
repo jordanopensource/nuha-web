@@ -121,3 +121,16 @@ export interface ResultsSort {
   field: ResultsSortField
   order: SortOrder
 }
+
+export interface AnalysisResults {
+  results: SingleResult[]
+  total: number
+  processed: number
+  page: number
+  limit: number
+}
+
+export interface AnalysisResultsResponse {
+  success: boolean
+  data: AnalysisResults
+}

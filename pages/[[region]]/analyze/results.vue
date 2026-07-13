@@ -716,6 +716,7 @@
     MainClassStats,
     PlatformStats,
     HistogramStats,
+    AnalysisResultsResponse,
   } from '~/types/analyze'
   import { analysisColors } from '~/utils/colors'
   // import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
@@ -837,7 +838,7 @@
       }
 
       // TODO: add types
-      const response: any = await $fetch(
+      const response: AnalysisResultsResponse = await $fetch(
         `/api/analyze/${jobId.value}/results`,
         { params }
       )
