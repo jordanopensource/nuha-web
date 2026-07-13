@@ -781,36 +781,6 @@
   const forceChartRerender = () => chartRerenderKey.value++
   watch(width, forceChartRerender)
 
-  // // Store original pagination settings for print restore
-  // const prePrintRowsPerPage = ref(10)
-  // const prePrintFirst = ref(0)
-
-  // const handleBeforePrint = () => {
-  //   forceChartRerender()
-
-  //   // Store current pagination state
-  //   prePrintRowsPerPage.value = rowsPerPage.value
-  //   prePrintFirst.value = first.value
-
-  //   // Show all rows for printing
-  //   rowsPerPage.value = totalComments.value
-  //   first.value = 0
-
-  //   // Synchronously load all data for print
-  //   const data = [...(analysisData.value?.results ?? [])]
-  //   paginatedComments.value = data
-  // }
-
-  // const handleAfterPrint = () => {
-  //   // Restore original pagination after print
-  //   rowsPerPage.value = prePrintRowsPerPage.value
-  //   first.value = prePrintFirst.value
-  //   fetchData(
-  //     prePrintFirst.value / prePrintRowsPerPage.value,
-  //     prePrintRowsPerPage.value
-  //   )
-  // }
-
   const isRtl = computed(
     () => locales.value.find((l) => l.code === locale.value)?.dir === 'rtl'
   )
