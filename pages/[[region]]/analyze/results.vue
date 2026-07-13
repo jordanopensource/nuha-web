@@ -371,9 +371,12 @@
             id="dt-responsive-table"
             v-model:filters="filters"
             :value="paginatedComments"
+            :first="first"
             :rows="rowsPerPage"
             :total-records="totalAnalyzed"
             :lazy="true"
+            :sort-field="sortField"
+            :sort-order="sortOrder"
             :paginator="true"
             :always-show-paginator="false"
             :rows-per-page-options="rowsPerPageOptions"
@@ -392,6 +395,7 @@
             "
             class="rounded-md py-8 md:px-4"
             @page="onPage"
+            @sort="onSort"
           >
             <template #empty>
               <div class="py-8 text-center text-gray-500">
@@ -429,6 +433,7 @@
               field="comment"
               :header="$t('analyze.results.details.headers.comment')"
               style="width: 50%"
+              sortable
             >
               <template #body="{ data }">
                 <div class="flex items-start gap-2">
@@ -465,6 +470,7 @@
               v-if="columnsConfig.platform && hasPlatforms"
               field="platform"
               :header="$t('analyze.results.details.headers.platform')"
+              sortable
             >
               <template #body="{ data }">
                 {{ data.platform || $t('analyze.results.details.na') }}
@@ -475,7 +481,7 @@
                   size="sm"
                   :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square !rounded-full !p-2 print:hidden"
-                  @click="columnsConfig.platform = false"
+                  @click.stop="columnsConfig.platform = false"
                 >
                   <Icon name="mdi:close" size="18" />
                 </UiButton>
@@ -486,6 +492,7 @@
               v-if="columnsConfig.date"
               field="date"
               :header="$t('analyze.results.details.headers.date')"
+              sortable
             >
               <template #body="{ data }">
                 {{ data.date || $t('analyze.results.details.na') }}
@@ -496,7 +503,7 @@
                   size="sm"
                   :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square !rounded-full !p-2 print:hidden"
-                  @click="columnsConfig.date = false"
+                  @click.stop="columnsConfig.date = false"
                 >
                   <Icon name="mdi:close" size="18" />
                 </UiButton>
@@ -507,6 +514,7 @@
               v-if="columnsConfig.label"
               field="main_class"
               :header="$t('analyze.results.details.headers.classification')"
+              sortable
             >
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
@@ -527,7 +535,7 @@
                   size="sm"
                   :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square !rounded-full !p-2 print:hidden"
-                  @click="columnsConfig.label = false"
+                  @click.stop="columnsConfig.label = false"
                 >
                   <Icon name="mdi:close" size="18" />
                 </UiButton>
@@ -538,6 +546,7 @@
               v-if="columnsConfig.score"
               field="confidence"
               :header="$t('analyze.results.details.headers.score')"
+              sortable
             >
               <template #body="{ data }">
                 <div class="flex flex-col gap-1">
@@ -567,7 +576,7 @@
                   size="sm"
                   :title="$t('analyze.results.details.actions.hideColumn')"
                   class="aspect-square !rounded-full !p-2 print:hidden"
-                  @click="columnsConfig.score = false"
+                  @click.stop="columnsConfig.score = false"
                 >
                   <Icon name="mdi:close" size="18" />
                 </UiButton>
@@ -848,15 +857,19 @@
     if (!jobId.value) return
     tableLoading.value = true
     try {
+      const params: Record<string, string | number> = {
+        page: page + 1,
+        limit: rows,
+      }
+      if (sortField.value) {
+        params.sort = sortField.value
+        params.order = sortOrder.value === -1 ? 'desc' : 'asc'
+      }
+
       // TODO: add types
       const response: any = await $fetch(
         `/api/analyze/${jobId.value}/results`,
-        {
-          params: {
-            page: page + 1,
-            limit: rows,
-          },
-        }
+        { params }
       )
 
       if (response.success) {
@@ -948,6 +961,8 @@
   const first = ref(0)
   const rowsPerPage = ref(10)
   const rowsPerPageOptions = ref([5, 10, 20, 50])
+  const sortField = ref<string | undefined>(undefined)
+  const sortOrder = ref<number>(1)
 
   // Print state
   const prePrintRowsPerPage = ref(10)
@@ -963,9 +978,12 @@
   const onPage = (event: any) => {
     updateTablePage(event.page, event.rows)
   }
-  // const onSort = () => {
-  //   // TODO: on server side
-  // }
+  const onSort = (event: any) => {
+    sortField.value = event.sortField || undefined
+    sortOrder.value = event.sortOrder || 1
+    first.value = 0
+    fetchResults(0, rowsPerPage.value)
+  }
 
   const showCustomize = ref(false)
   const showDownloadModal = ref(false)

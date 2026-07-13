@@ -4,6 +4,7 @@ import type {
   AnalysisJob,
   AnalysisOverview,
   CommentData,
+  ResultsSort,
   SingleResult,
 } from '~/types/analyze'
 import { AIService } from '~/server/utils/ai-service'
@@ -281,15 +282,61 @@ export class AnalysisQueue {
   static async getAnalyzedResults(
     id: string,
     start: number,
-    end: number
+    end: number,
+    sort?: ResultsSort
   ): Promise<SingleResult[]> {
     const redis = getRedisClient()
     if (!redis) return []
 
     const key = this.getJobKey(id)
-    // lrange is inclusive
-    const raw = await redis.lrange(`${key}:results`, start, end)
-    return raw.map((r) => JSON.parse(r) as SingleResult)
+
+    if (!sort) {
+      // lrange is inclusive
+      const raw = await redis.lrange(`${key}:results`, start, end)
+      return raw.map((r) => JSON.parse(r) as SingleResult)
+    }
+
+    // sorting needs the full set, so fetch all, sort, then slice the page
+    const raw = await redis.lrange(`${key}:results`, 0, -1)
+    const all = raw.map((r) => JSON.parse(r) as SingleResult)
+    return this.sortResults(all, sort).slice(start, end + 1)
+  }
+
+  private static sortResults(
+    results: SingleResult[],
+    sort: ResultsSort
+  ): SingleResult[] {
+    const dir = sort.order === 'desc' ? -1 : 1
+
+    const getValue = (r: SingleResult): string | number | null => {
+      switch (sort.field) {
+        case 'comment':
+          return r.comment ?? null
+        case 'platform':
+          return r.platform ?? null
+        case 'date':
+          return r.date ?? null
+        case 'main_class':
+          return r.is_valid ? r.main_class : null
+        case 'confidence':
+          return r.is_valid && Number.isFinite(r.confidence) ? r.confidence : 0
+      }
+    }
+
+    return [...results].sort((a, b) => {
+      const av = getValue(a)
+      const bv = getValue(b)
+
+      // missing values always sort last
+      if (av === null && bv === null) return 0
+      if (av === null) return 1
+      if (bv === null) return -1
+
+      if (typeof av === 'number' && typeof bv === 'number') {
+        return (av - bv) * dir
+      }
+      return String(av).localeCompare(String(bv)) * dir
+    })
   }
 
   static async processJob(id: string) {

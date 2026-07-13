@@ -110,3 +110,14 @@ export interface AnalysisOverviewResponse {
   success: boolean
   data: AnalysisOverview
 }
+
+// Results sorting
+export type ResultsSortField =
+  'comment' | 'platform' | 'date' | 'main_class' | 'confidence'
+
+export type SortOrder = 'asc' | 'desc'
+
+export interface ResultsSort {
+  field: ResultsSortField
+  order: SortOrder
+}
