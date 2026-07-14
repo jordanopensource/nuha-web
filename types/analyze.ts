@@ -58,3 +58,79 @@ export interface SingleResult {
 export interface AIAnalysisResponse {
   results: Array<SingleResult>
 }
+
+// Analysis Job Types
+
+export type AnalysisStatus = 'pending' | 'processing' | 'completed' | 'failed'
+
+export interface AnalysisJob {
+  analysis_id: string
+  total_comments: number
+  processed_comments: number
+  status: AnalysisStatus
+  created_at: string
+  dialect: string
+  lang: string
+  error?: string
+}
+
+export interface AnalysisJobSummary {
+  analysis_id: string
+  total_comments: number
+  status: AnalysisStatus
+}
+
+// Analysis Stats Types
+export interface MainClassStats {
+  name: string
+  count: number
+  avgConfidence: number
+}
+
+export interface PlatformStats {
+  [platform: string]: {
+    [mainClass: string]: number
+  }
+}
+
+export interface HistogramStats {
+  [mainClass: string]: number[]
+}
+
+export interface AnalysisOverview {
+  job: AnalysisJob
+  stats: {
+    mainClasses: MainClassStats[]
+    platforms: PlatformStats
+    histogram: HistogramStats
+  }
+}
+
+export interface AnalysisOverviewResponse {
+  success: boolean
+  data: AnalysisOverview
+}
+
+// Results sorting
+export type ResultsSortField =
+  'comment' | 'platform' | 'date' | 'main_class' | 'confidence'
+
+export type SortOrder = 'asc' | 'desc'
+
+export interface ResultsSort {
+  field: ResultsSortField
+  order: SortOrder
+}
+
+export interface AnalysisResults {
+  results: SingleResult[]
+  total: number
+  processed: number
+  page: number
+  limit: number
+}
+
+export interface AnalysisResultsResponse {
+  success: boolean
+  data: AnalysisResults
+}

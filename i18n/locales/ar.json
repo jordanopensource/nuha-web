@@ -36,7 +36,8 @@
       "region": "اللهجة",
       "detectedLocation": "الموقع المرصود",
       "apply": "تطبيق التغييرات",
-      "selectDialect": "اختيار لهجة الذكاء الاصطناعي"
+      "selectDialect": "اختيار لهجة الذكاء الاصطناعي",
+      "dialectUnsupported": "اللهجة التي تم اختيارها سابقًا غير مدعومة في هذه اللغة. يرجى اختيار لهجة جديدة من القائمة أدناه."
     }
   },
   "misc": {
@@ -105,6 +106,7 @@
       "actions": {
         "download": "تنزيل النتائج",
         "print": "طباعة",
+        "share": "مشاركة",
         "jumpToResults": "الانتقال إلى النتائج"
       },
       "customizeCharts": "إنشاء الرسوم البيانية",
@@ -133,7 +135,8 @@
         "totalLabel": "الإجمالي:",
         "dialect": "اللهجة:",
         "modelVersion": "إصدار النموذج:",
-        "commentsWord": "تعليق"
+        "commentsWord": "تعليق",
+        "analyzed": "محللة"
       },
       "singleResult": {
         "title": "نتيجة التحليل",

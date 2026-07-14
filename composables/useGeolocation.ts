@@ -125,6 +125,12 @@ export const useGeolocation = () => {
     return region
   }
 
+  // Hard clear: unlike setRegion(null), this resets the cookie so it isn't restored on next visit
+  const clearRegion = () => {
+    region.value = null
+    regionCookie.value = null
+  }
+
   // Set default region from config
   const setDefaultRegion = async () => {
     if (defaultRegion && (await isRegionSupported(defaultRegion))) {
@@ -196,6 +202,7 @@ export const useGeolocation = () => {
     fetchRegion,
     fetchSupportedRegions,
     setRegion,
+    clearRegion,
     region: readonly(region),
     supportedRegions: readonly(supportedRegions),
     isRegionDetected,

@@ -60,13 +60,26 @@ A web app built with Nuxt 3 for analyzing text and files for hate-speech detecti
    # Configure your .env file
    ```
 
-2. **Start with Docker Compose**
+2. **Create Docker Network (if not already created)**
+
+   ```bash
+   docker network create nuha-network
+   ```
+
+3. **Start with Docker Compose**
 
    ```bash
    docker compose --profile dev up --build
    ```
 
    This starts both the Nuxt app and Redis server.
+
+   You'll need the CMS to be running for the content and dialects data, and the API for the AI models.
+   You can find them both here:
+   - [Nuha CMS](https://github.com/jordanopensource/nuha-cms)
+   - [Nuha API](https://github.com/jordanopensource/nuha-api)
+
+   You can run them both with docker, just make sure that all docker containers are in the same network (`nuha-network`) so they can communicate with each other.
 
 ## Environment Variables
 

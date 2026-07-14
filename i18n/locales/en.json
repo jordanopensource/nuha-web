@@ -36,7 +36,8 @@
       "region": "Region",
       "detectedLocation": "Detected Location",
       "apply": "Apply Changes",
-      "selectDialect": "Select AI Dialect"
+      "selectDialect": "Select AI Dialect",
+      "dialectUnsupported": "The previously selected dialect isn't supported in this language. Please choose a new one below."
     }
   },
   "misc": {
@@ -105,6 +106,7 @@
       "actions": {
         "download": "Download Results",
         "print": "Print",
+        "share": "Share",
         "jumpToResults": "Jump to results"
       },
       "customizeCharts": "Customize Charts",
@@ -133,7 +135,8 @@
         "totalLabel": "Total:",
         "dialect": "Dialect:",
         "modelVersion": "Model Version:",
-        "commentsWord": "Comments"
+        "commentsWord": "Comments",
+        "analyzed": "analyzed"
       },
       "singleResult": {
         "title": "Analysis Result",

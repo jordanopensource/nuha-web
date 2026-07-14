@@ -62,11 +62,18 @@
               </div>
             </UiButton>
           </div>
+
+          <UiMessage
+            v-if="dialectUnsupported"
+            type="warning"
+            :message="$t('settings.regionLanguage.dialectUnsupported')"
+            class="mt-4"
+          />
         </div>
 
         <!-- Region Selection -->
         <!-- TODO: add a note explaining what region is used for -->
-        <div v-if="mode === 'both' || mode === 'region'">
+        <div v-if="mode === 'both' || mode === 'region' || dialectUnsupported">
           <h3
             class="mb-4 font-IBMPlexSansArabic text-lg font-medium text-colors-neutral-foreground"
           >
@@ -169,7 +176,7 @@
   })
 
   const { locale, locales, setLocale } = useI18n()
-  const { region, supportedRegions, setRegion, detectedRegion } =
+  const { region, supportedRegions, setRegion, clearRegion, detectedRegion } =
     useGeolocation()
 
   const showModal = ref(false)
@@ -191,9 +198,14 @@
   const languageName = ref<string>('')
   const regionName = ref<string>('')
 
+  // true when the selected dialect isn't available in the current locale
+  const dialectUnsupported = ref(false)
+
+  const clearedRegionCode = ref<string | null>(null)
+
   // Watch for changes in language or region and update button name accordingly
   watch(
-    [locale, region, detectedRegion],
+    [locale, region, detectedRegion, supportedRegions],
     () => {
       if (region.value?.countryCode && region.value.dialectName) {
         regionName.value = region.value.dialectName[locale.value]
@@ -206,6 +218,26 @@
             ?.nativeName as string) || locale.value.toUpperCase()
       } else {
         languageName.value = ''
+      }
+
+      if (!supportedRegions.value.length) return
+
+      const isSupported = (code?: string) =>
+        supportedRegions.value.some(
+          (r) => r.countryCode === code && r.dialectName?.[locale.value]
+        )
+
+      if (region.value?.countryCode && !isSupported(region.value.countryCode)) {
+        clearedRegionCode.value = region.value.countryCode
+        clearRegion()
+        dialectUnsupported.value = true
+      } else if (clearedRegionCode.value && isSupported(clearedRegionCode.value)) {
+        const restored = supportedRegions.value.find(
+          (r) => r.countryCode === clearedRegionCode.value
+        )
+        if (restored) setRegion(restored)
+        clearedRegionCode.value = null
+        dialectUnsupported.value = false
       }
     },
     { immediate: true }
@@ -241,10 +273,12 @@
     try {
       if (lang && lang !== locale.value) {
         await setLocale(lang)
+        await nextTick()
       }
     } catch (err) {
       console.error('Error applying language: ', err)
     }
+    if (dialectUnsupported.value) return
     if (props.mode !== 'both') showModal.value = false
   }
 
@@ -256,6 +290,8 @@
         )
         if (newRegion) {
           setRegion(newRegion)
+          dialectUnsupported.value = false
+          clearedRegionCode.value = null
         }
       }
     } catch (err) {

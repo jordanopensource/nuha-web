@@ -38,7 +38,7 @@ ENV NUXT_REDIS_HOST=redis
 ENV NUXT_REDIS_PORT=6379
 ENV NUXT_REDIS_PASSWORD=
 ENV NUXT_REDIS_DB=0
-ENV NUXT_REDIS_KEY_PREFIX=nuha_auth:
+ENV NUXT_REDIS_KEY_PREFIX=nuha:
 
 COPY --from=builder --chown=nuxt:nodejs /app/.output /app/.output
 

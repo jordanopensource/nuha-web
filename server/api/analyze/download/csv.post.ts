@@ -1,57 +1,48 @@
-import type { AIAnalysisResponse } from '~/types/analyze'
+import { AnalysisQueue } from '~/server/utils/analysis-queue'
+import { ERROR_KEYS } from '~/server/utils/input-parser'
+import type { SingleResult } from '~/types/analyze'
+
+const convertToCSV = (results: SingleResult[]) => {
+  const headers = [
+    'Comment',
+    'Platform',
+    'Date',
+    'Is Valid',
+    'Main Class',
+    'Sub Class',
+    'Confidence',
+  ]
+  const csvRows = [
+    headers.join(','),
+    ...results.map((result) =>
+      [
+        `"${(result.comment || '').replace(/"/g, '""')}"`, // Escape quotes and handle null
+        `"${result.platform || ''}"`,
+        `"${result.date || ''}"`,
+        result.is_valid ? 'Yes' : 'No',
+        `"${result.main_class || ''}"`,
+        `"${result.sub_class || ''}"`,
+        typeof result.confidence === 'number'
+          ? result.confidence.toFixed(2)
+          : '',
+      ].join(',')
+    ),
+  ]
+
+  return csvRows.join('\n')
+}
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
 
-    if (!body || !body.data) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Analysis data is required',
-      })
+    if (!body || !body.job_id) {
+      if (body?.data) return convertToCSV(body.data.results)
+      throw createError({ statusCode: 400, statusMessage: 'Job ID required' })
     }
 
-    const analysisData = body.data as AIAnalysisResponse
-    const results = analysisData.results
+    const results = await AnalysisQueue.getAnalyzedResults(body.job_id, 0, -1)
 
-    if (!results || results.length === 0) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'No analysis results to export',
-      })
-    }
-
-    // generate csv content
-    const headers = [
-      'Comment',
-      'Platform',
-      'Date',
-      'Is Valid',
-      'Main Class',
-      'Sub Class',
-      'Confidence',
-    ]
-
-    const csvRows = [
-      headers.join(','),
-      ...results.map((result) =>
-        [
-          `"${(result.comment || '').replace(/"/g, '""')}"`, // Escape quotes and handle null
-          `"${result.platform || ''}"`,
-          `"${result.date || ''}"`,
-          result.is_valid ? 'Yes' : 'No',
-          `"${result.main_class || ''}"`,
-          `"${result.sub_class || ''}"`,
-          typeof result.confidence === 'number'
-            ? result.confidence.toFixed(2)
-            : '',
-        ].join(',')
-      ),
-    ]
-
-    const csvContent = csvRows.join('\n')
-
-    // set headers for file download
     setHeader(event, 'Content-Type', 'text/csv;charset=utf-8')
     setHeader(
       event,
@@ -59,13 +50,14 @@ export default defineEventHandler(async (event) => {
       'attachment; filename="nuha_analysis_results.csv"'
     )
 
+    const csvContent = convertToCSV(results)
     // add BOM to support utf-8 in excel
     return '\uFEFF' + csvContent
   } catch (error) {
     console.error('CSV export error:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to generate CSV file',
+      statusMessage: ERROR_KEYS.INTERNAL_SERVER_ERROR,
     })
   }
 })

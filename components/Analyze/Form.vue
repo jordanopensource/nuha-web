@@ -122,7 +122,6 @@
     ACCEPTED_MIME_TYPES,
     bytesToMB,
   } from '~/utils/file-config'
-  import type { AIAnalysisResponse } from '~/types/analyze'
 
   const emit = defineEmits(['method-changed'])
 
@@ -219,7 +218,10 @@
 
   interface AnalysisResponse {
     success: boolean
-    data: AIAnalysisResponse
+    data: {
+      analysis_id: string
+      total_comments: number
+    }
   }
 
   const handleSubmit = async () => {
@@ -232,42 +234,35 @@
 
     try {
       const localePath = useLocalePath()
-      const { setAnalysisResults } = useAnalysisResults()
+
+      let response: AnalysisResponse
 
       if (selectedMethod.value === 0) {
         // submit text input
-        const response = await $fetch<AnalysisResponse>(
-          '/api/analyze/comment',
-          {
-            method: 'POST',
-            body: {
-              text: textInput.value,
-              region: region.value?.countryCode,
-            },
-          }
-        )
-
-        if (response.success) {
-          // Store results in state and go to results page
-          setAnalysisResults(response.data)
-          await navigateTo(localePath('/analyze/results'))
-        }
+        response = await $fetch<AnalysisResponse>('/api/analyze/comment', {
+          method: 'POST',
+          body: {
+            text: textInput.value,
+            region: region.value?.countryCode,
+          },
+        })
       } else {
         // submit file input
         const formData = new FormData()
         formData.append('file', selectedFile.value!)
         if (region.value) formData.append('region', region.value.countryCode)
 
-        const response = await $fetch<AnalysisResponse>('/api/analyze/file', {
+        response = await $fetch<AnalysisResponse>('/api/analyze/file', {
           method: 'POST',
           body: formData,
         })
+      }
 
-        if (response.success) {
-          // Store results in state and go to results page
-          setAnalysisResults(response.data)
-          await navigateTo(localePath('/analyze/results'))
-        }
+      if (response.success && response.data?.analysis_id) {
+        await navigateTo({
+          path: localePath('/analyze/results'),
+          query: { id: response.data.analysis_id },
+        })
       }
     } catch (error: unknown) {
       console.error('Submission error:', error)
