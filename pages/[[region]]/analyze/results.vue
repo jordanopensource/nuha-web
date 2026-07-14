@@ -10,7 +10,7 @@
             <!-- Analysis processing status indicator -->
             <div
               v-if="isProcessing"
-              class="ms-auto flex w-fit items-center gap-2 rounded-full bg-colors-primary-light px-3 py-1 text-sm text-colors-primary-active"
+              class="mx-auto flex w-full font-medium justify-center items-center gap-2 rounded-full bg-colors-primary-light px-3 py-1 text-sm text-colors-primary-active"
             >
               <Icon name="mdi:loading" class="animate-spin" />
               {{ $t('misc.loading') }} ({{ processingProgressPercentage }}%)
@@ -264,7 +264,7 @@
             <!-- Charts loading overlay -->
             <div
               v-if="isProcessing && !noChartVisible"
-              class="absolute inset-0 z-20 flex items-center justify-center rounded-md bg-white/40 print:hidden"
+              class="absolute inset-0 z-20 flex items-center justify-center rounded-md bg-white/60 print:hidden"
             >
               <div
                 class="flex items-center gap-2 rounded-full border bg-white/80 px-3 py-1 text-xl font-medium text-colors-primary"
@@ -342,20 +342,20 @@
           </div>
 
           <div class="flex flex-wrap items-center gap-4 print:justify-center">
-            <small class="flex items-center gap-1">
+            <div class="flex items-center gap-1 text-base">
               <Icon
                 name="mdi:info-outline"
-                class="text-base text-colors-neutral-placeholder"
+                class="text-base"
               />
               <strong>{{ $t('analyze.results.summary.totalLabel') }}</strong>
               {{ jobStatus?.total_comments }}
               {{ $t('analyze.results.summary.commentsWord') }}
               ({{ totalAnalyzed }} {{ $t('analyze.results.summary.analyzed') }})
-            </small>
-            <small>
+            </div>
+            <div class="text-base">
               <strong>{{ $t('analyze.results.summary.dialect') }}</strong>
               {{ dialectDisplay }}
-            </small>
+            </div>
           </div>
         </div>
 
