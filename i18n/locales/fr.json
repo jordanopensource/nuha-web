@@ -151,10 +151,15 @@
           "global": "Rechercher dans toutes les colonnes...",
           "platform": "Filtrer par plateforme",
           "classification": "Filtrer par classification"
+        },
+        "validity": {
+          "valid": "Valide",
+          "invalid": "Non valide"
         }
       },
       "backToAnalyze": "Retour à l'analyse",
-      "noDataAvailable": "Aucune donnée d'analyse disponible."
+      "noDataAvailable": "Aucune donnée d'analyse disponible.",
+      "noValidComments": "Aucun commentaire valide fourni. Assurez-vous que les commentaires sont rédigés dans un texte {dialect} valide."
     },
     "validation": {
       "processingError": "Une erreur s'est produite lors du traitement de votre demande."

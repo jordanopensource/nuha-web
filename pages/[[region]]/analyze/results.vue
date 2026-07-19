@@ -94,8 +94,31 @@
               </p>
             </div>
 
+            <!-- Invalid Comment Indicator -->
+            <div
+              v-if="!singleComment.is_valid"
+              class="flex items-start gap-3 rounded-lg bg-red-50 p-4"
+            >
+              <Icon
+                name="mdi:alert-circle-outline"
+                class="mt-0.5 shrink-0 text-xl text-red-600"
+              />
+              <div>
+                <p class="text-base font-medium text-red-800">
+                  {{ $t('analyze.results.details.validity.invalid') }}
+                </p>
+                <p class="mt-1 text-sm text-red-700">
+                  {{
+                    $t('analyze.results.noValidComments', {
+                      dialect: dialectDisplay,
+                    })
+                  }}
+                </p>
+              </div>
+            </div>
+
             <!-- Classification Result -->
-            <div class="grid gap-4 md:grid-cols-2">
+            <div v-else class="grid gap-4 md:grid-cols-2">
               <div class="rounded-lg bg-blue-50 p-4">
                 <h3 class="mb-2 text-base font-medium text-blue-700">
                   {{ $t('analyze.results.singleResult.classification') }}
@@ -172,8 +195,19 @@
       </div>
 
       <template v-else>
+        <!-- No valid comments indicator (all comments are invalid) -->
+        <ui-message
+          v-if="noValidResults"
+          type="warning"
+          :message="
+            $t('analyze.results.noValidComments', { dialect: dialectDisplay })
+          "
+          class="mb-6 [&_.msg]:text-lg"
+        />
+
         <!-- Bulk Analysis - Charts and Tables Layout -->
         <div
+          v-else
           class="mb-6 rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
           :class="{ 'print:hidden': noChartVisible }"
         >
@@ -517,8 +551,19 @@
               sortable
             >
               <template #body="{ data }">
-                <div class="flex flex-col gap-1">
-                  <span class="overflow-hidden whitespace-normal font-medium">
+                <span
+                  v-if="!data.is_valid"
+                  class="inline-block w-fit whitespace-normal rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700"
+                >
+                  {{ $t('analyze.results.details.validity.invalid') }}
+                </span>
+                <div
+                  v-else
+                  class="flex flex-col items-start gap-1 max-md:items-center"
+                >
+                  <span
+                    class="inline-block w-fit whitespace-normal rounded-full px-3 py-1 text-sm font-medium"
+                  >
                     {{ data.main_class }}
                   </span>
                   <span
@@ -549,7 +594,13 @@
               sortable
             >
               <template #body="{ data }">
-                <div class="flex flex-col gap-1">
+                <span
+                  v-if="!data.is_valid"
+                  class="text-sm text-gray-400 max-md:block max-md:text-center"
+                >
+                  {{ $t('analyze.results.details.na') }}
+                </span>
+                <div v-else class="flex flex-col gap-1">
                   <div class="flex items-center gap-2 max-md:justify-center">
                     <div class="h-2 w-16 rounded-full bg-gray-200">
                       <div
@@ -763,6 +814,10 @@
 
   const isValidJob = computed(() => !!jobStatus.value)
 
+  const noValidResults = computed(
+    () => !isProcessing.value && stats.value.mainClasses.length === 0
+  )
+
   // to control what table columns to show
   const columnsConfig = reactive({
     platform: false,
@@ -837,8 +892,7 @@
         params.order = sortOrder.value === -1 ? 'desc' : 'asc'
       }
 
-      // TODO: add types
-      const response: AnalysisResultsResponse = await $fetch(
+      const response: AnalysisResultsResponse = await $fetch<AnalysisResultsResponse>(
         `/api/analyze/${jobId.value}/results`,
         { params }
       )
@@ -1133,6 +1187,7 @@
   })
   const doughnutOptions = reactive<ChartOptions<'doughnut'>>({
     ...generalChartsOptions,
+    // @ts-ignore
     plugins: {
       ...generalChartsOptions.plugins,
       title: {
