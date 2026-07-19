@@ -31,7 +31,6 @@
           size="md"
           class="hover:underline [&_button.lang-btn]:!px-0 [&_button.lang-btn]:max-md:!justify-start"
           button-variant="ghost"
-          show-flag-in-button
         />
       </nav>
       <div class="col-span-1 flex flex-col gap-4 max-md:gap-8">
