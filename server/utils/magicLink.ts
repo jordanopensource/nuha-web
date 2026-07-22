@@ -237,6 +237,7 @@ export async function sendMagicLinkEmail(
         from_email: `${config.listmonk.fromName} <${config.listmonk.fromEmail}>`,
         subscriber_email: email,
         template_id: parseInt(templateId),
+        subscriber_mode: 'external',
         data: {
           link: magicLink,
         },
