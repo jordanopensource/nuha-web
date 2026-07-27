@@ -28,7 +28,7 @@
     "i18n-iso-countries": "^7.14.0",
     "ioredis": "^5.11.1",
     "jsonwebtoken": "^9.0.3",
-    "nuxt": "^3.20.2",
+    "nuxt": "^4.5.1",
     "nuxt-api-party": "3.4.2",
     "nuxt-auth-utils": "^0.5.24",
     "prettier": "^3.9.6",
