@@ -2696,14 +2696,6 @@
     ufo "^1.6.4"
     unplugin "^3.3.0"
 
-"@unhead/vue@^2.0.3":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-2.1.2.tgz#7a3def8a16cac035b9ef4128f93a8c5355de1a97"
-  integrity sha512-w5yxH/fkkLWAFAOnMSIbvAikNHYn6pgC7zGF/BasXf+K3CO1cYIPFehYAk5jpcsbiNPMc3goyyw1prGLoyD14g==
-  dependencies:
-    hookable "^6.0.1"
-    unhead "2.1.2"
-
 "@unhead/vue@^3.2.3":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-3.2.3.tgz#71f905289bbc1db9abc78377eab50795f3d996c6"
@@ -8382,13 +8374,6 @@ unenv@2.0.0-rc.24, unenv@^2.0.0-rc.24:
   integrity sha512-i7qRCmY42zmCwnYlh9H2SvLEypEFGye5iRmEMKjcGi7zk9UquigRjFtTLz0TYqr0ZGLZhaMHl/foy1bZR+Cwlw==
   dependencies:
     pathe "^2.0.3"
-
-unhead@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/unhead/-/unhead-2.1.2.tgz#dc3d9973844a83a29f054c2413c47f9ad2ea34e9"
-  integrity sha512-vSihrxyb+zsEUfEbraZBCjdE0p/WSoc2NGDrpwwSNAwuPxhYK1nH3eegf02IENLpn1sUhL8IoO84JWmRQ6tILA==
-  dependencies:
-    hookable "^6.0.1"
 
 unhead@3.2.3, unhead@^3.2.1, unhead@^3.2.3:
   version "3.2.3"
