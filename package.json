@@ -32,7 +32,7 @@
     "nuxt-api-party": "3.4.2",
     "nuxt-auth-utils": "^0.5.24",
     "prettier": "^3.9.6",
-    "prettier-plugin-tailwindcss": "^0.7.2",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "primevue": "4.5.4",
     "qs": "^6.15.3",
     "vue": "^3.5.40",
