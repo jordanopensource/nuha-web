@@ -1987,7 +1987,7 @@
   dependencies:
     "@primeuix/styled" "^0.7.4"
 
-"@primeuix/themes@^1.2.5":
+"@primeuix/themes@1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@primeuix/themes/-/themes-1.2.5.tgz#fa7f9c7004561c255b2c95bf2daeee41e16c0eef"
   integrity sha512-n3YkwJrHQaEESc/D/A/iD815sxp8cKnmzscA6a8Tm8YvMtYU32eCahwLLe6h5rywghVwxASWuG36XBgISYOIjQ==
@@ -2036,7 +2036,7 @@
   resolved "https://registry.yarnpkg.com/@primevue/metadata/-/metadata-4.5.4.tgz#1fee3fbc60ca8c330371a7756cf695d0e680d996"
   integrity sha512-jJFD0KYm8bPYgFo0JP3Dc2RkyXzrMI1XHQGsEKTysx9Jx2d1XdxtFji/ZsQeoo/RmwUNof5ciZ72URq37rnK+g==
 
-"@primevue/nuxt-module@^4.3.9":
+"@primevue/nuxt-module@4.5.4":
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/@primevue/nuxt-module/-/nuxt-module-4.5.4.tgz#cfca041e2866ca9f01d57ed3e1a659c75d32c599"
   integrity sha512-ckffyeJcBCAVhi5IkiYcpQ8EVoNv0eSZhbxBdU3T5wz5bYgo0jd9dAetMc5D2j+vGLBqcTZQnqy8eTwcN3rZHQ==
@@ -7235,7 +7235,7 @@ pretty-bytes@^7.1.0:
   resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-7.1.0.tgz#d788c9906241dbdcd4defab51b6d7470243db9bd"
   integrity sha512-nODzvTiYVRGRqAOvE84Vk5JDPyyxsVk0/fbA/bq7RqlnhksGpset09XTxbpvLTIjoaF7K8Z8DG8yHtKGTPSYRw==
 
-primevue@4.5.4, primevue@^4.3.9:
+primevue@4.5.4:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/primevue/-/primevue-4.5.4.tgz#ef96d1a5c8def9fd759b313c3e73646577911b5b"
   integrity sha512-nTyEohZABFJhVIpeUxgP0EJ8vKcJAhD+Z7DYj95e7ie/MNUCjRNcGjqmE1cXtXi4z54qDfTSI9h2uJ51qz2DIw==
