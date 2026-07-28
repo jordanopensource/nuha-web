@@ -146,10 +146,6 @@ export default defineNuxtConfig({
         matomoAnalytics: {
           // NUXT_PUBLIC_SCRIPTS_MATOMO_ANALYTICS_MATOMO_URL
           matomoUrl: 'https://track.josa.ngo/',
-          // NUXT_PUBLIC_SCRIPTS_MATOMO_ANALYTICS_SITE_ID
-          siteId: 2,
-          // NUXT_PUBLIC_SCRIPTS_MATOMO_ANALYTICS_TRACKER_URL
-          trackerUrl: 'https://track.josa.ngo/matomo.php',
         },
       },
       authEmailEnabled: true,
