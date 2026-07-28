@@ -69,6 +69,7 @@ export default defineNuxtConfig({
   scripts: {
     registry: {
       matomoAnalytics: {
+        trigger: 'onNuxtReady',
         matomoUrl: 'https://track.josa.ngo/',
         siteId: 2,
         trackerUrl: 'https://track.josa.ngo/matomo.php',
