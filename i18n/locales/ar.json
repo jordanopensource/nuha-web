@@ -220,7 +220,7 @@
       "excelNoData": "ملف Excel لا يحتوي على بيانات",
       "excelRowError": "الصف {row}: يفتقد تعليقًا",
       "excelParseError": "خلل في تحليل ملف Excel",
-    "missingCommentHeader": "عنوان التعليق مفقود",
+      "missingCommentHeader": "عنوان التعليق مفقود",
       "unsupportedFileType": "نوع الملف غير مدعوم",
       "noFileUploaded": "لم يُرفَع أي ملف",
       "fileIsRequired": "الملف مطلوب",
