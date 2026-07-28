@@ -30,7 +30,7 @@
     "jsonwebtoken": "^9.0.3",
     "nuxt": "^4.5.1",
     "nuxt-api-party": "3.4.2",
-    "nuxt-auth-utils": "^0.5.24",
+    "nuxt-auth-utils": "^0.5.29",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "primevue": "4.5.4",
