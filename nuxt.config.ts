@@ -71,7 +71,7 @@ export default defineNuxtConfig({
       matomoAnalytics: {
         trigger: 'onNuxtReady',
         matomoUrl: 'https://track.josa.ngo/',
-        siteId: 2,
+        siteId: 25,
         trackerUrl: 'https://track.josa.ngo/matomo.php',
         enableLinkTracking: true,
         watch: true,
