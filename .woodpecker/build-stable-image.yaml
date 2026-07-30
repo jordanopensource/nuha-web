@@ -7,9 +7,9 @@ when:
       exclude: [main]
 
 variables:
-  - &registry_url "https://registry.cloud.josa.ngo"
-  - &docker_repo "registry.cloud.josa.ngo/library/nuha-web"
-  - &slack_channel "builds"
+  - &registry_url 'https://registry.cloud.josa.ngo'
+  - &docker_repo 'registry.cloud.josa.ngo/library/nuha-web'
+  - &slack_channel 'builds'
   - &success_message >
     ✅ *SUCCESS* - Stable Build #{{ build.number }}
 
@@ -35,8 +35,8 @@ steps:
   - name: run-pre-commit-hooks
     image: registry.cloud.josa.ngo/library/pre-commit-runner
     settings:
-      args: "--all-files"
-      skip: "end-of-file-fixer, run-samplr"
+      args: '--all-files'
+      skip: 'end-of-file-fixer, run-samplr'
 
   - name: build-stable-image
     image: woodpeckerci/plugin-docker-buildx
