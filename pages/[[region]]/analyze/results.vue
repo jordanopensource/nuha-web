@@ -327,7 +327,7 @@
 
         <!-- Comments Details -->
         <div
-          class="break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6 print:mb-6"
+          class="break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6 print:mb-6 print:!border-none"
         >
           <h2 class="mb-4 font-normal">
             {{ $t('analyze.results.details.title') }}
