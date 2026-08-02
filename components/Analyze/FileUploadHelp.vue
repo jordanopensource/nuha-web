@@ -157,7 +157,7 @@
         <ul
           class="list-inside list-disc space-y-1 text-colors-neutral-foreground opacity-80"
         >
-          <li>{{ $t('analyze.help.fileUpload.maxSize') }}</li>
+          <li>{{ $t('analyze.help.fileUpload.maxComments') }}</li>
           <li>{{ $t('analyze.help.fileUpload.encoding') }}</li>
           <li>{{ $t('analyze.help.fileUpload.content') }}</li>
         </ul>

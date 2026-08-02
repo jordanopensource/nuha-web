@@ -92,7 +92,7 @@
         "jsonFile": "JSON",
         "csvFile": "Valeurs séparées par des virgules",
         "requirements": "Exigences du Fichier:",
-        "maxSize": "Taille maximale du fichier: 10MB",
+        "maxComments": "Maximum de 1000 commentaires par fichier",
         "encoding": "Encodage du texte: UTF-8 préféré",
         "content": "Les fichiers doivent contenir du texte arabe lisible",
         "clickToDownload": "Cliquez sur un type de fichier pour télécharger son modèle",

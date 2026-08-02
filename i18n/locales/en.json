@@ -89,7 +89,7 @@
         "title": "File Upload Requirements",
         "supportedTypes": "Supported File Types",
         "requirements": "Requirements",
-        "maxSize": "Maximum file size: 10MB",
+        "maxComments": "Maximum of 1000 comments per file",
         "encoding": "Text encoding: UTF-8",
         "content": "Only 'Comment' column/property is required - all others are optional",
         "csvFile": "Comma-separated values",
