@@ -60,6 +60,10 @@
       "title": "Analyze Comments",
       "subtitle": "Analyze Arabic text and files to detect hate speech across regional dialects."
     },
+    "disclaimer": {
+      "title": "Results are AI-generated and may be inaccurate",
+      "text": "Nuha uses AI models that can misclassify comments, especially with sarcasm, dialect variations, or missing context. These results are meant to support your work, not replace your judgement. As the researcher, you are responsible for reviewing and verifying every result before publishing, citing, or acting on it."
+    },
     "form": {
       "textInput": "Text Input",
       "fileUpload": "File Upload",
