@@ -94,7 +94,12 @@
         "requirements": "Exigences du Fichier:",
         "maxSize": "Taille maximale du fichier: 10MB",
         "encoding": "Encodage du texte: UTF-8 préféré",
-        "content": "Les fichiers doivent contenir du texte arabe lisible"
+        "content": "Les fichiers doivent contenir du texte arabe lisible",
+        "clickToDownload": "Cliquez sur un type de fichier pour télécharger son modèle",
+        "downloadTemplate": "Télécharger le modèle {fileType}",
+        "downloadLabel": "Télécharger le modèle",
+        "excelHint": "Meilleure prise en charge d'Excel sous Windows",
+        "csvWarning": "Peut ne pas afficher correctement l'arabe dans Excel"
       }
     },
     "results": {
