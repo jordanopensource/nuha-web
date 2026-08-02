@@ -59,6 +59,10 @@
       "title": "Analyser les Commentaires",
       "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
     },
+    "disclaimer": {
+      "title": "Les résultats sont générés par IA et peuvent être inexacts",
+      "text": "Nuha s'appuie sur des modèles d'IA qui peuvent se tromper de classification, en particulier face à l'ironie, aux variations dialectales ou à un contexte manquant. Ces résultats sont là pour appuyer votre travail, pas pour remplacer votre jugement. En tant que chercheur·euse, il vous revient de relire et de vérifier chaque résultat avant de le publier, de le citer ou de vous en servir."
+    },
     "form": {
       "textInput": "Saisie de Texte",
       "fileUpload": "Téléchargement de Fichier",

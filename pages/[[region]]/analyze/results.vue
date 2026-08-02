@@ -142,6 +142,10 @@
             </div>
           </div>
         </div>
+        <UiMessage type="warning" class="mb-6 print:hidden">
+          <p class="font-semibold">{{ $t('analyze.disclaimer.title') }}</p>
+          <p class="mt-1 font-normal">{{ $t('analyze.disclaimer.text') }}</p>
+        </UiMessage>
       </div>
 
       <!-- Bulk Analysis - Charts and Tables Layout -->
@@ -297,7 +301,9 @@
             />
           </div>
 
-          <div class="flex flex-wrap items-center gap-4 print:justify-center">
+          <div
+            class="mb-6 flex flex-wrap items-center gap-4 print:justify-center"
+          >
             <small class="flex items-center gap-1">
               <Icon
                 name="mdi:info-outline"
@@ -312,6 +318,11 @@
               {{ dialectDisplay }}
             </small>
           </div>
+
+          <UiMessage type="warning" class="print:hidden">
+            <p class="font-semibold">{{ $t('analyze.disclaimer.title') }}</p>
+            <p class="mt-1 font-normal">{{ $t('analyze.disclaimer.text') }}</p>
+          </UiMessage>
         </div>
 
         <!-- Comments Details -->
@@ -552,6 +563,16 @@
           </pv-DataTable>
         </div>
       </div>
+
+      <!-- Print only: disclaimer footnote -->
+      <footer class="hidden print:block">
+        <div
+          class="mt-6 break-inside-avoid border-t border-colors-neutral-placeholder pt-3 text-[11px] leading-snug text-colors-neutral-foreground opacity-70"
+        >
+          <p class="font-medium">{{ $t('analyze.disclaimer.title') }}</p>
+          <p>{{ $t('analyze.disclaimer.text') }}</p>
+        </div>
+      </footer>
     </div>
 
     <div v-else-if="error" class="mt-8">

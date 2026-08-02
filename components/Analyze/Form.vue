@@ -86,6 +86,10 @@
           </div>
         </LazyUiXTransition>
       </div>
+      <UiMessage type="warning" class="mt-4">
+        <p class="font-semibold">{{ $t('analyze.disclaimer.title') }}</p>
+        <p class="mt-1 font-normal">{{ $t('analyze.disclaimer.text') }}</p>
+      </UiMessage>
       <ui-button
         size="lg"
         class="mx-auto mt-4"
