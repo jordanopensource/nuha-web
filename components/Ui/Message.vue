@@ -83,40 +83,43 @@
 
   /* Success variant - green tones */
   .ui-message--success {
-    @apply border-green-200 bg-green-50 text-green-800;
+    @apply border-green-300 bg-green-100 text-green-900;
+    @apply selection:bg-green-200 selection:text-green-900;
   }
 
   .ui-message--success .ui-message__icon {
-    @apply text-green-600;
+    @apply text-green-700;
   }
 
   .ui-message--success .ui-message__close-button {
-    @apply text-green-600 hover:bg-green-100 hover:text-green-700;
+    @apply text-green-700 hover:bg-green-200 hover:text-green-900;
   }
 
   /* Warning variant - amber tones */
   .ui-message--warning {
-    @apply border-amber-200 bg-amber-50 text-amber-800;
+    @apply border-amber-300 bg-amber-100 text-amber-900;
+    @apply selection:bg-amber-200 selection:text-amber-900;
   }
 
   .ui-message--warning .ui-message__icon {
-    @apply text-amber-600;
+    @apply text-amber-700;
   }
 
   .ui-message--warning .ui-message__close-button {
-    @apply text-amber-600 hover:bg-amber-100 hover:text-amber-700;
+    @apply text-amber-700 hover:bg-amber-200 hover:text-amber-900;
   }
 
   /* Error variant - red tones */
   .ui-message--error {
-    @apply border-red-200 bg-red-50 text-red-800;
+    @apply border-red-300 bg-red-100 text-red-900;
+    @apply selection:bg-red-200 selection:text-red-900;
   }
 
   .ui-message--error .ui-message__icon {
-    @apply text-red-600;
+    @apply text-red-700;
   }
 
   .ui-message--error .ui-message__close-button {
-    @apply text-red-600 hover:bg-red-100 hover:text-red-700;
+    @apply text-red-700 hover:bg-red-200 hover:text-red-900;
   }
 </style>
