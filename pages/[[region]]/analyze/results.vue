@@ -327,7 +327,7 @@
 
         <!-- Comments Details -->
         <div
-          class="break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6"
+          class="break-inside-avoid rounded-lg border border-colors-neutral-placeholder border-opacity-20 bg-white p-6 print:mb-6"
         >
           <h2 class="mb-4 font-normal">
             {{ $t('analyze.results.details.title') }}
@@ -567,7 +567,7 @@
       <!-- Print only: disclaimer footnote -->
       <footer class="hidden print:block">
         <div
-          class="mt-6 break-inside-avoid border-t border-colors-neutral-placeholder pt-3 text-[11px] leading-snug text-colors-neutral-foreground opacity-70"
+          class="break-inside-avoid border-t border-colors-neutral-placeholder pt-4 text-sm text-colors-neutral-foreground"
         >
           <p class="font-medium">{{ $t('analyze.disclaimer.title') }}</p>
           <p>{{ $t('analyze.disclaimer.text') }}</p>
