@@ -65,19 +65,22 @@
 
             <!-- Classification Result -->
             <div class="grid gap-4 md:grid-cols-2">
-              <div class="rounded-lg bg-blue-50 p-4">
-                <h3 class="mb-2 text-base font-medium text-blue-700">
+              <div
+                class="rounded-lg p-4"
+                :style="getMainClassChipStyle(validComments[0].main_class)"
+              >
+                <h3 class="mb-2 text-base font-medium opacity-80">
                   {{ $t('analyze.results.singleResult.classification') }}
                 </h3>
                 <div class="space-y-1">
-                  <p class="text-xl font-semibold text-blue-900">
+                  <p class="text-xl font-semibold">
                     {{ validComments[0].main_class }}
                   </p>
                   <p
                     v-if="
                       validComments[0].sub_class !== validComments[0].main_class
                     "
-                    class="text-base text-blue-600"
+                    class="text-base opacity-80"
                   >
                     {{ validComments[0].sub_class }}
                   </p>
@@ -291,9 +294,9 @@
             :class="`grid-cols-${Math.min(mainClasses.length, 3)} max-sm:grid-cols-1`"
           >
             <ResultAnalysisSummaryChip
-              v-for="(classData, index) in mainClasses"
+              v-for="classData in mainClasses"
               :key="classData.name"
-              :class="getClassChipStyles(index)"
+              :style="getMainClassChipStyle(classData.name)"
               :title="classData.name"
               :value="classData.percentage + '%'"
               :number-of-comments="classData.count"
@@ -488,10 +491,15 @@
               :sortable="true"
             >
               <template #body="{ data }">
-                <div class="flex flex-col gap-1">
-                  <span class="overflow-hidden whitespace-normal font-medium">{{
-                    data.main_class
-                  }}</span>
+                <div
+                  class="flex flex-col items-start gap-1 max-md:items-center"
+                >
+                  <span
+                    class="inline-block w-fit whitespace-normal rounded-full px-3 py-1 text-sm font-medium"
+                    :style="getMainClassChipStyle(data.main_class)"
+                  >
+                    {{ data.main_class }}
+                  </span>
                   <span
                     v-if="data.sub_class !== data.main_class"
                     class="pt-1 text-sm text-gray-500"
@@ -639,10 +647,10 @@
 <script lang="ts" setup>
   import type { ChartData, ChartOptions } from 'chart.js'
   import type { AIAnalysisResponse, SingleResult } from '~/types/analyze'
-  import { analysisColors } from '~/utils/colors'
   import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
   import { useWindowSize } from '@vueuse/core'
 
+  const { getMainClassColor, getMainClassChipStyle } = useMainClassColors()
   const { supportedRegions, region } = useGeolocation()
   const { locale, locales, t } = useI18n()
   const { width } = useWindowSize()
@@ -830,29 +838,15 @@
     }))
   })
 
-  // Generate colors for main classes
-  // TODO refactor
-  const getClassChipStyles = (index: number) => {
-    const colors = [
-      'bg-colors-analysis-hate-100 border-colors-analysis-hate-200 text-colors-analysis-hate-600',
-      'bg-colors-analysis-nonhate-100 border-colors-analysis-nonhate-200 text-colors-analysis-nonhate-600',
-      'bg-colors-analysis-neutral-100 border-colors-analysis-neutral-200 text-colors-analysis-neutral-600',
-      'bg-blue-100 border-blue-200 text-blue-600',
-      'bg-green-100 border-green-200 text-green-600',
-      'bg-purple-100 border-purple-200 text-purple-600',
-    ]
-    return colors[index % colors.length]
-  }
-
   // Datasets and options (only computed for bulk analysis)
   const barChartData = computed<ChartData<'bar'>>(() => {
     if (!isBulkAnalysis.value || !hasValidComments.value)
       return { labels: [], datasets: [] }
 
-    const datasets = mainClasses.value.map((classData, index) => ({
+    const datasets = mainClasses.value.map((classData) => ({
       label: classData.name,
       data: [classData.count],
-      backgroundColor: getChartColor(index),
+      backgroundColor: getMainClassColor(classData.name).base,
       barThickness: 64,
       borderRadius: 6,
       borderWidth: 2,
@@ -873,28 +867,14 @@
       datasets: [
         {
           data: mainClasses.value.map((c) => c.count),
-          backgroundColor: mainClasses.value.map((_, index) =>
-            getChartColor(index)
+          backgroundColor: mainClasses.value.map(
+            (c) => getMainClassColor(c.name).base
           ),
           label: t('analyze.results.charts.commentsCountLabel'),
         },
       ],
     }
   })
-
-  // get chart colors dynamically
-  // TODO: refactor
-  const getChartColor = (index: number) => {
-    const colors = [
-      analysisColors.hate,
-      analysisColors.nonhate,
-      analysisColors.neutral,
-      '#3B82F6',
-      '#10B981',
-      '#8B5CF6',
-    ]
-    return colors[index % colors.length]
-  }
 
   const barOptions = reactive<ChartOptions<'bar'>>({
     responsive: false,
@@ -996,10 +976,10 @@
     const labels = platforms.value
     return {
       labels,
-      datasets: classNames.map((className, index) => ({
+      datasets: classNames.map((className) => ({
         label: className,
         data: labels.map((l) => base[l][className] || 0),
-        backgroundColor: getChartColor(index),
+        backgroundColor: getMainClassColor(className).base,
       })),
     }
   })
@@ -1061,10 +1041,10 @@
 
     return {
       labels,
-      datasets: mainClasses.value.map((classData, index) => ({
+      datasets: mainClasses.value.map((classData) => ({
         label: classData.name,
         data: classCounts[classData.name],
-        backgroundColor: getChartColor(index),
+        backgroundColor: getMainClassColor(classData.name).base,
       })),
     }
   })

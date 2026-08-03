@@ -3,15 +3,41 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Expose Tailwind theme colors as CSS variables for JS consumption in Chart.js */
 :root {
-  /* Semantic analysis colors */
-  --color-analysis-hate: theme('colors.colors.analysis.hate.500');
-  --color-analysis-hate-100: theme('colors.colors.analysis.hate.100');
-  --color-analysis-nonhate: theme('colors.colors.analysis.nonhate.500');
-  --color-analysis-nonhate-100: theme('colors.colors.analysis.nonhate.100');
+  /* Violence — red */
+  --color-analysis-violence: theme('colors.colors.analysis.hate.500');
+  --color-analysis-violence-bg: theme('colors.colors.analysis.hate.100');
+  --color-analysis-violence-fg: theme('colors.colors.analysis.hate.800');
+
+  /* Harassment — orange */
+  --color-analysis-harassment: theme('colors.orange.500');
+  --color-analysis-harassment-bg: theme('colors.orange.100');
+  --color-analysis-harassment-fg: theme('colors.orange.700');
+
+  /* Discrimination — amber */
+  --color-analysis-discrimination: theme('colors.amber.500');
+  --color-analysis-discrimination-bg: theme('colors.amber.100');
+  --color-analysis-discrimination-fg: theme('colors.amber.700');
+
+  /* Insult — violet */
+  --color-analysis-insult: theme('colors.violet.500');
+  --color-analysis-insult-bg: theme('colors.violet.100');
+  --color-analysis-insult-fg: theme('colors.violet.700');
+
+  /* Disagreement — blue */
+  --color-analysis-disagreement: theme('colors.blue.500');
+  --color-analysis-disagreement-bg: theme('colors.blue.100');
+  --color-analysis-disagreement-fg: theme('colors.blue.700');
+
+  /* Sexual content — fuchsia */
+  --color-analysis-sexual-content: theme('colors.fuchsia.500');
+  --color-analysis-sexual-content-bg: theme('colors.fuchsia.100');
+  --color-analysis-sexual-content-fg: theme('colors.fuchsia.700');
+
+  /* Neutral — gray/slate */
   --color-analysis-neutral: theme('colors.colors.analysis.neutral.500');
-  --color-analysis-neutral-100: theme('colors.colors.analysis.neutral.100');
+  --color-analysis-neutral-bg: theme('colors.colors.analysis.neutral.100');
+  --color-analysis-neutral-fg: theme('colors.colors.analysis.neutral.800');
 }
 
 ::selection {
