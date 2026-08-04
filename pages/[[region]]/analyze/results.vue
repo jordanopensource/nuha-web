@@ -52,12 +52,56 @@
           <div v-if="validComments && validComments[0]" class="space-y-6">
             <!-- Comment Text -->
             <div class="rounded-lg bg-gray-50 p-4">
-              <h3 class="mb-2 text-base font-medium text-gray-700">
-                {{ $t('analyze.results.details.headers.comment') }}
-              </h3>
+              <div
+                class="mb-2 flex items-center justify-between gap-2 max-sm:flex-col max-sm:items-start"
+              >
+                <h3 class="text-base font-medium text-gray-700">
+                  {{ $t('analyze.results.details.headers.comment') }}
+                </h3>
+                <UiButton
+                  v-if="isSingleCommentSensitive"
+                  variant="ghost"
+                  size="sm"
+                  class="shrink-0 whitespace-nowrap !text-xs text-colors-neutral-placeholder hover:!text-colors-neutral-foreground max-sm:!px-0 print:!hidden"
+                  @click="hideSensitiveComment = !hideSensitiveComment"
+                >
+                  {{
+                    hideSensitiveComment
+                      ? $t('analyze.results.triggerWarning.show')
+                      : $t('analyze.results.triggerWarning.hide')
+                  }}
+                  <template #icon>
+                    <Icon
+                      :name="
+                        hideSensitiveComment
+                          ? 'mdi:eye-outline'
+                          : 'mdi:eye-off-outline'
+                      "
+                      size="16"
+                    />
+                  </template>
+                </UiButton>
+              </div>
               <p
                 dir="rtl"
-                class="max-h-64 overflow-hidden overflow-y-auto whitespace-normal break-words text-xl"
+                class="max-h-64 overflow-hidden overflow-y-auto whitespace-normal break-words text-xl transition-all duration-200"
+                :class="{
+                  'cursor-pointer select-none blur': isSingleCommentHidden,
+                }"
+                :role="isSingleCommentHidden ? 'button' : undefined"
+                :tabindex="isSingleCommentHidden ? 0 : undefined"
+                :title="
+                  isSingleCommentHidden
+                    ? $t('analyze.results.triggerWarning.show')
+                    : undefined
+                "
+                @click="isSingleCommentHidden && (hideSensitiveComment = false)"
+                @keydown.enter="
+                  isSingleCommentHidden && (hideSensitiveComment = false)
+                "
+                @keydown.space.prevent="
+                  isSingleCommentHidden && (hideSensitiveComment = false)
+                "
               >
                 {{ validComments[0].comment }}
               </p>
@@ -336,12 +380,55 @@
             {{ $t('analyze.results.details.title') }}
           </h2>
 
+          <!-- Trigger warning -->
+          <UiMessage
+            v-if="hasSensitiveContent"
+            type="error"
+            icon="mdi:eye-off-outline"
+            class="mb-2"
+          >
+            <p class="font-semibold">
+              {{ $t('analyze.results.triggerWarning.title') }}
+            </p>
+            <p class="mt-1 font-normal">
+              {{
+                $t('analyze.results.triggerWarning.bulk', {
+                  count: sensitiveComments.length,
+                })
+              }}
+            </p>
+            <template #actions>
+              <UiButton
+                variant="ghost"
+                size="sm"
+                class="shrink-0 whitespace-nowrap border border-current border-opacity-30 print:!hidden"
+                @click="showSensitiveContent = !showSensitiveContent"
+              >
+                {{
+                  showSensitiveContent
+                    ? $t('analyze.results.triggerWarning.hide')
+                    : $t('analyze.results.triggerWarning.show')
+                }}
+                <template #icon>
+                  <Icon
+                    :name="
+                      showSensitiveContent
+                        ? 'mdi:eye-off-outline'
+                        : 'mdi:eye-outline'
+                    "
+                    size="18"
+                  />
+                </template>
+              </UiButton>
+            </template>
+          </UiMessage>
+
           <pv-DataTable
             id="dt-responsive-table"
             v-model:filters="filters"
             :value="paginatedComments"
             :rows="rowsPerPage"
-            :total-records="totalComments"
+            :total-records="tableTotalComments"
             :lazy="true"
             :paginator="true"
             :always-show-paginator="false"
@@ -648,7 +735,7 @@
   import type { ChartData, ChartOptions } from 'chart.js'
   import type { AIAnalysisResponse, SingleResult } from '~/types/analyze'
   import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
-  import { useWindowSize } from '@vueuse/core'
+  import { useWindowSize, useLocalStorage } from '@vueuse/core'
 
   const { getMainClassColor, getMainClassChipStyle } = useMainClassColors()
   const { supportedRegions, region } = useGeolocation()
@@ -714,11 +801,11 @@
     prePrintFirst.value = first.value
 
     // Show all rows for printing
-    rowsPerPage.value = totalComments.value
+    rowsPerPage.value = tableTotalComments.value
     first.value = 0
 
-    // Synchronously load all data for print
-    const data = [...(analysisData.value?.results ?? [])]
+    // Synchronously load all data for print (hidden comments stay hidden)
+    const data = [...tableComments.value]
     paginatedComments.value = data
   }
 
@@ -809,6 +896,34 @@
       })
     }
   })
+
+  const { isSensitiveResult } = useMainClasses()
+  const showSensitiveContent = ref(false)
+
+  const sensitiveComments = computed(() =>
+    (analysisData.value?.results ?? []).filter(isSensitiveResult)
+  )
+  const hasSensitiveContent = computed(() => sensitiveComments.value.length > 0)
+
+  // in single comment analysis, sensitive content is shown by default.
+  const isSingleCommentSensitive = computed(
+    () => isSingleComment.value && hasSensitiveContent.value
+  )
+  const hideSensitiveComment = useLocalStorage(
+    'nuha_hide_sensitive_comment',
+    false
+  )
+  const isSingleCommentHidden = computed(
+    () => isSingleCommentSensitive.value && hideSensitiveComment.value
+  )
+
+  // rows the table is allowed to show
+  const tableComments = computed(() => {
+    const all = analysisData.value?.results ?? []
+    if (showSensitiveContent.value || !hasSensitiveContent.value) return all
+    return all.filter((r) => !isSensitiveResult(r))
+  })
+  const tableTotalComments = computed(() => tableComments.value.length)
 
   // Compute main classes from results (only for bulk analysis)
   const mainClasses = computed(() => {
@@ -1113,7 +1228,7 @@
   const currentSortOrder = ref<number | undefined>()
   const rowsPerPageOptions = computed(() => {
     const allOptions = [5, 10, 20, 50]
-    return allOptions.filter((opt) => opt <= totalComments.value)
+    return allOptions.filter((opt) => opt <= tableTotalComments.value)
   })
 
   const initFilters = () => {
@@ -1164,7 +1279,8 @@
     // Simulate server delay
     // TODO: replace with actual server pagination
     setTimeout(() => {
-      let data = [...(analysisData.value?.results ?? [])]
+      // sensitive comments are excluded from the source until revealed
+      let data = [...tableComments.value]
 
       // Apply filters
       if (filters) {
@@ -1261,6 +1377,18 @@
     },
     { immediate: true }
   )
+
+  // reload the first page whenever sensitive comments are revealed/hidden
+  watch(showSensitiveContent, () => {
+    first.value = 0
+    fetchData(
+      0,
+      rowsPerPage.value,
+      currentSortField.value,
+      currentSortOrder.value,
+      filters.value
+    )
+  })
 </script>
 <style scoped lang="postcss">
   input[type='checkbox'] {

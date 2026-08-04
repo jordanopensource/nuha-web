@@ -104,6 +104,12 @@
       }
     },
     "results": {
+      "triggerWarning": {
+        "title": "Sensitive content hidden",
+        "bulk": "{count} of the analyzed comments were classified as potentially violent, harassing, or sexual. They are hidden from the table below until you choose to reveal them.",
+        "show": "Show sensitive content",
+        "hide": "Hide sensitive content"
+      },
       "title": "Analysis Results",
       "subtitle": "Here are the results of your comment analysis.",
       "overview": "Overview",
