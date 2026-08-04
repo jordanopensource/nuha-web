@@ -103,6 +103,12 @@
       }
     },
     "results": {
+      "triggerWarning": {
+        "title": "Contenu sensible masqué",
+        "bulk": "{count} des commentaires analysés ont été classés comme potentiellement violents, harcelants ou sexuels. Ils sont masqués dans le tableau ci-dessous jusqu'à ce que vous choisissiez de les afficher.",
+        "show": "Afficher le contenu sensible",
+        "hide": "Masquer le contenu sensible"
+      },
       "title": "Résultats d'Analyse",
       "subtitle": "Voici les résultats de l'analyse de vos commentaires.",
       "overview": "Vue d'ensemble",
