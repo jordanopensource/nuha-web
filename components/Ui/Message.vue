@@ -44,12 +44,14 @@
       message?: string
       showIcon?: boolean
       showCloseButton?: boolean
+      icon?: string
     }>(),
     {
       type: 'info',
       message: '',
       showIcon: true,
       showCloseButton: false,
+      icon: '',
     }
   )
 
@@ -60,7 +62,7 @@
     error: 'mdi:alert-circle-outline',
   }
 
-  const iconName = computed(() => iconMap[props.type])
+  const iconName = computed(() => props.icon || iconMap[props.type])
 
   defineEmits<{
     close: []
