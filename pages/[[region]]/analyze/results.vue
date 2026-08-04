@@ -108,11 +108,11 @@
             </div>
 
             <!-- Classification Result -->
-            <div class="grid gap-4 md:grid-cols-2">
-              <div
-                class="rounded-lg p-4"
-                :style="getMainClassChipStyle(validComments[0].main_class)"
-              >
+            <div
+              class="grid gap-4 rounded-lg sm:grid-cols-1 md:grid-cols-2"
+              :style="getMainClassChipStyle(validComments[0].main_class)"
+            >
+              <div class="p-4">
                 <h3 class="mb-2 text-base font-medium opacity-80">
                   {{ $t('analyze.results.singleResult.classification') }}
                 </h3>
@@ -131,15 +131,18 @@
                 </div>
               </div>
 
-              <div class="rounded-lg bg-green-50 p-4">
-                <h3 class="mb-2 text-base font-medium text-green-700">
+              <div class="p-4">
+                <h3 class="mb-2 text-base font-medium">
                   {{ $t('analyze.results.singleResult.confidence') }}
                 </h3>
                 <div class="space-y-2">
                   <div class="flex items-center gap-3">
-                    <div class="h-3 flex-1 rounded-full bg-gray-200">
+                    <span class="text-xl font-semibold">
+                      {{ (validComments[0].confidence * 100).toFixed(1) }}%
+                    </span>
+                    <div class="h-1 flex-1 rounded-full bg-white bg-opacity-50">
                       <div
-                        class="h-3 rounded-full transition-all duration-300"
+                        class="h-1 rounded-full transition-all duration-300"
                         :class="
                           validComments[0].confidence > 0.8
                             ? 'bg-green-500'
@@ -152,11 +155,6 @@
                         }"
                       />
                     </div>
-                    <span class="text-xl font-semibold text-green-900"
-                      >{{
-                        (validComments[0].confidence * 100).toFixed(1)
-                      }}%</span
-                    >
                   </div>
                 </div>
               </div>
@@ -189,7 +187,10 @@
             </div>
           </div>
         </div>
-        <UiMessage type="warning" class="mb-6 print:hidden">
+        <UiMessage
+          type="warning"
+          class="mb-6 !border-none !bg-transparent !px-0 print:hidden"
+        >
           <p class="font-semibold">{{ $t('analyze.disclaimer.title') }}</p>
           <p class="mt-1 font-normal">{{ $t('analyze.disclaimer.text') }}</p>
         </UiMessage>
@@ -366,7 +367,10 @@
             </small>
           </div>
 
-          <UiMessage type="warning" class="print:hidden">
+          <UiMessage
+            type="warning"
+            class="!border-none !bg-transparent !px-0 print:hidden"
+          >
             <p class="font-semibold">{{ $t('analyze.disclaimer.title') }}</p>
             <p class="mt-1 font-normal">{{ $t('analyze.disclaimer.text') }}</p>
           </UiMessage>
