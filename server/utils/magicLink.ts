@@ -219,13 +219,17 @@ export async function sendMagicLinkEmail(
   }
 
   // Get template ID based on locale
-  const templateId = getTemplateIdByLocale(locale, config.listmonk)
+  let templateId = getTemplateIdByLocale(locale, config.listmonk)
 
   if (!templateId) {
     console.warn(
-      `No template ID configured for locale ${locale}, logging magic link instead`
+      `No template ID configured for locale ${locale}, switching to fallback template.`
     )
-    return
+    templateId = getTemplateIdByLocale('en', config.listmonk)
+    if (!templateId) {
+      console.error('No fallback template ID configured for English!')
+      return
+    }
   }
 
   try {
