@@ -59,6 +59,10 @@
       "title": "Analyser les Commentaires",
       "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
     },
+    "disclaimer": {
+      "title": "Les résultats sont générés par IA et peuvent être inexacts",
+      "text": "Nuha s'appuie sur des modèles d'IA qui peuvent se tromper de classification, en particulier face à l'ironie, aux variations dialectales ou à un contexte manquant. Ces résultats sont là pour appuyer votre travail, pas pour remplacer votre jugement. En tant que chercheur·euse, il vous revient de relire et de vérifier chaque résultat avant de le publier, de le citer ou de vous en servir."
+    },
     "form": {
       "textInput": "Saisie de Texte",
       "fileUpload": "Téléchargement de Fichier",
@@ -88,12 +92,23 @@
         "jsonFile": "JSON",
         "csvFile": "Valeurs séparées par des virgules",
         "requirements": "Exigences du Fichier:",
-        "maxSize": "Taille maximale du fichier: 10MB",
+        "maxComments": "Maximum de 1000 commentaires par fichier",
         "encoding": "Encodage du texte: UTF-8 préféré",
-        "content": "Les fichiers doivent contenir du texte arabe lisible"
+        "content": "Les fichiers doivent contenir du texte arabe lisible",
+        "clickToDownload": "Cliquez sur un type de fichier pour télécharger son modèle",
+        "downloadTemplate": "Télécharger le modèle {fileType}",
+        "downloadLabel": "Télécharger le modèle",
+        "excelHint": "Meilleure prise en charge d'Excel sous Windows",
+        "csvWarning": "Peut ne pas afficher correctement l'arabe dans Excel"
       }
     },
     "results": {
+      "triggerWarning": {
+        "title": "Contenu sensible masqué",
+        "bulk": "{count} des commentaires analysés ont été classés comme potentiellement violents, harcelants ou sexuels. Ils sont masqués dans le tableau ci-dessous jusqu'à ce que vous choisissiez de les afficher.",
+        "show": "Afficher le contenu sensible",
+        "hide": "Masquer le contenu sensible"
+      },
       "title": "Résultats d'Analyse",
       "subtitle": "Voici les résultats de l'analyse de vos commentaires.",
       "overview": "Vue d'ensemble",

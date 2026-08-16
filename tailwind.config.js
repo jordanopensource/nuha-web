@@ -65,9 +65,10 @@ export default {
         },
       },
       fontFamily: {
-        LTZarid: '"29LT Zarid Text Regular"',
-        IBMPlexSansArabic: '"IBM Plex Sans Arabic"',
+        LTZarid: 'var(--font-display)',
+        IBMPlexSansArabic: 'var(--font-body)',
         IBMPlexMono: '"IBM Plex Mono"',
+        AbdGovar: '"Abd Govar"',
       },
       fontSize: {
         h1: ['48px', { lineHeight: '1.2', fontWeight: '600' }],

@@ -206,7 +206,7 @@ export const parseJsonFile = async (file: File): Promise<CommentData[]> => {
     })
   } catch (error) {
     if (error instanceof SyntaxError) {
-      throw new Error(ERROR_KEYS.JSON_INVALID_FORMAT)
+      throw new Error(ERROR_KEYS.JSON_INVALID_FORMAT, { cause: error })
     }
     throw error
   }

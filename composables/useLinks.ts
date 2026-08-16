@@ -1,9 +1,5 @@
 export type LinkGroup =
-  | 'desktop-header'
-  | 'footer'
-  | 'mobile-header'
-  | 'social'
-  | 'info'
+  'desktop-header' | 'footer' | 'mobile-header' | 'social' | 'info'
 
 export interface Link {
   title(): string

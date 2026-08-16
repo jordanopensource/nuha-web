@@ -14,7 +14,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   // region code in URL param has the priority over auto-detection
   const countryCode = (to.params.region as string)?.toLowerCase()
-  let isRegionSet = false
   const regionSupported = isRegionSupported(countryCode)
 
   if (countryCode) {
@@ -30,7 +29,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       (r) => r.countryCode === countryCode
     )?.dialectName as Record<StrapiLocale, string>
 
-    isRegionSet =
+    const isRegionSet =
       (
         await setRegion({
           countryCode,
