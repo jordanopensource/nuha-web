@@ -60,6 +60,10 @@
       "title": "Analyze Comments",
       "subtitle": "Analyze Arabic text and files to detect hate speech across regional dialects."
     },
+    "disclaimer": {
+      "title": "Results are AI-generated and may be inaccurate",
+      "text": "Nuha uses AI models that can misclassify comments, especially with sarcasm, dialect variations, or missing context. These results are meant to support your work, not replace your judgement. As the researcher, you are responsible for reviewing and verifying every result before publishing, citing, or acting on it."
+    },
     "form": {
       "textInput": "Text Input",
       "fileUpload": "File Upload",
@@ -85,7 +89,7 @@
         "title": "File Upload Requirements",
         "supportedTypes": "Supported File Types",
         "requirements": "Requirements",
-        "maxSize": "Maximum file size: 10MB",
+        "maxComments": "Maximum of 1000 comments per file",
         "encoding": "Text encoding: UTF-8",
         "content": "Only 'Comment' column/property is required - all others are optional",
         "csvFile": "Comma-separated values",
@@ -95,10 +99,17 @@
         "clickToDownload": "Click on any file type to download its template",
         "downloadTemplate": "Download {fileType} template",
         "excelHint": "Best support for Excel on Windows",
-        "csvWarning": "May not display Arabic correctly on Excel"
+        "csvWarning": "May not display Arabic correctly on Excel",
+        "downloadLabel": "Download template"
       }
     },
     "results": {
+      "triggerWarning": {
+        "title": "Sensitive content hidden",
+        "bulk": "{count} of the analyzed comments were classified as potentially violent, harassing, or sexual. They are hidden from the table below until you choose to reveal them.",
+        "show": "Show sensitive content",
+        "hide": "Hide sensitive content"
+      },
       "title": "Analysis Results",
       "subtitle": "Here are the results of your comment analysis.",
       "overview": "Overview",

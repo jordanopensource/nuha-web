@@ -1,3 +1,14 @@
+
+:root {
+  --font-display: '29LT Zarid Text Regular', sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+:lang(ckb) {
+  --font-display: 'Abd Govar', '29LT Zarid Text Regular', sans-serif;
+  --font-body: 'Abd Govar', 'IBM Plex Sans Arabic', sans-serif;
+}
+
 @layer base {
   h1 {
     @apply font-LTZarid text-h1-m lg:text-h1;

@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Abd Govar';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Abd Govar'),
+    url('~/assets/fonts/AbdGovar/abdgovar.woff2') format('woff2');
+}
