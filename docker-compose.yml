@@ -87,6 +87,7 @@ services:
 networks:
   nuha-network:
     driver: bridge
+    name: nuha-network
 
 volumes:
   redis_data:
