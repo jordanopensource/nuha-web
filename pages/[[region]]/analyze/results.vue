@@ -390,6 +390,7 @@
             type="error"
             icon="mdi:eye-off-outline"
             class="mb-2"
+            :class="{ 'print:!hidden': showSensitiveContent }"
           >
             <p class="font-semibold">
               {{ $t('analyze.results.triggerWarning.title') }}
@@ -770,6 +771,7 @@
   const isPrinting = ref(false)
 
   const handleBeforePrint = () => {
+    if (isPrinting.value) return
     forceChartRerender()
     isPrinting.value = true
   }
@@ -778,9 +780,23 @@
     isPrinting.value = false
   }
 
+  const handlePrintShortcut = (event: KeyboardEvent) => {
+    const isPrintCombo =
+      (event.ctrlKey || event.metaKey) &&
+      !event.shiftKey &&
+      !event.altKey &&
+      event.key?.toLowerCase() === 'p'
+
+    if (!isPrintCombo) return
+
+    event.preventDefault()
+    handlePrint()
+  }
+
   onMounted(() => {
     window.addEventListener('beforeprint', handleBeforePrint)
     window.addEventListener('afterprint', handleAfterPrint)
+    window.addEventListener('keydown', handlePrintShortcut)
 
     // Get analysis data from state instead of URL query parameters
     const storedData = getAnalysisResults()
@@ -797,9 +813,12 @@
   onUnmounted(() => {
     window.removeEventListener('beforeprint', handleBeforePrint)
     window.removeEventListener('afterprint', handleAfterPrint)
+    window.removeEventListener('keydown', handlePrintShortcut)
   })
 
   const handlePrint = async () => {
+    if (isPrinting.value) return
+
     // make sure modal is closed
     showDownloadModal.value = false
 
