@@ -448,6 +448,8 @@
               })
             "
             class="rounded-md py-8 md:px-4"
+            @update:first="first = $event"
+            @update:rows="rowsPerPage = $event"
           >
             <template #empty>
               <div class="py-8 text-center text-gray-500">
@@ -765,26 +767,15 @@
     { immediate: false }
   )
 
-  // Store original pagination settings for print restore
-  const prePrintRowsPerPage = ref(10)
-  const prePrintFirst = ref(0)
+  const isPrinting = ref(false)
 
   const handleBeforePrint = () => {
     forceChartRerender()
-
-    // Store current pagination state
-    prePrintRowsPerPage.value = rowsPerPage.value
-    prePrintFirst.value = first.value
-
-    // Show all rows for printing (hidden comments stay hidden)
-    rowsPerPage.value = tableTotalComments.value
-    first.value = 0
+    isPrinting.value = true
   }
 
   const handleAfterPrint = () => {
-    // Restore original pagination after print
-    rowsPerPage.value = prePrintRowsPerPage.value
-    first.value = prePrintFirst.value
+    isPrinting.value = false
   }
 
   onMounted(() => {
@@ -808,17 +799,18 @@
     window.removeEventListener('afterprint', handleAfterPrint)
   })
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
     // make sure modal is closed
     showDownloadModal.value = false
 
-    // give time for modal to fully close and page to re-render
-    nextTick(() => {
-      setTimeout(() => {
-        document.body.focus()
-        window.print()
-      }, 300)
-    })
+    isPrinting.value = true
+    await nextTick()
+
+    // give time for modal to fully close and the full table to lay out
+    setTimeout(() => {
+      document.body.focus()
+      window.print()
+    }, 300)
   }
 
   // charts visibility state + modal toggle
@@ -1193,6 +1185,11 @@
     const allOptions = [5, 10, 20, 50]
     return allOptions.filter((opt) => opt <= tableTotalComments.value)
   })
+
+  const displayFirst = computed(() => (isPrinting.value ? 0 : first.value))
+  const displayRows = computed(() =>
+    isPrinting.value ? Math.max(tableTotalComments.value, 1) : rowsPerPage.value
+  )
 
   // reset the pagination whenever sensitive comments are shown/hidden
   watch(showSensitiveContent, () => {
