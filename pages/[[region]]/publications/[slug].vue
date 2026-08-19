@@ -275,6 +275,24 @@
     @apply my-4 h-auto max-w-full rounded-md;
   }
 
+  /* Tables */
+  .publication-body :deep(table) {
+    @apply my-2 w-full border-collapse;
+  }
+
+  .publication-body :deep(th),
+  .publication-body :deep(td) {
+    @apply border border-colors-neutral-placeholder border-opacity-20 px-3 py-2 text-start align-top;
+  }
+
+  .publication-body :deep(th) {
+    @apply bg-colors-neutral-background font-semibold;
+  }
+
+  .publication-body :deep(caption) {
+    @apply mb-2 text-start text-subtext text-colors-neutral-placeholder;
+  }
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .publication-title {
