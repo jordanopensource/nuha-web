@@ -390,6 +390,7 @@
             type="error"
             icon="mdi:eye-off-outline"
             class="mb-2"
+            :class="{ 'print:!hidden': showSensitiveContent }"
           >
             <p class="font-semibold">
               {{ $t('analyze.results.triggerWarning.title') }}
@@ -429,22 +430,12 @@
 
           <pv-DataTable
             id="dt-responsive-table"
-            v-model:filters="filters"
-            :value="paginatedComments"
-            :rows="rowsPerPage"
-            :total-records="tableTotalComments"
-            :lazy="true"
+            :first="displayFirst"
+            :rows="displayRows"
+            :value="tableComments"
             :paginator="true"
             :always-show-paginator="false"
             :rows-per-page-options="rowsPerPageOptions"
-            :loading="loading"
-            :global-filter-fields="[
-              'comment',
-              'platform',
-              'date',
-              'main_class',
-            ]"
-            filter-display="menu"
             column-resize-mode="fit"
             resizable-columns
             table-style="table-layout: fixed"
@@ -458,9 +449,8 @@
               })
             "
             class="rounded-md py-8 md:px-4"
-            @page="onPage"
-            @sort="onSort"
-            @filter="onFilter"
+            @update:first="first = $event"
+            @update:rows="rowsPerPage = $event"
           >
             <template #empty>
               <div class="py-8 text-center text-gray-500">
@@ -478,20 +468,6 @@
               >
                 <Icon name="mdi:view-column" size="24" />
               </UiButton>
-            </template>
-
-            <template #loading>
-              <div
-                class="rounded-md bg-colors-neutral-background p-12 text-center"
-              >
-                <Icon
-                  name="mdi:loading"
-                  class="animate-spin text-2xl text-colors-primary"
-                />
-                <p class="mt-2 text-colors-neutral-placeholder">
-                  {{ $t('misc.loading') }}
-                </p>
-              </div>
             </template>
 
             <pv-Column
@@ -738,7 +714,6 @@
 <script lang="ts" setup>
   import type { ChartData, ChartOptions } from 'chart.js'
   import type { AIAnalysisResponse, SingleResult } from '~/types/analyze'
-  import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
   import { useWindowSize, useLocalStorage } from '@vueuse/core'
 
   const { getMainClassColor, getMainClassChipStyle } = useMainClassColors()
@@ -793,39 +768,35 @@
     { immediate: false }
   )
 
-  // Store original pagination settings for print restore
-  const prePrintRowsPerPage = ref(10)
-  const prePrintFirst = ref(0)
+  const isPrinting = ref(false)
 
   const handleBeforePrint = () => {
+    if (isPrinting.value) return
     forceChartRerender()
-
-    // Store current pagination state
-    prePrintRowsPerPage.value = rowsPerPage.value
-    prePrintFirst.value = first.value
-
-    // Show all rows for printing
-    rowsPerPage.value = tableTotalComments.value
-    first.value = 0
-
-    // Synchronously load all data for print (hidden comments stay hidden)
-    const data = [...tableComments.value]
-    paginatedComments.value = data
+    isPrinting.value = true
   }
 
   const handleAfterPrint = () => {
-    // Restore original pagination after print
-    rowsPerPage.value = prePrintRowsPerPage.value
-    first.value = prePrintFirst.value
-    fetchData(
-      prePrintFirst.value / prePrintRowsPerPage.value,
-      prePrintRowsPerPage.value
-    )
+    isPrinting.value = false
+  }
+
+  const handlePrintShortcut = (event: KeyboardEvent) => {
+    const isPrintCombo =
+      (event.ctrlKey || event.metaKey) &&
+      !event.shiftKey &&
+      !event.altKey &&
+      event.key?.toLowerCase() === 'p'
+
+    if (!isPrintCombo) return
+
+    event.preventDefault()
+    handlePrint()
   }
 
   onMounted(() => {
     window.addEventListener('beforeprint', handleBeforePrint)
     window.addEventListener('afterprint', handleAfterPrint)
+    window.addEventListener('keydown', handlePrintShortcut)
 
     // Get analysis data from state instead of URL query parameters
     const storedData = getAnalysisResults()
@@ -842,19 +813,23 @@
   onUnmounted(() => {
     window.removeEventListener('beforeprint', handleBeforePrint)
     window.removeEventListener('afterprint', handleAfterPrint)
+    window.removeEventListener('keydown', handlePrintShortcut)
   })
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
+    if (isPrinting.value) return
+
     // make sure modal is closed
     showDownloadModal.value = false
 
-    // give time for modal to fully close and page to re-render
-    nextTick(() => {
-      setTimeout(() => {
-        document.body.focus()
-        window.print()
-      }, 300)
-    })
+    isPrinting.value = true
+    await nextTick()
+
+    // give time for modal to fully close and the full table to lay out
+    setTimeout(() => {
+      document.body.focus()
+      window.print()
+    }, 300)
   }
 
   // charts visibility state + modal toggle
@@ -1222,176 +1197,22 @@
     { immediate: true }
   )
 
-  // DataTable state and functionality
-  const filters = ref({})
-  // const showFilters = ref(false)
-  const loading = ref(false)
+  // DataTable pagination state.
   const first = ref(0)
   const rowsPerPage = ref(10)
-  const currentSortField = ref<string | undefined>()
-  const currentSortOrder = ref<number | undefined>()
   const rowsPerPageOptions = computed(() => {
     const allOptions = [5, 10, 20, 50]
     return allOptions.filter((opt) => opt <= tableTotalComments.value)
   })
 
-  const initFilters = () => {
-    filters.value = {
-      // global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      comment: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-      },
-      platform: {
-        // operator: FilterOperator.AND,
-        constraints: [
-          { value: FilterMatchMode.EQUALS, matchMode: FilterMatchMode.EQUALS },
-        ],
-      },
-      date: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
-      },
-      main_class: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-      },
-      // balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-      // status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-      // activity: { value: [0, 100], matchMode: FilterMatchMode.BETWEEN },
-      // verified: { value: null, matchMode: FilterMatchMode.EQUALS }
-    }
-  }
-  onMounted(() => {
-    initFilters()
-  })
-
-  // Paginated data for server-side simulation
-  const paginatedComments = ref<Array<SingleResult>>([])
-
-  // DEV: Server-side pagination simulation
-  // TODO: REMOVE
-  const fetchData = (
-    page: number,
-    rows: number,
-    sortField?: string,
-    sortOrder?: number,
-    filters?: Record<string, { value: string }>
-  ) => {
-    loading.value = true
-
-    // Simulate server delay
-    // TODO: replace with actual server pagination
-    setTimeout(() => {
-      // sensitive comments are excluded from the source until revealed
-      let data = [...tableComments.value]
-
-      // Apply filters
-      if (filters) {
-        Object.keys(filters).forEach((key) => {
-          const filter = filters[key]
-          if (filter && filter.value && filter.value.key !== '') {
-            data = data.filter((item) => {
-              const value = item[key as keyof typeof item]
-              if (typeof value === 'string') {
-                return value
-                  .toLowerCase()
-                  .includes(filter.value.key.toLowerCase())
-              }
-              return String(value)
-                .toLowerCase()
-                .includes(filter.value.key.toLowerCase())
-            })
-          }
-        })
-      }
-
-      // Apply sorting
-      if (sortField) {
-        data.sort((a, b) => {
-          const aVal = a[sortField as keyof typeof a]
-          const bVal = b[sortField as keyof typeof b]
-
-          if (typeof aVal === 'string' && typeof bVal === 'string') {
-            return sortOrder === 1
-              ? aVal.localeCompare(bVal)
-              : bVal.localeCompare(aVal)
-          }
-
-          if (typeof aVal === 'number' && typeof bVal === 'number') {
-            return sortOrder === 1 ? aVal - bVal : bVal - aVal
-          }
-
-          return 0
-        })
-      }
-
-      // Apply pagination
-      const start = page * rows
-      const end = start + rows
-      paginatedComments.value = data.slice(start, end)
-
-      loading.value = false
-    }, 300)
-  }
-
-  // Event handlers
-  const onPage = (event: {
-    first: number
-    rows: number
-    page: number
-    sortField?: string
-    sortOrder?: number
-  }) => {
-    first.value = event.first
-    rowsPerPage.value = event.rows
-    fetchData(
-      event.page,
-      event.rows,
-      currentSortField.value,
-      currentSortOrder.value,
-      filters.value
-    )
-  }
-  const onSort = (event: { sortField: string; sortOrder: number }) => {
-    currentSortField.value = event.sortField
-    currentSortOrder.value = event.sortOrder
-    first.value = 0
-    fetchData(
-      0,
-      rowsPerPage.value,
-      event.sortField,
-      event.sortOrder,
-      filters.value
-    )
-  }
-  const onFilter = (event: { filters: Record<string, unknown> }) => {
-    filters.value = event.filters
-    first.value = 0
-    fetchData(0, rowsPerPage.value, undefined, undefined, event.filters)
-  }
-
-  // Initialize data when analysisData changes
-  watch(
-    analysisData,
-    () => {
-      if (analysisData.value) {
-        fetchData(0, rowsPerPage.value)
-      }
-    },
-    { immediate: true }
+  const displayFirst = computed(() => (isPrinting.value ? 0 : first.value))
+  const displayRows = computed(() =>
+    isPrinting.value ? Math.max(tableTotalComments.value, 1) : rowsPerPage.value
   )
 
-  // reload the first page whenever sensitive comments are revealed/hidden
+  // reset the pagination whenever sensitive comments are shown/hidden
   watch(showSensitiveContent, () => {
     first.value = 0
-    fetchData(
-      0,
-      rowsPerPage.value,
-      currentSortField.value,
-      currentSortOrder.value,
-      filters.value
-    )
   })
 </script>
 <style scoped lang="postcss">
