@@ -1,44 +1,59 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    body: string | undefined
+  import type { PublicationHeading } from '~/types/publication'
+
+  defineProps<{
+    headings: PublicationHeading[]
   }>()
 
-  const toc = ref<{ id: string; text: string; level: number }[]>([])
-
-  watchEffect(() => {
-    if (!props.body) {
-      toc.value = []
-      return
-    }
-
-    const parser = new DOMParser()
-    const doc = parser.parseFromString(props.body, 'text/html')
-    const headings = doc.querySelectorAll('h1, h2, h3, h4')
-
-    toc.value = Array.from(headings).map((el) => {
-      return {
-        id: el.id,
-        text: el.textContent || '',
-        level: parseInt(el.tagName.substring(1)), // e.g. "h2" -> 2
-      }
-    })
-  })
+  const isOpen = ref(true)
+  const listId = useId()
 </script>
 
 <template>
-  <nav v-if="toc.length" class="toc font-LTZarid">
+  <nav v-if="headings.length" class="toc font-LTZarid">
     <h4
-      class="mb-2 border-b border-b-colors-neutral-placeholder border-opacity-20 pb-1 font-bold"
+      class="flex items-center justify-between gap-2 border-b border-b-colors-neutral-placeholder border-opacity-20 pb-1 font-bold"
     >
       {{ $t('publications.single.tableOfContent') }}
+      <UiButton
+        variant="ghost"
+        size="sm"
+        class="aspect-square shrink-0 !rounded-full !p-1"
+        :title="
+          isOpen
+            ? $t('publications.single.collapseToC')
+            : $t('publications.single.expandToC')
+        "
+        :aria-expanded="isOpen"
+        :aria-controls="listId"
+        @click="isOpen = !isOpen"
+      >
+        <Icon
+          name="mdi:chevron-down"
+          size="20"
+          class="transition-transform"
+          :class="{ 'rotate-180': isOpen }"
+        />
+      </UiButton>
     </h4>
-    <ul class="list-inside list-disc">
-      <li v-for="item in toc" :key="item.id" :class="`toc-level-${item.level}`">
-        <NuxtLink class="hover:underline" :href="`#${item.id}`">{{
-          item.text
-        }}</NuxtLink>
-      </li>
-    </ul>
+    <div
+      :id="listId"
+      class="grid transition-[grid-template-rows] duration-200 ease-out"
+      :class="isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
+      :inert="!isOpen"
+    >
+      <ul class="list-inside list-disc overflow-hidden pt-2">
+        <li
+          v-for="item in headings"
+          :key="item.id"
+          :class="`toc-level-${item.level}`"
+        >
+          <NuxtLink class="hover:underline" :href="`#${item.id}`">{{
+            item.text
+          }}</NuxtLink>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 

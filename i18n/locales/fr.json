@@ -220,6 +220,8 @@
     "single": {
       "authors": "Auteurs :",
       "tableOfContent": "Table des Matières",
+      "collapseToC": "Masquer la table des matières",
+      "expandToC": "Afficher la table des matières",
       "lastUpdated": "Dernière mise à jour",
       "share": {
         "copyUrl": "Copier le Lien",
