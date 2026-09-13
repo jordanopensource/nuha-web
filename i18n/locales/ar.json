@@ -291,6 +291,8 @@
     "single": {
       "authors": "المؤلفون:",
       "tableOfContent": "جدول المحتويات",
+      "collapseToC": "إخفاء جدول المحتويات",
+      "expandToC": "عرض جدول المحتويات",
       "lastUpdated": "تاريخ آخر تحديث",
       "share": {
         "copyUrl": "نسْخ الرابط",

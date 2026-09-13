@@ -39,7 +39,7 @@
           <!-- Side Table of Content -->
           <PublicationToC
             class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4"
-            :body="processedBody"
+            :headings="processedBody.headings"
           />
 
           <!-- Authors and Meta Row -->
@@ -96,7 +96,7 @@
         <div class="mx-auto max-w-lg px-2 md:hidden">
           <PublicationToC
             class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4"
-            :body="processedBody"
+            :headings="processedBody.headings"
           />
         </div>
 
@@ -104,7 +104,7 @@
         <div
           v-if="publication.body"
           class="publication-body mx-auto max-w-lg text-pretty font-LTZarid text-base leading-relaxed text-colors-neutral-foreground"
-          v-html="processedBody"
+          v-html="processedBody.html"
         />
       </div>
     </article>
@@ -115,11 +115,10 @@
   import type { StrapiLocale } from '@nuxtjs/strapi'
   import type { Publication } from '~/types/strapi'
 
-  const { addHeadingIds } = usePublications()
+  const { processBody, getPublicationCoverUrl } = usePublications()
   const { locale } = useI18n()
   const { find } = useStrapi()
   const route = useRoute()
-  const { getPublicationCoverUrl } = usePublications()
   // const { region } = useGeolocation()
 
   const slug = computed(() => route.params.slug as string)
@@ -156,7 +155,7 @@
   )
 
   const publication = computed(() => data.value?.data?.[0])
-  const processedBody = computed(() => addHeadingIds(publication.value?.body))
+  const processedBody = computed(() => processBody(publication.value?.body))
 
   // URL for back to publications
   const publicationsUrl = computed(() => {

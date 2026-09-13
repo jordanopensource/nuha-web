@@ -291,6 +291,8 @@
     "single": {
       "authors": "Authors:",
       "tableOfContent": "Table of Content",
+      "collapseToC": "Collapse table of content",
+      "expandToC": "Expand table of content",
       "lastUpdated": "Last Updated",
       "share": {
         "copyUrl": "Copy Link",
