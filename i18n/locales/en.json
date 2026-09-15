@@ -291,6 +291,11 @@
     "single": {
       "authors": "Authors:",
       "tableOfContent": "Table of Content",
+      "attachments": {
+        "title": "Attachments",
+        "download": "Download",
+        "view": "View"
+      },
       "collapseToC": "Collapse table of content",
       "expandToC": "Expand table of content",
       "lastUpdated": "Last Updated",

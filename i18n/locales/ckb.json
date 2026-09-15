@@ -291,6 +291,11 @@
     "single": {
       "authors": "نووسەران:",
       "tableOfContent": "پێرستی بابەتەکان",
+      "attachments": {
+        "title": "هاوپێچەکان",
+        "download": "داگرتن",
+        "view": "بینین"
+      },
       "collapseToC": "شاردنەوەی پێرستی بابەتەکان",
       "expandToC": "پێرستی بابەتەکان فراوان بکە",
       "lastUpdated": "دوایین نوێکردنەوە",

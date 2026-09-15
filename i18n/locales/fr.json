@@ -220,6 +220,11 @@
     "single": {
       "authors": "Auteurs :",
       "tableOfContent": "Table des Matières",
+      "attachments": {
+        "title": "Pièces jointes",
+        "download": "Télécharger",
+        "view": "Afficher"
+      },
       "collapseToC": "Masquer la table des matières",
       "expandToC": "Afficher la table des matières",
       "lastUpdated": "Dernière mise à jour",

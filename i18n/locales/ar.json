@@ -291,6 +291,11 @@
     "single": {
       "authors": "المؤلفون:",
       "tableOfContent": "جدول المحتويات",
+      "attachments": {
+        "title": "المرفقات",
+        "download": "تنزيل",
+        "view": "عرض"
+      },
       "collapseToC": "إخفاء جدول المحتويات",
       "expandToC": "عرض جدول المحتويات",
       "lastUpdated": "تاريخ آخر تحديث",
