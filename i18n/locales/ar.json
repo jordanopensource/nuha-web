@@ -294,7 +294,9 @@
       "attachments": {
         "title": "المرفقات",
         "download": "تنزيل",
-        "view": "عرض"
+        "view": "عرض",
+        "collapse": "إخفاء المرفقات",
+        "expand": "عرض المرفقات"
       },
       "collapseToC": "إخفاء جدول المحتويات",
       "expandToC": "عرض جدول المحتويات",

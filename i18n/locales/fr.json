@@ -223,7 +223,9 @@
       "attachments": {
         "title": "Pièces jointes",
         "download": "Télécharger",
-        "view": "Afficher"
+        "view": "Afficher",
+        "collapse": "Masquer les pièces jointes",
+        "expand": "Afficher les pièces jointes"
       },
       "collapseToC": "Masquer la table des matières",
       "expandToC": "Afficher la table des matières",

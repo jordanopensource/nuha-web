@@ -294,7 +294,9 @@
       "attachments": {
         "title": "Attachments",
         "download": "Download",
-        "view": "View"
+        "view": "View",
+        "collapse": "Collapse attachments",
+        "expand": "Expand attachments"
       },
       "collapseToC": "Collapse table of content",
       "expandToC": "Expand table of content",
