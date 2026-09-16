@@ -12,7 +12,8 @@
 <template>
   <nav v-if="headings.length" class="toc font-LTZarid">
     <h4
-      class="flex items-center justify-between gap-2 border-b border-b-colors-neutral-placeholder border-opacity-20 pb-1 font-bold"
+      class="sticky top-0 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pb-1 pt-4 font-bold"
+      :class="{ 'border-b': isOpen }"
     >
       {{ $t('publications.single.tableOfContent') }}
       <UiButton
@@ -42,7 +43,7 @@
       :class="isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
       :inert="!isOpen"
     >
-      <ul class="list-inside list-disc overflow-hidden pt-2">
+      <ul class="list-inside list-disc overflow-y-auto pt-2">
         <li
           v-for="item in headings"
           :key="item.id"

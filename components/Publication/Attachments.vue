@@ -78,7 +78,8 @@
 <template>
   <section v-if="attachments?.length" class="attachments font-LTZarid">
     <h4
-      class="flex items-center justify-between gap-2 border-b border-b-colors-neutral-placeholder border-opacity-20 pb-1 font-bold"
+      class="sticky top-0 z-10 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pb-1 pt-4 font-bold"
+      :class="{ 'border-b': isOpen }"
     >
       {{ $t('publications.single.attachments.title') }}
       <UiButton
