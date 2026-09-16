@@ -89,29 +89,31 @@
         </div>
 
         <!-- Authors and Meta Row -->
-        <div class="mx-auto max-w-lg md:!hidden">
-          <PublicationMetaRow
-            :authors="publication.authors"
-            :updated-at="publication.updatedAt"
-            :url="currentUrl"
-            :title="publication.title"
-          />
-        </div>
+        <div class="my-4 flex max-w-lg flex-col gap-2">
+          <div class="mx-auto md:!hidden">
+            <PublicationMetaRow
+              :authors="publication.authors"
+              :updated-at="publication.updatedAt"
+              :url="currentUrl"
+              :title="publication.title"
+            />
+          </div>
 
-        <!-- Attachments -->
-        <div class="mx-auto mb-4 max-w-lg px-2 md:hidden">
-          <PublicationAttachments
-            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-            :attachments="publication.attachments"
-          />
-        </div>
+          <!-- Attachments -->
+          <div class="mx-auto w-full md:hidden">
+            <PublicationAttachments
+              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+              :attachments="publication.attachments"
+            />
+          </div>
 
-        <!-- Table of Content -->
-        <div class="mx-auto max-w-lg px-2 md:hidden">
-          <PublicationToC
-            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-            :headings="processedBody.headings"
-          />
+          <!-- Table of Content -->
+          <div class="mx-auto w-full md:hidden">
+            <PublicationToC
+              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+              :headings="processedBody.headings"
+            />
+          </div>
         </div>
 
         <!-- Publication Body -->
