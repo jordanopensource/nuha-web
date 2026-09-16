@@ -101,7 +101,7 @@
         <!-- Attachments -->
         <div class="mx-auto mb-4 max-w-lg px-2 md:hidden">
           <PublicationAttachments
-            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4"
+            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
             :attachments="publication.attachments"
           />
         </div>
@@ -109,7 +109,7 @@
         <!-- Table of Content -->
         <div class="mx-auto max-w-lg px-2 md:hidden">
           <PublicationToC
-            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4"
+            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
             :headings="processedBody.headings"
           />
         </div>

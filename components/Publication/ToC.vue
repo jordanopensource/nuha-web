@@ -12,8 +12,8 @@
 <template>
   <nav v-if="headings.length" class="toc font-LTZarid">
     <h4
-      class="sticky top-0 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pb-1 pt-4 font-bold"
-      :class="{ 'border-b': isOpen }"
+      class="sticky top-0 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pt-4 font-bold"
+      :class="{ 'border-b pb-1': isOpen }"
     >
       {{ $t('publications.single.tableOfContent') }}
       <UiButton
