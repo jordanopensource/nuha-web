@@ -9,6 +9,7 @@
   const { getMediaUrl } = usePublications()
 
   const downloadingId = ref<number | null>(null)
+  const failedDownload = ref<string | null>(null)
   const isOpen = ref(true)
   const listId = useId()
 
@@ -51,9 +52,13 @@
 
   const handleDownload = async (file: Attachment) => {
     const url = getMediaUrl(file.url)
-    if (!url) return
+    if (!file || !url) {
+      failedDownload.value = file.name
+      return
+    }
 
     downloadingId.value = file.id
+    failedDownload.value = null
     try {
       const blob = await $fetch<Blob>(url, { responseType: 'blob' })
       const objectUrl = URL.createObjectURL(blob)
@@ -68,7 +73,13 @@
       setTimeout(() => URL.revokeObjectURL(objectUrl), 1000)
     } catch (err) {
       console.error('Failed to download attachment:', err)
-      window.open(url, '_blank', 'noopener')
+
+      const opened = window.open(url, '_blank')
+      if (opened) {
+        opened.opener = null
+      } else {
+        failedDownload.value = file.name
+      }
     } finally {
       downloadingId.value = null
     }
@@ -103,6 +114,19 @@
         />
       </UiButton>
     </h4>
+
+    <UiMessage
+      v-if="failedDownload"
+      type="error"
+      class="sticky top-14 z-[5] mt-2 text-sm"
+      :message="
+        $t('publications.single.attachments.downloadFailed', {
+          name: failedDownload,
+        })
+      "
+      show-close-button
+      @close="failedDownload = null"
+    />
 
     <div
       :id="listId"

@@ -225,7 +225,8 @@
         "download": "Télécharger",
         "view": "Afficher",
         "collapse": "Masquer les pièces jointes",
-        "expand": "Afficher les pièces jointes"
+        "expand": "Afficher les pièces jointes",
+        "downloadFailed": "Impossible de télécharger {name}. Veuillez réessayer."
       },
       "collapseToC": "Masquer la table des matières",
       "expandToC": "Afficher la table des matières",
@@ -237,6 +238,8 @@
         "urlCopied": "Lien copié dans le presse-papiers !"
       },
       "notFound": "Publication non trouvée.",
+      "notTranslated": "Cette publication n'est pas disponible en {lang}. Elle est disponible dans d'autres langues.",
+      "viewInLang": "Voir en {lang}",
       "backToPublications": "Retour aux Publications"
     }
   },
