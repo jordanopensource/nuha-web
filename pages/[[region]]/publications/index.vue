@@ -32,6 +32,7 @@
             :excerpt="publication.abstract"
             :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
             :category="publication.category?.name"
+            :date="publication.publishedAt"
             :featured="true"
             :slug="publication.slug"
           />
@@ -107,6 +108,7 @@
             :excerpt="publication.abstract"
             :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
             :category="publication.category?.name"
+            :date="publication.publishedAt"
             :featured="false"
             :slug="publication.slug"
           />
