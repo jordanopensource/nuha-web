@@ -38,23 +38,24 @@ export const usePublications = () => {
     return { html: doc.body.innerHTML, headings: toc }
   }
 
-  const getPublicationCoverUrl = (coverUrl?: string | null): string | null => {
-    if (!coverUrl || coverUrl.includes('undefined')) {
+  const getMediaUrl = (url?: string | null): string | null => {
+    if (!url || url.includes('undefined')) {
       return null
     }
 
-    if (coverUrl.startsWith('http')) {
-      return coverUrl
+    if (url.startsWith('http')) {
+      return url
     }
     return null
-
-    // Remove /api suffix from strapiUrl for media files
-    // const baseUrl = strapiUrl.replace('/api', '')
-
-    // return `${baseUrl}${coverUrl.startsWith('/') ? '' : '/'}${coverUrl}`
   }
+
+  // for backwards compatibility
+  const getPublicationCoverUrl = (coverUrl?: string | null): string | null =>
+    getMediaUrl(coverUrl)
+
   return {
     processBody,
+    getMediaUrl,
     getPublicationCoverUrl,
   }
 }

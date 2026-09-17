@@ -291,6 +291,14 @@
     "single": {
       "authors": "Authors:",
       "tableOfContent": "Table of Content",
+      "attachments": {
+        "title": "Attachments",
+        "download": "Download",
+        "view": "View",
+        "collapse": "Collapse attachments",
+        "expand": "Expand attachments",
+        "downloadFailed": "Couldn't download {name}. Please try again."
+      },
       "collapseToC": "Collapse table of content",
       "expandToC": "Expand table of content",
       "lastUpdated": "Last Updated",
@@ -301,6 +309,8 @@
         "urlCopied": "Link copied to clipboard!"
       },
       "notFound": "Publication not found.",
+      "notTranslated": "This publication isn't available in {lang}. It is available in other languages.",
+      "viewInLang": "View in {lang}",
       "backToPublications": "Back to Publications"
     }
   },

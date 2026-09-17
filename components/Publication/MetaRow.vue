@@ -143,6 +143,6 @@
 
 <style lang="postcss" scoped>
   .authors-meta-row {
-    @apply my-4 flex flex-wrap items-center gap-2 md:flex-col lg:items-center lg:justify-between;
+    @apply flex flex-wrap items-center gap-2 md:flex-col lg:items-center lg:justify-between;
   }
 </style>
