@@ -25,7 +25,7 @@
     <!-- Publication Content -->
     <article
       v-else-if="publication"
-      class="grid w-full grid-cols-4 gap-8 max-md:grid-cols-1"
+      class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1"
     >
       <!-- Side bar on large screen -->
       <div class="max-md:hidden">
@@ -36,9 +36,15 @@
             class="mt-1"
           />
 
+          <!-- Side Attachments -->
+          <PublicationAttachments
+            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+            :attachments="publication.attachments"
+          />
+
           <!-- Side Table of Content -->
           <PublicationToC
-            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4"
+            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
             :headings="processedBody.headings"
           />
 
@@ -78,26 +84,36 @@
           <img
             :src="coverUrl"
             :alt="publication.cover?.alternativeText || publication.title"
-            class="mx-auto h-auto max-h-[30rem] w-full max-w-2xl rounded-md object-cover shadow-sm"
+            class="mx-auto h-auto w-full max-w-3xl rounded-md object-cover shadow-sm"
           />
         </div>
 
         <!-- Authors and Meta Row -->
-        <div class="mx-auto max-w-lg md:!hidden">
-          <PublicationMetaRow
-            :authors="publication.authors"
-            :updated-at="publication.updatedAt"
-            :url="currentUrl"
-            :title="publication.title"
-          />
-        </div>
+        <div class="my-4 flex max-w-lg flex-col gap-2">
+          <div class="mx-auto md:!hidden">
+            <PublicationMetaRow
+              :authors="publication.authors"
+              :updated-at="publication.updatedAt"
+              :url="currentUrl"
+              :title="publication.title"
+            />
+          </div>
 
-        <!-- Table of Content -->
-        <div class="mx-auto max-w-lg px-2 md:hidden">
-          <PublicationToC
-            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4"
-            :headings="processedBody.headings"
-          />
+          <!-- Attachments -->
+          <div class="mx-auto w-full md:hidden">
+            <PublicationAttachments
+              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+              :attachments="publication.attachments"
+            />
+          </div>
+
+          <!-- Table of Content -->
+          <div class="mx-auto w-full md:hidden">
+            <PublicationToC
+              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+              :headings="processedBody.headings"
+            />
+          </div>
         </div>
 
         <!-- Publication Body -->
@@ -133,6 +149,7 @@
         populate: {
           category: true,
           cover: true,
+          attachments: true,
           regions: true,
           authors: true,
         },

@@ -2,6 +2,7 @@ import type {
   PublicationCategory as Category,
   PublicationRegion as Region,
   PublicationAuthor as Author,
+  PublicationAttachment as Attachment,
 } from './strapi'
 
 export interface PublicationHeading {
@@ -15,4 +16,4 @@ export interface ProcessedPublicationBody {
   headings: PublicationHeading[]
 }
 
-export type { Category, Region, Author }
+export type { Category, Region, Author, Attachment }
