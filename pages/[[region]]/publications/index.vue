@@ -208,7 +208,7 @@
       }),
     {
       server: false,
-      watch: [region],
+      watch: [region, locale],
       transform: (res) => res.data,
     }
   )
@@ -219,7 +219,6 @@
     () =>
       find<Publication>('publications', {
         locale: locale.value as StrapiLocale,
-        // @ts-expect-error it just works!
         populate: {
           category: true,
           cover: true,
@@ -240,7 +239,6 @@
         },
         filters: {
           regions: {
-            // @ts-expect-error it just works!
             code: {
               $eq: region.value?.countryCode?.toLowerCase(),
             },
@@ -256,12 +254,17 @@
       }),
     {
       server: false,
-      watch: [region, selectedCategoryId, currentPage],
+      watch: [region, locale, selectedCategoryId, currentPage],
     }
   )
 
   // reset to page 1 when category changes
   watch(selectedCategoryId, () => {
+    currentPage.value = 1
+  })
+
+  watch(locale, () => {
+    selectedCategoryId.value = null
     currentPage.value = 1
   })
 
