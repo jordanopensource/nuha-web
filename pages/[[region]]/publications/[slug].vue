@@ -25,7 +25,7 @@
     <!-- Publication Content -->
     <article
       v-else-if="publication"
-      class="grid w-full grid-cols-4 gap-8 max-md:grid-cols-1"
+      class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1"
     >
       <!-- Side bar on large screen -->
       <div class="max-md:hidden">
@@ -84,7 +84,7 @@
           <img
             :src="coverUrl"
             :alt="publication.cover?.alternativeText || publication.title"
-            class="mx-auto h-auto max-h-[30rem] w-full max-w-2xl rounded-md object-cover shadow-sm"
+            class="mx-auto h-auto w-full max-w-3xl rounded-md object-cover shadow-sm"
           />
         </div>
 
