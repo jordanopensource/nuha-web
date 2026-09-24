@@ -61,16 +61,14 @@
     >
       <UiPageHeading :title="$t('homepage.ourPublications')" />
 
-      <div
-        v-if="!pending"
-        class="grid grid-cols-1 gap-x-12 gap-y-6 lg:grid-cols-2 lg:gap-x-28"
-      >
+      <div v-if="!pending" class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <PublicationCard
           v-for="publication in publications?.data"
           :key="publication.documentId"
           :title="publication.title"
           :excerpt="publication.abstract"
           :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
+          :attachments="publication.attachments"
           :category="publication.category?.name"
           :date="publication.publishedAt"
           :featured="false"
@@ -117,6 +115,8 @@
           category: true,
           cover: true,
           regions: true,
+          // only what the card needs for cover
+          attachments: { fields: ['url', 'mime', 'formats'] },
         },
         fields: [
           'title',

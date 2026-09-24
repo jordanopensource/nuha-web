@@ -15,8 +15,8 @@
         :class="featured ? 'md:h-full' : 'aspect-video'"
       >
         <img
-          v-if="coverImageUrl && !imageFailed"
-          :src="coverImageUrl"
+          v-if="coverUrl && !imageFailed"
+          :src="coverUrl"
           :alt="title"
           class="w-full object-cover"
           :class="featured ? 'max-h-72 md:max-h-full md:pe-1' : 'h-full'"
@@ -71,9 +71,12 @@
 </template>
 
 <script lang="ts" setup>
+  import type { Attachment } from '~/types/publication'
+
   interface Props {
     title: string
     coverImageUrl?: string | null
+    attachments?: Attachment[] | null
     excerpt?: string | null
     category?: string | null
     date?: string | null
@@ -85,6 +88,7 @@
     featured: false,
     category: null,
     coverImageUrl: null,
+    attachments: null,
     excerpt: null,
     date: null,
   })
@@ -92,15 +96,18 @@
   const route = useRoute()
   const { locale } = useI18n()
   const { region } = useGeolocation()
+  const { resolveCover } = usePublications()
+
+  const cover = computed(() =>
+    resolveCover(props.coverImageUrl, props.attachments)
+  )
+  const coverUrl = computed(() => cover.value?.url ?? null)
 
   // fall back to the placeholder when the cover url itself is broken
   const imageFailed = ref(false)
-  watch(
-    () => props.coverImageUrl,
-    () => {
-      imageFailed.value = false
-    }
-  )
+  watch(coverUrl, () => {
+    imageFailed.value = false
+  })
 
   const publishedDate = computed(() => {
     if (!props.date) return null
@@ -136,7 +143,7 @@
 <style lang="postcss" scoped>
   .publication-card {
     @apply block rounded-md bg-colors-neutral-background;
-    @apply border border-colors-neutral-placeholder border-opacity-5;
+    @apply border border-colors-neutral-placeholder border-opacity-30;
     @apply transition-shadow duration-200 hover:shadow-md;
     @apply transition-colors duration-200 hover:bg-colors-primary-light hover:bg-opacity-50 hover:text-colors-neutral-foreground;
     @apply overflow-hidden;
