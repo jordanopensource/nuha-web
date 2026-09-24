@@ -31,6 +31,7 @@
             :title="publication.title"
             :excerpt="publication.abstract"
             :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
+            :attachments="publication.attachments"
             :category="publication.category?.name"
             :date="publication.publishedAt"
             :featured="true"
@@ -107,6 +108,7 @@
             :title="publication.title"
             :excerpt="publication.abstract"
             :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
+            :attachments="publication.attachments"
             :category="publication.category?.name"
             :date="publication.publishedAt"
             :featured="false"
@@ -223,6 +225,7 @@
           category: true,
           cover: true,
           regions: true,
+          attachments: { fields: ['url', 'mime', 'formats'] },
         },
         fields: [
           'title',
