@@ -11,6 +11,40 @@
       </div>
     </div>
 
+    <!-- Not translated into the selected language -->
+    <div v-else-if="hasNoTranslation" class="my-12">
+      <UiMessage
+        type="warning"
+        :message="
+          $t('publications.single.notTranslated', { lang: currentLocaleName })
+        "
+        class="mx-auto max-w-2xl !bg-amber-50"
+      >
+        <template #actions>
+          <div class="flex flex-wrap gap-2">
+            <UiButton
+              v-if="availableLocale"
+              size="sm"
+              @click="switchToAvailableLocale"
+            >
+              {{
+                $t('publications.single.viewInLang', {
+                  lang: availableLocaleName,
+                })
+              }}
+            </UiButton>
+            <UiButton
+              :to="$localePath(publicationsUrl)"
+              size="sm"
+              variant="outline"
+            >
+              {{ $t('publications.single.backToPublications') }}
+            </UiButton>
+          </div>
+        </template>
+      </UiMessage>
+    </div>
+
     <!-- Error State -->
     <div v-else-if="error || !publication" class="py-12">
       <UiMessage :message="$t('publications.single.notFound')" type="error">
@@ -131,47 +165,103 @@
   import type { StrapiLocale } from '@nuxtjs/strapi'
   import type { Publication } from '~/types/strapi'
 
+  type PublicationWithLocalizations = Publication & {
+    localizations?: { slug: string; locale: string }[]
+  }
+
   const { processBody, getPublicationCoverUrl } = usePublications()
-  const { locale } = useI18n()
+  const { locale, locales, setLocale } = useI18n()
   const { find } = useStrapi()
   const route = useRoute()
+  const localePath = useLocalePath()
   // const { region } = useGeolocation()
 
   const slug = computed(() => route.params.slug as string)
 
+  const cacheKey = computed(() => `publication-${locale.value}-${slug.value}`)
+
+  const findBySlug = (targetSlug: string, targetLocale: string) =>
+    find<PublicationWithLocalizations>('publications', {
+      locale: targetLocale as StrapiLocale,
+      populate: {
+        category: true,
+        cover: true,
+        attachments: true,
+        regions: true,
+        authors: true,
+        localizations: { fields: ['slug', 'locale'] },
+      },
+      filters: {
+        slug: {
+          $eq: targetSlug,
+        },
+        // regions: {
+        //   // @ts-expect-error it just works!
+        //   code: {
+        //     $eq: region.value?.countryCode?.toLowerCase()
+        //   }
+        // }
+      },
+    })
+
+  const findSlugOwner = async (targetSlug: string, exclude: string) => {
+    const others = locales.value
+      .map((l) => l.code)
+      .filter((code) => code !== exclude)
+
+    const matches = await Promise.all(
+      others.map((code) =>
+        findBySlug(targetSlug, code)
+          .then((res) => res.data?.[0] ?? null)
+          .catch(() => null)
+      )
+    )
+
+    return matches.find(Boolean) ?? null
+  }
+
   // Fetch single publication
   const { data, pending, error } = useAsyncData(
-    `publication-${slug.value}`,
-    () =>
-      find<Publication>('publications', {
-        locale: locale.value as StrapiLocale,
-        // @ts-expect-error it just works!
-        populate: {
-          category: true,
-          cover: true,
-          attachments: true,
-          regions: true,
-          authors: true,
-        },
-        filters: {
-          slug: {
-            $eq: slug.value,
-          },
-          // regions: {
-          //   // @ts-expect-error it just works!
-          //   code: {
-          //     $eq: region.value?.countryCode?.toLowerCase()
-          //   }
-          // }
-        },
-      }),
+    cacheKey,
+    async () => {
+      const direct = await findBySlug(slug.value, locale.value)
+      if (direct.data?.[0]) {
+        return { publication: direct.data[0] }
+      }
+
+      const owner = await findSlugOwner(slug.value, locale.value)
+      // no language knows this slug
+      if (!owner) return {}
+
+      const translation = owner.localizations?.find(
+        (l) => l.locale === locale.value
+      )
+
+      // translated, but different slug
+      if (translation) return { redirectSlug: translation.slug }
+
+      // exists in different lang
+      return { availableLocale: owner.locale }
+    },
     {
       server: false,
-      watch: [slug],
+      watch: [slug, locale],
     }
   )
 
-  const publication = computed(() => data.value?.data?.[0])
+  const publication = computed(() => data.value?.publication)
+  const availableLocale = computed(() => data.value?.availableLocale ?? null)
+  const hasNoTranslation = computed(() => !!availableLocale.value)
+
+  watch(
+    () => data.value?.redirectSlug,
+    (redirectSlug) => {
+      if (!redirectSlug || redirectSlug === slug.value) return
+      navigateTo(localePath(publicationUrl(redirectSlug)), { replace: true })
+    },
+    { immediate: true }
+  )
+
   const processedBody = computed(() => processBody(publication.value?.body))
 
   // URL for back to publications
@@ -182,6 +272,20 @@
     }
     return '/publications'
   })
+
+  const publicationUrl = (publicationSlug: string) =>
+    `${publicationsUrl.value}/${publicationSlug}`
+
+  const localeName = (code?: string | null) =>
+    (locales.value.find((l) => l.code === code)?.name as string) || code || ''
+
+  const currentLocaleName = computed(() => localeName(locale.value))
+  const availableLocaleName = computed(() => localeName(availableLocale.value))
+
+  const switchToAvailableLocale = async () => {
+    if (availableLocale.value)
+      await setLocale(availableLocale.value as StrapiLocale)
+  }
 
   // Current page URL for sharing
   const currentUrl = computed(() => {
