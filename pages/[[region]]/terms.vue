@@ -22,18 +22,13 @@
     </div>
 
     <!-- Content -->
-    <div v-else-if="data" class="prose">
-      <div
-        class="font-LTZarid text-xl leading-relaxed"
-        v-html="data.body || ''"
-      />
+    <div v-else-if="data?.body" class="prose">
+      <div class="font-LTZarid text-xl leading-relaxed" v-html="data.body" />
     </div>
 
-    <!-- Fallback for no content -->
-    <div v-else class="py-12 text-center">
-      <p class="text-lg text-colors-neutral-foreground">
-        {{ $t('terms.page.error') }}
-      </p>
+    <!-- Empty State -->
+    <div v-else class="py-12">
+      <UiMessage :message="$t('terms.page.noContent')" type="info" />
     </div>
   </div>
 </template>

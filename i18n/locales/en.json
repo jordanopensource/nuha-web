@@ -317,19 +317,22 @@
   "about": {
     "page": {
       "title": "About Us",
-      "error": "Failed to load about page content."
+      "error": "Failed to load about page content.",
+      "noContent": "The about page content isn't available yet."
     }
   },
   "terms": {
     "page": {
       "title": "Terms of Service",
-      "error": "Failed to load terms of service content."
+      "error": "Failed to load terms of service content.",
+      "noContent": "The terms of service content isn't available yet."
     }
   },
   "privacy": {
     "page": {
       "title": "Privacy Policy",
-      "error": "Failed to load privacy policy content."
+      "error": "Failed to load privacy policy content.",
+      "noContent": "The privacy policy content isn't available yet."
     }
   },
   "error": {
