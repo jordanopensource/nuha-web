@@ -17,7 +17,7 @@
     </div>
 
     <!-- Content -->
-    <div class="space-y-8">
+    <div>
       <!-- Featured Publications - only show when no category is selected -->
       <section
         v-if="data && featuredPublications.length > 0"
@@ -56,9 +56,9 @@
         <!-- Category Filter Buttons -->
         <div
           v-if="categoriesData && categoriesData.length > 1 && !categoriesError"
-          class="mb-4"
+          class="mb-8 border-b border-colors-neutral-placeholder border-opacity-20 p-4"
         >
-          <div class="mb-1 mt-2">
+          <div class="mb-2">
             <small class="text-colors-neutral-foreground text-opacity-80">{{
               $t('publications.categories.filter')
             }}</small>
