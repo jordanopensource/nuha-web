@@ -23,7 +23,6 @@
         v-if="data && featuredPublications.length > 0"
         class="border-b border-colors-neutral-placeholder border-opacity-20 pb-8"
       >
-        <UiPageHeading :title="$t('publications.sections.featured')" />
         <div class="grid grid-cols-1 gap-6">
           <PublicationCard
             v-for="publication in featuredPublications"
@@ -54,14 +53,6 @@
         v-else-if="data && regularPublications.length > 0"
         class="publications-grid"
       >
-        <UiPageHeading
-          :title="
-            selectedCategoryId === null
-              ? $t('publications.sections.allPublications')
-              : getCurrentCategoryName
-          "
-        />
-
         <!-- Category Filter Buttons -->
         <div v-if="categoriesData && !categoriesError" class="mb-4">
           <div class="mb-1 mt-2">
