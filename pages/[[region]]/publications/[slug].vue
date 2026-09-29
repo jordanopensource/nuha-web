@@ -69,7 +69,9 @@
         />
 
         <!-- Title -->
-        <h1 class="mx-auto max-w-lg font-LTZarid">
+        <h1
+          class="mx-auto mb-4 w-full text-pretty px-8 text-center font-LTZarid"
+        >
           {{ publication.title }}
         </h1>
 
@@ -82,11 +84,11 @@
         </div>
 
         <!-- Cover Image -->
-        <div v-if="coverUrl" class="mx-auto my-4 w-full">
+        <div v-if="coverUrl" class="my-4 w-full max-w-full px-8">
           <img
             :src="coverUrl"
             :alt="publication.cover?.alternativeText || publication.title"
-            class="mx-auto h-auto w-full max-w-3xl rounded-md object-cover shadow-sm"
+            class="mx-auto h-auto w-full rounded-md object-cover shadow-sm"
           />
         </div>
 
