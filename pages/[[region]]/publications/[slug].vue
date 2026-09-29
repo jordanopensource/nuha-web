@@ -101,14 +101,6 @@
             />
           </div>
 
-          <!-- Attachments -->
-          <div class="mx-auto w-full md:hidden">
-            <PublicationAttachments
-              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-              :attachments="publication.attachments"
-            />
-          </div>
-
           <!-- Table of Content -->
           <div class="mx-auto w-full md:hidden">
             <PublicationToC
@@ -154,6 +146,13 @@
             v-if="publication.body"
             class="publication-body col-span-full col-start-2 max-w-[34rem] px-8 text-pretty font-LTZarid text-base leading-normal text-colors-neutral-foreground"
             v-html="processedBody.html"
+          />
+        </div>
+        <!-- Attachments -->
+        <div class="mx-auto w-full md:hidden">
+          <PublicationAttachments
+            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+            :attachments="publication.attachments"
           />
         </div>
       </div>
