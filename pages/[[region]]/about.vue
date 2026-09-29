@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="page-container">
     <!-- Page Heading -->
@@ -22,9 +21,7 @@
     </div>
 
     <!-- Content -->
-    <div v-else-if="data?.body" class="prose">
-      <div class="font-LTZarid text-xl leading-relaxed" v-html="data.body" />
-    </div>
+    <UiProseBody v-else-if="data" :html="data.body || ''" />
 
     <!-- Empty State -->
     <div v-else class="py-12">
@@ -59,30 +56,3 @@
     }
   )
 </script>
-
-<style lang="postcss" scoped>
-  .prose :deep(p) {
-    @apply mb-4 leading-relaxed;
-  }
-
-  .prose :deep(ul),
-  .prose :deep(ol) {
-    @apply mb-4 ms-6;
-  }
-
-  .prose :deep(li) {
-    @apply mb-2;
-  }
-
-  .prose :deep(em) {
-    @apply italic;
-  }
-
-  .prose :deep(blockquote) {
-    @apply ms-4 border-s-4 border-colors-primary border-opacity-30 ps-4 italic text-colors-neutral-foreground;
-  }
-
-  .prose :deep(img) {
-    @apply my-6 rounded-lg shadow-md;
-  }
-</style>

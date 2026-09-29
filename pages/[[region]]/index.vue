@@ -4,7 +4,7 @@
       <template #title>
         <div class="flex h-full flex-col gap-8">
           <h1>{{ $t('homepage.nuha') }}</h1>
-          <p class="font-LTZarid text-2xl">
+          <p class="font-IBMPlexSansArabic text-lead-m lg:text-lead">
             {{ $t('homepage.subtitle') }}
           </p>
           <div class="mt-auto flex flex-wrap gap-4 max-sm:justify-center">
@@ -38,7 +38,7 @@
       <template #title>
         <div class="flex h-full flex-col gap-8">
           <h2>{{ $t('homepage.howItWorks') }}</h2>
-          <p class="font-LTZarid text-2xl">
+          <p class="font-IBMPlexSansArabic text-lead-m lg:text-lead">
             {{ $t('homepage.howItWorksSubtitle') }}
           </p>
         </div>

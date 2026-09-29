@@ -19,7 +19,7 @@
 <style lang="postcss" scoped>
   .chip {
     @apply inline-block rounded-xl px-3 py-1;
-    @apply font-IBMPlexSansArabic text-sm text-colors-neutral-foreground;
+    @apply font-IBMPlexSansArabic text-subtext text-colors-neutral-foreground;
   }
   .chip-primary {
     @apply bg-colors-primary-light;
