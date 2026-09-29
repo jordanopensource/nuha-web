@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="prose mx-auto max-w-measure">
+  <div class="prose max-w-measure">
     <div class="font-IBMPlexSansArabic text-base" v-html="html" />
   </div>
 </template>
