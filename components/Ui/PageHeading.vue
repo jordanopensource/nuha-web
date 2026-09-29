@@ -9,7 +9,10 @@
     </div>
     <div v-if="subtitle || $slots.subtitle" class="subtitle-section">
       <slot name="subtitle">
-        <p v-if="subtitle" class="subtitle font-LTZarid text-2xl">
+        <p
+          v-if="subtitle"
+          class="subtitle font-IBMPlexSansArabic text-lead-m lg:text-lead"
+        >
           {{ subtitle }}
         </p>
       </slot>

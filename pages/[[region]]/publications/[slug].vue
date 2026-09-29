@@ -64,7 +64,7 @@
       <PublicationCategoriesRow
         :category="publication.category"
         :regions="publication.regions"
-        class="mx-auto mb-4 max-w-lg md:hidden"
+        class="mx-auto mb-4 max-w-measure md:hidden"
       />
 
       <!-- Title -->
@@ -78,7 +78,7 @@
       <!-- Abstract -->
       <div
         v-if="publication.abstract"
-        class="publication-abstract mx-auto max-w-lg font-LTZarid text-lg leading-relaxed text-colors-neutral-foreground md:row-start-2"
+        class="publication-abstract mx-auto max-w-measure font-IBMPlexSansArabic text-lead-m text-colors-neutral-foreground md:row-start-2 lg:text-lead"
         :class="readingColumns"
       >
         <p>{{ publication.abstract }}</p>
@@ -99,7 +99,7 @@
 
       <!-- Mobile Authors and Meta Row -->
       <div
-        class="my-4 flex max-w-lg flex-col gap-2 rounded-md border border-colors-neutral-placeholder border-opacity-40 bg-colors-primary-light bg-opacity-40 p-4 md:!hidden"
+        class="my-4 flex max-w-measure flex-col gap-2 rounded-md border border-colors-neutral-placeholder border-opacity-40 bg-colors-primary-light bg-opacity-40 p-4 md:!hidden"
       >
         <div class="mx-auto">
           <PublicationMetaRow
@@ -157,7 +157,7 @@
       <!-- Publication Body -->
       <div
         v-if="publication.body"
-        class="publication-body mx-auto max-w-lg text-pretty py-4 font-LTZarid text-base leading-normal text-colors-neutral-foreground md:row-start-4"
+        class="publication-body mx-auto max-w-measure text-pretty py-4 font-IBMPlexSansArabic text-base leading-normal text-colors-neutral-foreground md:row-start-4"
         :class="readingColumns"
         v-html="processedBody.html"
       />
@@ -365,19 +365,28 @@
 
   .publication-body :deep(h1),
   .publication-body :deep(h2),
-  .publication-body :deep(h3),
-  .publication-body :deep(h4),
-  .publication-body :deep(h5),
-  .publication-body :deep(h6) {
+  .publication-body :deep(h3) {
     @apply mb-4 mt-8 font-LTZarid font-semibold;
   }
 
-  .publication-body :deep(h2) {
-    @apply text-h3;
+  .publication-body :deep(h4),
+  .publication-body :deep(h5),
+  .publication-body :deep(h6) {
+    @apply mb-4 mt-8 font-IBMPlexSansArabic font-semibold;
   }
 
+  .publication-body :deep(h1:first-child),
+  .publication-body :deep(h2:first-child),
+  .publication-body :deep(h3:first-child),
+  .publication-body :deep(h4:first-child),
+  .publication-body :deep(h5:first-child),
+  .publication-body :deep(h6:first-child) {
+    margin-top: 0;
+  }
+
+  .publication-body :deep(h2),
   .publication-body :deep(h3) {
-    @apply text-h4;
+    @apply text-h2-m lg:text-h2;
   }
 
   .publication-body :deep(p) {
