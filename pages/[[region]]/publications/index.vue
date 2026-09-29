@@ -54,7 +54,10 @@
         class="publications-grid"
       >
         <!-- Category Filter Buttons -->
-        <div v-if="categoriesData && !categoriesError" class="mb-4">
+        <div
+          v-if="categoriesData && categoriesData.length > 1 && !categoriesError"
+          class="mb-4"
+        >
           <div class="mb-1 mt-2">
             <small class="text-colors-neutral-foreground text-opacity-80">{{
               $t('publications.categories.filter')
