@@ -82,16 +82,6 @@
             >
               {{ category.name }}
             </UiButton>
-
-            <!-- TODO: change region selector title -->
-            <LazyUiRegionLanguageSelector
-              size="sm"
-              class="ms-auto"
-              button-variant="ghost"
-              show-flag-in-button
-              button-content="both"
-              mode="region"
-            />
           </div>
         </div>
 
