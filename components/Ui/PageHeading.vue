@@ -1,5 +1,5 @@
 <template>
-  <div class="my-5 grid grid-cols-1 items-start gap-4 md:grid-cols-2">
+  <div class="mt-12 grid grid-cols-1 items-start gap-4 md:grid-cols-2">
     <div class="title-section h-full">
       <template v-if="title">
         <h1 v-if="useH1" class="title">{{ title }}</h1>
