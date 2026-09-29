@@ -109,8 +109,7 @@ export default {
         ], // small / supportive text
       },
       maxWidth: {
-        measure: 'var(--measure)', // ~68 characters, script-relative via ch units
-        'measure-heading': '52rem', // wider column so large display type doesn't wrap after 1-2 words
+        measure: 'var(--measure)',
       },
     },
   },
