@@ -61,39 +61,7 @@
       v-else-if="publication"
       class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1"
     >
-      <!-- Side bar on large screen -->
-      <div class="max-md:hidden">
-        <div class="sticky top-0 flex flex-col gap-4 py-2">
-          <PublicationCategoriesRow
-            :category="publication.category"
-            :regions="publication.regions"
-            class="mt-1"
-          />
-
-          <!-- Side Attachments -->
-          <PublicationAttachments
-            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-            :attachments="publication.attachments"
-          />
-
-          <!-- Side Table of Content -->
-          <PublicationToC
-            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-            :headings="processedBody.headings"
-          />
-
-          <!-- Authors and Meta Row -->
-          <PublicationMetaRow
-            class="!flex-col !items-start"
-            :authors="publication.authors"
-            :updated-at="publication.updatedAt"
-            :url="currentUrl"
-            :title="publication.title"
-          />
-        </div>
-      </div>
-
-      <div class="col-span-3 col-start-2">
+      <div class="col-span-full col-start-1">
         <PublicationCategoriesRow
           :category="publication.category"
           :regions="publication.regions"
@@ -150,12 +118,44 @@
           </div>
         </div>
 
-        <!-- Publication Body -->
-        <div
-          v-if="publication.body"
-          class="publication-body mx-auto max-w-lg text-pretty font-LTZarid text-base leading-relaxed text-colors-neutral-foreground"
-          v-html="processedBody.html"
-        />
+        <div class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1">
+          <!-- Side bar on large screen -->
+          <div class="max-md:hidden">
+            <div class="sticky top-0 flex flex-col gap-4 py-2">
+              <PublicationCategoriesRow
+                :category="publication.category"
+                :regions="publication.regions"
+                class="mt-1"
+              />
+
+              <!-- Side Table of Content -->
+              <PublicationToC
+                class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+                :headings="processedBody.headings"
+              />
+              <!-- Side Attachments -->
+              <PublicationAttachments
+                class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+                :attachments="publication.attachments"
+              />
+
+              <!-- Authors and Meta Row -->
+              <PublicationMetaRow
+                class="!flex-col !items-start"
+                :authors="publication.authors"
+                :updated-at="publication.updatedAt"
+                :url="currentUrl"
+                :title="publication.title"
+              />
+            </div>
+          </div>
+          <!-- Publication Body -->
+          <div
+            v-if="publication.body"
+            class="publication-body col-span-full col-start-2 max-w-[34rem] px-8 text-pretty font-LTZarid text-base leading-normal text-colors-neutral-foreground"
+            v-html="processedBody.html"
+          />
+        </div>
       </div>
     </article>
   </div>
