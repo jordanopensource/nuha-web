@@ -42,12 +42,10 @@
             {{ $t('homepage.howItWorksSubtitle') }}
           </p>
         </div>
-      </template>
-      <template #second-col>
         <UiButton
           size="md"
           variant="outline"
-          class="my-auto w-max md:ms-auto"
+          class="w-max"
           :to="$localePath('/about')"
         >
           {{ $t('homepage.learnMore') }}
@@ -79,7 +77,7 @@
       <UiButton
         size="md"
         variant="outline"
-        class="ms-auto w-max"
+        class="w-max"
         :to="$localePath('/publications')"
       >
         {{ $t('homepage.readMore') }}
