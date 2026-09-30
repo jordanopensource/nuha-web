@@ -1,29 +1,59 @@
-
 :root {
-  --font-display: '29LT Zarid Text Regular', sans-serif;
-  --font-body: 'IBM Plex Sans Arabic', sans-serif;
+  --font-display: '29LT Zarid Text Regular', serif;
+  --font-body: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+
+  --fs-scale: 1;
+  --fs-subtext: 14px;
+  --fs-base: 17px;
+  --fs-lead-m: 20px;
+  --fs-lead: 24px;
+  --fs-h3: 22px;
+  --fs-h2-m: 28px;
+  --fs-h2: 36px;
+  --fs-h1-m: 40px;
+  --fs-h1: 64px;
+
+  --leading-tight: 1.15;
+  --leading-lead: 1.6;
+  --leading-body: 1.6;
+  --leading-caption: 1.3;
+
+  --measure: 44rem;
+}
+
+:lang(ar),
+:lang(ckb) {
+  --fs-scale: 1;
+  --leading-body: 1.6;
+  letter-spacing: 0;
 }
 
 :lang(ckb) {
-  --font-display: 'Abd Govar', '29LT Zarid Text Regular', sans-serif;
-  --font-body: 'Abd Govar', 'IBM Plex Sans Arabic', sans-serif;
+  --font-display: 'Abd Govar', '29LT Zarid Text Regular', serif;
+  --font-body: 'Abd Govar', 'IBM Plex Sans Arabic', system-ui, sans-serif;
 }
 
 @layer base {
   h1 {
     @apply font-LTZarid text-h1-m lg:text-h1;
+    font-variant-numeric: lining-nums;
+    text-wrap: balance;
   }
 
   h2 {
     @apply font-LTZarid text-h2-m lg:text-h2;
+    font-variant-numeric: lining-nums;
+    text-wrap: balance;
   }
 
   h3 {
-    @apply font-LTZarid text-h3-m lg:text-h3;
+    @apply font-LTZarid text-h3;
+    font-variant-numeric: lining-nums;
+    text-wrap: balance;
   }
 
   h4 {
-    @apply font-LTZarid text-h4-m lg:text-h4;
+    @apply font-IBMPlexSansArabic text-h3;
   }
 
   body {
@@ -32,5 +62,12 @@
 
   small {
     @apply text-subtext text-colors-neutral-placeholder;
+  }
+
+  p,
+  li {
+    max-width: var(--measure);
+    line-height: var(--leading-body);
+    text-wrap: pretty;
   }
 }

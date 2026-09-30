@@ -48,13 +48,15 @@
           >
             {{ formattedDate }}
           </time>
-          <h3 class="line-clamp-2 font-LTZarid font-semibold">
+          <h3
+            class="line-clamp-2 font-LTZarid text-h2-m font-semibold lg:text-h2"
+          >
             {{ title }}
           </h3>
         </div>
         <p
           v-if="excerpt"
-          class="line-clamp-3 font-LTZarid text-base text-colors-neutral-foreground"
+          class="line-clamp-3 font-IBMPlexSansArabic text-base text-colors-neutral-foreground"
           :class="{ 'line-clamp-6': featured }"
         >
           {{ excerpt }}

@@ -87,7 +87,10 @@
 </script>
 
 <template>
-  <section v-if="attachments?.length" class="attachments font-LTZarid">
+  <section
+    v-if="attachments?.length"
+    class="attachments font-IBMPlexSansArabic"
+  >
     <h4
       class="sticky top-0 z-10 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pt-4 font-bold"
       :class="{ 'border-b pb-1': isOpen }"
@@ -147,7 +150,9 @@
           />
 
           <div class="min-w-0 flex-1">
-            <p class="truncate text-sm" :title="file.name">{{ file.name }}</p>
+            <p class="truncate text-subtext" :title="file.name">
+              {{ file.name }}
+            </p>
             <small class="text-colors-neutral-placeholder">
               {{ formatSize(file.size) }}
             </small>
