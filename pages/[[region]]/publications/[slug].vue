@@ -11,6 +11,40 @@
       </div>
     </div>
 
+    <!-- Not translated into the selected language -->
+    <div v-else-if="hasNoTranslation" class="my-12">
+      <UiMessage
+        type="warning"
+        :message="
+          $t('publications.single.notTranslated', { lang: currentLocaleName })
+        "
+        class="mx-auto max-w-2xl !bg-amber-50"
+      >
+        <template #actions>
+          <div class="flex flex-wrap gap-2">
+            <UiButton
+              v-if="availableLocale"
+              size="sm"
+              @click="switchToAvailableLocale"
+            >
+              {{
+                $t('publications.single.viewInLang', {
+                  lang: availableLocaleName,
+                })
+              }}
+            </UiButton>
+            <UiButton
+              :to="$localePath(publicationsUrl)"
+              size="sm"
+              variant="outline"
+            >
+              {{ $t('publications.single.backToPublications') }}
+            </UiButton>
+          </div>
+        </template>
+      </UiMessage>
+    </div>
+
     <!-- Error State -->
     <div v-else-if="error || !publication" class="py-12">
       <UiMessage :message="$t('publications.single.notFound')" type="error">
@@ -27,8 +61,70 @@
       v-else-if="publication"
       class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1"
     >
-      <!-- Side bar on large screen -->
-      <div class="max-md:hidden">
+      <PublicationCategoriesRow
+        :category="publication.category"
+        :regions="publication.regions"
+        class="mx-auto mb-4 max-w-lg md:hidden"
+      />
+
+      <!-- Title -->
+      <h1
+        class="mx-auto mb-4 w-full text-pretty px-8 text-center font-LTZarid md:row-start-1"
+        :class="headerColumns"
+      >
+        {{ publication.title }}
+      </h1>
+
+      <!-- Abstract -->
+      <div
+        v-if="publication.abstract"
+        class="publication-abstract mx-auto max-w-lg font-LTZarid text-lg leading-relaxed text-colors-neutral-foreground md:row-start-2"
+        :class="readingColumns"
+      >
+        <p>{{ publication.abstract }}</p>
+      </div>
+
+      <!-- Cover Image -->
+      <div
+        v-if="coverUrl"
+        class="my-4 w-full max-w-full md:row-start-3"
+        :class="headerColumns"
+      >
+        <img
+          :src="coverUrl"
+          :alt="publication.cover?.alternativeText || publication.title"
+          class="mx-auto h-auto w-full rounded-md object-cover shadow-sm"
+        />
+      </div>
+
+      <!-- Mobile Authors and Meta Row -->
+      <div
+        class="my-4 flex max-w-lg flex-col gap-2 rounded-md border border-colors-neutral-placeholder border-opacity-40 bg-colors-primary-light bg-opacity-40 p-4 md:!hidden"
+      >
+        <div class="mx-auto">
+          <PublicationMetaRow
+            :authors="publication.authors"
+            :updated-at="publication.updatedAt"
+            :url="currentUrl"
+            :title="publication.title"
+          />
+        </div>
+
+        <!-- Table of Content -->
+        <div class="mx-auto w-full">
+          <PublicationToC
+            class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+            :headings="processedBody.headings"
+          />
+        </div>
+      </div>
+
+      <div
+        class="sidebar max-md:hidden md:col-start-1"
+        :class="
+          sidebarUnderCover ? 'md:row-start-4' : 'md:row-span-4 md:row-start-1'
+        "
+      >
         <div class="sticky top-0 flex flex-col gap-4 py-2">
           <PublicationCategoriesRow
             :category="publication.category"
@@ -36,16 +132,15 @@
             class="mt-1"
           />
 
-          <!-- Side Attachments -->
-          <PublicationAttachments
-            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-            :attachments="publication.attachments"
-          />
-
           <!-- Side Table of Content -->
           <PublicationToC
             class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
             :headings="processedBody.headings"
+          />
+          <!-- Side Attachments -->
+          <PublicationAttachments
+            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+            :attachments="publication.attachments"
           />
 
           <!-- Authors and Meta Row -->
@@ -59,68 +154,19 @@
         </div>
       </div>
 
-      <div class="col-span-3 col-start-2">
-        <PublicationCategoriesRow
-          :category="publication.category"
-          :regions="publication.regions"
-          class="mx-auto mb-4 max-w-lg md:hidden"
-        />
+      <!-- Publication Body -->
+      <div
+        v-if="publication.body"
+        class="publication-body mx-auto max-w-lg text-pretty py-4 font-LTZarid text-base leading-normal text-colors-neutral-foreground md:row-start-4"
+        :class="readingColumns"
+        v-html="processedBody.html"
+      />
 
-        <!-- Title -->
-        <h1 class="mx-auto max-w-lg font-LTZarid">
-          {{ publication.title }}
-        </h1>
-
-        <!-- Abstract -->
-        <div
-          v-if="publication.abstract"
-          class="publication-abstract mx-auto max-w-lg font-LTZarid text-lg leading-relaxed text-colors-neutral-foreground"
-        >
-          <p>{{ publication.abstract }}</p>
-        </div>
-
-        <!-- Cover Image -->
-        <div v-if="coverUrl" class="mx-auto my-4 w-full">
-          <img
-            :src="coverUrl"
-            :alt="publication.cover?.alternativeText || publication.title"
-            class="mx-auto h-auto w-full max-w-3xl rounded-md object-cover shadow-sm"
-          />
-        </div>
-
-        <!-- Authors and Meta Row -->
-        <div class="my-4 flex max-w-lg flex-col gap-2">
-          <div class="mx-auto md:!hidden">
-            <PublicationMetaRow
-              :authors="publication.authors"
-              :updated-at="publication.updatedAt"
-              :url="currentUrl"
-              :title="publication.title"
-            />
-          </div>
-
-          <!-- Attachments -->
-          <div class="mx-auto w-full md:hidden">
-            <PublicationAttachments
-              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-              :attachments="publication.attachments"
-            />
-          </div>
-
-          <!-- Table of Content -->
-          <div class="mx-auto w-full md:hidden">
-            <PublicationToC
-              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-              :headings="processedBody.headings"
-            />
-          </div>
-        </div>
-
-        <!-- Publication Body -->
-        <div
-          v-if="publication.body"
-          class="publication-body mx-auto max-w-lg text-pretty font-LTZarid text-base leading-relaxed text-colors-neutral-foreground"
-          v-html="processedBody.html"
+      <!-- Attachments -->
+      <div class="mx-auto w-full md:hidden">
+        <PublicationAttachments
+          class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+          :attachments="publication.attachments"
         />
       </div>
     </article>
@@ -131,48 +177,106 @@
   import type { StrapiLocale } from '@nuxtjs/strapi'
   import type { Publication } from '~/types/strapi'
 
+  type PublicationWithLocalizations = Publication & {
+    localizations?: { slug: string; locale: string }[]
+  }
+
   const { processBody, getPublicationCoverUrl } = usePublications()
-  const { locale } = useI18n()
+  const { locale, locales, setLocale } = useI18n()
   const { find } = useStrapi()
   const route = useRoute()
+  const localePath = useLocalePath()
   // const { region } = useGeolocation()
 
   const slug = computed(() => route.params.slug as string)
 
+  const cacheKey = computed(() => `publication-${locale.value}-${slug.value}`)
+
+  const findBySlug = (targetSlug: string, targetLocale: string) =>
+    find<PublicationWithLocalizations>('publications', {
+      locale: targetLocale as StrapiLocale,
+      populate: {
+        category: true,
+        cover: true,
+        attachments: true,
+        regions: true,
+        authors: true,
+        localizations: { fields: ['slug', 'locale'] },
+      },
+      filters: {
+        slug: {
+          $eq: targetSlug,
+        },
+        // regions: {
+        //   // @ts-expect-error it just works!
+        //   code: {
+        //     $eq: region.value?.countryCode?.toLowerCase()
+        //   }
+        // }
+      },
+    })
+
+  const findSlugOwner = async (targetSlug: string, exclude: string) => {
+    const others = locales.value
+      .map((l) => l.code)
+      .filter((code) => code !== exclude)
+
+    const matches = await Promise.all(
+      others.map((code) =>
+        findBySlug(targetSlug, code)
+          .then((res) => res.data?.[0] ?? null)
+          .catch(() => null)
+      )
+    )
+
+    return matches.find(Boolean) ?? null
+  }
+
   // Fetch single publication
   const { data, pending, error } = useAsyncData(
-    `publication-${slug.value}`,
-    () =>
-      find<Publication>('publications', {
-        locale: locale.value as StrapiLocale,
-        // @ts-expect-error it just works!
-        populate: {
-          category: true,
-          cover: true,
-          attachments: true,
-          regions: true,
-          authors: true,
-        },
-        filters: {
-          slug: {
-            $eq: slug.value,
-          },
-          // regions: {
-          //   // @ts-expect-error it just works!
-          //   code: {
-          //     $eq: region.value?.countryCode?.toLowerCase()
-          //   }
-          // }
-        },
-      }),
+    cacheKey,
+    async () => {
+      const direct = await findBySlug(slug.value, locale.value)
+      if (direct.data?.[0]) {
+        return { publication: direct.data[0] }
+      }
+
+      const owner = await findSlugOwner(slug.value, locale.value)
+      // no language knows this slug
+      if (!owner) return {}
+
+      const translation = owner.localizations?.find(
+        (l) => l.locale === locale.value
+      )
+
+      // translated, but different slug
+      if (translation) return { redirectSlug: translation.slug }
+
+      // exists in different lang
+      return { availableLocale: owner.locale }
+    },
     {
       server: false,
-      watch: [slug],
+      watch: [slug, locale],
     }
   )
 
-  const publication = computed(() => data.value?.data?.[0])
+  const publication = computed(() => data.value?.publication)
+  const availableLocale = computed(() => data.value?.availableLocale ?? null)
+  const hasNoTranslation = computed(() => !!availableLocale.value)
+
+  watch(
+    () => data.value?.redirectSlug,
+    (redirectSlug) => {
+      if (!redirectSlug || redirectSlug === slug.value) return
+      navigateTo(localePath(publicationUrl(redirectSlug)), { replace: true })
+    },
+    { immediate: true }
+  )
+
   const processedBody = computed(() => processBody(publication.value?.body))
+
+  const hasToC = computed(() => processedBody.value.headings.length > 0)
 
   // URL for back to publications
   const publicationsUrl = computed(() => {
@@ -182,6 +286,20 @@
     }
     return '/publications'
   })
+
+  const publicationUrl = (publicationSlug: string) =>
+    `${publicationsUrl.value}/${publicationSlug}`
+
+  const localeName = (code?: string | null) =>
+    (locales.value.find((l) => l.code === code)?.name as string) || code || ''
+
+  const currentLocaleName = computed(() => localeName(locale.value))
+  const availableLocaleName = computed(() => localeName(availableLocale.value))
+
+  const switchToAvailableLocale = async () => {
+    if (availableLocale.value)
+      await setLocale(availableLocale.value as StrapiLocale)
+  }
 
   // Current page URL for sharing
   const currentUrl = computed(() => {
@@ -195,6 +313,22 @@
   const coverUrl = computed(() => {
     return getPublicationCoverUrl(publication.value?.cover?.url)
   })
+
+  const sidebarUnderCover = computed(() => hasToC.value && !!coverUrl.value)
+
+  // title and cover span the grid, unless the sidebar is besides them
+  const headerColumns = computed(() =>
+    sidebarUnderCover.value
+      ? 'md:col-span-4 md:col-start-1'
+      : 'md:col-span-3 md:col-start-2'
+  )
+
+  // abstract and body share a column so they read as one text block
+  const readingColumns = computed(() =>
+    sidebarUnderCover.value
+      ? 'md:col-span-2 md:col-start-2'
+      : 'md:col-span-3 md:col-start-2'
+  )
 
   // SEO Meta
   useHead(() => ({

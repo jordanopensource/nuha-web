@@ -10,7 +10,10 @@
 </script>
 
 <template>
-  <nav v-if="headings.length" class="toc font-LTZarid">
+  <nav
+    v-if="headings.length"
+    class="toc bg-colors-neutral-background font-LTZarid"
+  >
     <h4
       class="sticky top-0 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pt-4 font-bold"
       :class="{ 'border-b pb-1': isOpen }"

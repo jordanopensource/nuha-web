@@ -16,4 +16,12 @@ export interface ProcessedPublicationBody {
   headings: PublicationHeading[]
 }
 
+/** where a publication card ended up getting its cover image from */
+export type CoverSource = 'cms' | 'attachment'
+
+export interface ResolvedCover {
+  url: string
+  source: CoverSource
+}
+
 export type { Category, Region, Author, Attachment }
