@@ -63,18 +63,18 @@
 
 <style lang="postcss" scoped>
   .toc-level-1 {
-    @apply ms-0 font-semibold;
+    @apply ms-0 font-bold;
   }
 
   .toc-level-2 {
-    @apply ms-2 font-normal;
+    @apply ms-4 font-semibold;
   }
 
   .toc-level-3 {
-    @apply ms-4 font-normal;
+    @apply ms-8 font-normal;
   }
 
   .toc-level-4 {
-    @apply ms-6 font-normal;
+    @apply ms-12 font-normal;
   }
 </style>
