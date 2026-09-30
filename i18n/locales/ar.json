@@ -291,6 +291,14 @@
     "single": {
       "authors": "المؤلفون:",
       "tableOfContent": "جدول المحتويات",
+      "attachments": {
+        "title": "المرفقات",
+        "download": "تنزيل",
+        "view": "عرض",
+        "collapse": "إخفاء المرفقات",
+        "expand": "عرض المرفقات",
+        "downloadFailed": "تعذّر تنزيل {name}. يُرجى المحاولة مرة أخرى."
+      },
       "collapseToC": "إخفاء جدول المحتويات",
       "expandToC": "عرض جدول المحتويات",
       "lastUpdated": "تاريخ آخر تحديث",
@@ -301,6 +309,8 @@
         "urlCopied": "نُسِخ الرابط إلى المحفظة!"
       },
       "notFound": "لم نعثر على المنشور.",
+      "notTranslated": "هذا المنشور غير متوفر باللغة {lang}. وهو متوفر بلغات أخرى.",
+      "viewInLang": "عرض بلغة {lang}",
       "backToPublications": "العودة إلى المنشورات"
     }
   },

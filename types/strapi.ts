@@ -11,9 +11,33 @@ export interface Publication {
   featured: boolean
   body?: string
   cover?: PublicationCover
+  attachments?: PublicationAttachment[]
   category?: PublicationCategory
   regions?: PublicationRegion[]
   authors?: PublicationAuthor[]
+}
+
+export interface PublicationAttachment {
+  id: number
+  documentId: string
+  name: string
+  alternativeText: string | null
+  caption: string | null
+  /** null for non-image media */
+  width: number | null
+  height: number | null
+  formats: Record<string, object> | null
+  hash: string
+  ext: string
+  mime: string
+  /** strapi media sizes are in kilobytes, not bytes */
+  size: number
+  url: string
+  previewUrl: string | null
+  provider: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
 }
 
 export interface PublicationCover {
