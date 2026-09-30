@@ -92,9 +92,11 @@
           />
         </div>
 
-        <!-- Authors and Meta Row -->
-        <div class="my-4 flex max-w-lg flex-col gap-2">
-          <div class="mx-auto md:!hidden">
+        <!-- Mobile Authors and Meta Row -->
+        <div
+          class="my-4 flex max-w-lg flex-col gap-2 rounded-md border border-colors-neutral-placeholder border-opacity-40 bg-colors-primary-light bg-opacity-40 p-4 md:!hidden"
+        >
+          <div class="mx-auto">
             <PublicationMetaRow
               :authors="publication.authors"
               :updated-at="publication.updatedAt"
@@ -104,7 +106,7 @@
           </div>
 
           <!-- Table of Content -->
-          <div class="mx-auto w-full md:hidden">
+          <div class="mx-auto w-full">
             <PublicationToC
               class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
               :headings="processedBody.headings"
@@ -114,7 +116,7 @@
 
         <div class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1">
           <!-- Side bar on large screen -->
-          <div class="max-md:hidden">
+          <div class="sidebar max-md:hidden">
             <div class="sticky top-0 flex flex-col gap-4 py-2">
               <PublicationCategoriesRow
                 :category="publication.category"
@@ -146,7 +148,7 @@
           <!-- Publication Body -->
           <div
             v-if="publication.body"
-            class="publication-body col-span-full col-start-2 max-w-[34rem] px-8 text-pretty font-LTZarid text-base leading-normal text-colors-neutral-foreground"
+            class="publication-body col-span-full col-start-2 max-w-[34rem] text-pretty px-8 font-LTZarid text-base leading-normal text-colors-neutral-foreground"
             v-html="processedBody.html"
           />
         </div>
