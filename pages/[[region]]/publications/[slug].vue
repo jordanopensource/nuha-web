@@ -59,7 +59,7 @@
     <!-- Publication Content -->
     <article
       v-else-if="publication"
-      class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1"
+      class="grid w-full grid-cols-4 gap-4 max-md:grid-cols-1"
     >
       <PublicationCategoriesRow
         :category="publication.category"
@@ -120,7 +120,7 @@
       </div>
 
       <div
-        class="sidebar max-md:hidden md:col-start-1"
+        class="sidebar pe-8 max-md:hidden md:col-start-1"
         :class="
           sidebarUnderCover ? 'md:row-start-4' : 'md:row-span-4 md:row-start-1'
         "
