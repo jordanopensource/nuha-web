@@ -36,11 +36,8 @@
         </div>
       </div>
 
-      <div
-        class="flex flex-col gap-3 px-2 py-4"
-        :class="{ 'md:h-full': featured }"
-      >
-        <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-4 p-4" :class="{ 'md:h-full': featured }">
+        <div class="flex flex-col gap-2">
           <time
             v-if="formattedDate"
             :datetime="machineDate ?? undefined"
