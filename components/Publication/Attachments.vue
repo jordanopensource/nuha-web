@@ -91,7 +91,7 @@
     v-if="attachments?.length"
     class="attachments font-IBMPlexSansArabic"
   >
-    <h4
+    <div
       class="sticky top-0 z-10 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pt-4 font-bold"
       :class="{ 'border-b pb-1': isOpen }"
     >
@@ -116,7 +116,7 @@
           :class="{ 'rotate-180': isOpen }"
         />
       </UiButton>
-    </h4>
+    </div>
 
     <UiMessage
       v-if="failedDownload"
