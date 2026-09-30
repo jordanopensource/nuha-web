@@ -25,7 +25,7 @@
       </template>
       <template #second-col>
         <img
-          src="/logo.png"
+          src="/nuha-logo.svg"
           loading="lazy"
           alt="doodle"
           width="300"
