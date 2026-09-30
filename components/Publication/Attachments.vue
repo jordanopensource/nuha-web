@@ -10,7 +10,7 @@
 
   const downloadingId = ref<number | null>(null)
   const failedDownload = ref<string | null>(null)
-  const isOpen = ref(true)
+  const isOpen = ref(false)
   const listId = useId()
 
   const isPdf = (file: Attachment) => file.mime === 'application/pdf'

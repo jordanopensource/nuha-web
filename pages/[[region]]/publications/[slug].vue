@@ -61,104 +61,113 @@
       v-else-if="publication"
       class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1"
     >
-      <div class="col-span-full col-start-1">
-        <PublicationCategoriesRow
-          :category="publication.category"
-          :regions="publication.regions"
-          class="mx-auto mb-4 max-w-lg md:hidden"
+      <PublicationCategoriesRow
+        :category="publication.category"
+        :regions="publication.regions"
+        class="mx-auto mb-4 max-w-lg md:hidden"
+      />
+
+      <!-- Title -->
+      <h1
+        class="mx-auto mb-4 w-full text-pretty px-8 text-center font-LTZarid md:row-start-1"
+        :class="headerColumns"
+      >
+        {{ publication.title }}
+      </h1>
+
+      <!-- Abstract -->
+      <div
+        v-if="publication.abstract"
+        class="publication-abstract mx-auto max-w-lg font-LTZarid text-lg leading-relaxed text-colors-neutral-foreground md:row-start-2"
+        :class="readingColumns"
+      >
+        <p>{{ publication.abstract }}</p>
+      </div>
+
+      <!-- Cover Image -->
+      <div
+        v-if="coverUrl"
+        class="my-4 w-full max-w-full md:row-start-3"
+        :class="headerColumns"
+      >
+        <img
+          :src="coverUrl"
+          :alt="publication.cover?.alternativeText || publication.title"
+          class="mx-auto h-auto w-full rounded-md object-cover shadow-sm"
         />
+      </div>
 
-        <!-- Title -->
-        <h1
-          class="mx-auto mb-4 w-full text-pretty px-8 text-center font-LTZarid"
-        >
-          {{ publication.title }}
-        </h1>
-
-        <!-- Abstract -->
-        <div
-          v-if="publication.abstract"
-          class="publication-abstract mx-auto max-w-lg font-LTZarid text-lg leading-relaxed text-colors-neutral-foreground"
-        >
-          <p>{{ publication.abstract }}</p>
-        </div>
-
-        <!-- Cover Image -->
-        <div v-if="coverUrl" class="my-4 w-full max-w-full px-8">
-          <img
-            :src="coverUrl"
-            :alt="publication.cover?.alternativeText || publication.title"
-            class="mx-auto h-auto w-full rounded-md object-cover shadow-sm"
+      <!-- Mobile Authors and Meta Row -->
+      <div
+        class="my-4 flex max-w-lg flex-col gap-2 rounded-md border border-colors-neutral-placeholder border-opacity-40 bg-colors-primary-light bg-opacity-40 p-4 md:!hidden"
+      >
+        <div class="mx-auto">
+          <PublicationMetaRow
+            :authors="publication.authors"
+            :updated-at="publication.updatedAt"
+            :url="currentUrl"
+            :title="publication.title"
           />
         </div>
 
-        <!-- Mobile Authors and Meta Row -->
-        <div
-          class="my-4 flex max-w-lg flex-col gap-2 rounded-md border border-colors-neutral-placeholder border-opacity-40 bg-colors-primary-light bg-opacity-40 p-4 md:!hidden"
-        >
-          <div class="mx-auto">
-            <PublicationMetaRow
-              :authors="publication.authors"
-              :updated-at="publication.updatedAt"
-              :url="currentUrl"
-              :title="publication.title"
-            />
-          </div>
-
-          <!-- Table of Content -->
-          <div class="mx-auto w-full">
-            <PublicationToC
-              class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-              :headings="processedBody.headings"
-            />
-          </div>
-        </div>
-
-        <div class="grid w-full grid-cols-4 gap-0.5 max-md:grid-cols-1">
-          <!-- Side bar on large screen -->
-          <div class="sidebar max-md:hidden">
-            <div class="sticky top-0 flex flex-col gap-4 py-2">
-              <PublicationCategoriesRow
-                :category="publication.category"
-                :regions="publication.regions"
-                class="mt-1"
-              />
-
-              <!-- Side Table of Content -->
-              <PublicationToC
-                class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-                :headings="processedBody.headings"
-              />
-              <!-- Side Attachments -->
-              <PublicationAttachments
-                class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
-                :attachments="publication.attachments"
-              />
-
-              <!-- Authors and Meta Row -->
-              <PublicationMetaRow
-                class="!flex-col !items-start"
-                :authors="publication.authors"
-                :updated-at="publication.updatedAt"
-                :url="currentUrl"
-                :title="publication.title"
-              />
-            </div>
-          </div>
-          <!-- Publication Body -->
-          <div
-            v-if="publication.body"
-            class="publication-body col-span-full col-start-2 max-w-[34rem] text-pretty px-8 font-LTZarid text-base leading-normal text-colors-neutral-foreground"
-            v-html="processedBody.html"
-          />
-        </div>
-        <!-- Attachments -->
-        <div class="mx-auto w-full md:hidden">
-          <PublicationAttachments
+        <!-- Table of Content -->
+        <div class="mx-auto w-full">
+          <PublicationToC
             class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+            :headings="processedBody.headings"
+          />
+        </div>
+      </div>
+
+      <div
+        class="sidebar max-md:hidden md:col-start-1"
+        :class="
+          sidebarUnderCover ? 'md:row-start-4' : 'md:row-span-4 md:row-start-1'
+        "
+      >
+        <div class="sticky top-0 flex flex-col gap-4 py-2">
+          <PublicationCategoriesRow
+            :category="publication.category"
+            :regions="publication.regions"
+            class="mt-1"
+          />
+
+          <!-- Side Table of Content -->
+          <PublicationToC
+            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+            :headings="processedBody.headings"
+          />
+          <!-- Side Attachments -->
+          <PublicationAttachments
+            class="max-h-[40vh] overflow-y-auto rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
             :attachments="publication.attachments"
           />
+
+          <!-- Authors and Meta Row -->
+          <PublicationMetaRow
+            class="!flex-col !items-start"
+            :authors="publication.authors"
+            :updated-at="publication.updatedAt"
+            :url="currentUrl"
+            :title="publication.title"
+          />
         </div>
+      </div>
+
+      <!-- Publication Body -->
+      <div
+        v-if="publication.body"
+        class="publication-body mx-auto max-w-lg text-pretty py-4 font-LTZarid text-base leading-normal text-colors-neutral-foreground md:row-start-4"
+        :class="readingColumns"
+        v-html="processedBody.html"
+      />
+
+      <!-- Attachments -->
+      <div class="mx-auto w-full md:hidden">
+        <PublicationAttachments
+          class="rounded-md border border-colors-neutral-placeholder border-opacity-20 p-4 pt-0"
+          :attachments="publication.attachments"
+        />
       </div>
     </article>
   </div>
@@ -267,6 +276,8 @@
 
   const processedBody = computed(() => processBody(publication.value?.body))
 
+  const hasToC = computed(() => processedBody.value.headings.length > 0)
+
   // URL for back to publications
   const publicationsUrl = computed(() => {
     const regionParam = route.params.region as string
@@ -302,6 +313,22 @@
   const coverUrl = computed(() => {
     return getPublicationCoverUrl(publication.value?.cover?.url)
   })
+
+  const sidebarUnderCover = computed(() => hasToC.value && !!coverUrl.value)
+
+  // title and cover span the grid, unless the sidebar is besides them
+  const headerColumns = computed(() =>
+    sidebarUnderCover.value
+      ? 'md:col-span-4 md:col-start-1'
+      : 'md:col-span-3 md:col-start-2'
+  )
+
+  // abstract and body share a column so they read as one text block
+  const readingColumns = computed(() =>
+    sidebarUnderCover.value
+      ? 'md:col-span-2 md:col-start-2'
+      : 'md:col-span-3 md:col-start-2'
+  )
 
   // SEO Meta
   useHead(() => ({
