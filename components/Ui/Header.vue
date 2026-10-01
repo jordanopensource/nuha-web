@@ -11,7 +11,7 @@
           class="select-none max-sm:w-14"
           width="70"
           height="70"
-          src="/logo.png"
+          src="/nuha-logo.svg"
           alt="Nuha logo"
         />
       </NuxtLink>

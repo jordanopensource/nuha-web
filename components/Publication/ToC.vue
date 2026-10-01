@@ -10,8 +10,11 @@
 </script>
 
 <template>
-  <nav v-if="headings.length" class="toc bg-colors-neutral-background font-IBMPlexSansArabic">
-    <h4
+  <nav
+    v-if="headings.length"
+    class="toc bg-colors-neutral-background font-IBMPlexSansArabic"
+  >
+    <div
       class="sticky top-0 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pt-4 font-bold"
       :class="{ 'border-b pb-1': isOpen }"
     >
@@ -36,7 +39,7 @@
           :class="{ 'rotate-180': isOpen }"
         />
       </UiButton>
-    </h4>
+    </div>
     <div
       :id="listId"
       class="grid transition-[grid-template-rows] duration-200 ease-out"
@@ -60,18 +63,18 @@
 
 <style lang="postcss" scoped>
   .toc-level-1 {
-    @apply ms-0 font-semibold;
+    @apply ms-0 font-bold;
   }
 
   .toc-level-2 {
-    @apply ms-2 font-normal;
+    @apply ms-4 font-semibold;
   }
 
   .toc-level-3 {
-    @apply ms-4 font-normal;
+    @apply ms-8 font-normal;
   }
 
   .toc-level-4 {
-    @apply ms-6 font-normal;
+    @apply ms-12 font-normal;
   }
 </style>

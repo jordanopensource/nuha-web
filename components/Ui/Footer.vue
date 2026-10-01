@@ -5,7 +5,7 @@
     >
       <div class="col-span-1 hidden flex-col gap-4 md:flex">
         <NuxtLink :to="$nuxt.$localePath('/')">
-          <img width="86" src="/logo.png" alt="Nuha logo" />
+          <img width="86" src="/nuha-logo.svg" alt="Nuha logo" />
         </NuxtLink>
         <div class="mt-auto">
           <h3 class="!font-bold">Nuha نهى</h3>
@@ -64,7 +64,7 @@
       </div>
       <div class="col-span-1 flex flex-col gap-4 md:hidden">
         <NuxtLink :to="$nuxt.$localePath('/')">
-          <img width="75" height="75" src="/logo.png" alt="Nuha logo" />
+          <img width="75" height="75" src="/nuha-logo.svg" alt="Nuha logo" />
         </NuxtLink>
         <div>
           <h3 class="!font-bold">Nuha نهى</h3>

@@ -5,6 +5,15 @@ import Lara from '@primeuix/themes/lara'
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
+        { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+      ],
+    },
+  },
   i18n: {
     strategy: 'prefix_and_default',
     detectBrowserLanguage: {
