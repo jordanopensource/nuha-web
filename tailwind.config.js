@@ -71,16 +71,45 @@ export default {
         AbdGovar: '"Abd Govar"',
       },
       fontSize: {
-        h1: ['48px', { lineHeight: '1.2', fontWeight: '600' }],
-        'h1-m': ['40px', { lineHeight: '1.2', fontWeight: '600' }], // mobile
-        h2: ['36px', { lineHeight: '1.2', fontWeight: '600' }],
-        'h2-m': ['32px', { lineHeight: '1.2', fontWeight: '600' }],
-        h3: ['24px', { lineHeight: '1.16', fontWeight: '600' }],
-        'h3-m': ['22px', { lineHeight: '1.16', fontWeight: '600' }],
-        h4: ['20px', { lineHeight: '1.16', fontWeight: '600' }],
-        'h4-m': ['18px', { lineHeight: '1.16', fontWeight: '600' }],
-        base: ['18px', { lineHeight: '1.16' }],
-        subtext: ['14px', { lineHeight: '1.16' }], // small / supportive text
+        h1: [
+          'calc(var(--fs-h1) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-tight)', fontWeight: '600' },
+        ],
+        'h1-m': [
+          'calc(var(--fs-h1-m) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-tight)', fontWeight: '600' },
+        ], // mobile
+        h2: [
+          'calc(var(--fs-h2) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-tight)', fontWeight: '600' },
+        ],
+        'h2-m': [
+          'calc(var(--fs-h2-m) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-tight)', fontWeight: '600' },
+        ],
+        h3: [
+          'calc(var(--fs-h3) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-tight)', fontWeight: '600' },
+        ], // card titles, sidebar headers (also covers what was h4)
+        lead: [
+          'calc(var(--fs-lead) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-lead)' },
+        ], // intro / subtitle paragraphs
+        'lead-m': [
+          'calc(var(--fs-lead-m) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-lead)' },
+        ], // mobile
+        base: [
+          'calc(var(--fs-base) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-body)' },
+        ],
+        subtext: [
+          'calc(var(--fs-subtext) * var(--fs-scale))',
+          { lineHeight: 'var(--leading-caption)' },
+        ], // small / supportive text
+      },
+      maxWidth: {
+        measure: 'var(--measure)',
       },
     },
   },

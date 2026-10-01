@@ -246,19 +246,22 @@
   "about": {
     "page": {
       "title": "À Propos de Nous",
-      "error": "Échec du chargement du contenu de la page À propos."
+      "error": "Échec du chargement du contenu de la page À propos.",
+      "noContent": "Le contenu de la page À propos n'est pas encore disponible."
     }
   },
   "terms": {
     "page": {
       "title": "Conditions d'Utilisation",
-      "error": "Échec du chargement du contenu des conditions d'utilisation."
+      "error": "Échec du chargement du contenu des conditions d'utilisation.",
+      "noContent": "Le contenu des conditions d'utilisation n'est pas encore disponible."
     }
   },
   "privacy": {
     "page": {
       "title": "Politique de Confidentialité",
-      "error": "Échec du chargement du contenu de la politique de confidentialité."
+      "error": "Échec du chargement du contenu de la politique de confidentialité.",
+      "noContent": "Le contenu de la politique de confidentialité n'est pas encore disponible."
     }
   },
   "error": {

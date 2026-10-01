@@ -2,9 +2,9 @@
   <div class="page-container">
     <UiPageHeading class="max-md:gap-8">
       <template #title>
-        <div class="flex h-full flex-col gap-8">
+        <div class="flex h-full flex-col gap-4">
           <h1>{{ $t('homepage.nuha') }}</h1>
-          <p class="font-LTZarid text-2xl">
+          <p class="font-IBMPlexSansArabic text-lead-m lg:text-lead">
             {{ $t('homepage.subtitle') }}
           </p>
           <div class="mt-auto flex flex-wrap gap-4 max-sm:justify-center">
@@ -25,7 +25,7 @@
       </template>
       <template #second-col>
         <img
-          src="/logo.png"
+          src="/nuha-logo.svg"
           loading="lazy"
           alt="doodle"
           width="300"
@@ -36,22 +36,20 @@
 
     <UiPageHeading>
       <template #title>
-        <div class="flex h-full flex-col gap-8">
+        <div class="flex h-full flex-col gap-4">
           <h2>{{ $t('homepage.howItWorks') }}</h2>
-          <p class="font-LTZarid text-2xl">
+          <p class="font-IBMPlexSansArabic text-lead-m lg:text-lead">
             {{ $t('homepage.howItWorksSubtitle') }}
           </p>
+          <UiButton
+            size="md"
+            variant="outline"
+            class="w-max"
+            :to="$localePath('/about')"
+          >
+            {{ $t('homepage.learnMore') }}
+          </UiButton>
         </div>
-      </template>
-      <template #second-col>
-        <UiButton
-          size="md"
-          variant="outline"
-          class="my-auto w-max md:ms-auto"
-          :to="$localePath('/about')"
-        >
-          {{ $t('homepage.learnMore') }}
-        </UiButton>
       </template>
     </UiPageHeading>
 
@@ -61,16 +59,14 @@
     >
       <UiPageHeading :title="$t('homepage.ourPublications')" />
 
-      <div
-        v-if="!pending"
-        class="grid grid-cols-1 gap-x-12 gap-y-6 lg:grid-cols-2 lg:gap-x-28"
-      >
+      <div v-if="!pending" class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <PublicationCard
           v-for="publication in publications?.data"
           :key="publication.documentId"
           :title="publication.title"
           :excerpt="publication.abstract"
           :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
+          :attachments="publication.attachments"
           :category="publication.category?.name"
           :date="publication.publishedAt"
           :featured="false"
@@ -81,7 +77,7 @@
       <UiButton
         size="md"
         variant="outline"
-        class="ms-auto w-max"
+        class="w-max"
         :to="$localePath('/publications')"
       >
         {{ $t('homepage.readMore') }}
@@ -117,6 +113,8 @@
           category: true,
           cover: true,
           regions: true,
+          // only what the card needs for cover
+          attachments: { fields: ['url', 'mime', 'formats'] },
         },
         fields: [
           'title',

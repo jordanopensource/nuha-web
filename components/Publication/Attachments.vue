@@ -10,7 +10,7 @@
 
   const downloadingId = ref<number | null>(null)
   const failedDownload = ref<string | null>(null)
-  const isOpen = ref(true)
+  const isOpen = ref(false)
   const listId = useId()
 
   const isPdf = (file: Attachment) => file.mime === 'application/pdf'
@@ -87,8 +87,11 @@
 </script>
 
 <template>
-  <section v-if="attachments?.length" class="attachments font-LTZarid">
-    <h4
+  <section
+    v-if="attachments?.length"
+    class="attachments font-IBMPlexSansArabic"
+  >
+    <div
       class="sticky top-0 z-10 flex items-center justify-between gap-2 border-b-colors-neutral-placeholder border-opacity-20 bg-colors-neutral-background pt-4 font-bold"
       :class="{ 'border-b pb-1': isOpen }"
     >
@@ -113,7 +116,7 @@
           :class="{ 'rotate-180': isOpen }"
         />
       </UiButton>
-    </h4>
+    </div>
 
     <UiMessage
       v-if="failedDownload"
@@ -147,7 +150,9 @@
           />
 
           <div class="min-w-0 flex-1">
-            <p class="truncate text-sm" :title="file.name">{{ file.name }}</p>
+            <p class="truncate text-subtext" :title="file.name">
+              {{ file.name }}
+            </p>
             <small class="text-colors-neutral-placeholder">
               {{ formatSize(file.size) }}
             </small>
