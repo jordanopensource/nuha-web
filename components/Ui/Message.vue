@@ -5,7 +5,7 @@
     role="alert"
     :aria-live="type === 'error' ? 'assertive' : 'polite'"
   >
-    <div class="flex items-center gap-4">
+    <div class="content-container flex items-center gap-4">
       <Icon
         v-if="showIcon"
         :name="iconName"
