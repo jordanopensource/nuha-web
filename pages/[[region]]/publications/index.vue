@@ -17,13 +17,12 @@
     </div>
 
     <!-- Content -->
-    <div class="space-y-8">
+    <div>
       <!-- Featured Publications - only show when no category is selected -->
       <section
         v-if="data && featuredPublications.length > 0"
         class="border-b border-colors-neutral-placeholder border-opacity-20 pb-8"
       >
-        <UiPageHeading :title="$t('publications.sections.featured')" />
         <div class="grid grid-cols-1 gap-6">
           <PublicationCard
             v-for="publication in featuredPublications"
@@ -31,6 +30,7 @@
             :title="publication.title"
             :excerpt="publication.abstract"
             :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
+            :attachments="publication.attachments"
             :category="publication.category?.name"
             :date="publication.publishedAt"
             :featured="true"
@@ -53,17 +53,12 @@
         v-else-if="data && regularPublications.length > 0"
         class="publications-grid"
       >
-        <UiPageHeading
-          :title="
-            selectedCategoryId === null
-              ? $t('publications.sections.allPublications')
-              : getCurrentCategoryName
-          "
-        />
-
         <!-- Category Filter Buttons -->
-        <div v-if="categoriesData && !categoriesError" class="mb-4">
-          <div class="mb-1 mt-2">
+        <div
+          v-if="categoriesData && categoriesData.length > 1 && !categoriesError"
+          class="mb-8 border-b border-colors-neutral-placeholder border-opacity-20 p-4"
+        >
+          <div class="mb-2">
             <small class="text-colors-neutral-foreground text-opacity-80">{{
               $t('publications.categories.filter')
             }}</small>
@@ -87,16 +82,6 @@
             >
               {{ category.name }}
             </UiButton>
-
-            <!-- TODO: change region selector title -->
-            <LazyUiRegionLanguageSelector
-              size="sm"
-              class="ms-auto"
-              button-variant="ghost"
-              show-flag-in-button
-              button-content="both"
-              mode="region"
-            />
           </div>
         </div>
 
@@ -107,6 +92,7 @@
             :title="publication.title"
             :excerpt="publication.abstract"
             :cover-image-url="getPublicationCoverUrl(publication.cover?.url)"
+            :attachments="publication.attachments"
             :category="publication.category?.name"
             :date="publication.publishedAt"
             :featured="false"
@@ -223,6 +209,7 @@
           category: true,
           cover: true,
           regions: true,
+          attachments: { fields: ['url', 'mime', 'formats'] },
         },
         fields: [
           'title',

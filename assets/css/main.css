@@ -52,7 +52,7 @@ div {
   animation: spin 1s linear infinite;
 }
 .page-container {
-  @apply flex flex-col gap-12;
+  @apply flex flex-col gap-8;
 }
 
 input[type='email'],
