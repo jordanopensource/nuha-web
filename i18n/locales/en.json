@@ -55,6 +55,21 @@
       "of": "of {total}"
     }
   },
+  "validation": {
+    "valueMissing": "Please fill out this field.",
+    "valueMissingCheckbox": "Please check this box if you want to proceed.",
+    "valueMissingRadio": "Please select one of these options.",
+    "valueMissingSelect": "Please select an item in the list.",
+    "valueMissingFile": "Please select a file.",
+    "typeMismatchEmail": "Please enter a valid email address.",
+    "typeMismatchUrl": "Please enter a valid URL.",
+    "patternMismatch": "Please match the requested format.",
+    "tooShort": "Please use at least {min} characters (you are currently using {current}).",
+    "tooLong": "Please use no more than {max} characters (you are currently using {current}).",
+    "rangeUnderflow": "Value must be greater than or equal to {min}.",
+    "rangeOverflow": "Value must be less than or equal to {max}.",
+    "invalid": "Please enter a valid value."
+  },
   "analyze": {
     "page": {
       "title": "Analyze Comments",

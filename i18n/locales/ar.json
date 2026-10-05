@@ -55,6 +55,21 @@
       "of": "من {total}"
     }
   },
+  "validation": {
+    "valueMissing": "يرجى تعبئة هذا الحقل.",
+    "valueMissingCheckbox": "يرجى تحديد هذا المربع للمتابعة.",
+    "valueMissingRadio": "يرجى اختيار أحد هذه الخيارات.",
+    "valueMissingSelect": "يرجى اختيار عنصر من القائمة.",
+    "valueMissingFile": "يرجى اختيار ملف.",
+    "typeMismatchEmail": "يرجى إدخال عنوان بريد إلكتروني صالح.",
+    "typeMismatchUrl": "يرجى إدخال رابط صالح.",
+    "patternMismatch": "يرجى مطابقة التنسيق المطلوب.",
+    "tooShort": "يرجى استخدام {min} حرفًا على الأقل (تستخدم حاليًا {current}).",
+    "tooLong": "يرجى عدم تجاوز {max} حرفًا (تستخدم حاليًا {current}).",
+    "rangeUnderflow": "يجب أن تكون القيمة أكبر من أو تساوي {min}.",
+    "rangeOverflow": "يجب أن تكون القيمة أصغر من أو تساوي {max}.",
+    "invalid": "يرجى إدخال قيمة صالحة."
+  },
   "analyze": {
     "page": {
       "title": "تحليل التعليقات",
