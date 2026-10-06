@@ -92,36 +92,60 @@ interface ColumnIndices {
   dateIndex: number
 }
 
+// zero width and bidi control characters that spreadsheets leave behind in
+const INVISIBLE_CHARS = /[\u200B-\u200F\u202A-\u202E\uFEFF]/g
+
 const normalizeHeader = (header: string): string => {
-  return header.trim().toLowerCase()
+  return header.replace(INVISIBLE_CHARS, '').trim().toLowerCase()
 }
 
-const isCommentHeader = (header: string): boolean => {
-  const normalized = normalizeHeader(header)
-  return normalized.includes('comment')
+type HeaderColumn = 'comment' | 'platform' | 'date'
+
+type HeaderNames = Partial<Record<HeaderColumn, string[]>>
+
+// accepted header names per column, grouped by language
+const HEADER_NAMES: Record<string, HeaderNames> = {
+  en: {
+    comment: ['comment', 'comments'],
+    platform: ['platform', 'platforms'],
+    date: ['date', 'dates'],
+  },
+  ar: {
+    comment: ['التعليق', 'التعليقات'],
+    platform: ['المنصة', 'المنصات'],
+    date: ['التاريخ', 'التواريخ'],
+  },
 }
 
-const isPlatformHeader = (header: string): boolean => {
+const matchesHeader = (header: string, column: HeaderColumn): boolean => {
   const normalized = normalizeHeader(header)
-  return normalized === 'platform' || normalized === 'platforms'
+
+  return Object.values(HEADER_NAMES).some((names) =>
+    names[column]?.includes(normalized)
+  )
 }
 
-const isDateHeader = (header: string): boolean => {
-  const normalized = normalizeHeader(header)
-  return normalized === 'date' || normalized === 'dates'
-}
+const isCommentHeader = (header: string): boolean =>
+  matchesHeader(header, 'comment')
+
+const isPlatformHeader = (header: string): boolean =>
+  matchesHeader(header, 'platform')
+
+const isDateHeader = (header: string): boolean => matchesHeader(header, 'date')
 
 const parseHeaders = (headers: string[]): ColumnIndices => {
   let commentIndex = -1
   let platformIndex = -1
   let dateIndex = -1
 
+  // a column starts after the first matching header
+  // if multiple headers match, the first one is used
   headers.forEach((header, index) => {
-    if (isCommentHeader(header)) {
+    if (commentIndex === -1 && isCommentHeader(header)) {
       commentIndex = index
-    } else if (isPlatformHeader(header)) {
+    } else if (platformIndex === -1 && isPlatformHeader(header)) {
       platformIndex = index
-    } else if (isDateHeader(header)) {
+    } else if (dateIndex === -1 && isDateHeader(header)) {
       dateIndex = index
     }
     // Other headers are silently ignored
