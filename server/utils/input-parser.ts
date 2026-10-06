@@ -135,30 +135,21 @@ const parseHeaders = (headers: string[]): ColumnIndices => {
   return { commentIndex, platformIndex, dateIndex }
 }
 
-// CSV parsing utilities
-const parseCsvString = (text: string): CommentData[] => {
-  const lines = text.trim().split('\n')
+// normalize a raw cell value into a trimmed string
+const toCellString = (cell: unknown): string =>
+  cell === null || cell === undefined ? '' : String(cell).trim()
 
-  if (lines.length <= 1) {
+// row parsing utils
+// rows is a 2D array of cell values, the first row has the headers
+const parseRows = (rows: string[][]): CommentData[] => {
+  if (rows.length <= 1) {
     throw new TranslatableError(ERROR_KEYS.CSV_NO_DATA)
   }
 
-  // parse header row
-  const headerLine = lines[0]
-  const headers = headerLine
-    .split(',')
-    .map((part) => part.trim().replace(/^"|"$/g, ''))
+  const { commentIndex, platformIndex, dateIndex } = parseHeaders(rows[0])
 
-  const { commentIndex, platformIndex, dateIndex } = parseHeaders(headers)
-
-  const dataLines = lines.slice(1)
-
-  return dataLines.map((line, _index) => {
-    const parts = line
-      .split(',')
-      .map((part) => part.trim().replace(/^"|"$/g, '')) // remove quotes
-
-    const comment = parts[commentIndex]
+  return rows.slice(1).map((cells) => {
+    const comment = cells[commentIndex]
     if (!comment) {
       return {
         comment: null,
@@ -167,10 +158,20 @@ const parseCsvString = (text: string): CommentData[] => {
 
     return {
       comment,
-      platform: platformIndex !== -1 ? parts[platformIndex] || '' : '',
-      date: dateIndex !== -1 ? parts[dateIndex] || '' : '',
+      platform: platformIndex !== -1 ? cells[platformIndex] || '' : '',
+      date: dateIndex !== -1 ? cells[dateIndex] || '' : '',
     }
   })
+}
+
+// CSV parsing utils
+const parseCsvString = (text: string): CommentData[] => {
+  const lines = text.trim().split('\n')
+  const rows = lines.map((line) =>
+    line.split(',').map((part) => toCellString(part).replace(/^"|"$/g, ''))
+  )
+
+  return parseRows(rows)
 }
 
 export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
@@ -225,13 +226,22 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     }
 
     const worksheet = workbook.Sheets[sheetName]
-    const csvString = XLSX.utils.sheet_to_csv(worksheet)
 
-    if (!csvString.trim()) {
+    // read the cells directly from the worksheet
+    const rows = XLSX.utils
+      .sheet_to_json<unknown[]>(worksheet, {
+        header: 1,
+        blankrows: false,
+        defval: '',
+        raw: false,
+      })
+      .map((row) => row.map(toCellString))
+
+    if (rows.length === 0) {
       throw new TranslatableError(ERROR_KEYS.EXCEL_EMPTY)
     }
 
-    return parseCsvString(csvString)
+    return parseRows(rows)
   } catch (error) {
     if (error instanceof TranslatableError) {
       throw error
