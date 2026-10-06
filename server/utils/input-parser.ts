@@ -135,20 +135,47 @@ const parseHeaders = (headers: string[]): ColumnIndices => {
   return { commentIndex, platformIndex, dateIndex }
 }
 
+// the header is not always the first row
+const MAX_HEADER_SCAN_ROWS = 20
+
+// index of the first row carrying a comment column, -1 if there is none
+const findHeaderRowIndex = (rows: string[][]): number => {
+  const limit = Math.min(rows.length, MAX_HEADER_SCAN_ROWS)
+
+  for (let index = 0; index < limit; index++) {
+    if (rows[index].some(isCommentHeader)) {
+      return index
+    }
+  }
+
+  return -1
+}
+
 // normalize a raw cell value into a trimmed string
 const toCellString = (cell: unknown): string =>
   cell === null || cell === undefined ? '' : String(cell).trim()
 
 // row parsing utils
-// rows is a 2D array of cell values, the first row has the headers
+// rows is a 2D array of cell values, the header row is located by scanning
 const parseRows = (rows: string[][]): CommentData[] => {
-  if (rows.length <= 1) {
+  const headerIndex = findHeaderRowIndex(rows)
+
+  if (headerIndex === -1) {
+    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
+  }
+
+  // anything above the header is a title or padding
+  const dataRows = rows.slice(headerIndex + 1)
+
+  if (dataRows.length === 0) {
     throw new TranslatableError(ERROR_KEYS.CSV_NO_DATA)
   }
 
-  const { commentIndex, platformIndex, dateIndex } = parseHeaders(rows[0])
+  const { commentIndex, platformIndex, dateIndex } = parseHeaders(
+    rows[headerIndex]
+  )
 
-  return rows.slice(1).map((cells) => {
+  return dataRows.map((cells) => {
     const comment = cells[commentIndex]
     if (!comment) {
       return {
