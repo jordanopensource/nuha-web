@@ -133,6 +133,9 @@ const isPlatformHeader = (header: string): boolean =>
 
 const isDateHeader = (header: string): boolean => matchesHeader(header, 'date')
 
+// the header is not always the first row
+const MAX_HEADER_SCAN_ROWS = 20
+
 const parseHeaders = (headers: string[]): ColumnIndices => {
   let commentIndex = -1
   let platformIndex = -1
@@ -153,14 +156,13 @@ const parseHeaders = (headers: string[]): ColumnIndices => {
 
   // comments header is required
   if (commentIndex === -1) {
-    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
+    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER, {
+      rows: MAX_HEADER_SCAN_ROWS,
+    })
   }
 
   return { commentIndex, platformIndex, dateIndex }
 }
-
-// the header is not always the first row
-const MAX_HEADER_SCAN_ROWS = 20
 
 // index of the first row carrying a comment column, -1 if there is none
 const findHeaderRowIndex = (rows: string[][]): number => {
@@ -185,7 +187,9 @@ const parseRows = (rows: string[][]): CommentData[] => {
   const headerIndex = findHeaderRowIndex(rows)
 
   if (headerIndex === -1) {
-    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
+    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER, {
+      rows: MAX_HEADER_SCAN_ROWS,
+    })
   }
 
   // anything above the header is a title or padding
