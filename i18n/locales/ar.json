@@ -246,7 +246,7 @@
       "excelNoData": "ملف Excel لا يحتوي على بيانات",
       "excelRowError": "الصف {row}: يفتقد تعليقًا",
       "excelParseError": "خلل في تحليل ملف Excel",
-      "missingCommentHeader": "عنوان التعليق مفقود",
+      "missingCommentHeader": "لم نتمكن من العثور على عمود التعليقات. تأكد من أن الملف يحتوي على عمود بعنوان “التعليق” أو “Comment” ضمن الصفوف الـ{rows} الأولى.",
       "unsupportedFileType": "نوع الملف غير مدعوم",
       "noFileUploaded": "لم يُرفَع أي ملف",
       "fileIsRequired": "الملف مطلوب",

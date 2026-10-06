@@ -92,36 +92,63 @@ interface ColumnIndices {
   dateIndex: number
 }
 
+// zero width and bidi control characters that spreadsheets leave behind in
+const INVISIBLE_CHARS = /[\u200B-\u200F\u202A-\u202E\uFEFF]/g
+
 const normalizeHeader = (header: string): string => {
-  return header.trim().toLowerCase()
+  return header.replace(INVISIBLE_CHARS, '').trim().toLowerCase()
 }
 
-const isCommentHeader = (header: string): boolean => {
-  const normalized = normalizeHeader(header)
-  return normalized.includes('comment')
+type HeaderColumn = 'comment' | 'platform' | 'date'
+
+type HeaderNames = Partial<Record<HeaderColumn, string[]>>
+
+// accepted header names per column, grouped by language
+const HEADER_NAMES: Record<string, HeaderNames> = {
+  en: {
+    comment: ['comment', 'comments'],
+    platform: ['platform', 'platforms'],
+    date: ['date', 'dates'],
+  },
+  ar: {
+    comment: ['التعليق', 'التعليقات'],
+    platform: ['المنصة', 'المنصات'],
+    date: ['التاريخ', 'التواريخ'],
+  },
 }
 
-const isPlatformHeader = (header: string): boolean => {
+const matchesHeader = (header: string, column: HeaderColumn): boolean => {
   const normalized = normalizeHeader(header)
-  return normalized === 'platform' || normalized === 'platforms'
+
+  return Object.values(HEADER_NAMES).some((names) =>
+    names[column]?.includes(normalized)
+  )
 }
 
-const isDateHeader = (header: string): boolean => {
-  const normalized = normalizeHeader(header)
-  return normalized === 'date' || normalized === 'dates'
-}
+const isCommentHeader = (header: string): boolean =>
+  matchesHeader(header, 'comment')
+
+const isPlatformHeader = (header: string): boolean =>
+  matchesHeader(header, 'platform')
+
+const isDateHeader = (header: string): boolean => matchesHeader(header, 'date')
+
+// the header is not always the first row
+const MAX_HEADER_SCAN_ROWS = 20
 
 const parseHeaders = (headers: string[]): ColumnIndices => {
   let commentIndex = -1
   let platformIndex = -1
   let dateIndex = -1
 
+  // a column starts after the first matching header
+  // if multiple headers match, the first one is used
   headers.forEach((header, index) => {
-    if (isCommentHeader(header)) {
+    if (commentIndex === -1 && isCommentHeader(header)) {
       commentIndex = index
-    } else if (isPlatformHeader(header)) {
+    } else if (platformIndex === -1 && isPlatformHeader(header)) {
       platformIndex = index
-    } else if (isDateHeader(header)) {
+    } else if (dateIndex === -1 && isDateHeader(header)) {
       dateIndex = index
     }
     // Other headers are silently ignored
@@ -129,36 +156,55 @@ const parseHeaders = (headers: string[]): ColumnIndices => {
 
   // comments header is required
   if (commentIndex === -1) {
-    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER)
+    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER, {
+      rows: MAX_HEADER_SCAN_ROWS,
+    })
   }
 
   return { commentIndex, platformIndex, dateIndex }
 }
 
-// CSV parsing utilities
-const parseCsvString = (text: string): CommentData[] => {
-  const lines = text.trim().split('\n')
+// index of the first row carrying a comment column, -1 if there is none
+const findHeaderRowIndex = (rows: string[][]): number => {
+  const limit = Math.min(rows.length, MAX_HEADER_SCAN_ROWS)
 
-  if (lines.length <= 1) {
+  for (let index = 0; index < limit; index++) {
+    if (rows[index].some(isCommentHeader)) {
+      return index
+    }
+  }
+
+  return -1
+}
+
+// normalize a raw cell value into a trimmed string
+const toCellString = (cell: unknown): string =>
+  cell === null || cell === undefined ? '' : String(cell).trim()
+
+// row parsing utils
+// rows is a 2D array of cell values, the header row is located by scanning
+const parseRows = (rows: string[][]): CommentData[] => {
+  const headerIndex = findHeaderRowIndex(rows)
+
+  if (headerIndex === -1) {
+    throw new TranslatableError(ERROR_KEYS.MISSING_COMMENT_HEADER, {
+      rows: MAX_HEADER_SCAN_ROWS,
+    })
+  }
+
+  // anything above the header is a title or padding
+  const dataRows = rows.slice(headerIndex + 1)
+
+  if (dataRows.length === 0) {
     throw new TranslatableError(ERROR_KEYS.CSV_NO_DATA)
   }
 
-  // parse header row
-  const headerLine = lines[0]
-  const headers = headerLine
-    .split(',')
-    .map((part) => part.trim().replace(/^"|"$/g, ''))
+  const { commentIndex, platformIndex, dateIndex } = parseHeaders(
+    rows[headerIndex]
+  )
 
-  const { commentIndex, platformIndex, dateIndex } = parseHeaders(headers)
-
-  const dataLines = lines.slice(1)
-
-  return dataLines.map((line, _index) => {
-    const parts = line
-      .split(',')
-      .map((part) => part.trim().replace(/^"|"$/g, '')) // remove quotes
-
-    const comment = parts[commentIndex]
+  return dataRows.map((cells) => {
+    const comment = cells[commentIndex]
     if (!comment) {
       return {
         comment: null,
@@ -167,10 +213,20 @@ const parseCsvString = (text: string): CommentData[] => {
 
     return {
       comment,
-      platform: platformIndex !== -1 ? parts[platformIndex] || '' : '',
-      date: dateIndex !== -1 ? parts[dateIndex] || '' : '',
+      platform: platformIndex !== -1 ? cells[platformIndex] || '' : '',
+      date: dateIndex !== -1 ? cells[dateIndex] || '' : '',
     }
   })
+}
+
+// CSV parsing utils
+const parseCsvString = (text: string): CommentData[] => {
+  const lines = text.trim().split('\n')
+  const rows = lines.map((line) =>
+    line.split(',').map((part) => toCellString(part).replace(/^"|"$/g, ''))
+  )
+
+  return parseRows(rows)
 }
 
 export const parseCsvFile = async (file: File): Promise<CommentData[]> => {
@@ -225,13 +281,22 @@ export const parseExcelFile = async (file: File): Promise<CommentData[]> => {
     }
 
     const worksheet = workbook.Sheets[sheetName]
-    const csvString = XLSX.utils.sheet_to_csv(worksheet)
 
-    if (!csvString.trim()) {
+    // read the cells directly from the worksheet
+    const rows = XLSX.utils
+      .sheet_to_json<unknown[]>(worksheet, {
+        header: 1,
+        blankrows: false,
+        defval: '',
+        raw: false,
+      })
+      .map((row) => row.map(toCellString))
+
+    if (rows.length === 0) {
       throw new TranslatableError(ERROR_KEYS.EXCEL_EMPTY)
     }
 
-    return parseCsvString(csvString)
+    return parseRows(rows)
   } catch (error) {
     if (error instanceof TranslatableError) {
       throw error
@@ -262,10 +327,16 @@ export const parseFile = async (file: File): Promise<CommentData[]> => {
   }
 }
 
+// unifies the old and new API request/response formats for AI analysis
+type AnalyzableComment = CommentData & { comment: string }
+
+const analyzableComments = (comments: CommentData[]): AnalyzableComment[] =>
+  comments.filter((c): c is AnalyzableComment => c.comment !== null)
+
 // convert AIAnalysisRequest to new API BatchClassifyRequest
 export const convertToAPIRequest = (comments: CommentData[]) => {
   return {
-    texts: comments.filter((c) => c.comment !== null).map((c) => c.comment),
+    texts: analyzableComments(comments).map((c) => c.comment),
   }
 }
 
@@ -274,17 +345,30 @@ export const convertFromAPIResponse = (
   apiResponse: BatchClassifyResponse,
   originalComments: CommentData[]
 ): AIAnalysisResponse => {
+  const analyzed = analyzableComments(originalComments)
+
   return {
-    results: apiResponse.results.map(
-      (result: ClassificationResult, i: number) => ({
-        comment: originalComments[i].comment!,
-        platform: originalComments[i]?.platform,
-        date: originalComments[i]?.date,
-        is_valid: result.is_valid,
-        main_class: result.main_class,
-        sub_class: result.sub_class,
-        confidence: result.confidence,
-      })
+    results: apiResponse.results.flatMap(
+      (result: ClassificationResult, i: number) => {
+        const source = analyzed[i]
+
+        // a result we have no text for cannot be attributed to a row
+        if (!source) {
+          return []
+        }
+
+        return [
+          {
+            comment: source.comment,
+            platform: source.platform,
+            date: source.date,
+            is_valid: result.is_valid,
+            main_class: result.main_class,
+            sub_class: result.sub_class,
+            confidence: result.confidence,
+          },
+        ]
+      }
     ),
   }
 }

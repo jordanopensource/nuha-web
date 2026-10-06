@@ -246,7 +246,7 @@
       "excelNoData": "فایلی ئێکسڵ هیچ زانیارییەکی تێدا نییە",
       "excelRowError": "ڕیزی {row}: پێویستە کۆمێنت بنووسرێت",
       "excelParseError": "شکستی هێنا لە شیکاری فایلی ئێکسڵ",
-      "missingCommentHeader": "ناونیشانی ستونی \"کۆمێنت\"ی داواکراو ونە",
+      "missingCommentHeader": "ستوونی “Comment” نەدۆزرایەوە. دڵنیابە لەوەی کە فایلەکە ستوونێکی بە ناوی “Comment”ی هەیە لە {rows} ڕیزی یەکەمدا.",
       "unsupportedFileType": "جۆری فایلەکە پشتگیری نەکراو",
       "noFileUploaded": "هیچ فایلێک بارنەکراوە",
       "fileIsRequired": "فایلی پێویستە",
