@@ -323,10 +323,16 @@ export const parseFile = async (file: File): Promise<CommentData[]> => {
   }
 }
 
+// unifies the old and new API request/response formats for AI analysis
+type AnalyzableComment = CommentData & { comment: string }
+
+const analyzableComments = (comments: CommentData[]): AnalyzableComment[] =>
+  comments.filter((c): c is AnalyzableComment => c.comment !== null)
+
 // convert AIAnalysisRequest to new API BatchClassifyRequest
 export const convertToAPIRequest = (comments: CommentData[]) => {
   return {
-    texts: comments.filter((c) => c.comment !== null).map((c) => c.comment),
+    texts: analyzableComments(comments).map((c) => c.comment),
   }
 }
 
@@ -335,17 +341,30 @@ export const convertFromAPIResponse = (
   apiResponse: BatchClassifyResponse,
   originalComments: CommentData[]
 ): AIAnalysisResponse => {
+  const analyzed = analyzableComments(originalComments)
+
   return {
-    results: apiResponse.results.map(
-      (result: ClassificationResult, i: number) => ({
-        comment: originalComments[i].comment!,
-        platform: originalComments[i]?.platform,
-        date: originalComments[i]?.date,
-        is_valid: result.is_valid,
-        main_class: result.main_class,
-        sub_class: result.sub_class,
-        confidence: result.confidence,
-      })
+    results: apiResponse.results.flatMap(
+      (result: ClassificationResult, i: number) => {
+        const source = analyzed[i]
+
+        // a result we have no text for cannot be attributed to a row
+        if (!source) {
+          return []
+        }
+
+        return [
+          {
+            comment: source.comment,
+            platform: source.platform,
+            date: source.date,
+            is_valid: result.is_valid,
+            main_class: result.main_class,
+            sub_class: result.sub_class,
+            confidence: result.confidence,
+          },
+        ]
+      }
     ),
   }
 }
