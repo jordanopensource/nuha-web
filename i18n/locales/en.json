@@ -16,7 +16,8 @@
       "logout": "Logout",
       "publications": "Publications",
       "analyze": "Analyze",
-      "about": "About Us"
+      "about": "About Us",
+      "partners": "Partners"
     },
     "footer": {
       "privacy": "Privacy Policy",
@@ -327,6 +328,21 @@
       "notTranslated": "This publication isn't available in {lang}. It is available in other languages.",
       "viewInLang": "View in {lang}",
       "backToPublications": "Back to Publications"
+    }
+  },
+  "partners": {
+    "page": {
+      "title": "Partners"
+    },
+    "fetchError": "Failed to load partners.",
+    "noPartners": "No partners available at the moment.",
+    "card": {
+      "readMore": "Read more",
+      "openDetails": "Open details for {name}"
+    },
+    "modal": {
+      "visitWebsite": "Visit website",
+      "noDetails": "No further details are available for this partner yet."
     }
   },
   "about": {

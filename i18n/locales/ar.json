@@ -16,7 +16,8 @@
       "logout": "تسجيل الخروج",
       "publications": "المنشورات",
       "analyze": "تحليل",
-      "about": "عن نُهى"
+      "about": "عن نُهى",
+      "partners": "الشركاء"
     },
     "footer": {
       "privacy": "سياسة الخصوصية",
@@ -327,6 +328,21 @@
       "notTranslated": "هذا المنشور غير متوفر باللغة {lang}. وهو متوفر بلغات أخرى.",
       "viewInLang": "عرض بلغة {lang}",
       "backToPublications": "العودة إلى المنشورات"
+    }
+  },
+  "partners": {
+    "page": {
+      "title": "الشركاء"
+    },
+    "fetchError": "طرأ خلل أثناء تحميل قائمة الشركاء.",
+    "noPartners": "لا يوجد شركاء متاحون حالياً.",
+    "card": {
+      "readMore": "اقرأ المزيد",
+      "openDetails": "عرض تفاصيل {name}"
+    },
+    "modal": {
+      "visitWebsite": "زيارة الموقع الإلكتروني",
+      "noDetails": "لا تتوفر تفاصيل إضافية عن هذا الشريك حالياً."
     }
   },
   "about": {
