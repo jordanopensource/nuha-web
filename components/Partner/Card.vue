@@ -137,7 +137,7 @@
   }
 
   .logo-frame {
-    @apply m-auto flex aspect-square w-40 shrink-0 items-center justify-center overflow-hidden;
+    @apply m-auto flex aspect-square w-40 shrink-0 items-center justify-center overflow-hidden max-sm:aspect-auto max-sm:h-40 max-sm:w-full;
     @apply rounded-md border border-colors-neutral-placeholder border-opacity-20 bg-white p-3;
   }
 
