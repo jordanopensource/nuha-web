@@ -3,13 +3,6 @@
     v-if="flagIcon || hasRegions"
     class="flex flex-wrap items-center justify-start gap-2"
   >
-    <Icon
-      v-if="flagIcon"
-      :name="flagIcon"
-      size="20"
-      class="shrink-0 rounded-full"
-      :aria-label="country ?? undefined"
-    />
     <UiChip
       v-for="region in regions"
       :key="region.code"
