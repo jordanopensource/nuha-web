@@ -16,7 +16,8 @@
       "logout": "Logout",
       "publications": "Publications",
       "analyze": "Analyze",
-      "about": "About Us"
+      "about": "About Us",
+      "partners": "Partners"
     },
     "footer": {
       "privacy": "Privacy Policy",
@@ -54,6 +55,21 @@
       "page": "Page {page}",
       "of": "of {total}"
     }
+  },
+  "validation": {
+    "valueMissing": "Please fill out this field.",
+    "valueMissingCheckbox": "Please check this box if you want to proceed.",
+    "valueMissingRadio": "Please select one of these options.",
+    "valueMissingSelect": "Please select an item in the list.",
+    "valueMissingFile": "Please select a file.",
+    "typeMismatchEmail": "Please enter a valid email address.",
+    "typeMismatchUrl": "Please enter a valid URL.",
+    "patternMismatch": "Please match the requested format.",
+    "tooShort": "Please use at least {min} characters (you are currently using {current}).",
+    "tooLong": "Please use no more than {max} characters (you are currently using {current}).",
+    "rangeUnderflow": "Value must be greater than or equal to {min}.",
+    "rangeOverflow": "Value must be less than or equal to {max}.",
+    "invalid": "Please enter a valid value."
   },
   "analyze": {
     "page": {
@@ -231,7 +247,7 @@
       "excelNoData": "Excel file contains no data",
       "excelRowError": "Row {row}: Comment is required",
       "excelParseError": "Failed to parse Excel file",
-      "missingCommentHeader": "Missing required 'comment' column header",
+      "missingCommentHeader": "Couldn't find a 'Comment' column. Make sure your file has a column titled 'Comment' within its first {rows} rows.",
       "unsupportedFileType": "Unsupported file type",
       "noFileUploaded": "No file uploaded",
       "fileIsRequired": "File is required",
@@ -312,6 +328,21 @@
       "notTranslated": "This publication isn't available in {lang}. It is available in other languages.",
       "viewInLang": "View in {lang}",
       "backToPublications": "Back to Publications"
+    }
+  },
+  "partners": {
+    "page": {
+      "title": "Partners"
+    },
+    "fetchError": "Failed to load partners.",
+    "noPartners": "No partners available at the moment.",
+    "card": {
+      "readMore": "Read more",
+      "openDetails": "Open details for {name}"
+    },
+    "modal": {
+      "visitWebsite": "Visit website",
+      "noDetails": "No further details are available for this partner yet."
     }
   },
   "about": {

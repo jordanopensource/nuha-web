@@ -103,6 +103,62 @@ export interface PublicationAuthor {
   locale: string
 }
 
+export interface PartnerLogo {
+  id: number
+  documentId: string
+  name: string
+  alternativeText: string | null
+  caption: string | null
+  /** null for svg logos, which strapi does not generate formats for */
+  width: number | null
+  height: number | null
+  formats: Record<string, { url?: string }> | null
+  hash: string
+  ext: string
+  mime: string
+  /** strapi media sizes are in kilobytes, not bytes */
+  size: number
+  url: string
+  previewUrl: string | null
+  provider: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+}
+
+export interface Partner {
+  id: number
+  documentId: string
+  name: string
+  slug: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  locale: string
+  featured: boolean
+  display_order: number
+  short_name: string | null
+  description: string | null
+  body?: string | null
+  /** validated against `^https?://.+` in the cms */
+  website_url: string | null
+  /** ISO 3166-1 alpha-2, uppercase */
+  country: string | null
+  logo?: PartnerLogo | null
+  regions?: PublicationRegion[]
+}
+
+export interface PartnersPage {
+  id: number
+  documentId: string
+  title: string
+  body: string | null
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  locale: string
+}
+
 export interface AboutPage {
   id: number
   documentId: string

@@ -16,7 +16,8 @@
       "logout": "تسجيل الخروج",
       "publications": "المنشورات",
       "analyze": "تحليل",
-      "about": "عن نُهى"
+      "about": "عن نُهى",
+      "partners": "الشركاء"
     },
     "footer": {
       "privacy": "سياسة الخصوصية",
@@ -54,6 +55,21 @@
       "page": "الصفحة {page}",
       "of": "من {total}"
     }
+  },
+  "validation": {
+    "valueMissing": "يرجى تعبئة هذا الحقل.",
+    "valueMissingCheckbox": "يرجى تحديد هذا المربع للمتابعة.",
+    "valueMissingRadio": "يرجى اختيار أحد هذه الخيارات.",
+    "valueMissingSelect": "يرجى اختيار عنصر من القائمة.",
+    "valueMissingFile": "يرجى اختيار ملف.",
+    "typeMismatchEmail": "يرجى إدخال عنوان بريد إلكتروني صالح.",
+    "typeMismatchUrl": "يرجى إدخال رابط صالح.",
+    "patternMismatch": "يرجى مطابقة التنسيق المطلوب.",
+    "tooShort": "يرجى استخدام {min} حرفًا على الأقل (تستخدم حاليًا {current}).",
+    "tooLong": "يرجى عدم تجاوز {max} حرفًا (تستخدم حاليًا {current}).",
+    "rangeUnderflow": "يجب أن تكون القيمة أكبر من أو تساوي {min}.",
+    "rangeOverflow": "يجب أن تكون القيمة أصغر من أو تساوي {max}.",
+    "invalid": "يرجى إدخال قيمة صالحة."
   },
   "analyze": {
     "page": {
@@ -231,7 +247,7 @@
       "excelNoData": "ملف Excel لا يحتوي على بيانات",
       "excelRowError": "الصف {row}: يفتقد تعليقًا",
       "excelParseError": "خلل في تحليل ملف Excel",
-      "missingCommentHeader": "عنوان التعليق مفقود",
+      "missingCommentHeader": "لم نتمكن من العثور على عمود التعليقات. تأكد من أن الملف يحتوي على عمود بعنوان “التعليق” أو “Comment” ضمن الصفوف الـ{rows} الأولى.",
       "unsupportedFileType": "نوع الملف غير مدعوم",
       "noFileUploaded": "لم يُرفَع أي ملف",
       "fileIsRequired": "الملف مطلوب",
@@ -312,6 +328,21 @@
       "notTranslated": "هذا المنشور غير متوفر باللغة {lang}. وهو متوفر بلغات أخرى.",
       "viewInLang": "عرض بلغة {lang}",
       "backToPublications": "العودة إلى المنشورات"
+    }
+  },
+  "partners": {
+    "page": {
+      "title": "الشركاء"
+    },
+    "fetchError": "طرأ خلل أثناء تحميل قائمة الشركاء.",
+    "noPartners": "لا يوجد شركاء متاحون حالياً.",
+    "card": {
+      "readMore": "اقرأ المزيد",
+      "openDetails": "عرض تفاصيل {name}"
+    },
+    "modal": {
+      "visitWebsite": "زيارة الموقع الإلكتروني",
+      "noDetails": "لا تتوفر تفاصيل إضافية عن هذا الشريك حالياً."
     }
   },
   "about": {

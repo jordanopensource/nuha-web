@@ -16,7 +16,8 @@
       "logout": "Déconnexion",
       "publications": "Publications",
       "analyze": "Analyser",
-      "about": "À propos"
+      "about": "À propos",
+      "partners": "Partenaires"
     },
     "footer": {
       "privacy": "Politique de confidentialité",
@@ -53,6 +54,21 @@
       "page": "Page {page}",
       "of": "sur {total}"
     }
+  },
+  "validation": {
+    "valueMissing": "Veuillez remplir ce champ.",
+    "valueMissingCheckbox": "Veuillez cocher cette case pour continuer.",
+    "valueMissingRadio": "Veuillez sélectionner l'une de ces options.",
+    "valueMissingSelect": "Veuillez sélectionner un élément dans la liste.",
+    "valueMissingFile": "Veuillez sélectionner un fichier.",
+    "typeMismatchEmail": "Veuillez entrer une adresse e-mail valide.",
+    "typeMismatchUrl": "Veuillez entrer une URL valide.",
+    "patternMismatch": "Veuillez respecter le format demandé.",
+    "tooShort": "Veuillez utiliser au moins {min} caractères (vous en utilisez actuellement {current}).",
+    "tooLong": "Veuillez ne pas dépasser {max} caractères (vous en utilisez actuellement {current}).",
+    "rangeUnderflow": "La valeur doit être supérieure ou égale à {min}.",
+    "rangeOverflow": "La valeur doit être inférieure ou égale à {max}.",
+    "invalid": "Veuillez entrer une valeur valide."
   },
   "analyze": {
     "page": {
@@ -241,6 +257,21 @@
       "notTranslated": "Cette publication n'est pas disponible en {lang}. Elle est disponible dans d'autres langues.",
       "viewInLang": "Voir en {lang}",
       "backToPublications": "Retour aux Publications"
+    }
+  },
+  "partners": {
+    "page": {
+      "title": "Partenaires"
+    },
+    "fetchError": "Échec du chargement des partenaires.",
+    "noPartners": "Aucun partenaire disponible pour le moment.",
+    "card": {
+      "readMore": "En savoir plus",
+      "openDetails": "Ouvrir les détails de {name}"
+    },
+    "modal": {
+      "visitWebsite": "Visiter le site web",
+      "noDetails": "Aucun détail supplémentaire n'est encore disponible pour ce partenaire."
     }
   },
   "about": {
