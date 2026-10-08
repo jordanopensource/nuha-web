@@ -16,7 +16,8 @@
       "logout": "Déconnexion",
       "publications": "Publications",
       "analyze": "Analyser",
-      "about": "À propos"
+      "about": "À propos",
+      "partners": "Partenaires"
     },
     "footer": {
       "privacy": "Politique de confidentialité",
@@ -256,6 +257,21 @@
       "notTranslated": "Cette publication n'est pas disponible en {lang}. Elle est disponible dans d'autres langues.",
       "viewInLang": "Voir en {lang}",
       "backToPublications": "Retour aux Publications"
+    }
+  },
+  "partners": {
+    "page": {
+      "title": "Partenaires"
+    },
+    "fetchError": "Échec du chargement des partenaires.",
+    "noPartners": "Aucun partenaire disponible pour le moment.",
+    "card": {
+      "readMore": "En savoir plus",
+      "openDetails": "Ouvrir les détails de {name}"
+    },
+    "modal": {
+      "visitWebsite": "Visiter le site web",
+      "noDetails": "Aucun détail supplémentaire n'est encore disponible pour ce partenaire."
     }
   },
   "about": {
