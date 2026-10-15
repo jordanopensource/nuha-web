@@ -39,6 +39,11 @@ export const useLinks = () => {
       groups: ['footer', 'mobile-header', 'desktop-header', 'info'],
     },
     {
+      path: () => localePath('/partners'),
+      title: () => t('links.general.partners'),
+      groups: ['footer', 'mobile-header', 'desktop-header', 'info'],
+    },
+    {
       path: () => localePath('/analyze'),
       title: () => t('links.general.analyze'),
       groups: ['desktop-header', 'mobile-header', 'footer'],

@@ -389,7 +389,7 @@
             v-if="hasSensitiveContent"
             type="error"
             icon="mdi:eye-off-outline"
-            class="mb-2"
+            class="mb-2 print:!hidden [&_.content-container]:max-sm:flex-col [&_.ui-message\_\_icon]:max-sm:hidden"
             :class="{ 'print:!hidden': showSensitiveContent }"
           >
             <p class="font-semibold">
