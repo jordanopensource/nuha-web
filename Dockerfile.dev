@@ -6,6 +6,7 @@ WORKDIR /app
 RUN apk add --no-cache dumb-init
 
 COPY package.json yarn.lock* ./
+COPY vendor ./vendor
 
 RUN yarn install --frozen-lockfile
 
