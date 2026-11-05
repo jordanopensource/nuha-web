@@ -12,6 +12,7 @@ RUN adduser -S nuxt -u 1001
 FROM base AS deps
 
 COPY package.json yarn.lock* ./
+COPY vendor ./vendor
 RUN yarn install --frozen-lockfile
 
 # Builder
