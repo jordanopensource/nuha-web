@@ -1,0 +1,32 @@
+/* https://gwfh.mranftl.com/fonts/parastoo?subsets=arabic%2Clatin%2Clatin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Parastoo';
+  font-style: normal;
+  font-weight: 400;
+  src: url('~/assets/fonts/parastoo/parastoo-v3-arabic_latin_latin-ext-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Parastoo';
+  font-style: normal;
+  font-weight: 500;
+  src: url('~/assets/fonts/parastoo/parastoo-v3-arabic_latin_latin-ext-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Parastoo';
+  font-style: normal;
+  font-weight: 600;
+  src: url('~/assets/fonts/parastoo/parastoo-v3-arabic_latin_latin-ext-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Parastoo';
+  font-style: normal;
+  font-weight: 700;
+  src: url('~/assets/fonts/parastoo/parastoo-v3-arabic_latin_latin-ext-700.woff2') format('woff2');
+}
