@@ -68,6 +68,7 @@ export default defineNuxtConfig({
     '@/assets/css/fonts/ibm-plex.css',
     '@/assets/css/fonts/29lt-zarid-text.css',
     '@/assets/css/fonts/abd-govar.css',
+    '@/assets/css/fonts/parastoo.css',
   ],
 
   icon: {
