@@ -65,10 +65,9 @@ export default {
         },
       },
       fontFamily: {
-        LTZarid: 'var(--font-display)',
+        Parastoo: 'var(--font-display)',
         IBMPlexSansArabic: 'var(--font-body)',
         IBMPlexMono: '"IBM Plex Mono"',
-        AbdGovar: '"Abd Govar"',
       },
       fontSize: {
         h1: [

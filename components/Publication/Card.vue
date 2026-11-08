@@ -46,7 +46,7 @@
             {{ formattedDate }}
           </time>
           <h3
-            class="line-clamp-2 font-LTZarid text-h2-m font-semibold lg:text-h2"
+            class="line-clamp-2 font-Parastoo text-h2-m font-semibold lg:text-h2"
           >
             {{ title }}
           </h3>

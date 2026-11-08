@@ -69,7 +69,7 @@
 
       <!-- Title -->
       <h1
-        class="mx-auto mb-4 w-full text-pretty px-8 text-center font-LTZarid md:row-start-1"
+        class="mx-auto mb-4 w-full text-pretty px-8 text-center font-Parastoo md:row-start-1"
         :class="headerColumns"
       >
         {{ publication.title }}
@@ -366,7 +366,7 @@
   .publication-body :deep(h1),
   .publication-body :deep(h2),
   .publication-body :deep(h3) {
-    @apply mb-4 mt-8 font-LTZarid font-semibold;
+    @apply mb-4 mt-8 font-Parastoo font-semibold;
   }
 
   .publication-body :deep(h4),

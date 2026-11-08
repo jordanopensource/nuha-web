@@ -1,5 +1,5 @@
 :root {
-  --font-display: '29LT Zarid Text Regular', serif;
+  --font-display: 'Parastoo', serif;
   --font-body: 'IBM Plex Sans Arabic', system-ui, sans-serif;
 
   --fs-scale: 1;
@@ -28,26 +28,21 @@
   letter-spacing: 0;
 }
 
-:lang(ckb) {
-  --font-display: 'Abd Govar', '29LT Zarid Text Regular', serif;
-  --font-body: 'Abd Govar', 'IBM Plex Sans Arabic', system-ui, sans-serif;
-}
-
 @layer base {
   h1 {
-    @apply font-LTZarid text-h1-m lg:text-h1;
+    @apply font-Parastoo text-h1-m lg:text-h1;
     font-variant-numeric: lining-nums;
     text-wrap: balance;
   }
 
   h2 {
-    @apply font-LTZarid text-h2-m lg:text-h2;
+    @apply font-Parastoo text-h2-m lg:text-h2;
     font-variant-numeric: lining-nums;
     text-wrap: balance;
   }
 
   h3 {
-    @apply font-LTZarid text-h3;
+    @apply font-Parastoo text-h3;
     font-variant-numeric: lining-nums;
     text-wrap: balance;
   }
