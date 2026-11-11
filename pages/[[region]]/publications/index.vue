@@ -223,7 +223,7 @@
   const currentPage = ref<number>(parseInt(route.query.page as string, 10) || 1)
   const pageSize = ref<number>(25) // Number of publications to show per page
 
-  // fetch all categories
+  // fetch categories that have at least one published publication
   const { data: categoriesData, error: categoriesError } = useAsyncData(
     'publication-categories',
     () =>
@@ -231,6 +231,14 @@
         locale: locale.value as StrapiLocale,
         fields: ['name', 'slug', 'id'],
         sort: ['name:asc'],
+        filters: {
+          publications: {
+            publishedAt: { $notNull: true },
+            regions: {
+              code: { $eq: region.value?.countryCode?.toLowerCase() },
+            },
+          },
+        },
       }),
     {
       server: false,
