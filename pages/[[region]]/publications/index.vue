@@ -330,6 +330,16 @@
     currentPage.value = 1
   })
 
+  // reset selected category if new region doesn't have it
+  watch(categoriesData, (categories) => {
+    if (
+      selectedCategoryId.value !== null &&
+      !categories?.some((cat) => cat.id === selectedCategoryId.value)
+    ) {
+      selectedCategoryId.value = null
+    }
+  })
+
   // for organizing publications
   const publications = computed(() => data.value?.data ?? [])
 
