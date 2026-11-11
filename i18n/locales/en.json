@@ -302,6 +302,7 @@
       "fetchError": "Failed to fetch categories."
     },
     "noPublications": "No publications available at the moment.",
+    "count": "{n} publication | {n} publications",
     "backToFirstPage": "Back to First Page",
     "fetchError": "Failed to fetch publications.",
     "single": {
