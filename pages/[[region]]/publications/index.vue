@@ -55,7 +55,7 @@
       >
         <!-- Category Filter Buttons -->
         <div
-          v-if="categoriesData && categoriesData.length > 1 && !categoriesError"
+          v-if="categoriesData && !categoriesError"
           class="mb-8 border-b border-colors-neutral-placeholder border-opacity-20 p-4"
         >
           <div class="mb-2">
@@ -82,6 +82,14 @@
             >
               {{ category.name }}
             </UiButton>
+            <UiRegionLanguageSelector
+              class="ms-auto"
+              size="sm"
+              button-variant="outline"
+              show-flag-in-button
+              button-content="both"
+              mode="region"
+            />
           </div>
         </div>
 
