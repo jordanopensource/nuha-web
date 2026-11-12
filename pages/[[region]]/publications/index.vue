@@ -55,7 +55,7 @@
       >
         <!-- Category Filter Buttons -->
         <div
-          v-if="categoriesData && categoriesData.length > 1 && !categoriesError"
+          v-if="categoriesData && !categoriesError"
           class="mb-8 border-b border-colors-neutral-placeholder border-opacity-20 p-4"
         >
           <div class="mb-2">
@@ -82,6 +82,30 @@
             >
               {{ category.name }}
             </UiButton>
+            <UiRegionLanguageSelector
+              class="ms-auto"
+              size="sm"
+              button-variant="outline"
+              show-flag-in-button
+              button-content="both"
+              mode="region"
+            >
+              <template
+                v-for="(count, code) in regionCounts"
+                :key="code"
+                #[`badge-region-${code}`]
+              >
+                <span
+                  v-if="count === 0"
+                  class="border border-colors-neutral-placeholder border-opacity-60 bg-white text-colors-neutral-foreground"
+                >
+                  {{ $t('publications.count', { n: count }, count) }}
+                </span>
+                <template v-else>
+                  {{ $t('publications.count', { n: count }, count) }}
+                </template>
+              </template>
+            </UiRegionLanguageSelector>
           </div>
         </div>
 
@@ -153,7 +177,23 @@
           show-flag-in-button
           button-content="both"
           mode="region"
-        />
+        >
+          <template
+            v-for="(count, code) in regionCounts"
+            :key="code"
+            #[`badge-region-${code}`]
+          >
+            <span
+              v-if="count === 0"
+              class="border border-colors-neutral-placeholder border-opacity-60 bg-white text-colors-neutral-foreground"
+            >
+              {{ $t('publications.count', { n: count }, count) }}
+            </span>
+            <template v-else>
+              {{ $t('publications.count', { n: count }, count) }}
+            </template>
+          </template>
+        </LazyUiRegionLanguageSelector>
       </div>
     </div>
   </div>
@@ -168,7 +208,7 @@
 
   const { locale } = useI18n()
   const { find } = useStrapi()
-  const { region } = useGeolocation()
+  const { region, fetchSupportedRegions } = useGeolocation()
   const route = useRoute()
   const { getPublicationCoverUrl } = usePublications()
 
@@ -183,7 +223,7 @@
   const currentPage = ref<number>(parseInt(route.query.page as string, 10) || 1)
   const pageSize = ref<number>(25) // Number of publications to show per page
 
-  // fetch all categories
+  // fetch categories that have at least one published publication
   const { data: categoriesData, error: categoriesError } = useAsyncData(
     'publication-categories',
     () =>
@@ -191,6 +231,14 @@
         locale: locale.value as StrapiLocale,
         fields: ['name', 'slug', 'id'],
         sort: ['name:asc'],
+        filters: {
+          publications: {
+            publishedAt: { $notNull: true },
+            regions: {
+              code: { $eq: region.value?.countryCode?.toLowerCase() },
+            },
+          },
+        },
       }),
     {
       server: false,
@@ -245,6 +293,33 @@
     }
   )
 
+  // count publications in each region (for the current locale)
+  const { data: regionCounts } = useAsyncData(
+    'publications-region-counts',
+    async () => {
+      const regions = await fetchSupportedRegions()
+      const counts = await Promise.all(
+        regions.map(async (r) => {
+          const res = await find<Publication>('publications', {
+            locale: locale.value as StrapiLocale,
+            fields: ['documentId'],
+            pagination: { page: 1, pageSize: 1 },
+            filters: { regions: { code: { $eq: r.countryCode } } },
+          })
+          const total = (res.meta?.pagination as MetaResponsePaginationByPage)
+            ?.total
+          return [r.countryCode, total ?? 0] as const
+        })
+      )
+      return Object.fromEntries(counts) as Record<string, number>
+    },
+    {
+      server: false,
+      watch: [locale],
+      default: () => ({}) as Record<string, number>,
+    }
+  )
+
   // reset to page 1 when category changes
   watch(selectedCategoryId, () => {
     currentPage.value = 1
@@ -253,6 +328,16 @@
   watch(locale, () => {
     selectedCategoryId.value = null
     currentPage.value = 1
+  })
+
+  // reset selected category if new region doesn't have it
+  watch(categoriesData, (categories) => {
+    if (
+      selectedCategoryId.value !== null &&
+      !categories?.some((cat) => cat.id === selectedCategoryId.value)
+    ) {
+      selectedCategoryId.value = null
+    }
   })
 
   // for organizing publications
