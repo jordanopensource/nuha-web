@@ -15,7 +15,7 @@
   .prose :deep(h1),
   .prose :deep(h2),
   .prose :deep(h3) {
-    @apply mb-4 mt-8 font-LTZarid font-semibold;
+    @apply mb-4 mt-8 font-Parastoo font-semibold;
   }
 
   .prose :deep(h4),

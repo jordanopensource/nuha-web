@@ -39,13 +39,13 @@
           >
             {{ $t('settings.regionLanguage.language') }}
           </h3>
-          <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <UiButton
               v-for="l in availableLocales"
               :key="l.code"
               variant="ghost"
               size="lg"
-              class="border"
+              class="relative border"
               :class="{
                 '!border-colors-primary !bg-colors-primary-light !bg-opacity-80':
                   locale === l.code,
@@ -60,6 +60,12 @@
                 </div>
                 <small>{{ l.name }}</small>
               </div>
+              <span
+                v-if="$slots[`badge-lang-${l.code}`]"
+                class="selector-badge"
+              >
+                <slot :name="`badge-lang-${l.code}`" />
+              </span>
             </UiButton>
           </div>
         </div>
@@ -72,13 +78,13 @@
           >
             {{ $t('settings.regionLanguage.region') }}
           </h3>
-          <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <template v-for="r in supportedRegions" :key="r.countryCode">
               <UiButton
                 v-if="r.dialectName && r.dialectName[locale]"
                 variant="ghost"
                 size="lg"
-                class="region-btn !grid border border-colors-neutral-foreground border-opacity-20"
+                class="region-btn relative !grid border border-colors-neutral-foreground border-opacity-20"
                 :class="{
                   '!border-colors-primary !bg-colors-primary-light !bg-opacity-80':
                     region?.countryCode === r.countryCode ||
@@ -101,6 +107,12 @@
                     {{ r.dialectName[locale] }}
                   </div>
                 </div>
+                <span
+                  v-if="$slots[`badge-region-${r.countryCode}`]"
+                  class="selector-badge"
+                >
+                  <slot :name="`badge-region-${r.countryCode}`" />
+                </span>
               </UiButton>
             </template>
           </div>
@@ -266,6 +278,18 @@
 </script>
 
 <style lang="postcss" scoped>
+  .selector-badge {
+    @apply absolute -top-2.5 end-2 z-10 rounded-full px-2 py-0.5 shadow-sm;
+    @apply font-IBMPlexSansArabic text-xs leading-none;
+    @apply bg-colors-primary text-colors-neutral-background;
+    &:has(> *) {
+      @apply bg-transparent p-0 text-colors-neutral-foreground shadow-none;
+    }
+    & > :deep(*) {
+      @apply block rounded-[inherit] px-2 py-0.5;
+    }
+  }
+
   .region-btn {
     grid-template-columns: repeat(2, minmax(0, 8%));
   }
