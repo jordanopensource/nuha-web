@@ -231,6 +231,7 @@
       "fetchError": "Échec de la récupération des catégories."
     },
     "noPublications": "Aucune publication disponible pour le moment.",
+    "count": "{n} publication | {n} publications",
     "backToFirstPage": "Retour à la Première Page",
     "fetchError": "Échec de la récupération des publications.",
     "single": {

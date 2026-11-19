@@ -35,7 +35,7 @@
 
       <div class="flex flex-1 flex-col gap-2">
         <div class="flex flex-col gap-1">
-          <h3 class="font-LTZarid text-h2-m font-semibold lg:text-h2">
+          <h3 class="font-Parastoo text-h2-m font-semibold lg:text-h2">
             {{ partner.name }}
           </h3>
           <p

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="page-container">
     <!-- Loading State -->
@@ -69,7 +68,7 @@
 
       <!-- Title -->
       <h1
-        class="mx-auto mb-4 w-full text-pretty px-8 text-center font-LTZarid md:row-start-1"
+        class="mx-auto mb-4 w-full text-pretty px-8 text-center font-Parastoo md:row-start-1"
         :class="headerColumns"
       >
         {{ publication.title }}
@@ -155,11 +154,11 @@
       </div>
 
       <!-- Publication Body -->
-      <div
+      <UiProseBody
         v-if="publication.body"
-        class="publication-body mx-auto max-w-measure text-pretty py-4 font-IBMPlexSansArabic text-base leading-normal text-colors-neutral-foreground md:row-start-4"
+        class="mx-auto text-pretty py-4 leading-normal text-colors-neutral-foreground md:row-start-4"
         :class="readingColumns"
-        v-html="processedBody.html"
+        :html="processedBody.html"
       />
 
       <!-- Attachments -->
@@ -359,97 +358,6 @@
 <style lang="postcss" scoped>
   .publication-abstract p {
     @apply mb-0;
-  }
-
-  /* Publication Body */
-
-  .publication-body :deep(h1),
-  .publication-body :deep(h2),
-  .publication-body :deep(h3) {
-    @apply mb-4 mt-8 font-LTZarid font-semibold;
-  }
-
-  .publication-body :deep(h4),
-  .publication-body :deep(h5),
-  .publication-body :deep(h6) {
-    @apply mb-4 mt-8 font-IBMPlexSansArabic font-semibold;
-  }
-
-  .publication-body :deep(h1:first-child),
-  .publication-body :deep(h2:first-child),
-  .publication-body :deep(h3:first-child),
-  .publication-body :deep(h4:first-child),
-  .publication-body :deep(h5:first-child),
-  .publication-body :deep(h6:first-child) {
-    margin-top: 0;
-  }
-
-  .publication-body :deep(h2),
-  .publication-body :deep(h3) {
-    @apply text-h2-m lg:text-h2;
-  }
-
-  .publication-body :deep(p) {
-    @apply mb-4;
-  }
-
-  .publication-body :deep(ul),
-  .publication-body :deep(ol) {
-    @apply mb-4 pl-6;
-  }
-  .publication-body :deep(ul) {
-    @apply list-disc;
-    li {
-      @apply mb-0;
-    }
-  }
-  .publication-body :deep(ol) {
-    @apply list-decimal;
-    li {
-      @apply mb-0;
-    }
-  }
-
-  .publication-body :deep(li) {
-    @apply mb-2;
-  }
-
-  .publication-body :deep(blockquote) {
-    @apply my-4 border-l-4 border-colors-primary pl-4 italic;
-  }
-
-  .publication-body :deep(code) {
-    @apply rounded bg-colors-primary-light px-2 py-1 font-IBMPlexMono text-sm;
-  }
-
-  .publication-body :deep(pre) {
-    @apply my-4 overflow-x-auto rounded-md bg-colors-primary-light p-4 font-IBMPlexMono;
-  }
-
-  .publication-body :deep(a) {
-    @apply text-colors-primary hover:underline;
-  }
-
-  .publication-body :deep(img) {
-    @apply my-4 h-auto max-w-full rounded-md;
-  }
-
-  /* Tables */
-  .publication-body :deep(table) {
-    @apply my-2 w-full border-collapse;
-  }
-
-  .publication-body :deep(th),
-  .publication-body :deep(td) {
-    @apply border border-colors-neutral-placeholder border-opacity-20 px-3 py-2 text-start align-top;
-  }
-
-  .publication-body :deep(th) {
-    @apply bg-colors-neutral-background font-semibold;
-  }
-
-  .publication-body :deep(caption) {
-    @apply mb-2 text-start text-subtext text-colors-neutral-placeholder;
   }
 
   /* Responsive adjustments */
