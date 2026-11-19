@@ -45,8 +45,8 @@
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@primevue/nuxt-module": "4.5.4",
     "@types/qs": "^6.15.1",
-    "@vueuse/core": "^14.3.0",
-    "@vueuse/nuxt": "^14.3.0",
+    "@vueuse/core": "^15.0.0",
+    "@vueuse/nuxt": "^15.0.0",
     "typescript": "^5"
   }
 }
